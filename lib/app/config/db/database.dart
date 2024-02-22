@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 
 class DataBase {
-  static Future<sql.Database> open() async {
+  static Future<sql.Database> openDatabase() async {
     final dbPath = await sql.getDatabasesPath();
     return sql.openDatabase(
       path.join(dbPath, "js_budget.db"),
