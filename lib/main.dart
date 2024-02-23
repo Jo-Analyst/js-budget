@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/app/home/home_page.dart';
-import 'package:js_budget/app/pages/splash_page.dart';
-import 'package:js_budget/app/routes/route.dart';
+import 'package:js_budget/src/app/app.dart';
+import 'package:js_budget/src/pages/splash_page.dart';
+import 'package:js_budget/src/routes/route.dart';
+import 'package:js_budget/src/themes/light_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,12 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'JS Planejar',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: lightTheme,
       routes: {
-        RouterPage.home: (_) => const HomePage(),
+        RouterPage.myApp: (_) => const App(),
         RouterPage.splash: (_) => const SplashPage(),
       },
     );

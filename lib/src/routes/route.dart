@@ -1,4 +1,4 @@
 class RouterPage {
-  static const home = '/home';
+  static const myApp = '/my-app';
   static const splash = '/';
 }
