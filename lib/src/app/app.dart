@@ -29,7 +29,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        // controller: _pageController,
+        controller: _pageController,
         onPageChanged: setCurrentPage,
         children: [
           const HomePage(),

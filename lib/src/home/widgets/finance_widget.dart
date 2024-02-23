@@ -7,11 +7,13 @@ import 'package:js_budget/src/utils/utils_service.dart';
 class FinanceWidget extends StatelessWidget {
   final String title;
   final double value;
+  final Color? textColor;
 
   const FinanceWidget({
     Key? key,
     required this.title,
     required this.value,
+    this.textColor,
   }) : super(key: key);
 
   @override
@@ -25,13 +27,12 @@ class FinanceWidget extends StatelessWidget {
         ),
         Text(
           UtilsService.priceToCurrency(value),
-          style: const TextStyle(color: Colors.blue, fontSize: 19),
+          style: TextStyle(color: textColor, fontSize: 19),
         ),
       ],
     );
   }
 }
-// import 'package:js_budget/app/themes/light_theme.dart';
 
 // class ListTileWidget extends StatelessWidget {
 //   const ListTileWidget({super.key});
