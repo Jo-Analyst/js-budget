@@ -5,7 +5,7 @@ class BottomNavigationBarItemWidget {
     return const [
       BottomNavigationBarItem(
         label: "Início",
-        icon: Icon(Icons.home),
+        icon: Icon(Icons.home_filled),
       ),
       BottomNavigationBarItem(
         label: "Resumo",

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/summary/widgets/summary_total_widget.dart';
+import 'package:js_budget/src/pages/summary/widgets/summary_total_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class SummaryPage extends StatefulWidget {
+  const SummaryPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SummaryPage> createState() => _SummaryPageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _SummaryPageState extends State<SummaryPage>
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
