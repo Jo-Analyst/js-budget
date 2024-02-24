@@ -103,10 +103,6 @@ class _SummaryPageState extends State<SummaryPage>
                                         size: 30,
                                       ),
                                     ),
-                                    // const Text(
-                                    //   'Janeiro de 2024',
-                                    //   style: lightThemeTitleSmall,
-                                    // ),
                                     const Text.rich(
                                       TextSpan(children: [
                                         TextSpan(text: 'Janeiro de '),
@@ -114,7 +110,7 @@ class _SummaryPageState extends State<SummaryPage>
                                           text: '2024',
                                           style: TextStyle(fontFamily: 'Anta'),
                                         ),
-                                      ], style: lightThemeTitleSmall),
+                                      ], style: textTitleSmall),
                                     ),
                                     IconButton(
                                       onPressed: () {},

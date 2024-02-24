@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/pages/finance/finance_page.dart';
 import 'package:js_budget/src/pages/home/home_page.dart';
 import 'package:js_budget/src/pages/summary/summary_page.dart';
 import 'package:js_budget/src/app/widgets/bottom_navigation_bar_item._widget.dart';
@@ -32,11 +33,10 @@ class _AppState extends State<App> {
       body: PageView(
         controller: _pageController,
         onPageChanged: setCurrentPage,
-        children: [
-          const HomePage(),
-          const SummaryPage(),
-          Container(color: Colors.blue),
-          Container(color: Theme.of(context).primaryColor),
+        children: const [
+          HomePage(),
+          FinancePage(),
+          SummaryPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -46,7 +46,7 @@ class _AppState extends State<App> {
         unselectedItemColor: Colors.black87,
         iconSize: 30,
         type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.white,
+        fixedColor: Colors.deepPurple,
         currentIndex: _currentIndex,
         onTap: (page) => _pageController.animateToPage(
           page,
