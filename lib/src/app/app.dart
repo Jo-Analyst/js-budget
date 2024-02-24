@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/home/home_page.dart';
+import 'package:js_budget/src/summary/summary_page.dart';
 import 'package:js_budget/src/app/widgets/bottom_navigation_bar_item._widget.dart';
 
 class App extends StatefulWidget {
@@ -10,7 +10,7 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   late PageController _pageController;
 
   @override
@@ -32,9 +32,10 @@ class _AppState extends State<App> {
         controller: _pageController,
         onPageChanged: setCurrentPage,
         children: [
-          const HomePage(),
           Container(color: Colors.red),
+          const HomePage(),
           Container(color: Colors.blue),
+          Container(color: Theme.of(context).primaryColor),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -44,7 +45,7 @@ class _AppState extends State<App> {
         unselectedItemColor: Colors.black87,
         iconSize: 30,
         type: BottomNavigationBarType.fixed,
-        fixedColor: Colors.green,
+        fixedColor: Colors.white,
         currentIndex: _currentIndex,
         onTap: (page) => _pageController.animateToPage(
           page,

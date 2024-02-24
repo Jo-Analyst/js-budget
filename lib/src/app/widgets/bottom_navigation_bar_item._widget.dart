@@ -7,18 +7,18 @@ class BottomNavigationBarItemWidget {
         label: "Início",
         icon: Icon(Icons.home),
       ),
-      // BottomNavigationBarItem(
-      //   icon: Icon(Icons.home_filled),
-      //   label: "Matéria Prima",
-      // ),
+      BottomNavigationBarItem(
+        label: "Resumo",
+        icon: Icon(Icons.auto_graph),
+      ),
       BottomNavigationBarItem(
         icon: Icon(Icons.account_balance_wallet_outlined),
         label: "Orçamento",
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        label: "Perfil",
-      ),
+      // BottomNavigationBarItem(
+      //   icon: Icon(Icons.person),
+      //   label: "Perfil",
+      // ),
     ];
   }
 }
