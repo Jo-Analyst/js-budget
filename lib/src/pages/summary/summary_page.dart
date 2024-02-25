@@ -110,7 +110,7 @@ class _SummaryPageState extends State<SummaryPage>
                                           text: '2024',
                                           style: TextStyle(fontFamily: 'Anta'),
                                         ),
-                                      ], style: textTitleSmall),
+                                      ], style: textTitleLarge),
                                     ),
                                     IconButton(
                                       onPressed: () {},

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/pages/home/widgets/finacial_last.widget.dart';
+import 'package:js_budget/src/pages/widgets/more_details_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class FinancePage extends StatelessWidget {
@@ -41,7 +42,7 @@ class FinancePage extends StatelessWidget {
                       text: '2024',
                       style: TextStyle(fontFamily: 'Anta'),
                     ),
-                  ], style: textTitleSmall),
+                  ], style: textTitleLarge),
                 ),
                 IconButton(
                   onPressed: () {},
@@ -92,7 +93,7 @@ class FinancePage extends StatelessWidget {
                             'Ver mais detalhes',
                             style: TextStyle(
                               color: Colors.blue,
-                              fontSize: textTitleSmall.fontSize,
+                              fontSize: textTitleLarge.fontSize,
                             ),
                           ),
                           GestureDetector(
@@ -164,39 +165,9 @@ class FinancePage extends StatelessWidget {
                       textColor: Colors.deepPurple,
                     ),
                     const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Ver mais detalhes',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: textTitleSmall.fontSize,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  left: BorderSide(
-                                    color: theme.primaryColor,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              child: const Icon(
-                                Icons.keyboard_arrow_right,
-                                size: 30,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: MoreDetailsWidget(),
                     ),
                   ],
                 ),
