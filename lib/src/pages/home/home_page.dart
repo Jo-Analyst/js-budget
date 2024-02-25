@@ -4,42 +4,64 @@ import 'package:js_budget/src/pages/widgets/more_details_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<Map<String, dynamic>> budgets = [
+    {
+      "id": 1,
+      "name": "Joelmir Carvalho",
+      "situation": "Em aberto",
+      "value": 2500.0,
+      "date": "25/02/2024",
+    },
+    {
+      "id": 2,
+      "name": "Valdirene Ferreira",
+      "situation": "Em aberto",
+      "value": 2500.0,
+      "date": "25/02/2024",
+    },
+    {
+      "id": 3,
+      "name": "Noelly Silva",
+      "situation": "Em aberto",
+      "value": 2500.0,
+      "date": "25/02/2024",
+    },
+    {
+      "id": 4,
+      "name": "Benneditto Santos",
+      "situation": "Em aberto",
+      "value": 2500.0,
+      "date": "25/02/2024",
+    },
+  ];
+
+  List<Map<String, dynamic>> filteringOptions = [
+    {'type': 'Tudo', 'isSelected': true},
+    {'type': 'Em aberto', 'isSelected': false},
+    {'type': 'Aprovado', 'isSelected': false},
+    {'type': 'Concluído', 'isSelected': false},
+  ];
+
+  void filterList(Map<String, dynamic> filter) {
+    for (var options in filteringOptions) {
+      options['isSelected'] = false;
+    }
+    setState(() {
+      filter['isSelected'] = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    List<Map<String, dynamic>> budgets = [
-      {
-        "id": 1,
-        "name": "Joelmir Carvalho",
-        "situation": "Em aberto",
-        "value": 2500.0,
-        "date": "25/02/2024",
-      },
-      {
-        "id": 2,
-        "name": "Valdirene Ferreira",
-        "situation": "Em aberto",
-        "value": 2500.0,
-        "date": "25/02/2024",
-      },
-      {
-        "id": 3,
-        "name": "Noelly Silva",
-        "situation": "Em aberto",
-        "value": 2500.0,
-        "date": "25/02/2024",
-      },
-      {
-        "id": 4,
-        "name": "Benneditto Santos",
-        "situation": "Em aberto",
-        "value": 2500.0,
-        "date": "25/02/2024",
-      },
-    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -141,28 +163,26 @@ class HomePage extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const FilteringOptionsWidget(
-                          title: 'Todos',
-                          backgroundColor: Colors.deepPurple,
-                          textColor: Colors.white,
-                        ),
-                        FilteringOptionsWidget(
-                          title: 'Em aberto',
-                          backgroundColor: theme.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        FilteringOptionsWidget(
-                          title: 'Aprovado',
-                          backgroundColor: theme.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        FilteringOptionsWidget(
-                          title: 'Concluído',
-                          backgroundColor: theme.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ],
+                      children: filteringOptions
+                          .map(
+                            (filter) => GestureDetector(
+                              onTap: () {
+                                filterList(filter);
+                              },
+                              child: FilteringOptionsWidget(
+                                title: filter['type'],
+                                backgroundColor: filter['isSelected']
+                                    ? Colors.deepPurple
+                                    : theme.primaryColor,
+                                fontWeight: filter['isSelected']
+                                    ? FontWeight.w500
+                                    : FontWeight.w600,
+                                textColor:
+                                    filter['isSelected'] ? Colors.white : null,
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
                   ),
                   const SizedBox(
