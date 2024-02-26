@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -55,6 +53,14 @@ class BudgetDetailsPage extends StatelessWidget {
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.delete),
+            tooltip: 'Excluir',
+            iconSize: 25,
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.share_outlined),
+            tooltip: 'Compartilhar',
+            iconSize: 25,
           ),
         ],
       ),
@@ -62,7 +68,7 @@ class BudgetDetailsPage extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -80,7 +86,7 @@ class BudgetDetailsPage extends StatelessWidget {
                     children: [
                       Text(
                         data['name'],
-                        style: textTitleSmall,
+                        style: textTextSmallDefault,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -88,7 +94,8 @@ class BudgetDetailsPage extends StatelessWidget {
                           Text(
                             data['status'],
                             style: TextStyle(
-                              fontSize: textTitleSmall.fontSize,
+                              fontSize: textTextSmallDefault.fontSize,
+                              fontFamily: textTextSmallDefault.fontFamily,
                               fontWeight: FontWeight.w700,
                               color: const Color.fromARGB(255, 20, 87, 143),
                             ),
@@ -96,9 +103,12 @@ class BudgetDetailsPage extends StatelessWidget {
                           const SizedBox(
                             width: 5,
                           ),
-                          const Icon(
-                            Icons.edit,
-                            size: 18,
+                          GestureDetector(
+                            onTap: () {},
+                            child: const Icon(
+                              Icons.edit,
+                              size: 18,
+                            ),
                           )
                         ],
                       )
@@ -107,7 +117,9 @@ class BudgetDetailsPage extends StatelessWidget {
                 ],
               ),
             ),
-            DetailWidget(data: services)
+            DetailWidget(data: services, title: 'Serviços'),
+            const SizedBox(height: 20),
+            DetailWidget(data: materials, title: 'Materiais'),
           ],
         ),
       ),

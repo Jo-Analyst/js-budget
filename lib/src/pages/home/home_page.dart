@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Text(
                     'Nenhum orçamento aberto',
-                    style: textTitleLarge,
+                    style: textTextLargeDefault,
                   ),
                 ],
               ),
@@ -276,8 +276,9 @@ class _HomePageState extends State<HomePage> {
                                 const Divider(),
                                 GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/budge-details', arguments: budget);
+                                    Navigator.of(context).pushNamed(
+                                        '/budge-details',
+                                        arguments: budget);
                                   },
                                   child: const MoreDetailsWidget(),
                                 ),

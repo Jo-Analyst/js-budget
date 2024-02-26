@@ -6,42 +6,48 @@ import 'package:js_budget/src/utils/utils_service.dart';
 
 class DetailWidget extends StatelessWidget {
   final List<Map<String, dynamic>> data;
+  final String title;
   const DetailWidget({
     Key? key,
     required this.data,
+    required this.title,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print(data);
     return Container(
       color: const Color(0xFFF8F2F2),
-      padding: const EdgeInsets.symmetric(horizontal: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Serviços',
-            style: TextStyle(
-              fontWeight: FontWeight.w900,
-              fontSize: textTitleSmall.fontSize,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+            color: const Color.fromARGB(255, 20, 87, 143),
+            child: Text(
+              title,
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19,
+                  fontFamily: textTextSmallDefault.fontFamily,
+                  color: Colors.white),
             ),
           ),
-          const Divider(),
           Column(
             children: data
                 .map(
                   (dt) => Column(
                     children: [
                       ListTile(
+                        // contentPadding:
+                        //     const EdgeInsets.symmetric(horizontal: 25),
                         title: Text(
                           dt['description'],
-                          style: textTitleSmall,
+                          style: textTextSmallFonWeight,
                         ),
                         subtitle: Text(
                           '${dt['quantity']}x ${UtilsService.moneyToCurrency(dt['price'])}',
                           style: TextStyle(
-                            fontSize: textTitleSmall.fontSize,
+                            fontSize: textTextSmallDefault.fontSize,
                             fontFamily: 'Anta',
                           ),
                         ),

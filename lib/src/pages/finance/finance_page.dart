@@ -42,7 +42,7 @@ class FinancePage extends StatelessWidget {
                       text: '2024',
                       style: TextStyle(fontFamily: 'Anta'),
                     ),
-                  ], style: textTitleLarge),
+                  ], style: textTextLargeDefault),
                 ),
                 IconButton(
                   onPressed: () {},
@@ -93,7 +93,7 @@ class FinancePage extends StatelessWidget {
                             'Ver mais detalhes',
                             style: TextStyle(
                               color: Colors.blue,
-                              fontSize: textTitleLarge.fontSize,
+                              fontSize: textTextLargeDefault.fontSize,
                             ),
                           ),
                           GestureDetector(

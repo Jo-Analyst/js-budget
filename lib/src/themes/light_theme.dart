@@ -16,5 +16,21 @@ final lightTheme = ThemeData(
   ),
 );
 
-const textTitleSmall = TextStyle(fontSize: 18, fontFamily: 'Poppins');
-const textTitleLarge = TextStyle(fontSize: 20, fontFamily: 'Poppins');
+const textTextSmallDefault = TextStyle(
+  fontSize: 18,
+  fontFamily: 'Poppins',
+);
+const textTextSmallFonWeight = TextStyle(
+  fontSize: 18,
+  fontFamily: 'Poppins',
+  fontWeight: FontWeight.w700,
+);
+const textTextLargeDefault = TextStyle(
+  fontSize: 20,
+  fontFamily: 'Poppins',
+);
+const textTextLargeDefaultFonWeight = TextStyle(
+  fontSize: 20,
+  fontFamily: 'Poppins',
+  fontWeight: FontWeight.w700,
+);
