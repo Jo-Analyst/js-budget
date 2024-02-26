@@ -16,23 +16,20 @@ class MoreDetailsWidget extends StatelessWidget {
             fontSize: textTitleLarge.fontSize,
           ),
         ),
-        GestureDetector(
-          onTap: () {},
-          child: Container(
-            alignment: Alignment.center,
-            width: 50,
-            decoration: BoxDecoration(
-              border: Border(
-                left: BorderSide(
-                  color: Theme.of(context).primaryColor,
-                  width: 2,
-                ),
+        Container(
+          alignment: Alignment.center,
+          width: 50,
+          decoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 2,
               ),
             ),
-            child: const Icon(
-              Icons.keyboard_arrow_right,
-              size: 30,
-            ),
+          ),
+          child: const Icon(
+            Icons.keyboard_arrow_right,
+            size: 30,
           ),
         )
       ],

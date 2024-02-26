@@ -28,7 +28,7 @@ class FinacialLastWidget extends StatelessWidget {
                 fontSize: Theme.of(context).textTheme.titleSmall!.fontSize),
           ),
           Text(
-            UtilsService.priceToCurrency(value),
+            UtilsService.moneyToCurrency(value),
             style:
                 TextStyle(color: textColor, fontSize: 19, fontFamily: 'Anta'),
           ),

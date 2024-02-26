@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/app/app.dart';
+import 'package:js_budget/src/pages/home/budget_details/budget_details_page.dart';
 import 'package:js_budget/src/pages/splash_page.dart';
 import 'package:js_budget/src/routes/route.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         RouterPage.myApp: (_) => const App(),
         RouterPage.splash: (_) => const SplashPage(),
+        RouterPage.budgeDetails: (_) => const BudgetDetailsPage(),
       },
     );
   }

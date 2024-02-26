@@ -30,7 +30,7 @@ class FilteringOptionsWidget extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 18,
           fontFamily: 'Poppins',
           color: textColor,
           fontWeight: fontWeight,

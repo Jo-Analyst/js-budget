@@ -16,28 +16,28 @@ class _HomePageState extends State<HomePage> {
     {
       "id": 1,
       "name": "Joelmir Carvalho",
-      "situation": "Em aberto",
+      "status": "Em aberto",
       "value": 2500.0,
       "date": "25/02/2024",
     },
     {
       "id": 2,
       "name": "Valdirene Ferreira",
-      "situation": "Em aberto",
+      "status": "Em aberto",
       "value": 2500.0,
       "date": "25/02/2024",
     },
     {
       "id": 3,
       "name": "Noelly Silva",
-      "situation": "Em aberto",
+      "status": "Em aberto",
       "value": 2500.0,
       "date": "25/02/2024",
     },
     {
       "id": 4,
       "name": "Benneditto Santos",
-      "situation": "Em aberto",
+      "status": "Em aberto",
       "value": 2500.0,
       "date": "25/02/2024",
     },
@@ -213,8 +213,9 @@ class _HomePageState extends State<HomePage> {
                                               fontWeight: FontWeight.w700),
                                         ),
                                         TextSpan(
-                                          text:
-                                              '***${budget['id'].toString().padLeft(5, '0')}',
+                                          text: budget['id']
+                                              .toString()
+                                              .padLeft(5, '0'),
                                           style: const TextStyle(
                                               fontFamily: 'Anta'),
                                         ),
@@ -226,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 5),
+                                const SizedBox(height: 10),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -239,36 +240,24 @@ class _HomePageState extends State<HomePage> {
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          const TextSpan(
-                                            text: 'Situação: ',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w700),
-                                          ),
-                                          TextSpan(
-                                            text: budget['situation'],
-                                            style: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 20, 87, 143),
-                                            ),
-                                          ),
-                                        ],
-                                        style: TextStyle(
-                                          fontSize: theme
-                                              .textTheme.titleSmall!.fontSize,
-                                        ),
+                                    Text(
+                                      budget['status'],
+                                      style: TextStyle(
+                                        color: const Color.fromARGB(
+                                            255, 20, 87, 143),
+                                        fontSize: theme
+                                            .textTheme.titleSmall!.fontSize,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 5),
+                                const SizedBox(height: 10),
                                 Text.rich(
                                   TextSpan(
                                     children: [
                                       TextSpan(
-                                        text: UtilsService.priceToCurrency(
+                                        text: UtilsService.moneyToCurrency(
                                             budget['value']),
                                       ),
                                       TextSpan(
@@ -285,7 +274,13 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 const Divider(),
-                                const MoreDetailsWidget()
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed('/budge-details', arguments: budget);
+                                  },
+                                  child: const MoreDetailsWidget(),
+                                ),
                               ],
                             ),
                           ),
@@ -304,12 +299,12 @@ class _HomePageState extends State<HomePage> {
                             'Total',
                             style: TextStyle(
                               fontFamily: "Poppins",
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
                           Text(
-                            UtilsService.priceToCurrency(10000),
+                            UtilsService.moneyToCurrency(10000),
                             style: const TextStyle(
                               fontFamily: "Anta",
                               fontSize: 19,

@@ -22,10 +22,10 @@ class SummaryTotalWidget extends StatelessWidget {
           contentPadding: const EdgeInsets.only(right: 0),
           title: const Text('T. Despesa'),
           subtitle: Text(
-            UtilsService.priceToCurrency(value),
+            UtilsService.moneyToCurrency(value),
             style: TextStyle(
                 color: textColor,
-                fontSize: 18,
+                fontSize: 22,
                 fontWeight: FontWeight.w600,
                 fontFamily: 'Anta'),
           ),
