@@ -7,15 +7,18 @@ import 'package:js_budget/src/utils/utils_service.dart';
 class DetailWidget extends StatelessWidget {
   final List<Map<String, dynamic>> data;
   final String title;
+  final Icon? iconPayment;
   const DetailWidget({
-    Key? key,
+    super.key,
     required this.data,
     required this.title,
-  }) : super(key: key);
+    this.iconPayment,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.only(bottom: 10),
       color: const Color(0xFFF8F2F2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -26,10 +29,11 @@ class DetailWidget extends StatelessWidget {
             child: Text(
               title,
               style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 19,
-                  fontFamily: textTextSmallDefault.fontFamily,
-                  color: Colors.white),
+                fontWeight: FontWeight.w700,
+                fontSize: 19,
+                fontFamily: textTextSmallDefault.fontFamily,
+                color: Colors.white,
+              ),
             ),
           ),
           Column(
@@ -38,21 +42,24 @@ class DetailWidget extends StatelessWidget {
                   (dt) => Column(
                     children: [
                       ListTile(
-                        // contentPadding:
-                        //     const EdgeInsets.symmetric(horizontal: 25),
+                        leading: iconPayment,
                         title: Text(
-                          dt['description'],
+                          dt['description'] ?? dt['specie-payment'],
                           style: textTextSmallFonWeight,
                         ),
                         subtitle: Text(
-                          '${dt['quantity']}x ${UtilsService.moneyToCurrency(dt['price'])}',
+                          dt['price'] != null
+                              ? '${dt['quantity']}x ${UtilsService.moneyToCurrency(dt['price'])}'
+                              : dt['form-of-payment'],
                           style: TextStyle(
                             fontSize: textTextSmallDefault.fontSize,
-                            fontFamily: 'Anta',
+                            fontFamily:
+                                iconPayment == null ? 'Anta' : 'Poppins',
                           ),
                         ),
                         trailing: Text(
-                          UtilsService.moneyToCurrency(dt['price-total']),
+                          UtilsService.moneyToCurrency(
+                              dt['price-total'] ?? dt['amount-to-pay']),
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
