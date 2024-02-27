@@ -13,7 +13,8 @@ class MoreDetailsWidget extends StatelessWidget {
           'Ver mais detalhes',
           style: TextStyle(
             color: Colors.blue,
-            fontSize: textTextLargeDefault.fontSize,
+            fontSize: textStyleSmallDefault.fontSize,
+            fontFamily: textStyleSmallDefault.fontFamily,
           ),
         ),
         Container(

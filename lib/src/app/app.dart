@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:js_budget/src/pages/finance/finance_page.dart';
 import 'package:js_budget/src/pages/home/home_page.dart';
 import 'package:js_budget/src/pages/summary/summary_page.dart';
-import 'package:js_budget/src/app/widgets/bottom_navigation_bar_item._widget.dart';
+import 'package:js_budget/src/app/widgets/bottom_navigation_bar_item_widget.dart';
+import 'package:js_budget/src/themes/light_theme.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -46,6 +47,8 @@ class _AppState extends State<App> {
         unselectedItemColor: Colors.black87,
         iconSize: 30,
         type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: textStyleSmallDefault,
+        unselectedLabelStyle: textStyleSmallDefault,
         fixedColor: Colors.deepPurple,
         currentIndex: _currentIndex,
         onTap: (page) => _pageController.animateToPage(

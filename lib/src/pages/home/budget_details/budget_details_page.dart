@@ -101,7 +101,7 @@ class BudgetDetailsPage extends StatelessWidget {
                       children: [
                         Text(
                           data['name'],
-                          style: textTextSmallDefault,
+                          style: textStyleSmallDefault,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -109,8 +109,8 @@ class BudgetDetailsPage extends StatelessWidget {
                             Text(
                               data['status'],
                               style: TextStyle(
-                                fontSize: textTextSmallDefault.fontSize,
-                                fontFamily: textTextSmallDefault.fontFamily,
+                                fontSize: textStyleSmallDefault.fontSize,
+                                fontFamily: textStyleSmallDefault.fontFamily,
                                 fontWeight: FontWeight.w700,
                                 color: const Color.fromARGB(255, 20, 87, 143),
                               ),
@@ -139,55 +139,6 @@ class BudgetDetailsPage extends StatelessWidget {
                 title: 'Pagamento',
                 iconPayment: const Icon(Icons.pix),
               ),
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.stretch,
-              //   children: [
-              //     Container(
-              //       padding:
-              //           const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-              //       color: const Color.fromARGB(255, 20, 87, 143),
-              //       child: Text(
-              //         'Pagamento',
-              //         style: TextStyle(
-              //           fontWeight: FontWeight.w700,
-              //           fontSize: 19,
-              //           fontFamily: textTextSmallDefault.fontFamily,
-              //           color: Colors.white,
-              //         ),
-              //       ),
-              //     ),
-              //     Container(
-              //       color: const Color(0xFFF8F2F2),
-              //       padding:
-              //           const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-              //       child: Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Row(
-              //             children: [
-              //               const Icon(Icons.pix),
-              //               const SizedBox(width: 10),
-              //               Text(
-              //                 payment['specie-payment'],
-              //                 style: textTextSmallDefault,
-              //               )
-              //             ],
-              //           ),
-              //           Text(
-              //             UtilsService.moneyToCurrency(
-              //                 payment['amount-to-pay']),
-              //             style: const TextStyle(
-              //               fontSize: 20,
-              //               fontWeight: FontWeight.w700,
-              //               color: Colors.green,
-              //               fontFamily: 'Anta',
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),

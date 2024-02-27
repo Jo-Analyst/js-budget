@@ -42,7 +42,7 @@ class FinancePage extends StatelessWidget {
                       text: '2024',
                       style: TextStyle(fontFamily: 'Anta'),
                     ),
-                  ], style: textTextLargeDefault),
+                  ], style: textStyleLargeDefault),
                 ),
                 IconButton(
                   onPressed: () {},
@@ -61,62 +61,29 @@ class FinancePage extends StatelessWidget {
               horizontal: 10,
             ),
             width: double.infinity,
-            child: Card(
+            child: const Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: EdgeInsets.only(left: 20),
                       child: Text(
                         'Finanças pessoais',
-                        style: TextStyle(
-                          fontSize: theme.textTheme.titleSmall!.fontSize,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: textStyleSmallFontWeight,
                       ),
                     ),
-                    const Divider(),
-                    const FinacialLastWidget(
+                    Divider(),
+                    FinacialLastWidget(
                       title: 'Despesas pessoais',
                       value: 1500,
                       textColor: Colors.red,
                     ),
-                    const Divider(),
+                    Divider(),
                     Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Ver mais detalhes',
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: textTextLargeDefault.fontSize,
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  left: BorderSide(
-                                    color: theme.primaryColor,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                              child: const Icon(
-                                Icons.keyboard_arrow_right,
-                                size: 30,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                      padding: EdgeInsets.only(left: 15),
+                      child: MoreDetailsWidget(),
                     ),
                   ],
                 ),
@@ -130,42 +97,39 @@ class FinancePage extends StatelessWidget {
               horizontal: 10,
             ),
             width: double.infinity,
-            child: Card(
+            child: const Card(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                padding: EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20),
+                      padding: EdgeInsets.only(left: 20),
                       child: Text(
                         'Finanças da oficina',
-                        style: TextStyle(
-                          fontSize: theme.textTheme.titleSmall!.fontSize,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: textStyleSmallFontWeight,
                       ),
                     ),
-                    const Divider(),
-                    const FinacialLastWidget(
+                    Divider(),
+                    FinacialLastWidget(
                       title: 'Receita',
                       value: 3000,
                       textColor: Colors.green,
                     ),
-                    const Divider(),
-                    const FinacialLastWidget(
+                    Divider(),
+                    FinacialLastWidget(
                       title: 'Despesa',
                       value: 2000,
                       textColor: Colors.red,
                     ),
-                    const Divider(),
-                    const FinacialLastWidget(
+                    Divider(),
+                    FinacialLastWidget(
                       title: 'V. Líquido',
                       value: 1000,
                       textColor: Colors.deepPurple,
                     ),
-                    const Divider(),
-                    const Padding(
+                    Divider(),
+                    Padding(
                       padding: EdgeInsets.only(left: 15),
                       child: MoreDetailsWidget(),
                     ),

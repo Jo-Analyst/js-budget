@@ -30,16 +30,9 @@ class _SummaryPageState extends State<SummaryPage>
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     return Scaffold(
-      drawer: const Drawer(),
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.white),
-        title: const Text(
-          'Resumo',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        title: const Text('Resumo'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -110,7 +103,7 @@ class _SummaryPageState extends State<SummaryPage>
                                           text: '2024',
                                           style: TextStyle(fontFamily: 'Anta'),
                                         ),
-                                      ], style: textTextLargeDefault),
+                                      ], style: textStyleLargeDefault),
                                     ),
                                     IconButton(
                                       onPressed: () {},

@@ -82,50 +82,50 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               width: 16,
             ),
-            Column(
+            const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text.rich(
                   TextSpan(
-                    children: const [
+                    children: [
                       TextSpan(
                         text: 'Olá, ',
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: textStyleSmallFontWeight,
                       ),
-                      TextSpan(text: 'João Antônio!'),
+                      TextSpan(
+                        text: 'João Antônio!',
+                        style: textStyleSmallDefault,
+                      ),
                     ],
-                    style: TextStyle(
-                      fontSize: theme.textTheme.titleSmall!.fontSize,
-                    ),
                   ),
                 ),
                 Text.rich(
                   TextSpan(
-                    children: const [
+                    children: [
                       TextSpan(
                         text: 'Razão Social: ',
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: textStyleSmallFontWeight,
                       ),
-                      TextSpan(text: 'JS Planejar'),
+                      TextSpan(
+                        text: 'JS Planejar',
+                        style: textStyleSmallDefault,
+                      ),
                     ],
-                    style: TextStyle(
-                      fontSize: theme.textTheme.titleSmall!.fontSize,
-                    ),
                   ),
                 ),
                 Text.rich(
                   TextSpan(
-                    children: const [
+                    children: [
                       TextSpan(
                         text: 'CNPJ: ',
-                        style: TextStyle(fontWeight: FontWeight.w700),
+                        style: textStyleSmallFontWeight,
                       ),
-                      TextSpan(text: '00.000.000/0000-00'),
+                      TextSpan(
+                        text: '00.000.000/0000-00',
+                        style: TextStyle(fontFamily: 'Anta', fontSize: 18),
+                      ),
                     ],
-                    style: TextStyle(
-                      fontSize: theme.textTheme.titleSmall!.fontSize,
-                    ),
                   ),
                 ),
               ],
@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Text(
                     'Nenhum orçamento aberto',
-                    style: textTextLargeDefault,
+                    style: textStyleLargeDefault,
                   ),
                 ],
               ),
@@ -209,21 +209,18 @@ class _HomePageState extends State<HomePage> {
                                       children: [
                                         const TextSpan(
                                           text: 'Orçamento: ',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700),
+                                          style: textStyleSmallFontWeight,
                                         ),
                                         TextSpan(
                                           text: budget['id']
                                               .toString()
                                               .padLeft(5, '0'),
                                           style: const TextStyle(
-                                              fontFamily: 'Anta'),
+                                            fontFamily: 'Anta',
+                                            fontSize: 20,
+                                          ),
                                         ),
                                       ],
-                                      style: TextStyle(
-                                        fontSize: theme
-                                            .textTheme.titleSmall!.fontSize,
-                                      ),
                                     ),
                                   ),
                                 ),
@@ -234,20 +231,18 @@ class _HomePageState extends State<HomePage> {
                                   children: [
                                     Text(
                                       '${budget['name']}',
-                                      style: TextStyle(
-                                        fontSize: theme
-                                            .textTheme.titleSmall!.fontSize,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                      style: textStyleSmallFontWeight,
                                     ),
                                     Text(
                                       budget['status'],
                                       style: TextStyle(
+                                        fontFamily:
+                                            textStyleSmallDefault.fontFamily,
                                         color: const Color.fromARGB(
                                             255, 20, 87, 143),
-                                        fontSize: theme
-                                            .textTheme.titleSmall!.fontSize,
-                                        fontWeight: FontWeight.w700,
+                                        fontSize:
+                                            textStyleSmallDefault.fontSize,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ],
@@ -266,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                                     ],
                                     style: TextStyle(
                                       fontSize:
-                                          theme.textTheme.titleSmall!.fontSize,
+                                           textStyleSmallDefault.fontSize,
                                       fontFamily: 'Anta',
                                       color: const Color.fromARGB(
                                           255, 20, 87, 143),
@@ -306,11 +301,11 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             UtilsService.moneyToCurrency(10000),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontFamily: "Anta",
-                              fontSize: 19,
+                              fontSize: textStyleLargeDefault.fontSize,
                               fontWeight: FontWeight.w500,
-                              color: Colors.deepPurple,
+                              color: Colors.green,
                             ),
                           ),
                         ],

@@ -31,7 +31,7 @@ class DetailWidget extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 19,
-                fontFamily: textTextSmallDefault.fontFamily,
+                fontFamily: textStyleSmallDefault.fontFamily,
                 color: Colors.white,
               ),
             ),
@@ -45,14 +45,14 @@ class DetailWidget extends StatelessWidget {
                         leading: iconPayment,
                         title: Text(
                           dt['description'] ?? dt['specie-payment'],
-                          style: textTextSmallFonWeight,
+                          style: textStyleSmallFontWeight,
                         ),
                         subtitle: Text(
                           dt['price'] != null
                               ? '${dt['quantity']}x ${UtilsService.moneyToCurrency(dt['price'])}'
                               : dt['form-of-payment'],
                           style: TextStyle(
-                            fontSize: textTextSmallDefault.fontSize,
+                            fontSize: textStyleSmallDefault.fontSize,
                             fontFamily:
                                 iconPayment == null ? 'Anta' : 'Poppins',
                           ),

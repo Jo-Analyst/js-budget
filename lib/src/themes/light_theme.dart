@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 final lightTheme = ThemeData(
   appBarTheme: const AppBarTheme(
+    titleTextStyle: textStyleSmallDefault,
     color: Color(0xFFDEB887),
     toolbarHeight: 100,
   ),
@@ -11,26 +12,27 @@ final lightTheme = ThemeData(
   primaryColor: const Color(0xFFDEB887),
   splashColor: const Color(0xFFDEB887),
   useMaterial3: true,
-  textTheme: const TextTheme(
-    titleSmall: TextStyle(fontSize: 18, fontFamily: 'Poppins'),
-  ),
 );
 
-const textTextSmallDefault = TextStyle(
+const textStyleSmallDefault = TextStyle(
   fontSize: 18,
   fontFamily: 'Poppins',
+  color: Colors.black,
 );
-const textTextSmallFonWeight = TextStyle(
+const textStyleSmallFontWeight = TextStyle(
   fontSize: 18,
   fontFamily: 'Poppins',
   fontWeight: FontWeight.w700,
+  color: Colors.black,
 );
-const textTextLargeDefault = TextStyle(
+const textStyleLargeDefault = TextStyle(
   fontSize: 20,
   fontFamily: 'Poppins',
+  color: Colors.black,
 );
-const textTextLargeDefaultFonWeight = TextStyle(
+const textStyleLargeDefaultFontWeight = TextStyle(
   fontSize: 20,
   fontFamily: 'Poppins',
+  color: Colors.black,
   fontWeight: FontWeight.w700,
 );

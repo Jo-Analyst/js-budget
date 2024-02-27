@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/themes/light_theme.dart';
 
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -20,7 +21,10 @@ class SummaryTotalWidget extends StatelessWidget {
         child: ListTile(
           minVerticalPadding: 0,
           contentPadding: const EdgeInsets.only(right: 0),
-          title: const Text('T. Despesa'),
+          title: const Text(
+            'T. Despesa',
+            style: textStyleSmallDefault,
+          ),
           subtitle: Text(
             UtilsService.moneyToCurrency(value),
             style: TextStyle(

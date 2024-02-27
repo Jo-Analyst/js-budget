@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/themes/light_theme.dart';
 
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -22,11 +23,7 @@ class FinacialLastWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-                fontSize: Theme.of(context).textTheme.titleSmall!.fontSize),
-          ),
+          Text(title, style: textStyleSmallDefault),
           Text(
             UtilsService.moneyToCurrency(value),
             style:
