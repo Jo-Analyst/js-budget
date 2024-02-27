@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
+import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
+import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -32,7 +34,8 @@ class BudgetDetailsPage extends StatelessWidget {
       {
         'specie-payment': 'PIX',
         'amount-to-pay': 1000.0,
-        'form-of-payment': 'À vista',
+        'installment-quantity': 1, // quantidade parcela
+        'installment-value': 1000.0, // valor paracelado
       }
     ];
 
@@ -103,29 +106,31 @@ class BudgetDetailsPage extends StatelessWidget {
                           data['name'],
                           style: textStyleSmallDefault,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              data['status'],
-                              style: TextStyle(
-                                fontSize: textStyleSmallDefault.fontSize,
-                                fontFamily: textStyleSmallDefault.fontFamily,
-                                fontWeight: FontWeight.w700,
-                                color: const Color.fromARGB(255, 20, 87, 143),
+                        GestureDetector(
+                          onTap: () {
+                            Modal.showModal(context, const StatusWidget());
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                data['status'],
+                                style: TextStyle(
+                                  fontSize: textStyleSmallDefault.fontSize,
+                                  fontFamily: textStyleSmallDefault.fontFamily,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color.fromARGB(255, 20, 87, 143),
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            GestureDetector(
-                              onTap: () {},
-                              child: const Icon(
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              const Icon(
                                 Icons.edit,
                                 size: 18,
-                              ),
-                            )
-                          ],
+                              )
+                            ],
+                          ),
                         )
                       ],
                     ),

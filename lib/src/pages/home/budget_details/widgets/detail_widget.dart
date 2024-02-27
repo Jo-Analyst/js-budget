@@ -50,11 +50,10 @@ class DetailWidget extends StatelessWidget {
                         subtitle: Text(
                           dt['price'] != null
                               ? '${dt['quantity']}x ${UtilsService.moneyToCurrency(dt['price'])}'
-                              : dt['form-of-payment'],
+                              : '${dt['installment-quantity']}x ${UtilsService.moneyToCurrency(dt['installment-value'])}',
                           style: TextStyle(
                             fontSize: textStyleSmallDefault.fontSize,
-                            fontFamily:
-                                iconPayment == null ? 'Anta' : 'Poppins',
+                            fontFamily: 'Anta',
                           ),
                         ),
                         trailing: Text(
