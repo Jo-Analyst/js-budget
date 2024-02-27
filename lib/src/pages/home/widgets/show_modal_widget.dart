@@ -7,7 +7,7 @@ class Modal {
       builder: (context) {
         return SizedBox(
           width: double.infinity,
-          height: 270,
+          height: MediaQuery.sizeOf(context).height * .5,
           child: Column(
             children: [
               Container(
@@ -17,7 +17,7 @@ class Modal {
                   color: Colors.deepPurple,
                 ),
                 width: 50,
-                height: 5,
+                height: 3,
               ),
               widget
             ],
