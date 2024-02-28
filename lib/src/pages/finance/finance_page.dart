@@ -11,7 +11,15 @@ class FinancePage extends StatelessWidget {
     var theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Finanças'),
+        title: const Row(
+          children: [
+            Icon(Icons.auto_graph),
+            SizedBox(
+              width: 5,
+            ),
+            Text('Finanças'),
+          ],
+        ),
       ),
       body: Column(
         children: [
@@ -61,29 +69,34 @@ class FinancePage extends StatelessWidget {
               horizontal: 10,
             ),
             width: double.infinity,
-            child: const Card(
+            child: Card(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 20),
                       child: Text(
                         'Finanças pessoais',
                         style: textStyleSmallFontWeight,
                       ),
                     ),
-                    Divider(),
-                    FinacialLastWidget(
+                    const Divider(),
+                    const FinacialLastWidget(
                       title: 'Despesas pessoais',
                       value: 1500,
                       textColor: Colors.red,
                     ),
-                    Divider(),
+                    const Divider(),
                     Padding(
-                      padding: EdgeInsets.only(left: 15),
-                      child: MoreDetailsWidget(),
+                      padding: const EdgeInsets.only(left: 15),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/summary');
+                        },
+                        child: const MoreDetailsWidget(),
+                      ),
                     ),
                   ],
                 ),

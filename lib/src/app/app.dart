@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/pages/finance/finance_page.dart';
 import 'package:js_budget/src/pages/home/home_page.dart';
-import 'package:js_budget/src/pages/summary/summary_page.dart';
+import 'package:js_budget/src/pages/menu/menu_page.dart';
 import 'package:js_budget/src/app/widgets/bottom_navigation_bar_item_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
@@ -37,7 +37,7 @@ class _AppState extends State<App> {
         children: const [
           HomePage(),
           FinancePage(),
-          SummaryPage(),
+          MenuPage(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
