@@ -23,21 +23,21 @@ class _HomePageState extends State<HomePage> {
     {
       "id": 2,
       "name": "Valdirene Ferreira",
-      "status": "Em aberto",
+      "status": "Aprovado",
       "value": 2500.0,
       "date": "25/02/2024",
     },
     {
       "id": 3,
       "name": "Noelly Silva",
-      "status": "Em aberto",
+      "status": "Concluído",
       "value": 2500.0,
       "date": "25/02/2024",
     },
     {
       "id": 4,
       "name": "Benneditto Santos",
-      "status": "Em aberto",
+      "status": "Cancelado",
       "value": 2500.0,
       "date": "25/02/2024",
     },
@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
     {'type': 'Concluído', 'isSelected': false},
   ];
 
-  void filterList(Map<String, dynamic> filter) {
+  void selectOptions(Map<String, dynamic> filter) {
     for (var options in filteringOptions) {
       options['isSelected'] = false;
     }
@@ -67,7 +67,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         toolbarHeight: 150,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               decoration: BoxDecoration(
@@ -77,6 +76,7 @@ class _HomePageState extends State<HomePage> {
               child: Image.asset(
                 'assets/images/logo_icon.png',
                 width: 80,
+                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(
@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                           .map(
                             (filter) => GestureDetector(
                               onTap: () {
-                                filterList(filter);
+                                selectOptions(filter);
                               },
                               child: FilteringOptionsWidget(
                                 title: filter['type'],
@@ -260,8 +260,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                     style: TextStyle(
-                                      fontSize:
-                                           textStyleSmallDefault.fontSize,
+                                      fontSize: textStyleSmallDefault.fontSize,
                                       fontFamily: 'Anta',
                                       color: const Color.fromARGB(
                                           255, 20, 87, 143),

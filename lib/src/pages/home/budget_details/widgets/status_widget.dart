@@ -1,63 +1,107 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class StatusWidget extends StatelessWidget {
-  const StatusWidget({super.key});
+class StatusWidget extends StatefulWidget {
+  final String lastStatus;
+  const StatusWidget({
+    super.key,
+    required this.lastStatus,
+  });
+
+  @override
+  State<StatusWidget> createState() => _StatusWidgetState();
+}
+
+class _StatusWidgetState extends State<StatusWidget> {
+  late String status;
+  List<Map<String, dynamic>> situations = [
+    {'status': 'Em aberto', 'isChecked': false},
+    {'status': 'Aprovado', 'isChecked': false},
+    {'status': 'Concluído', 'isChecked': false},
+    {'status': 'Cancelado', 'isChecked': false},
+  ];
+
+  void selectStatus(Map<String, dynamic> situation) {
+    for (var st in situations) {
+      st['isChecked'] = false;
+    }
+    setState(() {
+      situation['isChecked'] = true;
+      status = situation['status'];
+    });
+  }
+
+  void selectLastStatus(String status) {
+    for (var situation in situations) {
+      String status = situation['status'];
+      if (status == widget.lastStatus) {
+        situation['isChecked'] = true;
+      }
+    }
+
+    print(situations);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    selectLastStatus(widget.lastStatus);
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> status = [
-      {'desc': 'Em aberto', 'isChecked': true},
-      {'desc': 'Aprovado', 'isChecked': false},
-      {'desc': 'Concluído', 'isChecked': false},
-    ];
     return Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 20,
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Text(
               'Status do orçamento',
               style: textStyleSmallFontWeight,
             ),
           ),
           const Divider(),
-          Column(
-            children: status.map(
-              (st) {
-                String desc = st['desc'];
-                bool isChecked = st['isChecked'];
+          SizedBox(
+            child: Column(
+              children: situations.map(
+                (st) {
+                  bool isChecked = st['isChecked'];
 
-                return Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: ListTile(
-                        leading: Icon(
-                          isChecked ? Icons.check : null,
-                          color: Colors.deepPurple,
-                          size: 25,
-                        ),
-                        title: Text(
-                          desc,
-                          style: isChecked
-                              ? TextStyle(
-                                  color: Colors.deepPurple,
-                                  fontWeight:
-                                      textStyleSmallFontWeight.fontWeight,
-                                  fontSize: textStyleSmallFontWeight.fontSize)
-                              : textStyleSmallDefault,
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: ListTile(
+                          onTap: () => selectStatus(st),
+                          leading: Icon(
+                            isChecked ? Icons.check : null,
+                            color: Colors.deepPurple,
+                            size: 25,
+                          ),
+                          title: Text(
+                            st['status'],
+                            style: isChecked
+                                ? TextStyle(
+                                    color: Colors.deepPurple,
+                                    fontWeight:
+                                        textStyleSmallFontWeight.fontWeight,
+                                    fontSize: textStyleSmallFontWeight.fontSize)
+                                : textStyleSmallDefault,
+                          ),
                         ),
                       ),
-                    ),
-                    const Divider()
-                  ],
-                );
-              },
-            ).toList(),
+                      const Divider()
+                    ],
+                  );
+                },
+              ).toList(),
+            ),
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -67,7 +111,9 @@ class StatusWidget extends StatelessWidget {
                 backgroundColor: Colors.deepPurple,
                 foregroundColor: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop(status);
+              },
               child: Text(
                 'Alterar Status',
                 style: TextStyle(

@@ -5,56 +5,62 @@ import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class BudgetDetailsPage extends StatelessWidget {
+class BudgetDetailsPage extends StatefulWidget {
   const BudgetDetailsPage({super.key});
 
   @override
+  State<BudgetDetailsPage> createState() => _BudgetDetailsPageState();
+}
+
+class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
+  late Map<String, dynamic> data =
+      ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
+  List<Map<String, dynamic>> services = [
+    {
+      'description': 'Mesa',
+      'quantity': 1,
+      'unit': 'un',
+      'price': 800.00,
+      'price-total': 800.00,
+    },
+    {
+      'description': 'Cadeira',
+      'quantity': 12,
+      'unit': 'un',
+      'price': 40.00,
+      'price-total': 480.00,
+    },
+  ];
+
+  List<Map<String, dynamic>> payments = [
+    {
+      'specie-payment': 'PIX',
+      'amount-to-pay': 1000.0,
+      'installment-quantity': 1, // quantidade parcela
+      'installment-value': 1000.0, // valor paracelado
+    }
+  ];
+
+  List<Map<String, dynamic>> materials = [
+    {
+      'description': 'Madeira PVC',
+      'quantity': 1,
+      'unit': 'un',
+      'price': 300.00,
+      'price-total': 300.00,
+    },
+    {
+      'description': 'Pregos',
+      'quantity': 1,
+      'unit': 'un',
+      'price': 18.00,
+      'price-total': 180.00,
+    },
+  ];
+
+  @override
   Widget build(BuildContext context) {
-    final data =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
-    List<Map<String, dynamic>> services = [
-      {
-        'description': 'Mesa',
-        'quantity': 1,
-        'unit': 'un',
-        'price': 800.00,
-        'price-total': 800.00,
-      },
-      {
-        'description': 'Cadeira',
-        'quantity': 12,
-        'unit': 'un',
-        'price': 40.00,
-        'price-total': 480.00,
-      },
-    ];
-
-    List<Map<String, dynamic>> payments = [
-      {
-        'specie-payment': 'PIX',
-        'amount-to-pay': 1000.0,
-        'installment-quantity': 1, // quantidade parcela
-        'installment-value': 1000.0, // valor paracelado
-      }
-    ];
-
-    List<Map<String, dynamic>> materials = [
-      {
-        'description': 'Madeira PVC',
-        'quantity': 1,
-        'unit': 'un',
-        'price': 300.00,
-        'price-total': 300.00,
-      },
-      {
-        'description': 'Pregos',
-        'quantity': 1,
-        'unit': 'un',
-        'price': 18.00,
-        'price-total': 180.00,
-      },
-    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -94,7 +100,7 @@ class BudgetDetailsPage extends StatelessWidget {
                         data['value'],
                       ),
                       style: const TextStyle(
-                        fontSize: 25,
+                        fontSize: 22,
                         fontWeight: FontWeight.w700,
                         fontFamily: 'Anta',
                       ),
@@ -107,8 +113,10 @@ class BudgetDetailsPage extends StatelessWidget {
                           style: textStyleSmallDefault,
                         ),
                         GestureDetector(
-                          onTap: () {
-                            Modal.showModal(context, const StatusWidget());
+                          onTap: () async {
+                            data['status'] = await Modal.showModal(context,
+                                StatusWidget(lastStatus: data['status']));
+                            setState(() {});
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,

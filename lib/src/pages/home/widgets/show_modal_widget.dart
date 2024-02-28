@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 class Modal {
-  static void showModal(BuildContext context, Widget widget) {
-    showModalBottomSheet(
+  static Future<dynamic> showModal(BuildContext context, Widget widget) async {
+    return showModalBottomSheet<dynamic>(
+      scrollControlDisabledMaxHeightRatio: .8,
       context: context,
       builder: (context) {
         return SizedBox(
           width: double.infinity,
-          height: MediaQuery.sizeOf(context).height * .5,
+          // height: MediaQuery.sizeOf(context).height * .5,
           child: Column(
             children: [
               Container(
