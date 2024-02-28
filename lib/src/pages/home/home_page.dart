@@ -67,14 +67,12 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         toolbarHeight: 150,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
               'assets/images/logo_icon.png',
-              width: 80,
+              width: 60,
               fit: BoxFit.cover,
-            ),
-            const SizedBox(
-              width: 16,
             ),
             const Column(
               mainAxisAlignment: MainAxisAlignment.center,

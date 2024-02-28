@@ -40,13 +40,12 @@ class _StatusWidgetState extends State<StatusWidget> {
         situation['isChecked'] = true;
       }
     }
-
-    print(situations);
   }
 
   @override
   void initState() {
     super.initState();
+    status = widget.lastStatus;
     selectLastStatus(widget.lastStatus);
   }
 
