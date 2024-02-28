@@ -68,16 +68,10 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 150,
         title: Row(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(103, 242, 218, 187),
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Image.asset(
-                'assets/images/logo_icon.png',
-                width: 80,
-                fit: BoxFit.cover,
-              ),
+            Image.asset(
+              'assets/images/logo_icon.png',
+              width: 80,
+              fit: BoxFit.cover,
             ),
             const SizedBox(
               width: 16,
