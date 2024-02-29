@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
-              'assets/images/logo_icon.png',
+              'assets/images/logo_rectangular.jpeg',
               width: 60,
               fit: BoxFit.cover,
             ),

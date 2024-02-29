@@ -54,7 +54,7 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> _navigateToHome() async {
     var nav = Navigator.of(context);
-    Timer(const Duration(seconds: 4), () async {
+    Timer(const Duration(seconds: 7), () async {
       nav.pushReplacementNamed('/my-app');
     });
   }
