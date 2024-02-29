@@ -63,7 +63,10 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
               leading: widget.icon,
               title: Text(
                 widget.title,
-                style: textStyleSmallDefault,
+                style: TextStyle(
+                    fontFamily: textStyleSmallDefault.fontFamily,
+                    fontSize: textStyleSmallDefault.fontSize,
+                    fontWeight: FontWeight.w600),
               ),
               trailing: RotationTransition(
                 turns: Tween(begin: 0.0, end: 0.50).animate(_controller),
