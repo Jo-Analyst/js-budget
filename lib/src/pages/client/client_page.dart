@@ -107,6 +107,7 @@ class _ClientPageState extends State<ClientPage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
+              textInputAction: TextInputAction.search,
               onChanged: (value) {
                 setState(() {
                   search = value;
@@ -114,6 +115,7 @@ class _ClientPageState extends State<ClientPage> {
               },
               decoration: const InputDecoration(
                 labelText: 'Buscar cliente',
+                suffixIcon: Icon(Icons.search),
               ),
             ),
           ),
