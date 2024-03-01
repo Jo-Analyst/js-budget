@@ -6,6 +6,7 @@ final lightTheme = ThemeData(
     color: Color(0xFFDEB887),
     toolbarHeight: 100,
   ),
+  iconTheme: const IconThemeData(color: Colors.black),
   colorScheme: ColorScheme.fromSeed(
     seedColor: const Color(0xFFDEB887),
   ),

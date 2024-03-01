@@ -84,22 +84,23 @@ class MenuPage extends StatelessWidget {
             ),
             SizedBox(
               height: MediaQuery.sizeOf(context).height * .5 - 100,
-              child: Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/images/logo_icon.png',
-                      width: 150,
-                    ),
-                    const Text(
-                      'Aplicativo criado por Joelmir Rogério Carvalho',
-                      textAlign: TextAlign.center,
-                      style: textStyleSmallDefault,
-                    )
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/logo_icon.png',
+                    width: 150,
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const Text(
+                    'Aplicativo JS Planejar',
+                    textAlign: TextAlign.center,
+                    style: textStyleSmallDefault,
+                  )
+                ],
               ),
             )
           ],

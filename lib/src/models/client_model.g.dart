@@ -9,7 +9,7 @@ part of 'client_model.dart';
 ClientModel _$ClientModelFromJson(Map<String, dynamic> json) => ClientModel(
       id: json['id'] as int? ?? 0,
       name: json['name'] as String,
-      phone: json['phone'] as String,
+      phone: json['phone'] as String?,
       cpf: json['cpf'] as String,
     );
 
