@@ -38,9 +38,14 @@ class MenuPage extends StatelessWidget {
               title: 'Despesas',
               icon: Icon(Icons.money_off_sharp),
               children: [
-                ListTileIcon(icon: Icons.money, title: 'Despesa pessoal'),
                 ListTileIcon(
-                    title: 'Despesa da oficina', icon: Icons.money_off_sharp)
+                  icon: Icons.money,
+                  title: 'Despesa pessoal',
+                ),
+                ListTileIcon(
+                  title: 'Despesa da oficina',
+                  icon: Icons.money_off_sharp,
+                )
               ],
             ),
             Container(
@@ -63,16 +68,39 @@ class MenuPage extends StatelessWidget {
                 ),
               ),
             ),
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            const CustomExpansionTileWidget(
+              icon: Icon(Icons.more_vert),
+              title: 'Outras opçoes',
               children: [
-                Text(
-                  'Aplicativo criado por Joemir Rogério Carvalho',
-                  textAlign: TextAlign.center,
-                  style: textStyleSmallDefault,
-                )
+                ListTileIcon(
+                  icon: Icons.backup_table_rounded,
+                  title: 'Backup',
+                ),
+                ListTileIcon(
+                  icon: Icons.info_outline_rounded,
+                  title: 'Sobre',
+                ),
               ],
+            ),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * .5 - 100,
+              child: Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/logo_icon.png',
+                      width: 150,
+                    ),
+                    const Text(
+                      'Aplicativo criado por Joelmir Rogério Carvalho',
+                      textAlign: TextAlign.center,
+                      style: textStyleSmallDefault,
+                    )
+                  ],
+                ),
+              ),
             )
           ],
         ),
