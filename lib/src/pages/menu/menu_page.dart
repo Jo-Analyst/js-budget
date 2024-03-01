@@ -16,15 +16,18 @@ class MenuPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const CustomExpansionTileWidget(
+            CustomExpansionTileWidget(
               title: 'Cadastro',
-              icon: Icon(Icons.description_outlined),
+              icon: const Icon(Icons.description_outlined),
               children: [
                 ListTileIcon(
                   icon: Icons.person,
                   title: 'Clientes',
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/clients');
+                  },
                 ),
-                ListTileIcon(
+                const ListTileIcon(
                   icon: Icons.build,
                   title: 'Materiais',
                 ),

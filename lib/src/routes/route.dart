@@ -3,4 +3,5 @@ class RouterPage {
   static const splash = '/';
   static const budgeDetails = '/budge-details';
   static const summary = '/summary';
+  static const clients = '/clients';
 }
