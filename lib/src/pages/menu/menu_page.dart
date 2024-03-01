@@ -25,10 +25,6 @@ class MenuPage extends StatelessWidget {
                   title: 'Clientes',
                 ),
                 ListTileIcon(
-                  icon: Icons.local_shipping,
-                  title: 'Fornecedores',
-                ),
-                ListTileIcon(
                   icon: Icons.build,
                   title: 'Materiais',
                 ),
