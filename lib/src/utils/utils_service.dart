@@ -6,3 +6,4 @@ class UtilsService {
     return numberFormat.format(price);
   }
 }
+

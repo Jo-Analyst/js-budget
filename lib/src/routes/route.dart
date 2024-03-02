@@ -4,4 +4,5 @@ class RouterPage {
   static const budgeDetails = '/budge-details';
   static const summary = '/summary';
   static const clients = '/clients';
+  static const registerClients = '/register-client';
 }

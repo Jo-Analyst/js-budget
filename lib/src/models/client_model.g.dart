@@ -10,7 +10,9 @@ ClientModel _$ClientModelFromJson(Map<String, dynamic> json) => ClientModel(
       id: json['id'] as int? ?? 0,
       name: json['name'] as String,
       phone: json['phone'] as String?,
-      cpf: json['cpf'] as String,
+      address: json['address'] == null
+          ? null
+          : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ClientModelToJson(ClientModel instance) =>
@@ -18,5 +20,5 @@ Map<String, dynamic> _$ClientModelToJson(ClientModel instance) =>
       'id': instance.id,
       'name': instance.name,
       'phone': instance.phone,
-      'cpf': instance.cpf,
+      'address': instance.address,
     };
