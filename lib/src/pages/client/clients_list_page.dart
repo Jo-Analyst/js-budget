@@ -188,7 +188,9 @@ class _ClientListPageState extends State<ClientListPage> {
                                 color: theme.colorScheme.primary,
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/register-client');
+                            },
                             icon: const Icon(
                               Icons.add,
                               color: Colors.black,
@@ -207,9 +209,22 @@ class _ClientListPageState extends State<ClientListPage> {
                         .map((client) => Column(
                               children: [
                                 ListTile(
+                                  splashColor: Colors.transparent,
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .pushNamed('/client-detail');
+                                  },
                                   leading: const Icon(Icons.person),
-                                  title: Text(client.name),
-                                  subtitle: Text(client.phone ?? ''),
+                                  title: Text(
+                                    client.name,
+                                    style: textStyleSmallDefault,
+                                  ),
+                                  subtitle: Text(
+                                    client.phone ?? '',
+                                    style: TextStyle(
+                                      fontSize: textStyleSmallDefault.fontSize,
+                                    ),
+                                  ),
                                   trailing: const Icon(
                                     Icons.keyboard_arrow_right,
                                   ),

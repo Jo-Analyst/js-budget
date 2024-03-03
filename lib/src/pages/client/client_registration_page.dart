@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:js_budget/src/pages/client/client_form_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class ClientRegistrationPage extends StatelessWidget {
+class ClientRegistrationPage extends StatefulWidget {
   const ClientRegistrationPage({super.key});
+
+  @override
+  State<ClientRegistrationPage> createState() => _ClientRegistrationPageState();
+}
+
+class _ClientRegistrationPageState extends State<ClientRegistrationPage>
+    with ClientFormController {
+  @override
+  void dispose() {
+    super.dispose();
+    disposeForm();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +33,7 @@ class ClientRegistrationPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               TextFormField(
+                controller: nameEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 keyboardType: TextInputType.name,
                 maxLength: 100,
@@ -32,6 +46,7 @@ class ClientRegistrationPage extends StatelessWidget {
                 ],
               ),
               TextFormField(
+                controller: phoneEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 keyboardType: TextInputType.phone,
                 decoration: const InputDecoration(labelText: 'Seu telefone'),
@@ -44,6 +59,7 @@ class ClientRegistrationPage extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: TextFormField(
+                      controller: streetAddressEC,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       maxLength: 100,
                       keyboardType: TextInputType.streetAddress,
@@ -55,6 +71,7 @@ class ClientRegistrationPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: numberAddressEC,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       maxLength: 20,
                       keyboardType: TextInputType.number,
@@ -69,6 +86,7 @@ class ClientRegistrationPage extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: TextFormField(
+                      controller: cityEC,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       maxLength: 100,
                       decoration: const InputDecoration(labelText: 'Cidade'),
@@ -78,6 +96,7 @@ class ClientRegistrationPage extends StatelessWidget {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: stateEC,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       maxLength: 2,
                       inputFormatters: [UpperCaseTextFormatter()],

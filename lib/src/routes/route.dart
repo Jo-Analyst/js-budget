@@ -5,4 +5,5 @@ class RouterPage {
   static const summary = '/summary';
   static const clients = '/clients';
   static const registerClients = '/register-client';
+  static const clientDetail = '/client-detail';
 }
