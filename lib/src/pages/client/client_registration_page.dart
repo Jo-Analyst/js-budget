@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:js_budget/src/pages/client/client_form_controller.dart';
-import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/pages/client/widgets/form_details.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
@@ -23,108 +23,121 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Novo cliente'),
-      ),
+      appBar: AppBar(title: const Text('Novo cliente'), actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.save,
+            size: 30,
+          ),
+        )
+      ]),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: nameEC,
-                onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                keyboardType: TextInputType.name,
-                maxLength: 100,
-                textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(labelText: 'Seu nome*'),
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(
-                    RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            FormDetails(
+              title: 'Dados pessoais',
+              children: [
+                TextFormField(
+                  controller: nameEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  keyboardType: TextInputType.name,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(
+                    labelText: 'Seu nome*',
+                    suffixIcon: Icon(Icons.person),
                   ),
-                ],
-              ),
-              TextFormField(
-                controller: phoneEC,
-                onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(labelText: 'Seu telefone'),
-                inputFormatters: [
-                  MaskTextInputFormatter(mask: '(##) # ####-####'),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: TextFormField(
-                      controller: streetAddressEC,
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      maxLength: 100,
-                      keyboardType: TextInputType.streetAddress,
-                      decoration:
-                          const InputDecoration(labelText: 'Logradouro'),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
                     ),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 16),
+            FormDetails(
+              title: 'Contatos',
+              children: [
+                TextFormField(
+                  controller: cellPhoneEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(
+                    labelText: 'Seu celular',
+                    suffixIcon: Icon(Icons.phone_android),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    flex: 1,
-                    child: TextFormField(
-                      controller: numberAddressEC,
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      maxLength: 20,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      decoration: const InputDecoration(labelText: 'Nº'),
-                    ),
+                  inputFormatters: [
+                    MaskTextInputFormatter(mask: '(##) # ####-####'),
+                  ],
+                ),
+                TextFormField(
+                  controller: telePhoneEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  keyboardType: TextInputType.phone,
+                  decoration: const InputDecoration(
+                    labelText: 'Seu telefone',
+                    suffixIcon: Icon(Icons.phone),
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: TextFormField(
-                      controller: cityEC,
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      maxLength: 100,
-                      decoration: const InputDecoration(labelText: 'Cidade'),
-                    ),
+                  inputFormatters: [
+                    MaskTextInputFormatter(mask: '(##) ####-####'),
+                  ],
+                )
+              ],
+            ),
+            const SizedBox(height: 20),
+            FormDetails(
+              title: 'Endereço',
+              children: [
+                TextFormField(
+                  controller: streetAddressEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  keyboardType: TextInputType.streetAddress,
+                  decoration: const InputDecoration(
+                    labelText: 'CEP',
+                    suffixIcon: Icon(Icons.map),
                   ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    flex: 1,
-                    child: TextFormField(
-                      controller: stateEC,
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      maxLength: 2,
-                      inputFormatters: [UpperCaseTextFormatter()],
-                      decoration: const InputDecoration(labelText: 'Estado'),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                height: 48,
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                  ),
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.save,
-                    color: Colors.black,
-                  ),
-                  label: const Text(
-                    'Salvar',
-                    style: textStyleSmallDefault,
+                  inputFormatters: [
+                    MaskTextInputFormatter(mask: '##.###-###'),
+                  ],
+                ),
+                TextFormField(
+                  controller: streetAddressEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  keyboardType: TextInputType.streetAddress,
+                  decoration: const InputDecoration(
+                    labelText: 'Logradouro',
+                    suffixIcon: Icon(Icons.location_on_outlined),
                   ),
                 ),
-              )
-            ],
-          ),
+                TextFormField(
+                  controller: numberAddressEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: const InputDecoration(labelText: 'Nº'),
+                ),
+                TextFormField(
+                  controller: cityEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  decoration: const InputDecoration(
+                    labelText: 'Cidade',
+                    suffixIcon: Icon(Icons.location_city_rounded),
+                  ),
+                ),
+                TextFormField(
+                  controller: stateEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  inputFormatters: [UpperCaseTextFormatter()],
+                  decoration: const InputDecoration(
+                    labelText: 'Estado',
+                    suffixIcon: Icon(Icons.business),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

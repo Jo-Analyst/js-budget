@@ -72,6 +72,10 @@ class MenuPage extends StatelessWidget {
               title: 'Outras opçoes',
               children: [
                 ListTileIcon(
+                  icon: Icons.account_circle,
+                  title: 'Perfil',
+                ),
+                ListTileIcon(
                   icon: Icons.backup_table_rounded,
                   title: 'Backup',
                 ),

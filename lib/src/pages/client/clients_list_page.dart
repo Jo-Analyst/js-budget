@@ -12,12 +12,12 @@
 //   final List<ClientModel> clients = [
 //     ClientModel(
 //       name: 'João',
-//       phone: '123456789',
+//       cellPhone: '123456789',
 //
 //     ),
 //     ClientModel(
 //       name: 'Maria',
-//       phone: '987654321',
+//       cellPhone: '987654321',
 //
 //     ),
 //     // Adicione mais clientes aqui
@@ -53,7 +53,7 @@
 //                       client.name.toLowerCase().contains(search.toLowerCase()))
 //                   .map((client) => ListTile(
 //                         title: Text(client.name),
-//                         subtitle: Text(client.phone ?? ''),
+//                         subtitle: Text(client.cellPhone ?? ''),
 //                       ))
 //                   .toList(),
 //             ),
@@ -79,35 +79,35 @@ class _ClientListPageState extends State<ClientListPage> {
   final List<ClientModel> clients = [
     ClientModel(
       name: 'João',
-      phone: '123456789',
+      cellPhone: '123456789',
     ),
     ClientModel(
       name: 'Maria',
-      phone: '987654321',
+      cellPhone: '987654321',
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      phone: '(99) 99999-9999',
+      cellPhone: '(99) 99999-9999',
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      phone: '(99) 99999-9999',
+      cellPhone: '(99) 99999-9999',
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      phone: '(99) 99999-9999',
+      cellPhone: '(99) 99999-9999',
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      phone: '(99) 99999-9999',
+      cellPhone: '(99) 99999-9999',
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      phone: '(99) 99999-9999',
+      cellPhone: '(99) 99999-9999',
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      phone: '(99) 99999-9999',
+      cellPhone: '(99) 99999-9999',
     ),
     // Adicione mais clientes aqui
   ];
@@ -129,15 +129,17 @@ class _ClientListPageState extends State<ClientListPage> {
         actions: [
           IconButton(
             onPressed: () {},
+            tooltip: 'Importar contatos',
             icon: const Icon(
-              Icons.contacts_outlined,
-              size: 30,
+              Icons.contacts,
+              size: 27,
             ),
           ),
           IconButton(
             onPressed: () {
               Navigator.of(context).pushNamed('/register-client');
             },
+            tooltip: "Novo Cliente",
             icon: const Icon(
               Icons.person_add_alt_1,
               size: 30,
@@ -220,7 +222,7 @@ class _ClientListPageState extends State<ClientListPage> {
                                     style: textStyleSmallDefault,
                                   ),
                                   subtitle: Text(
-                                    client.phone ?? '',
+                                    client.cellPhone ?? '',
                                     style: TextStyle(
                                       fontSize: textStyleSmallDefault.fontSize,
                                     ),

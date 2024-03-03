@@ -10,13 +10,15 @@ class ClientModel {
   ClientModel({
     this.id = 0,
     required this.name,
-    this.phone,
+    this.telePhone,
+    this.cellPhone,
     this.address,
   });
 
   final int id;
   final String name;
-  final String? phone;
+  final String? telePhone;
+  final String? cellPhone;
   final AddressModel? address;
 
   factory ClientModel.fromJson(Map<String, dynamic> json) =>

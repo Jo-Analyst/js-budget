@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/pages/client/widgets/row_data_widget.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
-import 'package:js_budget/src/themes/light_theme.dart';
 
 class ClientDetailPage extends StatelessWidget {
   const ClientDetailPage({super.key});
