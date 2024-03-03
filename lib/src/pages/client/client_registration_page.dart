@@ -91,7 +91,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage>
               title: 'Endereço',
               children: [
                 TextFormField(
-                  controller: streetAddressEC,
+                  controller: cepEC,
                   onTapOutside: (_) => FocusScope.of(context).unfocus(),
                   keyboardType: TextInputType.streetAddress,
                   decoration: const InputDecoration(
