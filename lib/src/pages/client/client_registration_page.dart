@@ -83,7 +83,16 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage>
                   inputFormatters: [
                     MaskTextInputFormatter(mask: '(##) ####-####'),
                   ],
-                )
+                ),
+                TextFormField(
+                  controller: mailEC,
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    labelText: 'Seu email',
+                    suffixIcon: Icon(Icons.mail_outline),
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 20),

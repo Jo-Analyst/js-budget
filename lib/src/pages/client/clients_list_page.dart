@@ -66,6 +66,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class ClientListPage extends StatefulWidget {
@@ -79,35 +80,43 @@ class _ClientListPageState extends State<ClientListPage> {
   final List<ClientModel> clients = [
     ClientModel(
       name: 'João',
-      cellPhone: '123456789',
+      contact:
+          ContactModel(telePhone: '(11) 1111-1111', cellPhone: '', email: ''),
     ),
     ClientModel(
       name: 'Maria',
-      cellPhone: '987654321',
+      contact:
+          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      cellPhone: '(99) 99999-9999',
+      contact:
+          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      cellPhone: '(99) 99999-9999',
+      contact:
+          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      cellPhone: '(99) 99999-9999',
+      contact:
+          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      cellPhone: '(99) 99999-9999',
+      contact:
+          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      cellPhone: '(99) 99999-9999',
+      contact:
+          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      cellPhone: '(99) 99999-9999',
+      contact:
+          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
     ),
     // Adicione mais clientes aqui
   ];
@@ -222,7 +231,7 @@ class _ClientListPageState extends State<ClientListPage> {
                                     style: textStyleSmallDefault,
                                   ),
                                   subtitle: Text(
-                                    client.cellPhone ?? '',
+                                    client.contact?.telePhone ?? '',
                                     style: TextStyle(
                                       fontSize: textStyleSmallDefault.fontSize,
                                     ),

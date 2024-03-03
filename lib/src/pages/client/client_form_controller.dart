@@ -6,6 +6,7 @@ mixin ClientFormController on State<ClientRegistrationPage> {
   final telePhoneEC = TextEditingController();
   final cellPhoneEC = TextEditingController();
   final cepEC = TextEditingController();
+  final mailEC = TextEditingController();
   final streetAddressEC = TextEditingController();
   final numberAddressEC = TextEditingController();
   final cityEC = TextEditingController();
@@ -16,6 +17,7 @@ mixin ClientFormController on State<ClientRegistrationPage> {
     telePhoneEC.dispose();
     cellPhoneEC.dispose();
     cepEC.dispose();
+    mailEC.dispose();
     streetAddressEC.dispose();
     numberAddressEC.dispose();
     cityEC.dispose();

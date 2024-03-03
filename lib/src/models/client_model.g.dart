@@ -9,8 +9,9 @@ part of 'client_model.dart';
 ClientModel _$ClientModelFromJson(Map<String, dynamic> json) => ClientModel(
       id: json['id'] as int? ?? 0,
       name: json['name'] as String,
-      telePhone: json['telePhone'] as String?,
-      cellPhone: json['cellPhone'] as String?,
+      contact: json['contact'] == null
+          ? null
+          : ContactModel.fromJson(json['contact'] as Map<String, dynamic>),
       address: json['address'] == null
           ? null
           : AddressModel.fromJson(json['address'] as Map<String, dynamic>),
@@ -20,7 +21,6 @@ Map<String, dynamic> _$ClientModelToJson(ClientModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'telePhone': instance.telePhone,
-      'cellPhone': instance.cellPhone,
+      'contact': instance.contact,
       'address': instance.address,
     };

@@ -12,7 +12,11 @@ class DataBase {
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY, name TEXT NOT NULL, cpf TEXT, phone TEXT)",
+          "CREATE TABLE IF NOT EXISTS clients (id INTEGER PRIMARY KEY, name TEXT NOT NULL)",
+        );
+
+        db.execute(
+          "CREATE TABLE IF NOT EXISTS contacts (id INTEGER PRIMARY KEY, cell_phone TEXT NULL, tele_phone TEXT NOT NULL, email TEXT NULL, FOREIGN KEY (client_id) REFERENCES clientes(id) ON DELETE SET NULL)",
         );
 
         db.execute(
