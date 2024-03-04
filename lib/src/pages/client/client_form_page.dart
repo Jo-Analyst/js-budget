@@ -6,14 +6,14 @@ import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-class ClientRegistrationPage extends StatefulWidget {
-  const ClientRegistrationPage({super.key});
+class ClientFormPage extends StatefulWidget {
+  const ClientFormPage({super.key});
 
   @override
-  State<ClientRegistrationPage> createState() => _ClientRegistrationPageState();
+  State<ClientFormPage> createState() => _ClientFormPageState();
 }
 
-class _ClientRegistrationPageState extends State<ClientRegistrationPage>
+class _ClientFormPageState extends State<ClientFormPage>
     with ClientFormController {
   @override
   void dispose() {

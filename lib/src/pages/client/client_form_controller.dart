@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/pages/client/client_registration_page.dart';
+import 'package:js_budget/src/pages/client/client_form_page.dart';
 
-mixin ClientFormController on State<ClientRegistrationPage> {
+mixin ClientFormController on State<ClientFormPage> {
   final nameEC = TextEditingController();
   final telePhoneEC = TextEditingController();
   final cellPhoneEC = TextEditingController();

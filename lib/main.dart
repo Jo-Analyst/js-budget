@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/pages/client/client_detail_page.dart';
-import 'package:js_budget/src/pages/client/client_registration_page.dart';
+import 'package:js_budget/src/pages/client/client_form_page.dart';
 import 'package:js_budget/src/pages/client/clients_list_page.dart';
 import 'package:js_budget/src/pages/home/budget_details/budget_details_page.dart';
 import 'package:js_budget/src/pages/material/furniture_materials_list_page.dart';
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         RouterPage.budgeDetails: (_) => const BudgetDetailsPage(),
         RouterPage.summary: (_) => const SummaryPage(),
         RouterPage.clients: (_) => const ClientListPage(),
-        RouterPage.clientForm: (_) => const ClientRegistrationPage(),
+        RouterPage.clientForm: (_) => const ClientFormPage(),
         RouterPage.clientDetail: (_) => const ClientDetailPage(),
         RouterPage.material: (_) => const FurnitureMaterialsList(),
         RouterPage.materialForm: (_) => const MaterialFormPage(),
