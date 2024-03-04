@@ -80,43 +80,35 @@ class _ClientListPageState extends State<ClientListPage> {
   final List<ClientModel> clients = [
     ClientModel(
       name: 'João',
-      contact:
-          ContactModel(telePhone: '(11) 1111-1111', cellPhone: '', email: ''),
+      contact: ContactModel(cellPhone: '(11) 1111-1111'),
     ),
     ClientModel(
       name: 'Maria',
-      contact:
-          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
+      contact: ContactModel(cellPhone: '(99) 9999-9999'),
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      contact:
-          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
+      contact: ContactModel(cellPhone: '(99) 9999-9999'),
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      contact:
-          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
+      contact: ContactModel(cellPhone: '(99) 9999-9999'),
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      contact:
-          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
+      contact: ContactModel(cellPhone: '(99) 9999-9999'),
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      contact:
-          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
+      contact: ContactModel(cellPhone: '(99) 9999-9999'),
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      contact:
-          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
+      contact: ContactModel(cellPhone: '(99) 9999-9999'),
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      contact:
-          ContactModel(telePhone: '(99) 9999-9999', cellPhone: '', email: ''),
+      contact: ContactModel(cellPhone: '(99) 9999-9999'),
     ),
     // Adicione mais clientes aqui
   ];
@@ -146,7 +138,7 @@ class _ClientListPageState extends State<ClientListPage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/register-client');
+              Navigator.of(context).pushNamed('/client-form');
             },
             tooltip: "Novo Cliente",
             icon: const Icon(
@@ -200,7 +192,7 @@ class _ClientListPageState extends State<ClientListPage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/register-client');
+                              Navigator.pushNamed(context, '/client-form');
                             },
                             icon: const Icon(
                               Icons.add,
@@ -231,7 +223,7 @@ class _ClientListPageState extends State<ClientListPage> {
                                     style: textStyleSmallDefault,
                                   ),
                                   subtitle: Text(
-                                    client.contact?.telePhone ?? '',
+                                    client.contact?.cellPhone ?? '',
                                     style: TextStyle(
                                       fontSize: textStyleSmallDefault.fontSize,
                                     ),

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         RouterPage.budgeDetails: (_) => const BudgetDetailsPage(),
         RouterPage.summary: (_) => const SummaryPage(),
         RouterPage.clients: (_) => const ClientListPage(),
-        RouterPage.registerClients: (_) => const ClientRegistrationPage(),
+        RouterPage.clientForm: (_) => const ClientRegistrationPage(),
         RouterPage.clientDetail: (_) => const ClientDetailPage(),
       },
     );

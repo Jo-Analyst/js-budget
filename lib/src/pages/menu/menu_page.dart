@@ -16,6 +16,8 @@ class MenuPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // Menu de Cadastro
+
             CustomExpansionTileWidget(
               title: 'Cadastro',
               icon: const Icon(Icons.description_outlined),
@@ -33,6 +35,9 @@ class MenuPage extends StatelessWidget {
                 ),
               ],
             ),
+
+            // Menu de despesa
+
             const CustomExpansionTileWidget(
               title: 'Despesas',
               icon: Icon(Icons.money_off_sharp),
@@ -47,6 +52,9 @@ class MenuPage extends StatelessWidget {
                 )
               ],
             ),
+
+            //  Menu de pedidos
+
             Container(
               decoration: BoxDecoration(
                 border: Border(
@@ -57,19 +65,23 @@ class MenuPage extends StatelessWidget {
                 ),
               ),
               child: ListTile(
-                leading: const Icon(Icons.payments),
+                leading: const Icon(Icons.assignment),
                 title: Text(
-                  'Pagamentos',
+                  'Pedidos',
                   style: TextStyle(
-                      fontFamily: textStyleSmallDefault.fontFamily,
-                      fontSize: textStyleSmallDefault.fontSize,
-                      fontWeight: FontWeight.w600),
+                    fontFamily: textStyleSmallDefault.fontFamily,
+                    fontSize: textStyleSmallDefault.fontSize,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
+
+            // Outras opções
+
             const CustomExpansionTileWidget(
               icon: Icon(Icons.more_vert),
-              title: 'Outras opçoes',
+              title: 'Outras opções',
               children: [
                 ListTileIcon(
                   icon: Icons.account_circle,

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
 part 'address_model.g.dart';
@@ -5,7 +6,9 @@ part 'address_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class AddressModel {
   AddressModel({
-    required this.id,
+    this.id = 0,
+    this.cep,
+    required this.district,
     required this.streetAddress,
     required this.numberAddress,
     required this.city,
@@ -13,8 +16,9 @@ class AddressModel {
     required this.clientId,
   });
 
-  @JsonKey(defaultValue: 0)
   final int id;
+  final String? cep;
+  final String district;
   final String streetAddress;
   final String numberAddress;
   final String city;

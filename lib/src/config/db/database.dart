@@ -20,7 +20,7 @@ class DataBase {
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS address (id INTEGER PRIMARY KEY, street_address TEXT, number_address TEXT, city TEXT, state TEXT, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clientes(id) ON DELETE SET NULL)",
+          "CREATE TABLE IF NOT EXISTS address (id INTEGER PRIMARY KEY, cep TEXT, district TEXT, street_address TEXT, number_address TEXT, city TEXT, state TEXT, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clientes(id) ON DELETE SET NULL)",
         );
 
         db.execute(
