@@ -6,4 +6,6 @@ class RouterPage {
   static const clients = '/clients';
   static const clientForm = '/client-form';
   static const clientDetail = '/client-detail';
+  static const material = '/material';
+  static const materialForm = '/material-form';
 }

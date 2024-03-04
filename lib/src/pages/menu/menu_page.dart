@@ -29,9 +29,12 @@ class MenuPage extends StatelessWidget {
                     Navigator.of(context).pushNamed('/clients');
                   },
                 ),
-                const ListTileIcon(
+                ListTileIcon(
                   icon: Icons.build,
                   title: 'Materiais',
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/material');
+                  },
                 ),
               ],
             ),

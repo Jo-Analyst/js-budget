@@ -4,13 +4,12 @@ part 'cost_model.g.dart';
 
 @JsonSerializable()
 class CostModel {
-   @JsonKey(defaultValue: 0)
   final int id;
   final String description;
   final double value;
 
   CostModel({
-    required this.id,
+    this.id = 0,
     required this.description,
     required this.value,
   });
