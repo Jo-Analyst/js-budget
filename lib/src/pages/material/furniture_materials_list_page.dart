@@ -18,9 +18,9 @@ class _FurnitureMaterialsListState extends State<FurnitureMaterialsList> {
       unit: 'Metros',
       price: 20.0,
       quantity: 30,
-      dateOfLastPurchase: '04/03/2024',
-      observation: '',
-      supplier: 'empresa x',
+      observation:
+          'asdasdsakhdjkashdjkahskdajkdhjaksdhjakshdjkashdjkashdjakhdjkashdkjashdkashdkajsdhkajshdkjasdhkasjhdkajshdkjasdhkajsdhkajhdkjashdkashdkashdjkhdkasdhajksdhasjdhkahdkjashdkjashdkjashdkashdkajsdhjkasdhkajsdhkjasdhkajshdjaksdhkadjkashdkahdjkasdhkjass',
+      supplier: 'Empresa XXX',
     ),
     MaterialModel(
       name: 'Aço inoxidável',
@@ -28,9 +28,8 @@ class _FurnitureMaterialsListState extends State<FurnitureMaterialsList> {
       unit: 'Kilograma',
       price: 50.0,
       quantity: 20,
-      dateOfLastPurchase: '04/03/2024',
       observation: '',
-      supplier: 'empresa x',
+      supplier: 'Empresa XX',
     )
   ];
 
@@ -127,8 +126,9 @@ class _FurnitureMaterialsListState extends State<FurnitureMaterialsList> {
                                 ListTile(
                                   splashColor: Colors.transparent,
                                   onTap: () {
-                                    // Navigator.of(context)
-                                    //     .pushNamed('/client-detail');
+                                    Navigator.of(context).pushNamed(
+                                        '/material-detail',
+                                        arguments: material);
                                   },
                                   leading: Image.asset(
                                     'assets/images/materia-prima.png',

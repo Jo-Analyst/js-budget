@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/pages/material/material_form_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class MaterialFormPage extends StatefulWidget {
@@ -13,8 +15,23 @@ class MaterialFormPage extends StatefulWidget {
   State<MaterialFormPage> createState() => _MaterialFormPageState();
 }
 
-class _MaterialFormPageState extends State<MaterialFormPage> {
+class _MaterialFormPageState extends State<MaterialFormPage>
+    with MaterialFormController {
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final material =
+        ModalRoute.of(context)!.settings.arguments as MaterialModel;
+    initilizeForm(material);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    disposeForm();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +53,7 @@ class _MaterialFormPageState extends State<MaterialFormPage> {
           child: Column(
             children: <Widget>[
               TextFormField(
+                controller: nameEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 decoration: const InputDecoration(
                   labelText: 'Nome do Material',
@@ -44,6 +62,7 @@ class _MaterialFormPageState extends State<MaterialFormPage> {
                 style: textStyleSmallDefault,
               ),
               TextFormField(
+                controller: typeMaterialEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 decoration: const InputDecoration(
                   labelText: 'Tipo de Material',
@@ -56,6 +75,7 @@ class _MaterialFormPageState extends State<MaterialFormPage> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      controller: quantityInStockEC,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       readOnly: widget.isEdition,
@@ -76,6 +96,7 @@ class _MaterialFormPageState extends State<MaterialFormPage> {
                 ],
               ),
               TextFormField(
+                controller: unitMaterialEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 decoration: const InputDecoration(
                   labelText: 'Unidade de Medida',
@@ -84,7 +105,11 @@ class _MaterialFormPageState extends State<MaterialFormPage> {
                 style: textStyleSmallDefault,
               ),
               TextFormField(
+                controller: priceMaterialEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                ),
                 decoration: const InputDecoration(
                   labelText: 'Preço por Unidade',
                   labelStyle: TextStyle(fontFamily: 'Poppins'),
@@ -92,6 +117,7 @@ class _MaterialFormPageState extends State<MaterialFormPage> {
                 style: textStyleSmallDefault,
               ),
               TextFormField(
+                controller: supplierEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 decoration: const InputDecoration(
                   labelText: 'Fornecedor',
@@ -100,16 +126,9 @@ class _MaterialFormPageState extends State<MaterialFormPage> {
                 style: textStyleSmallDefault,
               ),
               TextFormField(
+                controller: observationEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                decoration: const InputDecoration(
-                  labelText: 'Data da Última Compra',
-                  labelStyle: TextStyle(fontFamily: 'Poppins'),
-                ),
-                style: textStyleSmallDefault,
-              ),
-              TextFormField(
-                onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                maxLines: 3,
+                maxLines: 5,
                 decoration: const InputDecoration(
                   labelText: 'Observações',
                   labelStyle: TextStyle(fontFamily: 'Poppins'),

@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -19,7 +18,7 @@ class FormDetails extends StatelessWidget {
       children: [
         Container(
           padding: const EdgeInsets.symmetric(
-            vertical: 8,
+            vertical: 12,
             horizontal: 15,
           ),
           color: const Color.fromARGB(255, 20, 87, 143),

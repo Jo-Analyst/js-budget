@@ -8,4 +8,5 @@ class RouterPage {
   static const clientDetail = '/client-detail';
   static const material = '/material';
   static const materialForm = '/material-form';
+  static const materialDetail = '/material-detail';
 }

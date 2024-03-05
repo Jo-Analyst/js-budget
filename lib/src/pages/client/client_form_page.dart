@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:js_budget/src/pages/client/client_form_controller.dart';
-import 'package:js_budget/src/pages/client/widgets/form_details.dart';
+import 'package:js_budget/src/pages/widgets/form_details.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
-import 'package:js_budget/src/pages/client/widgets/form_details.dart';
-import 'package:js_budget/src/pages/client/widgets/info_client_widget.dart';
+import 'package:js_budget/src/pages/widgets/form_details.dart';
+import 'package:js_budget/src/pages/widgets/info_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class ClientDetailPage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cliente'),
+        title: const Text('Detalhes do cliente'),
         actions: [
           IconButton(
             tooltip: 'Editar',
@@ -57,7 +57,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                   const FormDetails(
                     title: 'Dados do cliente',
                     children: [
-                      InfoClientWidget(
+                      InfoWidget(
                         title: 'Nome',
                         text: 'Joelmir Rogério Carvalho',
                       ),
@@ -70,19 +70,21 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                     FormDetails(
                       title: 'Contatos',
                       children: [
-                        InfoClientWidget(
+                        InfoWidget(
                           title: 'Telefone',
                           text: contacts!.telePhone ?? '',
                           isNull: contacts!.telePhone == null,
+                          isEmpty: contacts!.telePhone?.isEmpty ?? false,
                         ),
-                        InfoClientWidget(
+                        InfoWidget(
                           title: 'Celular',
                           text: contacts!.cellPhone,
                         ),
-                        InfoClientWidget(
+                        InfoWidget(
                           title: 'Email',
                           text: contacts!.email ?? '',
                           isNull: contacts!.email == null,
+                          isEmpty: contacts!.email?.isEmpty ?? false,
                         ),
                       ],
                     ),
@@ -93,27 +95,27 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                     FormDetails(
                       title: 'Endereço',
                       children: [
-                        InfoClientWidget(
+                        InfoWidget(
                           title: 'Bairro',
                           text: address!.district,
                           isNull: address!.district.isEmpty,
                         ),
-                        InfoClientWidget(
+                        InfoWidget(
                           title: 'Rua',
                           text: address!.streetAddress,
                           isNull: address!.streetAddress.isEmpty,
                         ),
-                        InfoClientWidget(
+                        InfoWidget(
                           title: 'Número',
                           text: address!.numberAddress,
                           isNull: address!.numberAddress.isEmpty,
                         ),
-                        InfoClientWidget(
+                        InfoWidget(
                           title: 'Cidade',
                           text: address!.city,
                           isNull: address!.city.isEmpty,
                         ),
-                        InfoClientWidget(
+                        InfoWidget(
                           title: 'Estado',
                           text: address!.state,
                           isNull: address!.state.isEmpty,

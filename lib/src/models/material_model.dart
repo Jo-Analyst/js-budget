@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
 part 'material_model.g.dart';
@@ -10,10 +9,9 @@ class MaterialModel {
   final String type;
   final String unit;
   final double price;
-  final double quantity;
-  final String dateOfLastPurchase;
-  final String observation;
-  final String supplier;
+  final int quantity;
+  final String? observation;
+  final String? supplier;
 
   MaterialModel({
     this.id = 0,
@@ -22,9 +20,8 @@ class MaterialModel {
     required this.unit,
     required this.price,
     required this.quantity,
-    required this.dateOfLastPurchase,
-    required this.observation,
-    required this.supplier,
+    this.observation,
+    this.supplier,
   });
 
   factory MaterialModel.fromJson(Map<String, dynamic> json) =>

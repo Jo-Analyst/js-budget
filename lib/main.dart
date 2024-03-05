@@ -5,6 +5,7 @@ import 'package:js_budget/src/pages/client/client_form_page.dart';
 import 'package:js_budget/src/pages/client/clients_list_page.dart';
 import 'package:js_budget/src/pages/home/budget_details/budget_details_page.dart';
 import 'package:js_budget/src/pages/material/furniture_materials_list_page.dart';
+import 'package:js_budget/src/pages/material/material_detail/material_details_page.dart';
 import 'package:js_budget/src/pages/material/material_form_page.dart';
 import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/pages/summary/summary_page.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         RouterPage.clientDetail: (_) => const ClientDetailPage(),
         RouterPage.material: (_) => const FurnitureMaterialsList(),
         RouterPage.materialForm: (_) => const MaterialFormPage(),
+        RouterPage.materialDetail: (_) => const MaterialDetailsPage(),
       },
     );
   }
