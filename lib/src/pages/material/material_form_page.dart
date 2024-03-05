@@ -71,22 +71,20 @@ class _MaterialFormPageState extends State<MaterialFormPage>
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text(
-                    'Adicionar os valores na despesa',
-                    style: textStyleSmallDefault,
-                  ),
-                  Switch(
-                    value: isCkecked,
-                    onChanged: (value) {
-                      setState(() {
-                        isCkecked = value;
-                      });
-                    },
-                  ),
-                ],
+              ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text(
+                  'Adicionar os valores na despesa',
+                  style: TextStyle(fontFamily: 'Poppins'),
+                ),
+                leading: Switch(
+                  value: isCkecked,
+                  onChanged: (value) {
+                    setState(() {
+                      isCkecked = value;
+                    });
+                  },
+                ),
               ),
               TextFormField(
                 controller: nameEC,
