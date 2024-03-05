@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/pages/material/material_form_controller.dart';
 import 'package:js_budget/src/pages/material/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:validatorless/validatorless.dart';
 
 class MaterialFormPage extends StatefulWidget {
   final MaterialModel? material;
@@ -22,20 +23,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
     with MaterialFormController {
   final _formKey = GlobalKey<FormState>();
   int quantityInStock = 0;
-  bool isCkecked = false;
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-
-  //   var arguments = ModalRoute.of(context)!.settings.arguments;
-  //   if (arguments == null) return;
-
-  //   final material = arguments as Map<String, dynamic>;
-
-  //   initilizeForm(material['data']);
-  //   quantityInStock = int.parse(quantityInStockEC.text);
-  // }
+  bool isCkecked = true;
 
   @override
   void initState() {
@@ -59,7 +47,9 @@ class _MaterialFormPageState extends State<MaterialFormPage>
         title: const Text('Novo material'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              _formKey.currentState!.validate();
+            },
             tooltip: 'Salvar',
             icon: const Icon(Icons.save),
           ),
@@ -71,19 +61,22 @@ class _MaterialFormPageState extends State<MaterialFormPage>
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Column(
             children: [
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text(
-                  'Adicionar os valores na despesa',
-                  style: TextStyle(fontFamily: 'Poppins'),
-                ),
-                leading: Switch(
-                  value: isCkecked,
-                  onChanged: (value) {
-                    setState(() {
-                      isCkecked = value;
-                    });
-                  },
+              Visibility(
+                visible: widget.isEdition,
+                child: ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text(
+                    'Adicionar os valores na despesa',
+                    style: TextStyle(fontFamily: 'Poppins'),
+                  ),
+                  leading: Switch(
+                    value: isCkecked,
+                    onChanged: (value) {
+                      setState(() {
+                        isCkecked = value;
+                      });
+                    },
+                  ),
                 ),
               ),
               TextFormField(
@@ -94,6 +87,8 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                   labelStyle: TextStyle(fontFamily: 'Poppins'),
                 ),
                 style: textStyleSmallDefault,
+                validator:
+                    Validatorless.required('Nome do material obrigatório.'),
               ),
               TextFormField(
                 controller: typeMaterialEC,
@@ -120,6 +115,18 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         labelStyle: TextStyle(fontFamily: 'Poppins'),
                       ),
                       style: textStyleSmallDefault,
+                      validator: (value) {
+                        if (value != null) {
+                          if (value.isEmpty) {
+                            return 'Quantidade em estoque obrigatório';
+                          }
+
+                          if (int.parse(value) == 0) {
+                            return 'Quantidade em estoque deve ser maior que zero';
+                          }
+                        }
+                        return null;
+                      },
                     ),
                   ),
                   Column(
@@ -182,6 +189,8 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                   labelStyle: TextStyle(fontFamily: 'Poppins'),
                 ),
                 style: textStyleSmallDefault,
+                validator:
+                    Validatorless.required('Unidade de medida obrigatório.'),
               ),
               TextFormField(
                 controller: priceMaterialEC,
