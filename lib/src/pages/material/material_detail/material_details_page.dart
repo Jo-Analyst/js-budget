@@ -18,8 +18,8 @@ class MaterialDetailsPage extends StatelessWidget {
           IconButton(
             tooltip: 'Editar',
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed('/material-form', arguments: material);
+              Navigator.of(context).pushNamed('/material-form',
+                  arguments: {'data': material, 'isEdition': true});
             },
             icon: const Icon(
               Icons.edit,

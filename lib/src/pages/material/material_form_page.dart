@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/pages/material/material_form_controller.dart';
+import 'package:js_budget/src/pages/widgets/custom_show_dialog.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class MaterialFormPage extends StatefulWidget {
-  final bool isEdition;
   const MaterialFormPage({
-    this.isEdition = false,
     super.key,
   });
 
@@ -18,13 +16,19 @@ class MaterialFormPage extends StatefulWidget {
 class _MaterialFormPageState extends State<MaterialFormPage>
     with MaterialFormController {
   final _formKey = GlobalKey<FormState>();
+  bool isEdition = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final material =
-        ModalRoute.of(context)!.settings.arguments as MaterialModel;
-    initilizeForm(material);
+
+    var arguments = ModalRoute.of(context)!.settings.arguments;
+    if (arguments == null) return;
+
+    final material = arguments as Map<String, dynamic>;
+
+    initilizeForm(material['data']);
+    isEdition = material['isEdition'];
   }
 
   @override
@@ -77,8 +81,10 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                     child: TextFormField(
                       controller: quantityInStockEC,
                       onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                      readOnly: widget.isEdition,
+                      readOnly: isEdition,
                       decoration: const InputDecoration(
                         labelText: 'Quantidade em Estoque',
                         labelStyle: TextStyle(fontFamily: 'Poppins'),
@@ -87,9 +93,16 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                     ),
                   ),
                   Visibility(
-                    visible: widget.isEdition,
+                    visible: isEdition,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final result = await showAlertDialog(
+                            context, 'Adicione mais quantidade ao estoque',
+                            buttonTitle: 'Concluir');
+
+                        print(result);
+                      },
+                      tooltip: 'Adicionar Quantidade',
                       icon: const Icon(Icons.add_circle_outline_outlined),
                     ),
                   ),
