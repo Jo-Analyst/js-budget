@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/pages/material/material_form_page.dart';
 import 'package:js_budget/src/pages/widgets/form_details.dart';
 import 'package:js_budget/src/pages/widgets/info_widget.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -18,8 +19,14 @@ class MaterialDetailsPage extends StatelessWidget {
           IconButton(
             tooltip: 'Editar',
             onPressed: () {
-              Navigator.of(context).pushNamed('/material-form',
-                  arguments: {'data': material, 'isEdition': true});
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => MaterialFormPage(
+                    material: material,
+                    isEdition: true,
+                  ),
+                ),
+              );
             },
             icon: const Icon(
               Icons.edit,

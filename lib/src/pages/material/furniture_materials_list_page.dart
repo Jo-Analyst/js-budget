@@ -19,7 +19,7 @@ class _FurnitureMaterialsListState extends State<FurnitureMaterialsList> {
       price: 20.0,
       quantity: 30,
       observation:
-          'asdasdsakhdjkashdjkahskdajkdhjaksdhjakshdjkashdjkashdjakhdjkashdkjashdkashdkajsdhkajshdkjasdhkasjhdkajshdkjasdhkajsdhkajhdkjashdkashdkashdjkhdkasdhajksdhasjdhkahdkjashdkjashdkjashdkashdkajsdhjkasdhkajsdhkjasdhkajshdjaksdhkadjkashdkahdjkasdhkjass',
+          'Este material é extremamente durável e resistente a insetos. Ideal para a fabricação de móveis de alta qualidade. No entanto, é um pouco mais caro em comparação com outras madeiras disponíveis no mercado',
       supplier: 'Empresa XXX',
     ),
     MaterialModel(

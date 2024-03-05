@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
-Future<String?> showAlertDialog(BuildContext context, String content,
+Future<int?> showAlertDialog(BuildContext context, String content,
     {String buttonTitle = 'OK'}) {
-  return showDialog<String>(
+  return showDialog<int>(
     context: context,
     builder: (context) {
-      String quantity = '0';
+      int quantity = 0;
+
       return AlertDialog(
         title: Column(
           children: [
@@ -16,14 +17,15 @@ Future<String?> showAlertDialog(BuildContext context, String content,
               style: textStyleSmallDefault,
             ),
             TextFormField(
+              autofocus: true,
               keyboardType:
                   const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               decoration: const InputDecoration(
-                  labelText: 'Quantidade em estoque',
+                  labelText: 'Quantidade',
                   labelStyle: TextStyle(fontFamily: 'Poppins')),
               onChanged: (value) {
-                quantity = value;
+                quantity = value.isNotEmpty ? int.parse(value) : 0;
               },
               style: textStyleSmallDefault,
             )
