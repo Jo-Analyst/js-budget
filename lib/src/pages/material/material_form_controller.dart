@@ -9,6 +9,7 @@ mixin MaterialFormController on State<MaterialFormPage> {
   final unitMaterialEC = TextEditingController();
   final quantityInStockEC = TextEditingController();
   final priceMaterialEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final monthOfLastPurchaseEC = TextEditingController();
   final supplierEC = TextEditingController();
   final observationEC = TextEditingController();
 
@@ -20,6 +21,7 @@ mixin MaterialFormController on State<MaterialFormPage> {
     priceMaterialEC.dispose();
     supplierEC.dispose();
     observationEC.dispose();
+    monthOfLastPurchaseEC.dispose();
   }
 
   void initilizeForm(MaterialModel material) {
@@ -30,5 +32,6 @@ mixin MaterialFormController on State<MaterialFormPage> {
     priceMaterialEC.updateValue(material.price);
     supplierEC.text = material.supplier ?? '';
     observationEC.text = material.observation ?? '';
+    monthOfLastPurchaseEC.text = material.monthOfLastPurchase ?? '';
   }
 }

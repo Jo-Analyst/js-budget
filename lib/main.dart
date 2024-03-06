@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/pages/client/client_detail_page.dart';
 import 'package:js_budget/src/pages/client/client_form_page.dart';
@@ -12,7 +13,8 @@ import 'package:js_budget/src/pages/summary/summary_page.dart';
 import 'package:js_budget/src/routes/route.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting('pt_BR', null);
   runApp(const MyApp());
 }
 

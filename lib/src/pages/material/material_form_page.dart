@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/pages/material/material_form_controller.dart';
 import 'package:js_budget/src/pages/material/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
 class MaterialFormPage extends StatefulWidget {
@@ -24,10 +25,12 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   final _formKey = GlobalKey<FormState>();
   int quantityInStock = 0;
   bool isCkecked = true;
+  String month = UtilsService.monthFormat(DateTime.now());
 
   @override
   void initState() {
     super.initState();
+    monthOfLastPurchaseEC.text = month;
     if (widget.material != null) {
       initilizeForm(widget.material!);
       quantityInStock = widget.material!.quantity;
@@ -66,7 +69,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: const Text(
-                    'Adicionar os valores na despesa',
+                    'Adicionar as alterações no mês atual',
                     style: TextStyle(fontFamily: 'Poppins'),
                   ),
                   leading: Switch(
@@ -203,6 +206,33 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                   labelStyle: TextStyle(fontFamily: 'Poppins'),
                 ),
                 style: textStyleSmallDefault,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      readOnly: true,
+                      controller: monthOfLastPurchaseEC,
+                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'último mês da compra',
+                        labelStyle: TextStyle(fontFamily: 'Poppins'),
+                      ),
+                      style: textStyleSmallDefault,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.calendar_month,
+                      size: 35,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ],
               ),
               TextFormField(
                 controller: supplierEC,
