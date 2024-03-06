@@ -54,7 +54,9 @@ class MaterialDetailsPage extends StatelessWidget {
                 ),
                 InfoWidget(
                   title: 'Tipo de material',
-                  text: material.type,
+                  text: material.type ?? '',
+                  isNull: material.type == null,
+                  isEmpty: material.type?.isEmpty ?? false,
                 ),
                 InfoWidget(
                   title: 'Unidade de medida',

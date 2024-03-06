@@ -6,7 +6,7 @@ part 'material_model.g.dart';
 class MaterialModel {
   final int id;
   final String name;
-  final String type;
+  final String? type;
   final String unit;
   final double price;
   final int quantity;
@@ -16,7 +16,7 @@ class MaterialModel {
   MaterialModel({
     this.id = 0,
     required this.name,
-    required this.type,
+    this.type,
     required this.unit,
     required this.price,
     required this.quantity,

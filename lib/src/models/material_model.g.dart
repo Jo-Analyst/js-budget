@@ -10,7 +10,7 @@ MaterialModel _$MaterialModelFromJson(Map<String, dynamic> json) =>
     MaterialModel(
       id: json['id'] as int? ?? 0,
       name: json['name'] as String,
-      type: json['type'] as String,
+      type: json['type'] as String?,
       unit: json['unit'] as String,
       price: (json['price'] as num).toDouble(),
       quantity: json['quantity'] as int,

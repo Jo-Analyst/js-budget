@@ -24,7 +24,7 @@ mixin MaterialFormController on State<MaterialFormPage> {
 
   void initilizeForm(MaterialModel material) {
     nameEC.text = material.name;
-    typeMaterialEC.text = material.type;
+    typeMaterialEC.text = material.type ?? '';
     unitMaterialEC.text = material.unit;
     quantityInStockEC.text = material.quantity.toString();
     priceMaterialEC.updateValue(material.price);
