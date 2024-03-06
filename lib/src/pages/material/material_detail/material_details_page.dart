@@ -71,6 +71,12 @@ class MaterialDetailsPage extends StatelessWidget {
                   text: UtilsService.moneyToCurrency(material.price),
                 ),
                 InfoWidget(
+                  title: 'Último mês da compra',
+                  text: material.monthOfLastPurchase ?? '',
+                  isNull: material.monthOfLastPurchase == null,
+                  isEmpty: material.monthOfLastPurchase?.isEmpty ?? false,
+                ),
+                InfoWidget(
                   title: 'Fornecedor',
                   text: material.supplier ?? '',
                   isNull: material.supplier == null,
