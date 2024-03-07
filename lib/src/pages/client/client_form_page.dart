@@ -8,7 +8,11 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
 
 class ClientFormPage extends StatefulWidget {
-  const ClientFormPage({super.key});
+  final bool isEdit;
+  const ClientFormPage({
+    super.key,
+    this.isEdit = false,
+  });
 
   @override
   State<ClientFormPage> createState() => _ClientFormPageState();
@@ -27,17 +31,20 @@ class _ClientFormPageState extends State<ClientFormPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Novo cliente'), actions: [
-        IconButton(
-          onPressed: () {
-            formKey.currentState!.validate();
-          },
-          icon: const Icon(
-            Icons.save,
-            size: 30,
-          ),
-        )
-      ]),
+      appBar: AppBar(
+        title: Text(widget.isEdit ? 'Editar cliente' : 'Novo cliente'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              formKey.currentState!.validate();
+            },
+            icon: const Icon(
+              Icons.save,
+              size: 30,
+            ),
+          )
+        ],
+      ),
       body: SingleChildScrollView(
         child: Form(
           key: formKey,

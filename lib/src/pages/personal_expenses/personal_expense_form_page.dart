@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/pages/personal_expenses/personal_expense_form_controller.dart';
+import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
@@ -73,44 +74,16 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                     expenseValue = value;
                   },
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        readOnly: true,
-                        controller: expenseDateEC,
-                        decoration: const InputDecoration(
-                          labelText: 'Data da Despesa',
-                          labelStyle: TextStyle(fontFamily: 'Poppins'),
-                        ),
-                        style: textStyleSmallDefault,
-                        keyboardType: TextInputType.datetime,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        showDatePicker(
-                          firstDate: DateTime(2020),
-                          context: context,
-                          lastDate: DateTime.now(),
-                          initialDate: expenseDate,
-                        ).then((date) {
-                          if (date != null) {
-                            setState(() {
-                              expenseDate = date;
-                              expenseDateEC.text =
-                                  UtilsService.dateFormat(date);
-                            });
-                          }
-                        });
-                      },
-                      icon: Icon(
-                        Icons.calendar_month,
-                        size: 35,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ],
+                FieldDatePicker(
+                  controller: expenseDateEC,
+                  initialDate: expenseDate,
+                  labelText: 'Data da despesa',
+                  onSelected: (date) {
+                    setState(() {
+                      expenseDate = date;
+                    });
+                    expenseDateEC.text = UtilsService.dateFormat(date);
+                  },
                 ),
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(

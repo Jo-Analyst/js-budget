@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/pages/material/material_form_controller.dart';
 import 'package:js_budget/src/pages/material/widget/custom_show_dialog.dart';
+import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
@@ -30,7 +31,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   @override
   void initState() {
     super.initState();
-    monthOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
+    dateOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
     if (widget.material != null) {
       initilizeForm(widget.material!);
       quantityInStock = widget.material!.quantity;
@@ -207,49 +208,18 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                 ),
                 style: textStyleSmallDefault,
               ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      readOnly: true,
-                      controller: monthOfLastPurchaseEC,
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: widget.isEdition
-                            ? 'Última data da compra'
-                            : 'Data da compra',
-                        labelStyle: const TextStyle(fontFamily: 'Poppins'),
-                      ),
-                      style: textStyleSmallDefault,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      showDatePicker(
-                        firstDate: DateTime(2020),
-                        context: context,
-                        lastDate: DateTime.now(),
-                        initialDate: dateOfPurchase,
-                      ).then((date) {
-                        if (date != null) {
-                          setState(() {
-                            dateOfPurchase = date;
-                            monthOfLastPurchaseEC.text =
-                                UtilsService.dateFormat(date);
-                          });
-                        }
-                      });
-                    },
-                    icon: Icon(
-                      Icons.calendar_month,
-                      size: 35,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ],
+              FieldDatePicker(
+                controller: dateOfLastPurchaseEC,
+                initialDate: dateOfPurchase,
+                labelText: widget.isEdition
+                    ? 'Última data da compra'
+                    : 'Data da compra',
+                onSelected: (date) {
+                  setState(() {
+                    dateOfPurchase = date;
+                  });
+                  dateOfLastPurchaseEC.text = UtilsService.dateFormat(date);
+                },
               ),
               TextFormField(
                 controller: supplierEC,
