@@ -6,7 +6,6 @@ import 'package:js_budget/src/pages/material/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class MaterialFormPage extends StatefulWidget {
   final MaterialModel? material;
@@ -26,13 +25,12 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   final _formKey = GlobalKey<FormState>();
   int quantityInStock = 0;
   bool isCkecked = true;
-  String month = UtilsService.monthFormat(DateTime.now());
+  DateTime dateOfPurchase = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    monthOfLastPurchaseEC.text = month;
-    print(DateTime.now().toIso8601String());
+    monthOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
     if (widget.material != null) {
       initilizeForm(widget.material!);
       quantityInStock = widget.material!.quantity;
@@ -221,8 +219,8 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                       ),
                       decoration: InputDecoration(
                         labelText: widget.isEdition
-                            ? 'Último mês da compra'
-                            : 'Mês da compra',
+                            ? 'Última data da compra'
+                            : 'Data da compra',
                         labelStyle: const TextStyle(fontFamily: 'Poppins'),
                       ),
                       style: textStyleSmallDefault,
@@ -230,17 +228,17 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                   ),
                   IconButton(
                     onPressed: () {
-                      showMonthPicker(
+                      showDatePicker(
+                        firstDate: DateTime(2020),
                         context: context,
-                        lastDate:
-                            DateTime(DateTime.now().year, DateTime.now().month),
-                        initialDate: DateTime.now(),
-                        locale: const Locale("pt", "BR"),
+                        lastDate: DateTime.now(),
+                        initialDate: dateOfPurchase,
                       ).then((date) {
                         if (date != null) {
                           setState(() {
+                            dateOfPurchase = date;
                             monthOfLastPurchaseEC.text =
-                                UtilsService.monthFormat(date);
+                                UtilsService.dateFormat(date);
                           });
                         }
                       });

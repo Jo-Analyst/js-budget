@@ -32,6 +32,6 @@ mixin MaterialFormController on State<MaterialFormPage> {
     priceMaterialEC.updateValue(material.price);
     supplierEC.text = material.supplier ?? '';
     observationEC.text = material.observation ?? '';
-    monthOfLastPurchaseEC.text = material.monthOfLastPurchase ?? '';
+    monthOfLastPurchaseEC.text = material.dateOfLastPurchase ?? '';
   }
 }

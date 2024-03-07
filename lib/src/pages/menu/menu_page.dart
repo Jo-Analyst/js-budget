@@ -41,17 +41,23 @@ class MenuPage extends StatelessWidget {
 
             // Menu de despesa
 
-            const CustomExpansionTileWidget(
+            CustomExpansionTileWidget(
               title: 'Despesas',
-              icon: Icon(Icons.money_off_sharp),
+              icon: const Icon(Icons.money_off_sharp),
               children: [
                 ListTileIcon(
                   icon: Icons.money,
                   title: 'Despesa pessoal',
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/personal-expense');
+                  },
                 ),
                 ListTileIcon(
                   title: 'Despesa da oficina',
                   icon: Icons.money_off_sharp,
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/fixed-expense');
+                  },
                 )
               ],
             ),

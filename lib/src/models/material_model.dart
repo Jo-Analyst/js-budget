@@ -12,7 +12,7 @@ class MaterialModel {
   final double price;
   final int quantity;
   final String? observation;
-  final String? monthOfLastPurchase;
+  final String? dateOfLastPurchase;
   final String? supplier;
 
   MaterialModel({
@@ -23,7 +23,7 @@ class MaterialModel {
     required this.price,
     required this.quantity,
     this.observation,
-    this.monthOfLastPurchase,
+    this.dateOfLastPurchase,
     this.supplier,
   });
 

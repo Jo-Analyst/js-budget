@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'expense_model.dart';
+part of 'personal_expense_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -8,15 +8,19 @@ part of 'expense_model.dart';
 
 ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) => ExpenseModel(
       id: json['id'] as int? ?? 0,
-      description: json['description'] as String,
+      type: json['type'] as String,
       value: json['value'] as String,
       date: json['date'] as String,
+      methodPayment: json['method_payment'] as String,
+      observation: json['observation'] as String,
     );
 
 Map<String, dynamic> _$ExpenseModelToJson(ExpenseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'description': instance.description,
+      'type': instance.type,
       'value': instance.value,
       'date': instance.date,
+      'method_payment': instance.methodPayment,
+      'observation': instance.observation,
     };

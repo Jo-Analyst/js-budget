@@ -18,7 +18,7 @@ class _FurnitureMaterialsListState extends State<FurnitureMaterialsList> {
       unit: 'Metros',
       price: 20.0,
       quantity: 30,
-      monthOfLastPurchase: 'Fevereiro de 2024',
+      dateOfLastPurchase: 'Fevereiro de 2024',
       observation:
           'Este material é extremamente durável e resistente a insetos. Ideal para a fabricação de móveis de alta qualidade. No entanto, é um pouco mais caro em comparação com outras madeiras disponíveis no mercado',
       supplier: 'Empresa XXX',

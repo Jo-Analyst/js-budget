@@ -35,7 +35,10 @@ class DataBase {
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS expenses (id INTEGER PRIMARY KEY, description TEXT NOT NULL, value REAL NOT NULL, date TEXT NOT NULL)",
+          "CREATE TABLE IF NOT EXISTS fixed_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, date TEXT NOT NULL, observation TEXT NULL)",
+        );
+        db.execute(
+          "CREATE TABLE IF NOT EXISTS personal_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)",
         );
       },
       version: 1,

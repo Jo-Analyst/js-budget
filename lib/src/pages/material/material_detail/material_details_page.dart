@@ -72,9 +72,9 @@ class MaterialDetailsPage extends StatelessWidget {
                 ),
                 InfoWidget(
                   title: 'Último mês da compra',
-                  text: material.monthOfLastPurchase ?? '',
-                  isNull: material.monthOfLastPurchase == null,
-                  isEmpty: material.monthOfLastPurchase?.isEmpty ?? false,
+                  text: material.dateOfLastPurchase ?? '',
+                  isNull: material.dateOfLastPurchase == null,
+                  isEmpty: material.dateOfLastPurchase?.isEmpty ?? false,
                 ),
                 InfoWidget(
                   title: 'Fornecedor',
