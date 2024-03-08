@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class FormDetails extends StatelessWidget {
+class ColumnTile extends StatelessWidget {
   final String title;
   final List<Widget> children;
-  const FormDetails({
-    Key? key,
+  final Color? color;
+  final Color? textColor;
+  const ColumnTile({
+    super.key,
     required this.title,
     required this.children,
-  }) : super(key: key);
+    this.color,
+    this.textColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +25,14 @@ class FormDetails extends StatelessWidget {
             vertical: 12,
             horizontal: 15,
           ),
-          color: const Color.fromARGB(255, 20, 87, 143),
+          color: color ?? const Color.fromARGB(255, 20, 87, 143),
           child: Text(
             title,
             style: TextStyle(
               fontFamily: textStyleSmallDefault.fontFamily,
               fontSize: textStyleSmallDefault.fontSize,
               fontWeight: textStyleSmallFontWeight.fontWeight,
-              color: Colors.white,
+              color: textColor ?? Colors.white,
             ),
           ),
         ),

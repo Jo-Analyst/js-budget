@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:js_budget/src/pages/client/client_form_controller.dart';
-import 'package:js_budget/src/pages/widgets/form_details.dart';
+import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -51,7 +51,7 @@ class _ClientFormPageState extends State<ClientFormPage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              FormDetails(
+              ColumnTile(
                 title: 'Dados pessoais',
                 children: [
                   TextFormField(
@@ -76,7 +76,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                 ],
               ),
               const SizedBox(height: 16),
-              FormDetails(
+              ColumnTile(
                 title: 'Contatos',
                 children: [
                   TextFormField(
@@ -121,7 +121,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                 ],
               ),
               const SizedBox(height: 20),
-              FormDetails(
+              ColumnTile(
                 title: 'Endereço',
                 children: [
                   TextFormField(
@@ -142,6 +142,20 @@ class _ClientFormPageState extends State<ClientFormPage>
                     controller: streetAddressEC,
                     onTapOutside: (_) => FocusScope.of(context).unfocus(),
                     keyboardType: TextInputType.streetAddress,
+                    decoration: InputDecoration(
+                      labelText: 'Bairro',
+                      suffixIcon: Image.asset(
+                        'assets/images/district.png',
+                        width: 25,
+                      ),
+                      labelStyle: const TextStyle(fontFamily: 'Poppins'),
+                    ),
+                    style: textStyleSmallDefault,
+                  ),
+                  TextFormField(
+                    controller: streetAddressEC,
+                    onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                    keyboardType: TextInputType.streetAddress,
                     decoration: const InputDecoration(
                       labelText: 'Logradouro',
                       suffixIcon: Icon(Icons.location_on_outlined),
@@ -156,6 +170,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
                       labelText: 'Nº',
+                      suffixIcon: Icon(Icons.numbers),
                       labelStyle: TextStyle(fontFamily: 'Poppins'),
                     ),
                     style: textStyleSmallDefault,

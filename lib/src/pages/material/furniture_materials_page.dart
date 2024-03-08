@@ -3,14 +3,14 @@ import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class FurnitureMaterialsList extends StatefulWidget {
-  const FurnitureMaterialsList({super.key});
+class FurnitureMaterials extends StatefulWidget {
+  const FurnitureMaterials({super.key});
 
   @override
-  State<FurnitureMaterialsList> createState() => _FurnitureMaterialsListState();
+  State<FurnitureMaterials> createState() => _FurnitureMaterialsState();
 }
 
-class _FurnitureMaterialsListState extends State<FurnitureMaterialsList> {
+class _FurnitureMaterialsState extends State<FurnitureMaterials> {
   final List<MaterialModel> materials = [
     MaterialModel(
       name: 'Madeira de Carvalho',

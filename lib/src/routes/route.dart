@@ -11,4 +11,5 @@ class RouterPage {
   static const materialDetail = '/material-detail';
   static const fixedExpense = '/fixed-expense';
   static const personalExpense = '/personal-expense';
+  static const profile = '/profile';
 }

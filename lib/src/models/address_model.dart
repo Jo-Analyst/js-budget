@@ -13,7 +13,7 @@ class AddressModel {
     required this.numberAddress,
     required this.city,
     required this.state,
-    required this.clientId,
+    this.clientId,
   });
 
   final int id;
@@ -23,7 +23,7 @@ class AddressModel {
   final String numberAddress;
   final String city;
   final String state;
-  final int clientId;
+  final int? clientId;
 
   factory AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);

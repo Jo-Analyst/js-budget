@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/pages/material/material_form_page.dart';
-import 'package:js_budget/src/pages/widgets/form_details.dart';
+import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/info_widget.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -45,7 +45,7 @@ class MaterialDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            FormDetails(
+            ColumnTile(
               title: 'Dados da material',
               children: [
                 InfoWidget(

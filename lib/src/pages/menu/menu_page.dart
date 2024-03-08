@@ -9,6 +9,7 @@ class MenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nav = Navigator.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Menu'),
@@ -26,14 +27,14 @@ class MenuPage extends StatelessWidget {
                   icon: Icons.person,
                   title: 'Clientes',
                   onTap: () {
-                    Navigator.of(context).pushNamed('/clients');
+                    nav.pushNamed('/clients');
                   },
                 ),
                 ListTileIcon(
                   icon: Icons.build,
                   title: 'Materiais',
                   onTap: () {
-                    Navigator.of(context).pushNamed('/material');
+                    nav.pushNamed('/material');
                   },
                 ),
               ],
@@ -49,14 +50,14 @@ class MenuPage extends StatelessWidget {
                   icon: Icons.money,
                   title: 'Despesa pessoal',
                   onTap: () {
-                    Navigator.of(context).pushNamed('/personal-expense');
+                    nav.pushNamed('/personal-expense');
                   },
                 ),
                 ListTileIcon(
                   title: 'Despesa da oficina',
                   icon: Icons.money_off_sharp,
                   onTap: () {
-                    Navigator.of(context).pushNamed('/fixed-expense');
+                    nav.pushNamed('/fixed-expense');
                   },
                 )
               ],
@@ -88,19 +89,22 @@ class MenuPage extends StatelessWidget {
 
             // Outras opções
 
-            const CustomExpansionTileWidget(
-              icon: Icon(Icons.more_vert),
+            CustomExpansionTileWidget(
+              icon: const Icon(Icons.more_vert),
               title: 'Outras opções',
               children: [
                 ListTileIcon(
                   icon: Icons.account_circle,
                   title: 'Perfil',
+                  onTap: () {
+                    nav.pushNamed('/profile');
+                  },
                 ),
-                ListTileIcon(
+                const ListTileIcon(
                   icon: Icons.backup_table_rounded,
                   title: 'Backup',
                 ),
-                ListTileIcon(
+                const ListTileIcon(
                   icon: Icons.info_outline_rounded,
                   title: 'Sobre',
                 ),

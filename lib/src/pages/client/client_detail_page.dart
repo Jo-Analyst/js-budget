@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
-import 'package:js_budget/src/pages/widgets/form_details.dart';
+import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/info_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
@@ -54,7 +54,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const FormDetails(
+                  const ColumnTile(
                     title: 'Dados do cliente',
                     children: [
                       InfoWidget(
@@ -67,7 +67,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
 
                   // contatos
                   if (contacts != null)
-                    FormDetails(
+                    ColumnTile(
                       title: 'Contatos',
                       children: [
                         InfoWidget(
@@ -92,7 +92,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
 
                   // Endereço
                   if (address != null)
-                    FormDetails(
+                    ColumnTile(
                       title: 'Endereço',
                       children: [
                         InfoWidget(
