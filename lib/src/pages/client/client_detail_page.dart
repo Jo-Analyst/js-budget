@@ -1,38 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/models/contact_model.dart';
+import 'package:js_budget/src/pages/client/client_form_page.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class ClientDetailPage extends StatefulWidget {
+class ClientDetailPage extends StatelessWidget {
   const ClientDetailPage({super.key});
 
   @override
-  State<ClientDetailPage> createState() => _ClientDetailPageState();
-}
-
-class _ClientDetailPageState extends State<ClientDetailPage> {
-  final client = ClientModel(
-    name: 'Joelmir Rogério Carvalho',
-    contact: ContactModel(
-      telePhone: '(00) 0000-0000',
-      cellPhone: '(99) 9 9999-9999',
-      email: 'Joelmir@gmail.com',
-    ),
-    address: AddressModel(
-      district: 'Centro',
-      streetAddress: "Rua tal",
-      numberAddress: '124',
-      city: 'Felício dos Santos',
-      state: 'MG',
-      clientId: 0,
-    ),
-  );
-
-  @override
   Widget build(BuildContext context) {
+    final client = ModalRoute.of(context)!.settings.arguments as ClientModel;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do cliente'),
@@ -40,7 +18,11 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
           IconButton(
             tooltip: 'Editar',
             onPressed: () {
-              Navigator.of(context).pushNamed('/client-form');
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => ClientFormPage(client: client),
+                ),
+              );
             },
             icon: const Icon(
               Icons.edit,
@@ -75,12 +57,15 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                         children: [
                           CustomListTileIcon(
                             title: client.name,
-                            leading: const Icon(Icons.person, size: 25),
+                            leading: const Icon(
+                              Icons.person,
+                              size: 25,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
 
                     // contatos
                     if (client.contact != null)
@@ -113,7 +98,7 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
                           ],
                         ),
                       ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
 
                     // Endereço
                     if (client.address != null)
@@ -164,9 +149,11 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
             height: 88,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  shape: BeveledRectangleBorder(
-                      borderRadius: BorderRadius.circular(5))),
+                backgroundColor: Theme.of(context).primaryColor,
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
               onPressed: () {},
               icon: const Icon(
                 Icons.assignment,

@@ -66,6 +66,7 @@ class FixedExpenseDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: 5),
               Card(
                 child: ColumnTile(
                   color: Colors.transparent,
@@ -73,21 +74,15 @@ class FixedExpenseDetailPage extends StatelessWidget {
                   title: '+ detalhes',
                   children: [
                     CustomListTileIcon(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 15),
                       title: UtilsService.moneyToCurrency(expense.value),
                       titleFontFamily: 'Anta',
                       leading: const Icon(Icons.attach_money),
                     ),
                     CustomListTileIcon(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 15),
                       title: expense.methodPayment,
                       leading: Icon(iconMethodPayment(expense.methodPayment)),
                     ),
                     CustomListTileIcon(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 15),
                       title: expense.date,
                       leading: const Icon(Icons.calendar_month),
                     ),
@@ -95,8 +90,6 @@ class FixedExpenseDetailPage extends StatelessWidget {
                       Visibility(
                         visible: expense.observation!.isNotEmpty,
                         child: CustomListTileIcon(
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 15),
                           title: expense.observation!,
                           leading: const Icon(Icons.note_alt_outlined),
                         ),

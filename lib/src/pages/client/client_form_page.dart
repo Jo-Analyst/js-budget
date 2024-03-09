@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/pages/client/client_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -8,10 +9,10 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
 
 class ClientFormPage extends StatefulWidget {
-  final bool isEdit;
+  final ClientModel? client;
   const ClientFormPage({
     super.key,
-    this.isEdit = false,
+    this.client,
   });
 
   @override
@@ -23,6 +24,14 @@ class _ClientFormPageState extends State<ClientFormPage>
   final formKey = GlobalKey<FormState>();
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.client != null) {
+      initializeForm(widget.client!);
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     disposeForm();
@@ -32,7 +41,7 @@ class _ClientFormPageState extends State<ClientFormPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.isEdit ? 'Editar cliente' : 'Novo cliente'),
+        title: Text(widget.client != null ? 'Editar cliente' : 'Novo cliente'),
         actions: [
           IconButton(
             onPressed: () {
@@ -55,33 +64,28 @@ class _ClientFormPageState extends State<ClientFormPage>
               children: [
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: ColumnTile(
-                      color: Colors.transparent,
-                      textColor: Colors.black,
-                      title: 'Dados pessoais',
-                      children: [
-                        TextFormField(
-                          controller: nameEC,
-                          autofocus: true,
-                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          keyboardType: TextInputType.name,
-                          textCapitalization: TextCapitalization.words,
-                          decoration: const InputDecoration(
-                            labelText: 'Nome*',
-                            suffixIcon: Icon(Icons.person),
-                            labelStyle: TextStyle(fontFamily: 'Poppins'),
-                          ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                              RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
-                            ),
-                          ],
-                          style: textStyleSmallDefault,
-                          validator: Validatorless.required(
-                              'Nome do cliente obrigátório'),
-                        )
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                    child: TextFormField(
+                      controller: nameEC,
+                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                      keyboardType: TextInputType.name,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: const InputDecoration(
+                        labelText: 'Nome*',
+                        suffixIcon: Icon(Icons.person),
+                        labelStyle: TextStyle(fontFamily: 'Poppins'),
+                      ),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
+                        ),
                       ],
+                      style: textStyleSmallDefault,
+                      validator:
+                          Validatorless.required('Nome do cliente obrigátório'),
                     ),
                   ),
                 ),
@@ -161,7 +165,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                           style: textStyleSmallDefault,
                         ),
                         TextFormField(
-                          controller: streetAddressEC,
+                          controller: districtEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           keyboardType: TextInputType.streetAddress,
                           decoration: InputDecoration(

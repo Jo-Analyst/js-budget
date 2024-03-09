@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/pages/material/material_form_page.dart';
-import 'package:js_budget/src/pages/widgets/info_widget.dart';
+import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class MaterialDetailsPage extends StatelessWidget {
@@ -46,47 +47,72 @@ class MaterialDetailsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              InfoWidget(
-                title: 'Material',
-                text: material.name,
+              Card(
+                child: CustomListTileIcon(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  leading: Image.asset(
+                    'assets/images/materia-prima.png',
+                    width: 20,
+                  ),
+                  title: material.name,
+                  subtitle: material.type,
+                ),
               ),
-              InfoWidget(
-                title: 'Tipo de material',
-                text: material.type ?? '',
-                isNull: material.type == null,
-                isEmpty: material.type?.isEmpty ?? false,
+              const SizedBox(height: 5),
+              Card(
+                child: ColumnTile(
+                  color: Colors.transparent,
+                  textColor: Colors.black,
+                  title: '+ detalhes',
+                  children: [
+                    CustomListTileIcon(
+                      title: material.unit,
+                      leading: const Icon(
+                        Icons.square_foot_sharp,
+                        size: 28,
+                      ),
+                    ),
+                    CustomListTileIcon(
+                      title: '${material.quantity.toString()}/unidade',
+                      leading: const Icon(
+                        Icons.format_list_numbered,
+                        size: 28,
+                      ),
+                    ),
+                    CustomListTileIcon(
+                      title:
+                          '${UtilsService.moneyToCurrency(material.price)}/unidade',
+                      leading: const Icon(Icons.price_change),
+                    ),
+                    if (material.dateOfLastPurchase != null)
+                      Visibility(
+                        visible: material.dateOfLastPurchase!.isNotEmpty,
+                        child: CustomListTileIcon(
+                          title: material.dateOfLastPurchase!,
+                          leading: const Icon(Icons.calendar_month),
+                        ),
+                      ),
+                    if (material.supplier != null)
+                      Visibility(
+                        visible: material.supplier!.isNotEmpty,
+                        child: CustomListTileIcon(
+                          title: material.supplier!,
+                          leading: const Icon(Icons.local_shipping_outlined),
+                        ),
+                      ),
+                    if (material.observation != null)
+                      Visibility(
+                        visible: material.observation!.isNotEmpty,
+                        child: CustomListTileIcon(
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 15),
+                          title: material.observation!,
+                          leading: const Icon(Icons.note_alt_outlined),
+                        ),
+                      ),
+                  ],
+                ),
               ),
-              InfoWidget(
-                title: 'Unidade de medida',
-                text: material.unit,
-              ),
-              InfoWidget(
-                title: 'Quantidade em estoque',
-                text: material.quantity.toString(),
-              ),
-              InfoWidget(
-                title: 'Preço por unidade',
-                text: UtilsService.moneyToCurrency(material.price),
-              ),
-              InfoWidget(
-                title: 'Último mês da compra',
-                text: material.dateOfLastPurchase ?? '',
-                isNull: material.dateOfLastPurchase == null,
-                isEmpty: material.dateOfLastPurchase?.isEmpty ?? false,
-              ),
-              InfoWidget(
-                title: 'Fornecedor',
-                text: material.supplier ?? '',
-                isNull: material.supplier == null,
-                isEmpty: material.supplier?.isEmpty ?? false,
-              ),
-              InfoWidget(
-                title: 'Observação',
-                text: material.observation ?? '',
-                isNull: material.observation == null,
-                isEmpty: material.observation?.isEmpty ?? false,
-              ),
-              const SizedBox(height: 10),
             ],
           ),
         ),

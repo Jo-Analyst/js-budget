@@ -1,70 +1,5 @@
-// import 'package:flutter/material.dart';
-// import 'package:js_budget/src/models/client_model.dart';
-
-// class ClientPage extends StatefulWidget {
-//   const ClientPage({super.key});
-
-//   @override
-//   State<ClientPage> createState() => _ClientPageState();
-// }
-
-// class _ClientPageState extends State<ClientPage> {
-//   final List<ClientModel> clients = [
-//     ClientModel(
-//       name: 'João',
-//       cellPhone: '123456789',
-//
-//     ),
-//     ClientModel(
-//       name: 'Maria',
-//       cellPhone: '987654321',
-//
-//     ),
-//     // Adicione mais clientes aqui
-//   ];
-
-//   String search = '';
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Clientes'),
-//       ),
-//       body: Column(
-//         children: <Widget>[
-//           Padding(
-//             padding: const EdgeInsets.all(8.0),
-//             child: TextFormField(
-//               onChanged: (value) {
-//                 setState(() {
-//                   search = value;
-//                 });
-//               },
-//               decoration: const InputDecoration(
-//                 labelText: 'Buscar cliente',
-//               ),
-//             ),
-//           ),
-//           Expanded(
-//             child: ListView(
-//               children: clients
-//                   .where((client) =>
-//                       client.name.toLowerCase().contains(search.toLowerCase()))
-//                   .map((client) => ListTile(
-//                         title: Text(client.name),
-//                         subtitle: Text(client.cellPhone ?? ''),
-//                       ))
-//                   .toList(),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -88,29 +23,32 @@ class _ClientPageState extends State<ClientPage> {
     ),
     ClientModel(
       name: 'Joelmir Rogério Carvalho',
-      contact: ContactModel(cellPhone: '(99) 9999-9999'),
+      contact: ContactModel(
+        cellPhone: '(99) 9 9999-9999',
+        email: "joelmircarvalho@gmail.com",
+      ),
+      address: AddressModel(
+        district: 'Misericódia Infinita',
+        streetAddress: 'Rua Casa de Deus',
+        numberAddress: '3',
+        city: 'Paraíso',
+        state: 'Céu',
+      ),
     ),
     ClientModel(
       name: 'Valdirene Aparecida Ferreira',
-      contact: ContactModel(cellPhone: '(99) 9999-9999'),
+      contact: ContactModel(
+        cellPhone: '(00) 0 0000-0000',
+        email: "valdireneferreira@outlook.com",
+      ),
+      address: AddressModel(
+        district: 'Misericódia Infinita',
+        streetAddress: 'Rua Casa de Deus',
+        numberAddress: '3',
+        city: 'Paraíso',
+        state: 'Céu',
+      ),
     ),
-    ClientModel(
-      name: 'Joelmir Rogério Carvalho',
-      contact: ContactModel(cellPhone: '(99) 9999-9999'),
-    ),
-    ClientModel(
-      name: 'Valdirene Aparecida Ferreira',
-      contact: ContactModel(cellPhone: '(99) 9999-9999'),
-    ),
-    ClientModel(
-      name: 'Joelmir Rogério Carvalho',
-      contact: ContactModel(cellPhone: '(99) 9999-9999'),
-    ),
-    ClientModel(
-      name: 'Valdirene Aparecida Ferreira',
-      contact: ContactModel(cellPhone: '(99) 9999-9999'),
-    ),
-    // Adicione mais clientes aqui
   ];
 
   String search = '';
@@ -192,7 +130,10 @@ class _ClientPageState extends State<ClientPage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/client-form');
+                              Navigator.pushNamed(
+                                context,
+                                '/client-form',
+                              );
                             },
                             icon: const Icon(
                               Icons.add,
@@ -214,8 +155,10 @@ class _ClientPageState extends State<ClientPage> {
                                 ListTile(
                                   splashColor: Colors.transparent,
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/client-detail');
+                                    Navigator.of(context).pushNamed(
+                                      '/client-detail',
+                                      arguments: client,
+                                    );
                                   },
                                   leading: const Icon(Icons.person),
                                   title: Text(

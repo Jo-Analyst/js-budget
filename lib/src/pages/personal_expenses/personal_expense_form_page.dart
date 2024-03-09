@@ -50,7 +50,11 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nova despesa pessoal'),
+        title: Text(
+          widget.personalExpense == null
+              ? 'Nova despesa pessoal'
+              : "Editar despesa pessoal",
+        ),
         actions: [
           IconButton(
               onPressed: () {
@@ -61,85 +65,106 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsets.all(8),
           child: Form(
             key: formKey,
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  controller: typeOfExpenseEC,
-                  decoration: const InputDecoration(
-                    labelText: 'Tipo da Despesa*',
-                    labelStyle: TextStyle(fontFamily: 'Poppins'),
-                    suffix: Icon(Icons.paid),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                    child: TextFormField(
+                      controller: typeOfExpenseEC,
+                      decoration: const InputDecoration(
+                        labelText: 'Tipo da Despesa*',
+                        labelStyle: TextStyle(fontFamily: 'Poppins'),
+                        suffixIcon: Icon(Icons.paid),
+                      ),
+                      style: textStyleSmallDefault,
+                      keyboardType: TextInputType.text,
+                      validator:
+                          Validatorless.required('Tipo de despesa obrigatório'),
+                    ),
                   ),
-                  style: textStyleSmallDefault,
-                  keyboardType: TextInputType.text,
-                  validator:
-                      Validatorless.required('Tipo de despesa obrigatório'),
                 ),
-                TextFormField(
-                  controller: expenseValueEC,
-                  decoration: const InputDecoration(
-                    labelText: 'Valor da Despesa*',
-                    labelStyle: TextStyle(fontFamily: 'Poppins'),
-                    suffix: Icon(Icons.attach_money),
+                const SizedBox(height: 5),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: expenseValueEC,
+                          decoration: const InputDecoration(
+                            labelText: 'Valor da Despesa*',
+                            labelStyle: TextStyle(fontFamily: 'Poppins'),
+                            suffixIcon: Icon(Icons.attach_money),
+                          ),
+                          style: textStyleSmallDefault,
+                          keyboardType: TextInputType.number,
+                          validator: (value) {
+                            if (expenseValue == "R\$ 0,00") {
+                              return 'Valor da despesa obrigatório';
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            expenseValue = value;
+                          },
+                        ),
+                        DropdownButtonFormField<String>(
+                          value: methodPayment,
+                          decoration: InputDecoration(
+                            labelText: 'Método de pagamento',
+                            suffixIcon: Icon(iconMethodPayment(methodPayment)),
+                          ),
+                          items: <String>[
+                            'Dinheiro',
+                            'Pix',
+                            'Cartão de crédito',
+                            'Cartão de débito',
+                          ].map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              methodPayment = value!;
+                            });
+                          },
+                        ),
+                        FieldDatePicker(
+                          controller: expenseDateEC,
+                          initialDate: expenseDate,
+                          labelText: 'Data da despesa',
+                          onSelected: (date) {
+                            setState(() {
+                              expenseDate = date;
+                            });
+                            expenseDateEC.text = UtilsService.dateFormat(date);
+                          },
+                        ),
+                        TextFormField(
+                          controller: observationEC,
+                          decoration: const InputDecoration(
+                            labelText: 'Notas/Observações',
+                            labelStyle: TextStyle(fontFamily: 'Poppins'),
+                            suffixIcon: Icon(Icons.note_alt_outlined),
+                          ),
+                          style: textStyleSmallDefault,
+                          maxLines: 5,
+                        ),
+                      ],
+                    ),
                   ),
-                  style: textStyleSmallDefault,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (expenseValue == "R\$ 0,00") {
-                      return 'Valor da despesa obrigatório';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    expenseValue = value;
-                  },
-                ),
-                DropdownButtonFormField<String>(
-                  value: methodPayment,
-                  decoration: InputDecoration(
-                    labelText: 'Método de pagamento',
-                    suffix: Icon(iconMethodPayment(methodPayment)),
-                  ),
-                  items: <String>[
-                    'Dinheiro',
-                    'Pix',
-                    'Cartão de crédito',
-                    'Cartão de débito',
-                  ].map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      methodPayment = value!;
-                    });
-                  },
-                ),
-                FieldDatePicker(
-                  controller: expenseDateEC,
-                  initialDate: expenseDate,
-                  labelText: 'Data da despesa',
-                  onSelected: (date) {
-                    setState(() {
-                      expenseDate = date;
-                    });
-                    expenseDateEC.text = UtilsService.dateFormat(date);
-                  },
-                ),
-                TextFormField(
-                  controller: observationEC,
-                  decoration: const InputDecoration(
-                    labelText: 'Notas/Observações',
-                    labelStyle: TextStyle(fontFamily: 'Poppins'),
-                    suffix: Icon(Icons.note_alt_outlined),
-                  ),
-                  style: textStyleSmallDefault,
-                  maxLines: 5,
                 ),
               ],
             ),
