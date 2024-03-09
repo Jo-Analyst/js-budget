@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class ListTileProfile extends StatelessWidget {
+class CustomListTileIcon extends StatelessWidget {
   final String title;
+  final String? titleFontFamily;
   final String? subtitle;
   final Widget? leading;
   final EdgeInsetsGeometry? contentPadding;
-  const ListTileProfile({
+  const CustomListTileIcon({
     super.key,
     required this.title,
+    this.titleFontFamily,
     this.subtitle,
     this.leading,
     this.contentPadding,
@@ -21,7 +23,11 @@ class ListTileProfile extends StatelessWidget {
       leading: leading,
       title: Text(
         title,
-        style: textStyleSmallDefault,
+        textAlign: TextAlign.justify,
+        style: TextStyle(
+          fontSize: textStyleSmallDefault.fontSize,
+          fontFamily: titleFontFamily ?? textStyleSmallDefault.fontFamily,
+        ),
       ),
       subtitle: subtitle != null
           ? Text(

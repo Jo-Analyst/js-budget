@@ -87,7 +87,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                 controller: nameEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 decoration: const InputDecoration(
-                  labelText: 'Nome do Material',
+                  labelText: 'Nome do Material*',
                   labelStyle: TextStyle(fontFamily: 'Poppins'),
                 ),
                 style: textStyleSmallDefault,
@@ -115,7 +115,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       readOnly: widget.isEdition,
                       decoration: const InputDecoration(
-                        labelText: 'Quantidade em Estoque',
+                        labelText: 'Quantidade em Estoque*',
                         labelStyle: TextStyle(fontFamily: 'Poppins'),
                       ),
                       style: textStyleSmallDefault,
@@ -189,7 +189,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                 controller: unitMaterialEC,
                 onTapOutside: (_) => FocusScope.of(context).unfocus(),
                 decoration: const InputDecoration(
-                  labelText: 'Unidade de Medida',
+                  labelText: 'Unidade de Medida*',
                   labelStyle: TextStyle(fontFamily: 'Poppins'),
                 ),
                 style: textStyleSmallDefault,

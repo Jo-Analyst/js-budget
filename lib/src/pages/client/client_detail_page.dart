@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/address_model.dart';
+import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
-import 'package:js_budget/src/pages/widgets/info_widget.dart';
+import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class ClientDetailPage extends StatefulWidget {
@@ -13,15 +14,22 @@ class ClientDetailPage extends StatefulWidget {
 }
 
 class _ClientDetailPageState extends State<ClientDetailPage> {
-  ContactModel? contacts =
-      ContactModel(cellPhone: '(99) 9 999-9999', email: 'Joelmir@gmail.com');
-  AddressModel? address = AddressModel(
+  final client = ClientModel(
+    name: 'Joelmir Rogério Carvalho',
+    contact: ContactModel(
+      telePhone: '(00) 0000-0000',
+      cellPhone: '(99) 9 9999-9999',
+      email: 'Joelmir@gmail.com',
+    ),
+    address: AddressModel(
       district: 'Centro',
       streetAddress: "Rua tal",
-      numberAddress: '',
+      numberAddress: '124',
       city: 'Felício dos Santos',
       state: 'MG',
-      clientId: 0);
+      clientId: 0,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -51,78 +59,98 @@ class _ClientDetailPageState extends State<ClientDetailPage> {
         children: [
           Expanded(
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const ColumnTile(
-                    title: 'Dados do cliente',
-                    children: [
-                      InfoWidget(
-                        title: 'Nome',
-                        text: 'Joelmir Rogério Carvalho',
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 15,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Card(
+                      child: ColumnTile(
+                        color: Colors.transparent,
+                        textColor: Colors.black,
+                        title: 'Dados do cliente',
+                        children: [
+                          CustomListTileIcon(
+                            title: client.name,
+                            leading: const Icon(Icons.person, size: 25),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-
-                  // contatos
-                  if (contacts != null)
-                    ColumnTile(
-                      title: 'Contatos',
-                      children: [
-                        InfoWidget(
-                          title: 'Telefone',
-                          text: contacts!.telePhone ?? '',
-                          isNull: contacts!.telePhone == null,
-                          isEmpty: contacts!.telePhone?.isEmpty ?? false,
-                        ),
-                        InfoWidget(
-                          title: 'Celular',
-                          text: contacts!.cellPhone,
-                        ),
-                        InfoWidget(
-                          title: 'Email',
-                          text: contacts!.email ?? '',
-                          isNull: contacts!.email == null,
-                          isEmpty: contacts!.email?.isEmpty ?? false,
-                        ),
-                      ],
                     ),
-                  const SizedBox(height: 10),
+                    const SizedBox(height: 10),
 
-                  // Endereço
-                  if (address != null)
-                    ColumnTile(
-                      title: 'Endereço',
-                      children: [
-                        InfoWidget(
-                          title: 'Bairro',
-                          text: address!.district,
-                          isNull: address!.district.isEmpty,
+                    // contatos
+                    if (client.contact != null)
+                      Card(
+                        child: ColumnTile(
+                          color: Colors.transparent,
+                          textColor: Colors.black,
+                          title: 'Contatos',
+                          children: [
+                            if (client.contact!.telePhone != null)
+                              Visibility(
+                                visible: client.contact!.telePhone!.isNotEmpty,
+                                child: CustomListTileIcon(
+                                  title: client.contact!.telePhone!,
+                                  leading: const Icon(Icons.phone),
+                                ),
+                              ),
+                            CustomListTileIcon(
+                              title: client.contact!.cellPhone,
+                              leading: const Icon(Icons.phone_android),
+                            ),
+                            if (client.contact!.email != null)
+                              Visibility(
+                                visible: client.contact!.email!.isNotEmpty,
+                                child: CustomListTileIcon(
+                                  title: client.contact!.email!,
+                                  leading: const Icon(Icons.mail_outline),
+                                ),
+                              ),
+                          ],
                         ),
-                        InfoWidget(
-                          title: 'Rua',
-                          text: address!.streetAddress,
-                          isNull: address!.streetAddress.isEmpty,
+                      ),
+                    const SizedBox(height: 10),
+
+                    // Endereço
+                    if (client.address != null)
+                      Card(
+                        child: ColumnTile(
+                          title: 'Endereço',
+                          color: Colors.transparent,
+                          textColor: Colors.black,
+                          children: [
+                            CustomListTileIcon(
+                              title: client.address!.district,
+                              leading:
+                                  const Icon(Icons.maps_home_work_outlined),
+                            ),
+                            CustomListTileIcon(
+                              leading: const Icon(
+                                Icons.location_on_outlined,
+                              ),
+                              title: client.address!.streetAddress,
+                            ),
+                            CustomListTileIcon(
+                              title: client.address!.numberAddress,
+                              leading: const Icon(Icons.numbers),
+                            ),
+                            CustomListTileIcon(
+                              title: client.address!.city,
+                              leading: const Icon(Icons.location_city_rounded),
+                            ),
+                            CustomListTileIcon(
+                              title: client.address!.state,
+                              leading: const Icon(Icons.business),
+                            ),
+                          ],
                         ),
-                        InfoWidget(
-                          title: 'Número',
-                          text: address!.numberAddress,
-                          isNull: address!.numberAddress.isEmpty,
-                        ),
-                        InfoWidget(
-                          title: 'Cidade',
-                          text: address!.city,
-                          isNull: address!.city.isEmpty,
-                        ),
-                        InfoWidget(
-                          title: 'Estado',
-                          text: address!.state,
-                          isNull: address!.state.isEmpty,
-                        ),
-                      ],
-                    ),
-                ],
+                      ),
+                  ],
+                ),
               ),
             ),
           ),

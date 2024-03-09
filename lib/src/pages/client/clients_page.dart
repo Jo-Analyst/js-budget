@@ -69,14 +69,14 @@ import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class ClientListPage extends StatefulWidget {
-  const ClientListPage({super.key});
+class ClientPage extends StatefulWidget {
+  const ClientPage({super.key});
 
   @override
-  State<ClientListPage> createState() => _ClientListPageState();
+  State<ClientPage> createState() => _ClientPageState();
 }
 
-class _ClientListPageState extends State<ClientListPage> {
+class _ClientPageState extends State<ClientPage> {
   final List<ClientModel> clients = [
     ClientModel(
       name: 'João',

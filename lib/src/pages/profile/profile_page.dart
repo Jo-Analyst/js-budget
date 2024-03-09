@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/models/profile_model.dart';
-import 'package:js_budget/src/pages/profile/widgets/list_tile_profile.dart';
+import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -36,7 +36,7 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             children: [
               Card(
-                child: ListTileProfile(
+                child: CustomListTileIcon(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                   leading: const Icon(Icons.store, size: 35),
                   title: profile.corporateReason,
@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.transparent,
                   textColor: Colors.black,
                   children: [
-                    ListTileProfile(
+                    CustomListTileIcon(
                       leading: const Icon(
                         Icons.phone_android,
                       ),
@@ -58,7 +58,7 @@ class ProfilePage extends StatelessWidget {
                     if (profile.contact.email != null)
                       Visibility(
                         visible: profile.contact.email!.isNotEmpty,
-                        child: ListTileProfile(
+                        child: CustomListTileIcon(
                           title: profile.contact.email!,
                           leading: const Icon(Icons.mail_outlined),
                         ),
@@ -72,25 +72,25 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.transparent,
                   textColor: Colors.black,
                   children: [
-                    ListTileProfile(
+                    CustomListTileIcon(
                       title: profile.address.district,
                       leading: const Icon(Icons.maps_home_work_outlined),
                     ),
-                    ListTileProfile(
+                    CustomListTileIcon(
                       leading: const Icon(
                         Icons.location_on_outlined,
                       ),
                       title: profile.address.streetAddress,
                     ),
-                    ListTileProfile(
+                    CustomListTileIcon(
                       title: profile.address.numberAddress,
                       leading: const Icon(Icons.numbers),
                     ),
-                    ListTileProfile(
+                    CustomListTileIcon(
                       title: profile.address.city,
                       leading: const Icon(Icons.location_city_rounded),
                     ),
-                    ListTileProfile(
+                    CustomListTileIcon(
                       title: profile.address.state,
                       leading: const Icon(Icons.business),
                     ),

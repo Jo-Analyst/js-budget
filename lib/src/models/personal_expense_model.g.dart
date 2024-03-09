@@ -6,16 +6,19 @@ part of 'personal_expense_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) => ExpenseModel(
+PersonalExpenseModel _$PersonalExpenseModelFromJson(
+        Map<String, dynamic> json) =>
+    PersonalExpenseModel(
       id: json['id'] as int? ?? 0,
       type: json['type'] as String,
-      value: json['value'] as String,
+      value: (json['value'] as num).toDouble(),
       date: json['date'] as String,
       methodPayment: json['method_payment'] as String,
-      observation: json['observation'] as String,
+      observation: json['observation'] as String?,
     );
 
-Map<String, dynamic> _$ExpenseModelToJson(ExpenseModel instance) =>
+Map<String, dynamic> _$PersonalExpenseModelToJson(
+        PersonalExpenseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

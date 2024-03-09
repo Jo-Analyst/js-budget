@@ -4,22 +4,24 @@ import 'package:json_annotation/json_annotation.dart';
 part 'fixed_expense_model.g.dart';
 
 @JsonSerializable()
-class ExpenseModel {
+class FixedExpenseModel {
   final int id;
   final String type;
-  final String value;
+  final double value;
   final String date;
-  final String observation;
-  ExpenseModel({
+  final String methodPayment;
+  final String? observation;
+  FixedExpenseModel({
     this.id = 0,
     required this.type,
     required this.value,
     required this.date,
-    required this.observation,
+    required this.methodPayment,
+    this.observation,
   });
 
-  factory ExpenseModel.fromJson(Map<String, dynamic> json) =>
-      _$ExpenseModelFromJson(json);
+  factory FixedExpenseModel.fromJson(Map<String, dynamic> json) =>
+      _$FixedExpenseModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExpenseModelToJson(this);
+  Map<String, dynamic> toJson() => _$FixedExpenseModelToJson(this);
 }
