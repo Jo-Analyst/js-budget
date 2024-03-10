@@ -4,6 +4,7 @@ import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/pages/client/client_detail_page.dart';
 import 'package:js_budget/src/pages/client/client_form_page.dart';
 import 'package:js_budget/src/pages/client/clients_page.dart';
+import 'package:js_budget/src/pages/client/contact_phone_page.dart';
 import 'package:js_budget/src/pages/fixed_expenses/fixed_expense_detail_page.dart';
 import 'package:js_budget/src/pages/fixed_expenses/fixed_expense_form_page.dart';
 import 'package:js_budget/src/pages/home/budget_details/budget_details_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         RouterPage.clients: (_) => const ClientPage(),
         RouterPage.clientForm: (_) => const ClientFormPage(),
         RouterPage.clientDetail: (_) => const ClientDetailPage(),
+        RouterPage.clientContactPhone: (_) => const ContactPhonePage(),
         RouterPage.material: (_) => const FurnitureMaterials(),
         RouterPage.materialForm: (_) => const MaterialFormPage(),
         RouterPage.materialDetail: (_) => const MaterialDetailsPage(),

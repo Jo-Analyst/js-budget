@@ -3,6 +3,7 @@ import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/permission_use_app.dart';
 
 class ClientPage extends StatefulWidget {
   const ClientPage({super.key});
@@ -59,6 +60,7 @@ class _ClientPageState extends State<ClientPage> {
         .where((client) =>
             client.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
+    var nav = Navigator.of(context);
 
     var theme = Theme.of(context);
 
@@ -67,7 +69,11 @@ class _ClientPageState extends State<ClientPage> {
         title: const Text('Clientes'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              if (!await isContactsPermissionGranted()) return;
+
+              nav.pushNamed('/client-contact-phone');
+            },
             tooltip: 'Importar contatos',
             icon: const Icon(
               Icons.contacts,
@@ -76,7 +82,7 @@ class _ClientPageState extends State<ClientPage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/client-form');
+              nav.pushNamed('/client-form');
             },
             tooltip: "Novo Cliente",
             icon: const Icon(
@@ -155,7 +161,7 @@ class _ClientPageState extends State<ClientPage> {
                                 ListTile(
                                   splashColor: Colors.transparent,
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
+                                    nav.pushNamed(
                                       '/client-detail',
                                       arguments: client,
                                     );
