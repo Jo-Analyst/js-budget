@@ -50,6 +50,7 @@ dependencies:
   month_picker_dialog: ^2.11.0
   contacts_service: ^0.6.3
   loading_animation_widget: ^1.2.1
+  signals_flutter: ^4.5.1
 
 dev_dependencies:
   flutter_test:

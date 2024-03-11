@@ -110,6 +110,12 @@ class _ClientFormPageState extends State<ClientFormPage>
                           inputFormatters: [
                             MaskTextInputFormatter(mask: '(##) # ####-####'),
                           ],
+                          validator: (value) {
+                            if (value!.isNotEmpty && value.length < 16) {
+                              return 'Número de celular incompleto';
+                            }
+                            return null;
+                          },
                           style: textStyleSmallDefault,
                         ),
                         TextFormField(
@@ -124,6 +130,12 @@ class _ClientFormPageState extends State<ClientFormPage>
                           inputFormatters: [
                             MaskTextInputFormatter(mask: '(##) ####-####'),
                           ],
+                          validator: (value) {
+                            if (value!.isNotEmpty && value.length < 14) {
+                              return 'Número de telefone incompleto';
+                            }
+                            return null;
+                          },
                           style: textStyleSmallDefault,
                         ),
                         TextFormField(
@@ -135,6 +147,9 @@ class _ClientFormPageState extends State<ClientFormPage>
                             suffixIcon: Icon(Icons.mail_outline),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
+                          validator: mailEC.text.trim().isNotEmpty
+                              ? Validatorless.email('Email inválido')
+                              : null,
                           style: textStyleSmallDefault,
                         ),
                       ],
