@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/pages/client/client_form_page.dart';
 
 mixin ClientFormController on State<ClientFormPage> {
@@ -38,5 +40,34 @@ mixin ClientFormController on State<ClientFormPage> {
     numberAddressEC.text = client.address?.numberAddress ?? '';
     cityEC.text = client.address?.city ?? '';
     stateEC.text = client.address?.state ?? '';
+  }
+
+  ClientModel saveClient() {
+    return ClientModel(
+      name: nameEC.text,
+      contact: cellPhoneEC.text.isNotEmpty ||
+              mailEC.text.isNotEmpty ||
+              telePhoneEC.text.isNotEmpty
+          ? ContactModel(
+              cellPhone: cellPhoneEC.text,
+              email: mailEC.text,
+              telePhone: telePhoneEC.text,
+            )
+          : null,
+      address: districtEC.text.isNotEmpty ||
+              streetAddressEC.text.isNotEmpty ||
+              numberAddressEC.text.isNotEmpty ||
+              cityEC.text.isNotEmpty ||
+              stateEC.text.isNotEmpty
+          ? AddressModel(
+              cep: cepEC.text,
+              district: districtEC.text,
+              streetAddress: streetAddressEC.text,
+              numberAddress: numberAddressEC.text,
+              city: cityEC.text,
+              state: stateEC.text,
+            )
+          : null,
+    );
   }
 }

@@ -51,6 +51,7 @@ dependencies:
   contacts_service: ^0.6.3
   loading_animation_widget: ^1.2.1
   signals_flutter: ^4.5.1
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:
