@@ -4,8 +4,10 @@ import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/repositories/client/client_repository_impl.dart';
 
 class ClientController with Messages {
+  final ClientRepositoryImpl _clientRepository = ClientRepositoryImpl();
+
   void save(ClientModel client) async {
-    final result = await ClientRepositoryImpl().save(client);
+    final result = await _clientRepository.save(client);
 
     switch (result) {
       case Right():

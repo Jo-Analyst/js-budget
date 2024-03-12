@@ -1,40 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:js_budget/src/helpers/show_toast.dart';
 
 mixin class Messages {
   void showError(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: Colors.red,
-      textColor: Colors.black,
-      fontSize: 16.0,
-    );
+    showToast(message, Colors.red);
   }
 
   void showInfo(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: Colors.blue,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
+    showToast(message, const Color.fromARGB(255, 20, 87, 143));
   }
 
   void showSuccess(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
+    showToast(message, const Color.fromARGB(255, 47, 109, 49));
   }
 }

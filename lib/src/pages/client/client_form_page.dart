@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:js_budget/src/config/db/database.dart';
+import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/pages/client/client_controller.dart';
 import 'package:js_budget/src/pages/client/client_form_controller.dart';
@@ -22,7 +22,7 @@ class ClientFormPage extends StatefulWidget {
 }
 
 class _ClientFormPageState extends State<ClientFormPage>
-    with ClientFormController {
+    with ClientFormController, Messages {
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -49,10 +49,6 @@ class _ClientFormPageState extends State<ClientFormPage>
             onPressed: () async {
               if (formKey.currentState!.validate()) {
                 ClientController().save(saveClient());
-                final db = await DataBase.openDatabase();
-                print(await db.query('clients'));
-                print(await db.query('contacts'));
-                print(await db.query('address'));
               }
             },
             icon: const Icon(

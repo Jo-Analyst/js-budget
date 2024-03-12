@@ -27,7 +27,7 @@ class ClientRepositoryImpl implements ClientRepository {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         if (client.id == 0) {
-          int lastId = await txn.insert('client', {'name': client.name});
+          int lastId = await txn.insert('clients', {'name': client.name});
           if (client.contact != null) {
             await txn.insert('contacts', {
               'cell_phone': client.contact!.cellPhone,

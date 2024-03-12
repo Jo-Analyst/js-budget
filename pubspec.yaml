@@ -51,7 +51,9 @@ dependencies:
   contacts_service: ^0.6.3
   loading_animation_widget: ^1.2.1
   signals_flutter: ^4.5.1
+  motion_toast: ^2.8.0
   fluttertoast: ^8.2.4
+  overlay_toast_message: ^1.0.2
 
 dev_dependencies:
   flutter_test:
