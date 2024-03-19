@@ -246,6 +246,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_getit:
+    dependency: "direct main"
+    description:
+      name: flutter_getit
+      sha256: "80dbaef77ee26f7f0b2841b5de58a1482b10830004d55f17ffa5d4a5cce0ce23"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -317,6 +325,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  get_it:
+    dependency: transitive
+    description:
+      name: get_it
+      sha256: e6017ce7fdeaf218dc51a100344d8cb70134b80e28b760f8bb23c242437bafd7
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.6.7"
   glob:
     dependency: transitive
     description:
@@ -637,6 +653,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  signals:
+    dependency: "direct main"
+    description:
+      name: signals
+      sha256: a411a60a180570d23446ed233bbf7330384188d446302a47c032f3c14e4fc6cb
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.5.1"
   signals_core:
     dependency: transitive
     description:
@@ -646,7 +670,7 @@ packages:
     source: hosted
     version: "4.5.0"
   signals_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: signals_flutter
       sha256: dd4971b2a0165d1ef8de1a45d59e89cdcdd5fc1c8f7fa180d55e6d049be89e92
