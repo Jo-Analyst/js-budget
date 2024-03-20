@@ -5,6 +5,8 @@ import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/expense_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
+import 'package:js_budget/src/pages/summary/summary_router.dart';
+import 'package:js_budget/src/pages/home/budget_details/budget_details_router.dart';
 import 'package:js_budget/src/pages/profile/profile_router.dart';
 import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -29,7 +31,9 @@ class MyApp extends StatelessWidget {
           page: (context) => const App(),
           path: '/my-app',
         ),
-        const ProfileRouter()
+        const ProfileRouter(),
+        const BudgetDetailsRouter(),
+        const FinanceRouter(),
       ],
       modules: [
         ClientModule(),
