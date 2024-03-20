@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/personal_expense_model.dart';
-import 'package:js_budget/src/pages/personal_expenses/personal_expense_form_controller.dart';
+import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_form/personal_expense_form_controller.dart';
+
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
 class PersonalExpenseFormPage extends StatefulWidget {
-  final PersonalExpenseModel? personalExpense;
   const PersonalExpenseFormPage({
     super.key,
-    this.personalExpense,
   });
 
   @override
@@ -24,6 +23,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
   String expenseValue = 'R\$ 0,00';
   DateTime expenseDate = DateTime.now();
   String methodPayment = 'Dinheiro';
+  PersonalExpenseModel? personalExpense;
 
   IconData iconMethodPayment(String methodPayment) {
     switch (methodPayment.toLowerCase()) {
@@ -37,12 +37,16 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
   }
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
     expenseDateEC.text = UtilsService.dateFormat(expenseDate);
-    if (widget.personalExpense != null) {
-      initializeForm(widget.personalExpense!);
-      methodPayment = widget.personalExpense!.methodPayment;
+    personalExpense =
+        ModalRoute.of(context)!.settings.arguments as PersonalExpenseModel?;
+
+    if (personalExpense != null) {
+      initializeForm(personalExpense!);
+      methodPayment = personalExpense!.methodPayment;
     }
   }
 
@@ -51,7 +55,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.personalExpense == null
+          personalExpense == null
               ? 'Nova despesa pessoal'
               : "Editar despesa pessoal",
         ),

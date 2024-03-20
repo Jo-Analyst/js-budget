@@ -50,14 +50,14 @@ class MenuPage extends StatelessWidget {
                   icon: Icons.money,
                   title: 'Despesa pessoal',
                   onTap: () {
-                    nav.pushNamed('/personal-expense');
+                    nav.pushNamed('/expense/personal');
                   },
                 ),
                 ListTileIcon(
                   title: 'Despesa da oficina',
                   icon: Icons.money_off_sharp,
                   onTap: () {
-                    nav.pushNamed('/fixed-expense');
+                    nav.pushNamed('/expense/fixed');
                   },
                 )
               ],

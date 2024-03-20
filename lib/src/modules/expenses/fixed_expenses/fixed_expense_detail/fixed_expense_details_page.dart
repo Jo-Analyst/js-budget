@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/personal_expense_model.dart';
-import 'package:js_budget/src/pages/personal_expenses/personal_expense_form_page.dart';
+import 'package:js_budget/src/models/fixed_expense_model.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class PersonalExpenseDetailPage extends StatelessWidget {
-  const PersonalExpenseDetailPage({super.key});
+class FixedExpenseDetailsPage extends StatelessWidget {
+  const FixedExpenseDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +21,16 @@ class PersonalExpenseDetailPage extends StatelessWidget {
     }
 
     final expense =
-        ModalRoute.of(context)!.settings.arguments as PersonalExpenseModel;
+        ModalRoute.of(context)!.settings.arguments as FixedExpenseModel;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalhes da conta pessoal'),
+        title: const Text('Detalhes da oficina'),
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => PersonalExpenseFormPage(
-                        personalExpense: expense,
-                      )));
+              Navigator.of(context)
+                  .pushNamed('/expense/fixed/register', arguments: expense);
             },
             icon: const Icon(Icons.edit),
           ),

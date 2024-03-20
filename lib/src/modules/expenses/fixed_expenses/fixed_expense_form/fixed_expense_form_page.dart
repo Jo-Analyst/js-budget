@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/fixed_expense_model.dart';
-import 'package:js_budget/src/pages/fixed_expenses/fixed_expense_form_controller.dart';
+import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_form/fixed_expense_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
 class FixedExpenseFormPage extends StatefulWidget {
-  final FixedExpenseModel? fixedExpense;
   const FixedExpenseFormPage({
     super.key,
-    this.fixedExpense,
   });
 
   @override
@@ -24,6 +22,7 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
   DateTime expenseDate = DateTime.now();
   String methodPayment = 'Dinheiro';
   String? typeExpense;
+  FixedExpenseModel? fixedExpense;
 
   IconData iconMethodPayment(String methodPayment) {
     switch (methodPayment.toLowerCase()) {
@@ -40,10 +39,17 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
   void initState() {
     super.initState();
     expenseDateEC.text = UtilsService.dateFormat(expenseDate);
-    if (widget.fixedExpense != null) {
-      initializeForm(widget.fixedExpense!);
-      methodPayment = widget.fixedExpense!.methodPayment;
-      typeExpense = widget.fixedExpense!.type;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    fixedExpense =
+        ModalRoute.of(context)?.settings.arguments as FixedExpenseModel?;
+    if (fixedExpense != null) {
+      initializeForm(fixedExpense!);
+      methodPayment = fixedExpense!.methodPayment;
+      typeExpense = fixedExpense!.type;
     }
   }
 
@@ -52,7 +58,7 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.fixedExpense == null
+          fixedExpense == null
               ? 'Nova despesa da oficina'
               : "Editar despesa da oficina",
         ),

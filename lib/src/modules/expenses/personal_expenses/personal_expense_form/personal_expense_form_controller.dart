@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:js_budget/src/models/personal_expense_model.dart';
-import 'package:js_budget/src/pages/personal_expenses/personal_expense_form_page.dart';
+import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_form/personal_expense_form_page.dart';
 
 mixin PersonalExpenseFormController on State<PersonalExpenseFormPage> {
   final typeOfExpenseEC = TextEditingController();

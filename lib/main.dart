@@ -3,7 +3,9 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
+import 'package:js_budget/src/modules/expenses/expense_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
+import 'package:js_budget/src/pages/profile/profile_router.dart';
 import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
@@ -27,10 +29,12 @@ class MyApp extends StatelessWidget {
           page: (context) => const App(),
           path: '/my-app',
         ),
+        const ProfileRouter()
       ],
       modules: [
         ClientModule(),
         MaterialModule(),
+        ExpenseModule(),
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp(

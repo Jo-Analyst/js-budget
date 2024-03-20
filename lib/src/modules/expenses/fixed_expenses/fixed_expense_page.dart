@@ -1,29 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/personal_expense_model.dart';
+import 'package:js_budget/src/models/fixed_expense_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class PersonalExpensePage extends StatefulWidget {
-  const PersonalExpensePage({super.key});
+class FixedExpensePage extends StatefulWidget {
+  const FixedExpensePage({super.key});
 
   @override
-  State<PersonalExpensePage> createState() => _PersonalExpensePageState();
+  State<FixedExpensePage> createState() => _PersonalExpensePageState();
 }
 
-class _PersonalExpensePageState extends State<PersonalExpensePage> {
+class _PersonalExpensePageState extends State<FixedExpensePage> {
   String search = '';
 
   @override
   Widget build(BuildContext context) {
     final expenses = [
-      PersonalExpenseModel(
-        type: 'Alimentação',
-        value: 450.75,
+      FixedExpenseModel(
+        type: 'Aluguel',
+        methodPayment: 'Dinheiro',
+        value: 300.0,
         date: '09/03/2024',
-        methodPayment: 'Cartão de crédito',
-        observation:
-            'asdsajkdhkasjhdkjashdkjhjkashdjhsajkdhashjashdkjashdjkhasjkd asdsajkdhkasjhdkjashdkjhjkashdjhsajkdhashjashdkjashdjkhasjkd',
-      )
+      ),
+      FixedExpenseModel(
+          type: 'Conta de luz',
+          value: 85.33,
+          methodPayment: 'Pix',
+          date: '23/03/2024',
+          observation: 'Pagamento da conta de luz realizada  no dia 23'),
+      FixedExpenseModel(
+          type: 'Conta de água',
+          value: 25.0,
+          methodPayment: 'Cartão de débito',
+          date: '20/03/2024',
+          observation: 'Pagamento da conta água realizada  no dia 20'),
     ];
     var filteredClients = expenses
         .where((expense) =>
@@ -34,11 +44,11 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Despesa pessoal'),
+        title: const Text('Despesa fixa da oficina'),
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/personal-expense-form');
+              Navigator.of(context).pushNamed('/expense/fixed/register');
             },
             tooltip: "Nova despesa",
             icon: const Icon(
@@ -93,7 +103,7 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
                             ),
                             onPressed: () {
                               Navigator.pushNamed(
-                                  context, '/personal-expense-form');
+                                  context, '/expense/fixed/register');
                             },
                             icon: const Icon(
                               Icons.add,
@@ -116,7 +126,7 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
                                   splashColor: Colors.transparent,
                                   onTap: () {
                                     Navigator.of(context).pushNamed(
-                                        '/personal-expense-detail',
+                                        '/expense/fixed/details',
                                         arguments: expense);
                                   },
                                   leading: const Icon(
