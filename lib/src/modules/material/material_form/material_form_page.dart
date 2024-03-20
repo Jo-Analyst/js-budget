@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/pages/material/material_form_controller.dart';
-import 'package:js_budget/src/pages/material/widget/custom_show_dialog.dart';
+import 'package:js_budget/src/modules/material/material_form/material_form_controller.dart';
+
+import 'package:js_budget/src/modules/material/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
 class MaterialFormPage extends StatefulWidget {
-  final MaterialModel? material;
-  final bool isEdition;
   const MaterialFormPage({
     super.key,
-    this.material,
-    this.isEdition = false,
   });
 
   @override
@@ -27,15 +24,12 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   int quantityInStock = 0;
   bool isCkecked = true;
   DateTime dateOfPurchase = DateTime.now();
+  MaterialModel? material;
 
   @override
   void initState() {
     super.initState();
     dateOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
-    if (widget.material != null) {
-      initilizeForm(widget.material!);
-      quantityInStock = widget.material!.quantity;
-    }
   }
 
   @override
@@ -45,10 +39,21 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    material = ModalRoute.of(context)?.settings.arguments as MaterialModel?;
+
+    if (material != null) {
+      initilizeForm(material!);
+      quantityInStock = material!.quantity;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.isEdition ? 'Editar material' : 'Novo material'),
+        title: Text(material != null ? 'Editar material' : 'Novo material'),
         actions: [
           IconButton(
             onPressed: () {
@@ -66,7 +71,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
           child: Column(
             children: [
               Visibility(
-                visible: widget.isEdition,
+                visible: material != null,
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   title: const Text(
@@ -144,7 +149,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
                               ],
-                              readOnly: widget.isEdition,
+                              readOnly: material != null,
                               decoration: const InputDecoration(
                                 labelText: 'Quantidade em Estoque*',
                                 labelStyle: TextStyle(fontFamily: 'Poppins'),
@@ -170,7 +175,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Visibility(
-                                visible: widget.isEdition,
+                                visible: material != null,
                                 child: IconButton(
                                   padding: EdgeInsets.zero,
                                   onPressed: () async {
@@ -195,7 +200,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                                 ),
                               ),
                               Visibility(
-                                visible: widget.isEdition,
+                                visible: material != null,
                                 child: IconButton(
                                   onPressed: () async {
                                     final quantity = await showAlertDialog(
@@ -251,7 +256,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                       FieldDatePicker(
                         controller: dateOfLastPurchaseEC,
                         initialDate: dateOfPurchase,
-                        labelText: widget.isEdition
+                        labelText: material != null
                             ? 'Última data da compra'
                             : 'Data da compra',
                         onSelected: (date) {

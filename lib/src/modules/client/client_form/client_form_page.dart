@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/pages/client/client_controller.dart';
-import 'package:js_budget/src/pages/client/client_form_controller.dart';
+import 'package:js_budget/src/modules/client/client_controller.dart';
+import 'package:js_budget/src/modules/client/client_form/client_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
@@ -11,10 +11,8 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
 
 class ClientFormPage extends StatefulWidget {
-  final ClientModel? client;
   const ClientFormPage({
     super.key,
-    this.client,
   });
 
   @override
@@ -24,14 +22,7 @@ class ClientFormPage extends StatefulWidget {
 class _ClientFormPageState extends State<ClientFormPage>
     with ClientFormController, Messages {
   final formKey = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.client != null) {
-      initializeForm(widget.client!);
-    }
-  }
+  ClientModel? client;
 
   @override
   void dispose() {
@@ -40,10 +31,20 @@ class _ClientFormPageState extends State<ClientFormPage>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    client = ModalRoute.of(context)?.settings.arguments as ClientModel?;
+
+    if (client != null) {
+      initializeForm(client!);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.client != null ? 'Editar cliente' : 'Novo cliente'),
+        title: Text(client != null ? 'Editar cliente' : 'Novo cliente'),
         actions: [
           IconButton(
             onPressed: () async {

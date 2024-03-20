@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/pages/material/material_form_page.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -19,13 +18,9 @@ class MaterialDetailsPage extends StatelessWidget {
           IconButton(
             tooltip: 'Editar',
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => MaterialFormPage(
-                    material: material,
-                    isEdition: true,
-                  ),
-                ),
+              Navigator.of(context).pushNamed(
+                '/material/register',
+                arguments: material,
               );
             },
             icon: const Icon(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/pages/material/material_form_page.dart';
+import 'package:js_budget/src/modules/material/material_form/material_form_page.dart';
 
 mixin MaterialFormController on State<MaterialFormPage> {
   final nameEC = TextEditingController();

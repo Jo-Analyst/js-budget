@@ -27,7 +27,7 @@ class MenuPage extends StatelessWidget {
                   icon: Icons.person,
                   title: 'Clientes',
                   onTap: () {
-                    nav.pushNamed('/clients');
+                    nav.pushNamed('/client');
                   },
                 ),
                 ListTileIcon(

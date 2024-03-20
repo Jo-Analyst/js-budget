@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/pages/client/client_form_page.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class ClientDetailPage extends StatelessWidget {
-  const ClientDetailPage({super.key});
+class ClientDetailsPage extends StatelessWidget {
+  const ClientDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +17,8 @@ class ClientDetailPage extends StatelessWidget {
           IconButton(
             tooltip: 'Editar',
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => ClientFormPage(client: client),
-                ),
-              );
+              Navigator.of(context)
+                  .pushNamed('/client/register', arguments: client);
             },
             icon: const Icon(
               Icons.edit,

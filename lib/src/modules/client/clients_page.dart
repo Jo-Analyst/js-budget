@@ -1,61 +1,96 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/models/address_model.dart';
+import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
-import 'package:js_budget/src/utils/utils_service.dart';
+import 'package:js_budget/src/utils/permission_use_app.dart';
 
-class FurnitureMaterials extends StatefulWidget {
-  const FurnitureMaterials({super.key});
+class ClientPage extends StatefulWidget {
+  const ClientPage({super.key});
 
   @override
-  State<FurnitureMaterials> createState() => _FurnitureMaterialsState();
+  State<ClientPage> createState() => _ClientPageState();
 }
 
-class _FurnitureMaterialsState extends State<FurnitureMaterials> {
-  final List<MaterialModel> materials = [
-    MaterialModel(
-      name: 'Madeira de Carvalho',
-      type: 'Madeira',
-      unit: 'Metros',
-      price: 20.0,
-      quantity: 30,
-      dateOfLastPurchase: 'Fevereiro de 2024',
-      observation:
-          'Este material é extremamente durável e resistente a insetos. Ideal para a fabricação de móveis de alta qualidade. No entanto, é um pouco mais caro em comparação com outras madeiras disponíveis no mercado',
-      supplier: 'Empresa XXX',
+class _ClientPageState extends State<ClientPage> {
+  final List<ClientModel> clients = [
+    ClientModel(
+      id: 1,
+      name: 'João',
+      contact: ContactModel(cellPhone: '(11) 1111-1111'),
     ),
-    MaterialModel(
-      name: 'Aço inoxidável',
-      type: 'Metal',
-      unit: 'Kilograma',
-      price: 50.0,
-      quantity: 20,
-      observation: '',
-      supplier: 'Empresa XX',
-    )
+    ClientModel(
+      id: 2,
+      name: 'Maria',
+      contact: ContactModel(cellPhone: '(99) 9999-9999'),
+    ),
+    ClientModel(
+      id: 3,
+      name: 'Joelmir Rogério Carvalho',
+      contact: ContactModel(
+        cellPhone: '(99) 9 9999-9999',
+        email: "joelmircarvalho@gmail.com",
+      ),
+      address: AddressModel(
+        district: 'Misericódia Infinita',
+        streetAddress: 'Rua Casa de Deus',
+        numberAddress: '3',
+        city: 'Paraíso',
+        state: 'Céu',
+      ),
+    ),
+    ClientModel(
+      id: 4,
+      name: 'Valdirene Aparecida Ferreira',
+      contact: ContactModel(
+        cellPhone: '(00) 0 0000-0000',
+        email: "valdireneferreira@outlook.com",
+      ),
+      address: AddressModel(
+        district: 'Misericódia Infinita',
+        streetAddress: 'Rua Casa de Deus',
+        numberAddress: '3',
+        city: 'Paraíso',
+        state: 'Céu',
+      ),
+    ),
   ];
 
   String search = '';
 
   @override
   Widget build(BuildContext context) {
-    var filteredMaterials = materials
-        .where((material) =>
-            material.name.toLowerCase().contains(search.toLowerCase()))
+    var filteredClients = clients
+        .where((client) =>
+            client.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
+    var nav = Navigator.of(context);
 
     var theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Materiais'),
+        title: const Text('Clientes'),
         actions: [
           IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed('/material-form');
+            onPressed: () async {
+              if (!await isContactsPermissionGranted()) return;
+
+              nav.pushNamed('/client/contact-phone');
             },
-            tooltip: "Novo Material",
+            tooltip: 'Importar contatos',
             icon: const Icon(
-              Icons.add,
+              Icons.contacts,
+              size: 27,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              nav.pushNamed('/client/register');
+            },
+            tooltip: "Novo Cliente",
+            icon: const Icon(
+              Icons.person_add_alt_1,
               size: 30,
             ),
           ),
@@ -74,25 +109,25 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                 });
               },
               decoration: const InputDecoration(
-                labelText: 'Buscar material',
+                labelText: 'Buscar cliente',
                 suffixIcon: Icon(Icons.search),
               ),
             ),
           ),
           Expanded(
-            child: filteredMaterials.isEmpty
+            child: filteredClients.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          Icons.search_off,
+                          Icons.person_search_sharp,
                           size: 100,
                           color: theme.colorScheme.primary.withOpacity(.7),
                         ),
                         const SizedBox(height: 5),
                         const Text(
-                          'Nenhum material encontrado',
+                          'Nenhum cliente encontrado',
                           style: textStyleSmallDefault,
                         ),
                         const SizedBox(height: 10),
@@ -105,14 +140,17 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/material-form');
+                              Navigator.pushNamed(
+                                context,
+                                '/client/register',
+                              );
                             },
                             icon: const Icon(
                               Icons.add,
                               color: Colors.black,
                             ),
                             label: const Text(
-                              'Adicionar material',
+                              'Adicionar cliente',
                               style: textStyleSmallDefault,
                             ),
                           ),
@@ -121,38 +159,30 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                     ),
                   )
                 : ListView(
-                    children: filteredMaterials
-                        .map((material) => Column(
+                    children: filteredClients
+                        .map((client) => Column(
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                        '/material-detail',
-                                        arguments: material);
+                                    nav.pushNamed(
+                                      '/client/details',
+                                      arguments: client,
+                                    );
                                   },
-                                  leading: Image.asset(
-                                    'assets/images/materia-prima.png',
-                                    width: 25,
-                                  ),
+                                  leading: const Icon(Icons.person),
                                   title: Text(
-                                    material.name,
+                                    client.name,
                                     style: textStyleSmallDefault,
                                   ),
                                   subtitle: Text(
-                                    UtilsService.moneyToCurrency(
-                                        material.price),
+                                    client.contact?.cellPhone ?? '',
                                     style: TextStyle(
                                       fontSize: textStyleSmallDefault.fontSize,
-                                      fontFamily: 'Anta',
                                     ),
                                   ),
-                                  trailing: Text(
-                                    material.quantity.toStringAsFixed(0),
-                                    style: TextStyle(
-                                      fontSize: textStyleSmallDefault.fontSize,
-                                      fontFamily: 'Anta',
-                                    ),
+                                  trailing: const Icon(
+                                    Icons.keyboard_arrow_right,
                                   ),
                                 ),
                                 const Divider(),

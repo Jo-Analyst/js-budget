@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
-import 'package:js_budget/src/pages/client/client_form_page.dart';
+import 'package:js_budget/src/modules/client/client_form/client_form_page.dart';
 
 mixin ClientFormController on State<ClientFormPage> {
   final nameEC = TextEditingController();
