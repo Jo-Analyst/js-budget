@@ -21,14 +21,13 @@ class ClientFormPage extends StatefulWidget {
 }
 
 class _ClientFormPageState extends State<ClientFormPage>
-    with ClientFormController, MessageViewMixin {
+    with ClientFormController, Messages {
   final formKey = GlobalKey<FormState>();
   ClientModel? client;
   final controller = Injector.get<ClientController>();
 
   @override
   void initState() {
-    messageListener(controller);
     super.initState();
   }
 
@@ -44,6 +43,7 @@ class _ClientFormPageState extends State<ClientFormPage>
     client = ModalRoute.of(context)?.settings.arguments as ClientModel?;
 
     if (client != null) {
+      print(client!.id);
       initializeForm(client!);
     }
   }
@@ -57,7 +57,12 @@ class _ClientFormPageState extends State<ClientFormPage>
           IconButton(
             onPressed: () async {
               if (formKey.currentState!.validate()) {
-                controller.save(saveClient());
+                controller.save(
+                    saveClient(
+                        clientId: client?.id ?? 0,
+                        addressId: client?.address?.id ?? 0,
+                        contactId: client?.contact?.id ?? 0),
+                    context);
                 Navigator.of(context).pop();
               }
             },

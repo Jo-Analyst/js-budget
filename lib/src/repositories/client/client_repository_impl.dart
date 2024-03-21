@@ -16,7 +16,9 @@ class ClientRepositoryImpl implements ClientRepository {
       findAll() async {
     try {
       final db = await DataBase.openDatabase();
-      return Right(await db.query('clients'));
+      final clients = await db.rawQuery(
+          'SELECT clients.id, clients.name, address.id AS address_id, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM clients LEFT JOIN contacts ON contacts.client_id = clients.id LEFT JOIN address ON address.client_id = clients.id');
+      return Right(clients);
     } catch (e) {
       return Left(RespositoryException());
     }
@@ -35,23 +37,27 @@ class ClientRepositoryImpl implements ClientRepository {
         if (client.id == 0) {
           int lastId = await txn.insert('clients', {'name': client.name});
           if (client.contact != null) {
-            await txn.insert('contacts', {
-              'cell_phone': client.contact!.cellPhone,
-              'tele_phone': client.contact?.telePhone ?? '',
-              'email': client.contact?.email ?? '',
-              'client_id': lastId
-            });
+            if (client.contact!.id == 0) {
+              await txn.insert('contacts', {
+                'cell_phone': client.contact!.cellPhone,
+                'tele_phone': client.contact?.telePhone ?? '',
+                'email': client.contact?.email ?? '',
+                'client_id': lastId
+              });
+            }
           }
           if (client.address != null) {
-            await txn.insert('address', {
-              'cep': client.address?.cep ?? '',
-              'district': client.address!.district,
-              'street_address': client.address!.streetAddress,
-              'number_address': client.address!.numberAddress,
-              'city': client.address!.city,
-              'state': client.address!.state,
-              'client_id': lastId
-            });
+            if (client.address!.id == 0) {
+              await txn.insert('address', {
+                'cep': client.address?.cep ?? '',
+                'district': client.address!.district,
+                'street_address': client.address!.streetAddress,
+                'number_address': client.address!.numberAddress,
+                'city': client.address!.city,
+                'state': client.address!.state,
+                'client_id': lastId
+              });
+            }
           }
         }
       });

@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:overlay_toast_message/overlay_toast_message.dart';
+import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 showToast({
   required String message,
   Color? color,
-  required BuildContext context,
   Icon? icon,
 }) {
-  OverlayToastMessage.show(
-    context,
-    widget: Container(
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ListTile(
-        leading: icon,
-        title: Text(
-          message,
-          style: const TextStyle(
-            color: Colors.white,
-            fontFamily: 'Poppins',
-          ),
-        ),
+  showSimpleNotification(
+    Text(
+      message,
+      style: TextStyle(
+        fontFamily: textStyleSmallDefault.fontFamily,
+        fontSize: textStyleSmallDefault.fontSize,
+        color: Colors.white,
       ),
     ),
+    background: color,
   );
 }

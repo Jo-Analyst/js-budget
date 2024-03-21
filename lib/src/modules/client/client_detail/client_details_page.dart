@@ -10,6 +10,7 @@ class ClientDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = ModalRoute.of(context)!.settings.arguments as ClientModel;
+    print(client.toJson());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do cliente'),

@@ -21,8 +21,14 @@ class _ClientPageState extends State<ClientPage> {
   void initState() {
     super.initState();
 
-    controller.findClients();
+    loadClients();
+  }
+
+  Future<void> loadClients() async {
+    await controller.findClients(context);
     clients = controller.items as List<ClientModel>;
+    print(clients.last.toJson());
+    setState(() {});
   }
 
   @override
@@ -142,12 +148,15 @@ class _ClientPageState extends State<ClientPage> {
                                     client.name,
                                     style: textStyleSmallDefault,
                                   ),
-                                  subtitle: Text(
-                                    client.contact?.cellPhone ?? '',
-                                    style: TextStyle(
-                                      fontSize: textStyleSmallDefault.fontSize,
-                                    ),
-                                  ),
+                                  subtitle: client.contact?.cellPhone != null
+                                      ? Text(
+                                          client.contact!.cellPhone,
+                                          style: TextStyle(
+                                            fontSize:
+                                                textStyleSmallDefault.fontSize,
+                                          ),
+                                        )
+                                      : null,
                                   trailing: const Icon(
                                     Icons.keyboard_arrow_right,
                                   ),

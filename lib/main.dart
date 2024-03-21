@@ -10,10 +10,11 @@ import 'package:js_budget/src/pages/home/budget_details/budget_details_router.da
 import 'package:js_budget/src/pages/profile/profile_router.dart';
 import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
   await initializeDateFormatting('pt_BR', null);
-  runApp(const MyApp());
+  runApp(const OverlaySupport.global(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
