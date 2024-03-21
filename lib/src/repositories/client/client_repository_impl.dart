@@ -12,8 +12,14 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<ClientModel> findAll() {
-    throw UnimplementedError();
+  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
+      findAll() async {
+    try {
+      final db = await DataBase.openDatabase();
+      return Right(await db.query('clients'));
+    } catch (e) {
+      return Left(RespositoryException());
+    }
   }
 
   @override

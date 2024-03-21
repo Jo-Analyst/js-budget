@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/address_model.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/models/contact_model.dart';
+import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/permission_use_app.dart';
 
@@ -13,50 +13,17 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
-  final List<ClientModel> clients = [
-    ClientModel(
-      id: 1,
-      name: 'João',
-      contact: ContactModel(cellPhone: '(11) 1111-1111'),
-    ),
-    ClientModel(
-      id: 2,
-      name: 'Maria',
-      contact: ContactModel(cellPhone: '(99) 9999-9999'),
-    ),
-    ClientModel(
-      id: 3,
-      name: 'Joelmir Rogério Carvalho',
-      contact: ContactModel(
-        cellPhone: '(99) 9 9999-9999',
-        email: "joelmircarvalho@gmail.com",
-      ),
-      address: AddressModel(
-        district: 'Misericódia Infinita',
-        streetAddress: 'Rua Casa de Deus',
-        numberAddress: '3',
-        city: 'Paraíso',
-        state: 'Céu',
-      ),
-    ),
-    ClientModel(
-      id: 4,
-      name: 'Valdirene Aparecida Ferreira',
-      contact: ContactModel(
-        cellPhone: '(00) 0 0000-0000',
-        email: "valdireneferreira@outlook.com",
-      ),
-      address: AddressModel(
-        district: 'Misericódia Infinita',
-        streetAddress: 'Rua Casa de Deus',
-        numberAddress: '3',
-        city: 'Paraíso',
-        state: 'Céu',
-      ),
-    ),
-  ];
-
+  List<ClientModel> clients = [];
+  final controller = Injector.get<ClientController>();
   String search = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller.findClients();
+    clients = controller.items as List<ClientModel>;
+  }
 
   @override
   Widget build(BuildContext context) {

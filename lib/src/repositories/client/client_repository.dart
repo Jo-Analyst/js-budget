@@ -1,8 +1,11 @@
+import 'package:js_budget/src/exception/respository_exception.dart';
+import 'package:js_budget/src/fp/either.dart';
+import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/client_model.dart';
 
 abstract interface class ClientRepository {
-  Future<void> save(ClientModel client);
+  Future<Either<RespositoryException, Unit>> save(ClientModel client);
   Future<void> delete(int id);
-  Future<ClientModel> findAll();
+  Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
   Future<ClientModel> findClient(int id);
 }

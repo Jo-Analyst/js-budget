@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/modules/client/client_controller.dart';
@@ -20,9 +21,16 @@ class ClientFormPage extends StatefulWidget {
 }
 
 class _ClientFormPageState extends State<ClientFormPage>
-    with ClientFormController, Messages {
+    with ClientFormController, MessageViewMixin {
   final formKey = GlobalKey<FormState>();
   ClientModel? client;
+  final controller = Injector.get<ClientController>();
+
+  @override
+  void initState() {
+    messageListener(controller);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -49,7 +57,8 @@ class _ClientFormPageState extends State<ClientFormPage>
           IconButton(
             onPressed: () async {
               if (formKey.currentState!.validate()) {
-                ClientController().save(saveClient());
+                controller.save(saveClient());
+                Navigator.of(context).pop();
               }
             },
             icon: const Icon(

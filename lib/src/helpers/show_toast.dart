@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:overlay_toast_message/overlay_toast_message.dart';
 
-showToast(String message, Color? color) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    timeInSecForIosWeb: 3,
-    backgroundColor: color,
-    textColor: Colors.white,
-    fontSize: 16.0,
+showToast({
+  required String message,
+  Color? color,
+  required BuildContext context,
+  Icon? icon,
+}) {
+  OverlayToastMessage.show(
+    context,
+    widget: Container(
+      margin: const EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: ListTile(
+        leading: icon,
+        title: Text(
+          message,
+          style: const TextStyle(
+            color: Colors.white,
+            fontFamily: 'Poppins',
+          ),
+        ),
+      ),
+    ),
   );
 }
