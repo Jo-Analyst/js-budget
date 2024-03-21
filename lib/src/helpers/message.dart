@@ -27,12 +27,11 @@ mixin class Messages {
   }
 
   void showSuccess(String message) {
-    showSimpleNotification(
-        Text(
-          message,
-          style: textStyleSmallDefault,
-        ),
-        background: Colors.green);
+    showToast(
+      message: message,
+      color: Colors.green,
+      icon: const Icon(Icons.thumb_up),
+    );
   }
 }
 

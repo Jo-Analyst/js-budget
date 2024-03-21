@@ -40,21 +40,25 @@ class ClientController with Messages {
             ClientModel(
               id: client['id'],
               name: client['name'],
-              address: AddressModel(
-                id: client['address_id'],
-                cep: client['cep'],
-                district: client['district'],
-                streetAddress: client['street_address'],
-                numberAddress: client['number_address'],
-                city: client['city'],
-                state: client['state'],
-              ),
-              contact: ContactModel(
-                id: client['contact_id'],
-                cellPhone: client['cell_phone'],
-                email: client['email'],
-                telePhone: client['tele_phone'],
-              ),
+              address: addressExists(client)
+                  ? AddressModel(
+                      id: client['address_id'],
+                      cep: client['cep'],
+                      district: client['district'],
+                      streetAddress: client['street_address'],
+                      numberAddress: client['number_address'],
+                      city: client['city'],
+                      state: client['state'],
+                    )
+                  : null,
+              contact: contactExists(client)
+                  ? ContactModel(
+                      id: client['contact_id'],
+                      cellPhone: client['cell_phone'],
+                      email: client['email'],
+                      telePhone: client['tele_phone'],
+                    )
+                  : null,
             ),
           );
         }
@@ -63,5 +67,22 @@ class ClientController with Messages {
       case Left():
         showError('Houver erro ao buscar o cliente');
     }
+  }
+
+  bool contactExists(Map<String, dynamic> client) {
+    return client['contact_id'] != null &&
+        client['cell_phone'] != null &&
+        client['email'] != null &&
+        client['tele_phone'] != null;
+  }
+
+  bool addressExists(Map<String, dynamic> client) {
+    return client['address_id'] != null &&
+        client['cep'] != null &&
+        client['district'] != null &&
+        client['street_address'] != null &&
+        client['number_address'] != null &&
+        client['city'] != null &&
+        client['state'] != null;
   }
 }

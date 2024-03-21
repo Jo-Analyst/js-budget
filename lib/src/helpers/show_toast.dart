@@ -8,14 +8,20 @@ showToast({
   Icon? icon,
 }) {
   showSimpleNotification(
-    Text(
-      message,
-      style: TextStyle(
-        fontFamily: textStyleSmallDefault.fontFamily,
-        fontSize: textStyleSmallDefault.fontSize,
-        color: Colors.white,
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        message,
+        style: TextStyle(
+          fontFamily: textStyleSmallDefault.fontFamily,
+          fontSize: textStyleSmallDefault.fontSize,
+          color: Colors.white,
+        ),
       ),
     ),
     background: color,
+    leading: icon,
+    position: NotificationPosition.top,
+    duration: const Duration(seconds: 3),
   );
 }
