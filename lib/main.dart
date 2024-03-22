@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
+import 'package:js_budget/src/bindings/binding_initial_application.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/expense_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterGetIt(
+      bindings: BindingInitialApplication(),
       pages: [
         FlutterGetItPageBuilder(
           page: (context) => const SplashPage(),

@@ -23,7 +23,6 @@ class CustomListTileIcon extends StatelessWidget {
       leading: leading,
       title: Text(
         title,
-        textAlign: TextAlign.justify,
         style: TextStyle(
           fontSize: textStyleSmallDefault.fontSize,
           fontFamily: titleFontFamily ?? textStyleSmallDefault.fontFamily,

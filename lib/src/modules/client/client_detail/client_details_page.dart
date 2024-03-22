@@ -10,7 +10,6 @@ class ClientDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final client = ModalRoute.of(context)!.settings.arguments as ClientModel;
-    print(client.toJson());
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do cliente'),
@@ -80,9 +79,12 @@ class ClientDetailsPage extends StatelessWidget {
                                   leading: const Icon(Icons.phone),
                                 ),
                               ),
-                            CustomListTileIcon(
-                              title: client.contact!.cellPhone,
-                              leading: const Icon(Icons.phone_android),
+                            Visibility(
+                              visible: client.contact!.cellPhone.isNotEmpty,
+                              child: CustomListTileIcon(
+                                title: client.contact!.cellPhone,
+                                leading: const Icon(Icons.phone_android),
+                              ),
                             ),
                             if (client.contact!.email != null)
                               Visibility(
@@ -105,6 +107,13 @@ class ClientDetailsPage extends StatelessWidget {
                           color: Colors.transparent,
                           textColor: Colors.black,
                           children: [
+                            Visibility(
+                              visible: client.address!.cep != null,
+                              child: CustomListTileIcon(
+                                title: client.address!.cep!,
+                                leading: const Icon(Icons.map),
+                              ),
+                            ),
                             CustomListTileIcon(
                               title: client.address!.district,
                               leading:

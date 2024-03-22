@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/permission_use_app.dart';
+import 'package:signals/signals_flutter.dart';
 
 class ClientPage extends StatefulWidget {
   const ClientPage({super.key});
@@ -13,7 +13,7 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
-  List<ClientModel> clients = [];
+  // List<ClientModel> clients = [];
   final controller = Injector.get<ClientController>();
   String search = '';
 
@@ -26,14 +26,13 @@ class _ClientPageState extends State<ClientPage> {
 
   Future<void> loadClients() async {
     await controller.findClients(context);
-    clients = controller.items as List<ClientModel>;
-    print(clients.last.toJson());
-    setState(() {});
+    // setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    var filteredClients = clients
+    var filteredClients = controller.items
+        .watch(context)
         .where((client) =>
             client.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
@@ -148,7 +147,10 @@ class _ClientPageState extends State<ClientPage> {
                                     client.name,
                                     style: textStyleSmallDefault,
                                   ),
-                                  subtitle: client.contact?.cellPhone != null
+                                  subtitle: client.contact?.cellPhone != null &&
+                                          client.contact!.cellPhone
+                                              .toString()
+                                              .isNotEmpty
                                       ? Text(
                                           client.contact!.cellPhone,
                                           style: TextStyle(

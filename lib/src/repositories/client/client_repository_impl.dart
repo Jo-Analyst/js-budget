@@ -17,7 +17,7 @@ class ClientRepositoryImpl implements ClientRepository {
     try {
       final db = await DataBase.openDatabase();
       final clients = await db.rawQuery(
-          'SELECT clients.id, clients.name, address.id AS address_id, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM clients LEFT JOIN contacts ON contacts.client_id = clients.id LEFT JOIN address ON address.client_id = clients.id');
+          'SELECT clients.id, clients.name, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM clients LEFT JOIN contacts ON contacts.client_id = clients.id LEFT JOIN address ON address.client_id = clients.id');
       return Right(clients);
     } catch (e) {
       return Left(RespositoryException());
@@ -46,6 +46,7 @@ class ClientRepositoryImpl implements ClientRepository {
               });
             }
           }
+
           if (client.address != null) {
             if (client.address!.id == 0) {
               await txn.insert('address', {

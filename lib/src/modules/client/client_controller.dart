@@ -62,6 +62,7 @@ class ClientController with Messages {
             ),
           );
         }
+
       // _items.addAll(
       //     listClient.map((client) => ClientModel.fromJson(client)).toList(),);
       case Left():
@@ -70,19 +71,19 @@ class ClientController with Messages {
   }
 
   bool contactExists(Map<String, dynamic> client) {
-    return client['contact_id'] != null &&
-        client['cell_phone'] != null &&
-        client['email'] != null &&
+    return client['contact_id'] != null ||
+        client['cell_phone'] != null ||
+        client['email'] != null ||
         client['tele_phone'] != null;
   }
 
   bool addressExists(Map<String, dynamic> client) {
-    return client['address_id'] != null &&
-        client['cep'] != null &&
-        client['district'] != null &&
-        client['street_address'] != null &&
-        client['number_address'] != null &&
-        client['city'] != null &&
+    return client['address_id'] != null ||
+        client['cep'] != null ||
+        client['district'] != null ||
+        client['street_address'] != null ||
+        client['number_address'] != null ||
+        client['city'] != null ||
         client['state'] != null;
   }
 }

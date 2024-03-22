@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/helpers/show_toast.dart';
-import 'package:js_budget/src/themes/light_theme.dart';
-import 'package:overlay_support/overlay_support.dart';
 
 mixin class Messages {
   void showError(String message) {

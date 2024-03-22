@@ -43,7 +43,6 @@ class _ClientFormPageState extends State<ClientFormPage>
     client = ModalRoute.of(context)?.settings.arguments as ClientModel?;
 
     if (client != null) {
-      print(client!.id);
       initializeForm(client!);
     }
   }
