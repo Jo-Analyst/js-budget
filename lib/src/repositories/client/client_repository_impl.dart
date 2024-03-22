@@ -34,32 +34,68 @@ class ClientRepositoryImpl implements ClientRepository {
     try {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
-        if (client.id == 0) {
-          int lastId = await txn.insert('clients', {'name': client.name});
-          if (client.contact != null) {
-            if (client.contact!.id == 0) {
-              await txn.insert('contacts', {
+        int lastId = await txn.insert('clients', {'name': client.name});
+
+        if (client.contact != null) {
+          await txn.insert('contacts', {
+            'cell_phone': client.contact!.cellPhone,
+            'tele_phone': client.contact?.telePhone ?? '',
+            'email': client.contact?.email ?? '',
+            'client_id': lastId,
+          });
+        }
+        if (client.address != null) {
+          await txn.insert('address', {
+            'cep': client.address?.cep,
+            'district': client.address?.district,
+            'street_address': client.address?.streetAddress,
+            'number_address': client.address?.numberAddress,
+            'city': client.address?.city,
+            'state': client.address?.state,
+            'client_id': lastId,
+          });
+        }
+      });
+
+      return Right(unit);
+    } catch (e) {
+      return Left(RespositoryException());
+    }
+  }
+
+  @override
+  Future<Either<RespositoryException, Unit>> update(ClientModel client) async {
+    try {
+      final db = await DataBase.openDatabase();
+      await db.transaction((txn) async {
+        await txn.update('clients', {'name': client.name},
+            where: 'id = ?', whereArgs: [client.id]);
+
+        if (client.contact != null) {
+          await txn.update(
+              'contacts',
+              {
                 'cell_phone': client.contact!.cellPhone,
                 'tele_phone': client.contact?.telePhone ?? '',
                 'email': client.contact?.email ?? '',
-                'client_id': lastId
-              });
-            }
-          }
+              },
+              where: 'id = ?',
+              whereArgs: [client.contact!.id]);
+        }
 
-          if (client.address != null) {
-            if (client.address!.id == 0) {
-              await txn.insert('address', {
-                'cep': client.address?.cep ?? '',
-                'district': client.address!.district,
-                'street_address': client.address!.streetAddress,
-                'number_address': client.address!.numberAddress,
-                'city': client.address!.city,
-                'state': client.address!.state,
-                'client_id': lastId
-              });
-            }
-          }
+        if (client.address != null) {
+          await txn.update(
+              'address',
+              {
+                'cep': client.address?.cep,
+                'district': client.address?.district,
+                'street_address': client.address?.streetAddress,
+                'number_address': client.address?.numberAddress,
+                'city': client.address?.city,
+                'state': client.address?.state,
+              },
+              where: 'id = ?',
+              whereArgs: [client.address!.id]);
         }
       });
 

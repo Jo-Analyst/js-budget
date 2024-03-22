@@ -15,18 +15,30 @@ class ClientController with Messages {
   final _items = ListSignal<ClientModel>([]);
   ListSignal get items => _items;
 
+  final model = signal<ClientModel?>(null);
+
   final ClientRepository _clientRepository;
 
   void save(ClientModel client, BuildContext context) async {
-    final result = await _clientRepository.save(client);
+    final result = client.id == 0
+        ? await _clientRepository.save(client)
+        : await _clientRepository.update(client);
 
     switch (result) {
       case Right():
-        showSuccess('Cliente cadastrado com sucesso');
+        if (client.id > 0) {
+          _deleteItem(client);
+        }
+
         _items.add(client);
+        showSuccess('Cliente cadastrado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o cliente');
     }
+  }
+
+  void _deleteItem(ClientModel client) {
+    _items.removeWhere((item) => item.id == client.id);
   }
 
   Future<void> findClients(BuildContext context) async {

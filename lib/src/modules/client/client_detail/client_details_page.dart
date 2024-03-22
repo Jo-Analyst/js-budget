@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -9,6 +11,7 @@ class ClientDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.get<ClientController>();
     final client = ModalRoute.of(context)!.settings.arguments as ClientModel;
     return Scaffold(
       appBar: AppBar(
@@ -17,8 +20,8 @@ class ClientDetailsPage extends StatelessWidget {
           IconButton(
             tooltip: 'Editar',
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed('/client/register', arguments: client);
+              controller.model.value = client;
+              Navigator.of(context).pushNamed('/client/register');
             },
             icon: const Icon(
               Icons.edit,

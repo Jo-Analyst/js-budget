@@ -29,6 +29,10 @@ class _ClientFormPageState extends State<ClientFormPage>
   @override
   void initState() {
     super.initState();
+    client = controller.model.value;
+    if (client != null) {
+      initializeForm(client!);
+    }
   }
 
   @override
@@ -37,15 +41,15 @@ class _ClientFormPageState extends State<ClientFormPage>
     disposeForm();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    client = ModalRoute.of(context)?.settings.arguments as ClientModel?;
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   client = ModalRoute.of(context)?.settings.arguments as ClientModel?;
 
-    if (client != null) {
-      initializeForm(client!);
-    }
-  }
+  //   if (client != null) {
+  //     initializeForm(client!);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +66,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                         addressId: client?.address?.id ?? 0,
                         contactId: client?.contact?.id ?? 0),
                     context);
+                Navigator.of(context).pop();
                 Navigator.of(context).pop();
               }
             },
