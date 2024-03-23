@@ -10,13 +10,13 @@ part 'profile_model.g.dart';
 class ProfileModel {
   final String corporateReason;
   final String name;
-  final String cnpj;
+  final String document;
   final ContactModel contact;
   final AddressModel address;
   ProfileModel({
     required this.corporateReason,
     required this.name,
-    required this.cnpj,
+    required this.document,
     required this.contact,
     required this.address,
   });

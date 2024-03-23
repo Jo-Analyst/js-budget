@@ -25,6 +25,7 @@ class _ClientFormPageState extends State<ClientFormPage>
   final formKey = GlobalKey<FormState>();
   ClientModel? client;
   final controller = Injector.get<ClientController>();
+  bool isALegalEntity = false;
 
   @override
   void initState() {
@@ -32,6 +33,7 @@ class _ClientFormPageState extends State<ClientFormPage>
     client = controller.model.value;
     if (client != null) {
       initializeForm(client!);
+      isALegalEntity = client!.isALegalEntity;
     }
   }
 
@@ -50,8 +52,14 @@ class _ClientFormPageState extends State<ClientFormPage>
           IconButton(
             onPressed: () async {
               if (formKey.currentState!.validate()) {
-                controller.save(saveClient(client?.id ?? 0,
-                    client?.address?.id ?? 0, client?.contact?.id ?? 0));
+                controller.save(
+                  saveClient(
+                    client?.id ?? 0,
+                    client?.address?.id ?? 0,
+                    client?.contact?.id ?? 0,
+                    isALegalEntity,
+                  ),
+                );
                 Navigator.of(context).pop();
                 if (client != null) {
                   Navigator.of(context).pop();
@@ -79,24 +87,63 @@ class _ClientFormPageState extends State<ClientFormPage>
                       horizontal: 15,
                       vertical: 10,
                     ),
-                    child: TextFormField(
-                      controller: nameEC,
-                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                      keyboardType: TextInputType.name,
-                      textCapitalization: TextCapitalization.words,
-                      decoration: const InputDecoration(
-                        labelText: 'Nome*',
-                        suffixIcon: Icon(Icons.person),
-                        labelStyle: TextStyle(fontFamily: 'Poppins'),
-                      ),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                          RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: const Text(
+                            'Pessoa jurídica',
+                            style: textStyleSmallDefault,
+                            textAlign: TextAlign.end,
+                          ),
+                          trailing: Switch(
+                            value: isALegalEntity,
+                            onChanged: (value) {
+                              setState(() {
+                                isALegalEntity = !isALegalEntity;
+                              });
+                            },
+                          ),
+                        ),
+                        TextFormField(
+                          controller: nameEC,
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          keyboardType: TextInputType.name,
+                          textCapitalization: TextCapitalization.words,
+                          decoration: const InputDecoration(
+                            labelText: 'Nome*',
+                            suffixIcon: Icon(Icons.person),
+                            labelStyle: TextStyle(fontFamily: 'Poppins'),
+                          ),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
+                            ),
+                          ],
+                          style: textStyleSmallDefault,
+                          validator: Validatorless.required(
+                              'Nome do cliente obrigátório'),
+                        ),
+                        Visibility(
+                          visible: isALegalEntity,
+                          child: TextFormField(
+                              controller: documentEC,
+                              onTapOutside: (_) =>
+                                  FocusScope.of(context).unfocus(),
+                              keyboardType: TextInputType.text,
+                              inputFormatters: [
+                                MaskTextInputFormatter(
+                                    mask: '##.###.###/####-##'),
+                              ],
+                              decoration: const InputDecoration(
+                                labelText: 'CNPJ',
+                                suffixIcon: Icon(Icons.description),
+                                labelStyle: TextStyle(fontFamily: 'Poppins'),
+                              ),
+                              style: textStyleSmallDefault,
+                              validator: Validatorless.cnpj('CNPJ inválido')),
                         ),
                       ],
-                      style: textStyleSmallDefault,
-                      validator:
-                          Validatorless.required('Nome do cliente obrigátório'),
                     ),
                   ),
                 ),

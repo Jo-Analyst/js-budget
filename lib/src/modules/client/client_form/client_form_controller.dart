@@ -6,6 +6,7 @@ import 'package:js_budget/src/modules/client/client_form/client_form_page.dart';
 
 mixin ClientFormController on State<ClientFormPage> {
   final nameEC = TextEditingController();
+  final documentEC = TextEditingController();
   final telePhoneEC = TextEditingController();
   final cellPhoneEC = TextEditingController();
   final cepEC = TextEditingController();
@@ -18,6 +19,7 @@ mixin ClientFormController on State<ClientFormPage> {
 
   void disposeForm() {
     nameEC.dispose();
+    documentEC.dispose();
     telePhoneEC.dispose();
     cellPhoneEC.dispose();
     cepEC.dispose();
@@ -31,6 +33,7 @@ mixin ClientFormController on State<ClientFormPage> {
 
   void initializeForm(ClientModel client) {
     nameEC.text = client.name;
+    documentEC.text = client.document ?? '';
     telePhoneEC.text = client.contact?.telePhone ?? '';
     cellPhoneEC.text = client.contact?.cellPhone ?? '';
     mailEC.text = client.contact?.email ?? '';
@@ -42,10 +45,13 @@ mixin ClientFormController on State<ClientFormPage> {
     stateEC.text = client.address?.state ?? '';
   }
 
-  ClientModel saveClient(int clientId, int addressId, int contactId) {
+  ClientModel saveClient(
+      int clientId, int addressId, int contactId, isALegalEntity) {
     return ClientModel(
       id: clientId,
       name: nameEC.text.trim(),
+      document: isALegalEntity ? documentEC.text : '',
+      isALegalEntity: isALegalEntity,
       contact: cellPhoneEC.text.trim().isNotEmpty ||
               mailEC.text.trim().isNotEmpty ||
               telePhoneEC.text.trim().isNotEmpty

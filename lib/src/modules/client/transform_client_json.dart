@@ -11,6 +11,8 @@ class TransformJson {
     Map<String, dynamic> infoClient = {
       'id': client.id,
       'name': client.name,
+      'document': client.document,
+      'is_a_legal_entity': client.isALegalEntity,
     };
 
     Map<String, dynamic> contactClient = {
@@ -43,6 +45,8 @@ class TransformJson {
     return ClientModel(
       id: client['id'],
       name: client['name'],
+      document: client['document'] ?? '',
+      isALegalEntity: client['is_a_legal_entity'] == '0' ? false : true,
       contact: _contactExists(client)
           ? ContactModel(
               id: client['contact_id'] ?? 0,

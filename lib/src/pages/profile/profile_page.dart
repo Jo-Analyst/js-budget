@@ -13,7 +13,7 @@ class ProfilePage extends StatelessWidget {
     final profile = ProfileModel(
       corporateReason: 'JS Planejar',
       name: 'João Antônio',
-      cnpj: '07.476.463/0001-73',
+      document: '07.476.463/0001-73',
       contact: ContactModel(
           cellPhone: '(38) 9 9999-9999',
           email: 'jsplanejar@gmail.com',
@@ -43,7 +43,7 @@ class ProfilePage extends StatelessWidget {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                   leading: const Icon(Icons.store, size: 35),
                   title: profile.corporateReason,
-                  subtitle: profile.cnpj,
+                  subtitle: profile.document,
                 ),
               ),
               Card(

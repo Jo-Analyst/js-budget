@@ -11,12 +11,16 @@ class ClientModel {
   ClientModel({
     this.id = 0,
     required this.name,
+    this.document,
+    this.isALegalEntity = false,
     this.contact,
     this.address,
   });
 
   final int id;
   final String name;
+  final String? document;
+  final bool isALegalEntity;
   final ContactModel? contact;
   final AddressModel? address;
 

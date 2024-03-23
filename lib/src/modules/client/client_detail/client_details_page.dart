@@ -78,6 +78,17 @@ class ClientDetailsPage extends StatelessWidget {
                               size: 25,
                             ),
                           ),
+                          Visibility(
+                            visible: client.isALegalEntity &&
+                                client.document!.isNotEmpty,
+                            child: CustomListTileIcon(
+                              title: client.document ?? '',
+                              leading: const Icon(
+                                Icons.description,
+                                size: 25,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

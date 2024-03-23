@@ -31,7 +31,8 @@ class ClientRepositoryImpl implements ClientRepository {
     try {
       final db = await DataBase.openDatabase();
       final clients = await db.rawQuery(
-          'SELECT clients.id, clients.name, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM clients LEFT JOIN contacts ON contacts.client_id = clients.id LEFT JOIN address ON address.client_id = clients.id');
+          'SELECT clients.id, clients.name, clients.document, clients.is_a_legal_entity, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM clients LEFT JOIN contacts ON contacts.client_id = clients.id LEFT JOIN address ON address.client_id = clients.id ORDER BY clients.name');
+
       return Right(clients);
     } catch (_) {
       return Left(RespositoryException());
@@ -68,6 +69,8 @@ class ClientRepositoryImpl implements ClientRepository {
         ClientModel(
           id: lastId,
           name: client.name,
+          document: client.document,
+          isALegalEntity: client.isALegalEntity,
           address: client.address != null
               ? AddressModel.fromJson(addressClient!)
               : null,
@@ -86,8 +89,15 @@ class ClientRepositoryImpl implements ClientRepository {
     try {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
-        await txn.update('clients', {'name': client.name},
-            where: 'id = ?', whereArgs: [client.id]);
+        await txn.update(
+            'clients',
+            {
+              'name': client.name,
+              'document': client.document,
+              'is_a_legal_entity': client.isALegalEntity
+            },
+            where: 'id = ?',
+            whereArgs: [client.id]);
 
         if (client.contact != null) {
           await txn.update(
