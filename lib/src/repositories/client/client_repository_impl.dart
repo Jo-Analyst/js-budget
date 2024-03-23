@@ -38,11 +38,6 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<ClientModel> findClient(int id) {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<Either<RespositoryException, ClientModel>> register(
       ClientModel client) async {
     try {

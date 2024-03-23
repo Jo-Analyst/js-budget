@@ -9,5 +9,5 @@ abstract interface class ClientRepository {
   Future<Either<RespositoryException, Unit>> update(ClientModel client);
   Future<Either<RespositoryException, Unit>> delete(int id);
   Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
-  Future<ClientModel> findClient(int id);
+
 }
