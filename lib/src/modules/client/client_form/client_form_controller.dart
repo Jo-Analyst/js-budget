@@ -45,30 +45,30 @@ mixin ClientFormController on State<ClientFormPage> {
   ClientModel saveClient(int clientId, int addressId, int contactId) {
     return ClientModel(
       id: clientId,
-      name: nameEC.text,
-      contact: cellPhoneEC.text.isNotEmpty ||
-              mailEC.text.isNotEmpty ||
-              telePhoneEC.text.isNotEmpty
+      name: nameEC.text.trim(),
+      contact: cellPhoneEC.text.trim().isNotEmpty ||
+              mailEC.text.trim().isNotEmpty ||
+              telePhoneEC.text.trim().isNotEmpty
           ? ContactModel(
               id: contactId,
-              cellPhone: cellPhoneEC.text,
-              email: mailEC.text,
-              telePhone: telePhoneEC.text,
+              cellPhone: cellPhoneEC.text.trim(),
+              email: mailEC.text.trim(),
+              telePhone: telePhoneEC.text.trim(),
             )
           : null,
-      address: districtEC.text.isNotEmpty ||
-              streetAddressEC.text.isNotEmpty ||
-              numberAddressEC.text.isNotEmpty ||
-              cityEC.text.isNotEmpty ||
-              stateEC.text.isNotEmpty
+      address: districtEC.text.trim().isNotEmpty ||
+              streetAddressEC.text.trim().isNotEmpty ||
+              numberAddressEC.text.trim().isNotEmpty ||
+              cityEC.text.trim().isNotEmpty ||
+              stateEC.text.trim().isNotEmpty
           ? AddressModel(
               id: addressId,
-              cep: cepEC.text,
-              district: districtEC.text,
-              streetAddress: streetAddressEC.text,
-              numberAddress: numberAddressEC.text,
-              city: cityEC.text,
-              state: stateEC.text,
+              cep: cepEC.text.trim(),
+              district: districtEC.text.trim(),
+              streetAddress: streetAddressEC.text.trim(),
+              numberAddress: numberAddressEC.text.trim(),
+              city: cityEC.text.trim(),
+              state: stateEC.text.trim(),
             )
           : null,
     );

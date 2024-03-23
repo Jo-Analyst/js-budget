@@ -7,7 +7,7 @@ part 'address_model.g.dart';
 class AddressModel {
   AddressModel({
     this.id = 0,
-    this.cep,
+    required this.cep,
     required this.district,
     required this.streetAddress,
     required this.numberAddress,
@@ -17,7 +17,7 @@ class AddressModel {
   });
 
   final int id;
-  final String? cep;
+  final String cep;
   final String district;
   final String streetAddress;
   final String numberAddress;

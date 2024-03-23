@@ -40,7 +40,7 @@ Future<bool?> showConfirmationDialog(BuildContext context, String content,
               ),
             ),
             icon: const Icon(
-              Icons.delete,
+              Icons.thumb_up,
               color: Colors.white,
               size: 25,
             ),

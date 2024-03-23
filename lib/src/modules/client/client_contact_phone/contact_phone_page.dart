@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/contact_model.dart';
+import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/loading.dart';
 
@@ -46,21 +50,29 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
   }
 
   void importContacts() async {
+    final controller = Injector.get<ClientController>();
     // final clientProvider = Provider.of<ClientProvider>(context, listen: false);
 
-    // int index = 0;
-    // for (var phone in phones) {
-    //   clientProvider
-    //       .save({'id': 0, 'name': names[index], 'phone': phone, 'address': ''});
-    //   index++;
-    // }
-
-    // await Backup.toGenerate();
-
-    // showToast(
-    //   message: 'Cliente importado com sucesso.',
-    // );
+    int index = 0;
+    for (var phone in phones) {
+      await controller.save(
+        ClientModel(
+          name: names[index],
+          contact: phone != 'Sem número'
+              ? ContactModel(telePhone: '', cellPhone: phone, email: '')
+              : null,
+        ),
+      );
+      index++;
+    }
   }
+
+  // await Backup.toGenerate();
+
+  // showToast(
+  //   message: 'Cliente importado com sucesso.',
+  // );
+  // }
 
   void selectContact(Map<String, dynamic> contact) {
     setState(() {

@@ -15,8 +15,11 @@ class ProfilePage extends StatelessWidget {
       name: 'João Antônio',
       cnpj: '07.476.463/0001-73',
       contact: ContactModel(
-          cellPhone: '(38) 9 9999-9999', email: 'jsplanejar@gmail.com'),
+          cellPhone: '(38) 9 9999-9999',
+          email: 'jsplanejar@gmail.com',
+          telePhone: ''),
       address: AddressModel(
+        cep: '',
         district: 'Centro',
         streetAddress: 'Rua Antônio Jorge',
         numberAddress: '90',
@@ -55,14 +58,13 @@ class ProfilePage extends StatelessWidget {
                       ),
                       title: profile.contact.cellPhone,
                     ),
-                    if (profile.contact.email != null)
-                      Visibility(
-                        visible: profile.contact.email!.isNotEmpty,
-                        child: CustomListTileIcon(
-                          title: profile.contact.email!,
-                          leading: const Icon(Icons.mail_outlined),
-                        ),
+                    Visibility(
+                      visible: profile.contact.email.isNotEmpty,
+                      child: CustomListTileIcon(
+                        title: profile.contact.email,
+                        leading: const Icon(Icons.mail_outlined),
                       ),
+                    ),
                   ],
                 ),
               ),

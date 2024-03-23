@@ -3,7 +3,9 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
+import 'package:js_budget/src/pages/widgets/address_widget.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/contact_widget.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
@@ -82,82 +84,11 @@ class ClientDetailsPage extends StatelessWidget {
                     const SizedBox(height: 5),
 
                     // contatos
-                    if (client.contact != null)
-                      Card(
-                        child: ColumnTile(
-                          color: Colors.transparent,
-                          textColor: Colors.black,
-                          title: 'Contatos',
-                          children: [
-                            Visibility(
-                              visible: client.contact!.cellPhone.isNotEmpty,
-                              child: CustomListTileIcon(
-                                title: client.contact!.cellPhone,
-                                leading: const Icon(Icons.phone_android),
-                              ),
-                            ),
-                            if (client.contact!.telePhone != null)
-                              Visibility(
-                                visible: client.contact!.telePhone!.isNotEmpty,
-                                child: CustomListTileIcon(
-                                  title: client.contact!.telePhone!,
-                                  leading: const Icon(Icons.phone),
-                                ),
-                              ),
-                            if (client.contact!.email != null)
-                              Visibility(
-                                visible: client.contact!.email!.isNotEmpty,
-                                child: CustomListTileIcon(
-                                  title: client.contact!.email!,
-                                  leading: const Icon(Icons.mail_outline),
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
+                    ContactWidget(contact: client.contact),
                     const SizedBox(height: 5),
 
                     // Endereço
-                    if (client.address != null)
-                      Card(
-                        child: ColumnTile(
-                          title: 'Endereço',
-                          color: Colors.transparent,
-                          textColor: Colors.black,
-                          children: [
-                            Visibility(
-                              visible: client.address!.cep != null,
-                              child: CustomListTileIcon(
-                                title: client.address!.cep!,
-                                leading: const Icon(Icons.map),
-                              ),
-                            ),
-                            CustomListTileIcon(
-                              title: client.address!.district,
-                              leading:
-                                  const Icon(Icons.maps_home_work_outlined),
-                            ),
-                            CustomListTileIcon(
-                              leading: const Icon(
-                                Icons.location_on_outlined,
-                              ),
-                              title: client.address!.streetAddress,
-                            ),
-                            CustomListTileIcon(
-                              title: client.address!.numberAddress,
-                              leading: const Icon(Icons.numbers),
-                            ),
-                            CustomListTileIcon(
-                              title: client.address!.city,
-                              leading: const Icon(Icons.location_city_rounded),
-                            ),
-                            CustomListTileIcon(
-                              title: client.address!.state,
-                              leading: const Icon(Icons.business),
-                            ),
-                          ],
-                        ),
-                      ),
+                    AddressWidget(address: client.address),
                   ],
                 ),
               ),

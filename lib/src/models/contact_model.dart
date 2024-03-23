@@ -3,17 +3,19 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'contact_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ContactModel {
   final int id;
-  final String? telePhone;
+  final String telePhone;
   final String cellPhone;
-  final String? email;
+  final String email;
+  final int? clientId;
   ContactModel({
     this.id = 0,
-    this.telePhone,
+    required this.telePhone,
     required this.cellPhone,
-    this.email,
+    required this.email,
+    this.clientId,
   });
 
   factory ContactModel.fromJson(Map<String, dynamic> json) =>

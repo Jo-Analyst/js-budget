@@ -5,6 +5,7 @@ import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
+import 'package:js_budget/src/modules/client/transform_client_json.dart';
 import 'package:js_budget/src/repositories/client/client_repository.dart';
 
 class ClientRepositoryImpl implements ClientRepository {
@@ -42,33 +43,23 @@ class ClientRepositoryImpl implements ClientRepository {
       ClientModel client) async {
     try {
       int lastId = 0;
-      Map<String, dynamic> infoClient = {'name': client.name};
-      Map<String, dynamic> contactClient = {
-        'cell_phone': client.contact?.cellPhone ?? '',
-        'tele_phone': client.contact?.telePhone ?? '',
-        'email': client.contact?.email ?? '',
-        'client_id': lastId,
-      };
-      Map<String, dynamic> addressClient = {
-        'cep': client.address?.cep,
-        'district': client.address?.district,
-        'street_address': client.address?.streetAddress,
-        'number_address': client.address?.numberAddress,
-        'city': client.address?.city,
-        'state': client.address?.state,
-        'client_id': lastId,
-      };
+      final (:infoClient, :contactClient, :addressClient) =
+          TransformJson.toJson(client);
 
       final db = await DataBase.openDatabase();
 
       await db.transaction((txn) async {
+        infoClient.remove('id');
         lastId = await txn.insert('clients', infoClient);
-        infoClient['id'] = lastId;
 
         if (client.contact != null) {
+          contactClient!['client_id'] = lastId;
+          contactClient.remove('id');
           await txn.insert('contacts', contactClient);
         }
         if (client.address != null) {
+          addressClient!['client_id'] = lastId;
+          addressClient.remove('id');
           await txn.insert('address', addressClient);
         }
       });
@@ -78,14 +69,14 @@ class ClientRepositoryImpl implements ClientRepository {
           id: lastId,
           name: client.name,
           address: client.address != null
-              ? AddressModel.fromJson(addressClient)
+              ? AddressModel.fromJson(addressClient!)
               : null,
           contact: client.contact != null
-              ? ContactModel.fromJson(contactClient)
+              ? ContactModel.fromJson(contactClient!)
               : null,
         ),
       );
-    } catch (e) {
+    } catch (_) {
       return Left(RespositoryException());
     }
   }
@@ -103,8 +94,8 @@ class ClientRepositoryImpl implements ClientRepository {
               'contacts',
               {
                 'cell_phone': client.contact!.cellPhone,
-                'tele_phone': client.contact?.telePhone ?? '',
-                'email': client.contact?.email ?? '',
+                'tele_phone': client.contact!.telePhone,
+                'email': client.contact!.email,
               },
               where: 'id = ?',
               whereArgs: [client.contact!.id]);
@@ -127,7 +118,7 @@ class ClientRepositoryImpl implements ClientRepository {
       });
 
       return Right(unit);
-    } catch (e) {
+    } catch (_) {
       return Left(RespositoryException());
     }
   }

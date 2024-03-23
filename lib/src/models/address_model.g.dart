@@ -8,7 +8,7 @@ part of 'address_model.dart';
 
 AddressModel _$AddressModelFromJson(Map<String, dynamic> json) => AddressModel(
       id: json['id'] as int? ?? 0,
-      cep: json['cep'] as String?,
+      cep: json['cep'] as String,
       district: json['district'] as String,
       streetAddress: json['street_address'] as String,
       numberAddress: json['number_address'] as String,
