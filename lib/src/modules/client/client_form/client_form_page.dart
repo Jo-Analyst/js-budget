@@ -41,16 +41,6 @@ class _ClientFormPageState extends State<ClientFormPage>
     disposeForm();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   client = ModalRoute.of(context)?.settings.arguments as ClientModel?;
-
-  //   if (client != null) {
-  //     initializeForm(client!);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,14 +50,12 @@ class _ClientFormPageState extends State<ClientFormPage>
           IconButton(
             onPressed: () async {
               if (formKey.currentState!.validate()) {
-                controller.save(
-                    saveClient(
-                        clientId: client?.id ?? 0,
-                        addressId: client?.address?.id ?? 0,
-                        contactId: client?.contact?.id ?? 0),
-                    context);
+                controller.save(saveClient(client?.id ?? 0,
+                    client?.address?.id ?? 0, client?.contact?.id ?? 0));
                 Navigator.of(context).pop();
-                Navigator.of(context).pop();
+                if (client != null) {
+                  Navigator.of(context).pop();
+                }
               }
             },
             icon: const Icon(

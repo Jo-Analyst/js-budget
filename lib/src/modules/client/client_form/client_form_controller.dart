@@ -42,8 +42,7 @@ mixin ClientFormController on State<ClientFormPage> {
     stateEC.text = client.address?.state ?? '';
   }
 
-  ClientModel saveClient(
-      {int clientId = 0, int addressId = 0, int contactId = 0}) {
+  ClientModel saveClient(int clientId, int addressId, int contactId) {
     return ClientModel(
       id: clientId,
       name: nameEC.text,
@@ -51,6 +50,7 @@ mixin ClientFormController on State<ClientFormPage> {
               mailEC.text.isNotEmpty ||
               telePhoneEC.text.isNotEmpty
           ? ContactModel(
+              id: contactId,
               cellPhone: cellPhoneEC.text,
               email: mailEC.text,
               telePhone: telePhoneEC.text,
@@ -62,6 +62,7 @@ mixin ClientFormController on State<ClientFormPage> {
               cityEC.text.isNotEmpty ||
               stateEC.text.isNotEmpty
           ? AddressModel(
+              id: addressId,
               cep: cepEC.text,
               district: districtEC.text,
               streetAddress: streetAddressEC.text,

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/address_model.dart';
@@ -13,35 +12,58 @@ class ClientController with Messages {
   }) : _clientRepository = clientRepository;
 
   final _items = ListSignal<ClientModel>([]);
-  ListSignal get items => _items;
+  ListSignal get items => _items
+    ..sort(
+      (a, b) => a.name
+          .toString()
+          .toLowerCase()
+          .compareTo(b.name.toString().toLowerCase()),
+    );
 
   final model = signal<ClientModel?>(null);
 
   final ClientRepository _clientRepository;
 
-  void save(ClientModel client, BuildContext context) async {
+  Future<void> save(ClientModel client) async {
     final result = client.id == 0
-        ? await _clientRepository.save(client)
+        ? await _clientRepository.register(client)
         : await _clientRepository.update(client);
 
     switch (result) {
+      case Right(value: ClientModel model):
+        _items.add(model);
+
+        showSuccess('Cliente cadastrado com sucesso');
+
       case Right():
         if (client.id > 0) {
-          _deleteItem(client);
+          _deleteItem(client.id);
         }
 
         _items.add(client);
-        showSuccess('Cliente cadastrado com sucesso');
+
+        showSuccess('Cliente alterado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o cliente');
     }
   }
 
-  void _deleteItem(ClientModel client) {
-    _items.removeWhere((item) => item.id == client.id);
+  Future<void> deleteClient(int id) async {
+    final result = await _clientRepository.delete(id);
+    switch (result) {
+      case Right():
+        _deleteItem(id);
+        showSuccess('Cliente excluido com sucesso');
+      case Left():
+        showError('Houve um erro ao excluir o cliente');
+    }
   }
 
-  Future<void> findClients(BuildContext context) async {
+  void _deleteItem(int id) {
+    _items.removeWhere((item) => item.id == id);
+  }
+
+  Future<void> findClients() async {
     _items.clear();
     final results = await _clientRepository.findAll();
 
@@ -75,8 +97,6 @@ class ClientController with Messages {
           );
         }
 
-      // _items.addAll(
-      //     listClient.map((client) => ClientModel.fromJson(client)).toList(),);
       case Left():
         showError('Houver erro ao buscar o cliente');
     }

@@ -25,8 +25,7 @@ class _ClientPageState extends State<ClientPage> {
   }
 
   Future<void> loadClients() async {
-    await controller.findClients(context);
-    // setState(() {});
+    await controller.findClients();
   }
 
   @override
@@ -136,11 +135,13 @@ class _ClientPageState extends State<ClientPage> {
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
-                                  onTap: () {
-                                    nav.pushNamed(
+                                  onTap: () async {
+                                    await nav.pushNamed(
                                       '/client/details',
                                       arguments: client,
                                     );
+
+                                    controller.model.value = null;
                                   },
                                   leading: const Icon(Icons.person),
                                   title: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/modules/client/client_controller.dart';
+import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -13,6 +14,7 @@ class ClientDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.get<ClientController>();
     final client = ModalRoute.of(context)!.settings.arguments as ClientModel;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do cliente'),
@@ -29,7 +31,20 @@ class ClientDetailsPage extends StatelessWidget {
           ),
           IconButton(
             tooltip: 'Excluir',
-            onPressed: () {},
+            onPressed: () async {
+              var nav = Navigator.of(context);
+              bool confirm = await showConfirmationDialog(
+                    context,
+                    'Deseja mesmo excluir ${client.name} de sua lista de cliente?',
+                    buttonTitle: 'Sim',
+                  ) ??
+                  false;
+
+              if (confirm) {
+                controller.deleteClient(client.id);
+                nav.pop();
+              }
+            },
             icon: const Icon(
               Icons.delete,
             ),
@@ -74,6 +89,13 @@ class ClientDetailsPage extends StatelessWidget {
                           textColor: Colors.black,
                           title: 'Contatos',
                           children: [
+                            Visibility(
+                              visible: client.contact!.cellPhone.isNotEmpty,
+                              child: CustomListTileIcon(
+                                title: client.contact!.cellPhone,
+                                leading: const Icon(Icons.phone_android),
+                              ),
+                            ),
                             if (client.contact!.telePhone != null)
                               Visibility(
                                 visible: client.contact!.telePhone!.isNotEmpty,
@@ -82,13 +104,6 @@ class ClientDetailsPage extends StatelessWidget {
                                   leading: const Icon(Icons.phone),
                                 ),
                               ),
-                            Visibility(
-                              visible: client.contact!.cellPhone.isNotEmpty,
-                              child: CustomListTileIcon(
-                                title: client.contact!.cellPhone,
-                                leading: const Icon(Icons.phone_android),
-                              ),
-                            ),
                             if (client.contact!.email != null)
                               Visibility(
                                 visible: client.contact!.email!.isNotEmpty,

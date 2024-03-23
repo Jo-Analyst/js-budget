@@ -21,7 +21,7 @@ showToast({
     ),
     background: color,
     leading: icon,
-    position: NotificationPosition.top,
+    position: NotificationPosition.bottom,
     duration: const Duration(seconds: 3),
   );
 }
