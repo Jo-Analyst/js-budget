@@ -24,7 +24,8 @@ class DataBase {
         );
 
         db.execute(
-            'CREATE TABLE IF NOT EXISTS materials (id INTEGER PRIMARY KEY, name TEXT, type TEXT, quantity REAL, unit TEXT, price REAL, month_of_last_purchase TEXT, observation TEXT, supplier TEXT)');
+          'CREATE TABLE IF NOT EXISTS materials (id INTEGER PRIMARY KEY, name TEXT, type TEXT, quantity INTEGER, unit TEXT, price REAL, date_of_last_purchase TEXT, observation TEXT, supplier TEXT)',
+        );
 
         db.execute(
           'CREATE TABLE IF NOT EXISTS budgets (id INTEGER PRIMARY KEY, value_total REAL NOT NULL, status TEXT, created_at TEXT, client_id INTEGER NOT NULL, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)',

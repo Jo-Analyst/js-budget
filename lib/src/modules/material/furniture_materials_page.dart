@@ -142,10 +142,12 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
+                                  onTap: () async {
+                                    await Navigator.of(context).pushNamed(
                                         '/material/details',
                                         arguments: material);
+
+                                    controller.model.value = null;
                                   },
                                   leading: Image.asset(
                                     'assets/images/materia-prima.png',

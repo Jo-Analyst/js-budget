@@ -13,7 +13,6 @@ class ClientPage extends StatefulWidget {
 }
 
 class _ClientPageState extends State<ClientPage> {
-  // List<ClientModel> clients = [];
   final controller = Injector.get<ClientController>();
   String search = '';
 

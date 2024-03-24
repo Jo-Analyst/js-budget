@@ -35,8 +35,9 @@ mixin MaterialFormController on State<MaterialFormPage> {
     dateOfLastPurchaseEC.text = material.dateOfLastPurchase ?? '';
   }
 
-  MaterialModel saveMaterial(int i) {
+  MaterialModel saveMaterial(int id) {
     return MaterialModel(
+      id: id,
       name: nameEC.text,
       type: typeMaterialEC.text,
       unit: unitMaterialEC.text,

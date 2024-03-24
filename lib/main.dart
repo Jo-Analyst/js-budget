@@ -3,6 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/bindings/binding_initial_application.dart';
+import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/expense_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
@@ -16,6 +17,8 @@ import 'package:overlay_support/overlay_support.dart';
 void main() async {
   await initializeDateFormatting('pt_BR', null);
   runApp(const OverlaySupport.global(child: MyApp()));
+  // final db = await DataBase.openDatabase();
+  // await db.execute('CREATE TABLE IF NOT EXISTS materials (id INTEGER PRIMARY KEY, name TEXT, type TEXT, quantity INTEGER, unit TEXT, price REAL, date_of_last_purchase TEXT, observation TEXT, supplier TEXT)');
 }
 
 class MyApp extends StatelessWidget {
@@ -26,13 +29,13 @@ class MyApp extends StatelessWidget {
     return FlutterGetIt(
       bindings: BindingInitialApplication(),
       pages: [
-        FlutterGetItPageBuilder(
-          page: (context) => const SplashPage(),
-          path: '/',
-        ),
+        // FlutterGetItPageBuilder(
+        //   page: (context) => const SplashPage(),
+        //   path: '/',
+        // ),
         FlutterGetItPageBuilder(
           page: (context) => const App(),
-          path: '/my-app',
+          path: '/',
         ),
         const ProfileRouter(),
         const BudgetDetailsRouter(),

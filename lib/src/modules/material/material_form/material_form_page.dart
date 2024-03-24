@@ -33,6 +33,13 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   void initState() {
     super.initState();
     dateOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
+    material = controller.model();
+
+    if (material != null) {
+      print(material!.toJson());
+      initilizeForm(material!);
+      quantityInStock = material!.quantity;
+    }
   }
 
   @override
@@ -44,12 +51,6 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    material = ModalRoute.of(context)?.settings.arguments as MaterialModel?;
-
-    if (material != null) {
-      initilizeForm(material!);
-      quantityInStock = material!.quantity;
-    }
   }
 
   @override
@@ -197,10 +198,10 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                                     );
 
                                     if (quantity != null) {
-                                      quantityInStockEC.text =
-                                          (int.parse(quantityInStockEC.text) +
-                                                  quantity)
-                                              .toString();
+                                      final sum =
+                                          int.parse(quantityInStockEC.text) +
+                                              quantity;
+                                      quantityInStockEC.text = sum.toString();
                                     }
                                   },
                                   tooltip: 'Adicionar Quantidade',
@@ -221,11 +222,10 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                                     );
 
                                     if (quantity != null) {
-                                      quantityInStockEC.text =
-                                          (int.parse(quantityInStockEC.text) -
-                                                  quantity)
-                                              .toString();
-                                      setState(() {});
+                                      final sum =
+                                          int.parse(quantityInStockEC.text) -
+                                              quantity;
+                                      quantityInStockEC.text = sum.toString();
                                     }
                                   },
                                   tooltip: 'Diminuir quantidade',

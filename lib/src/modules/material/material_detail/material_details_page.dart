@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/material/material_controller.dart';
+import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -9,6 +12,7 @@ class MaterialDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Injector.get<MaterialController>();
     final material =
         ModalRoute.of(context)!.settings.arguments as MaterialModel;
     return Scaffold(
@@ -18,9 +22,9 @@ class MaterialDetailsPage extends StatelessWidget {
           IconButton(
             tooltip: 'Editar',
             onPressed: () {
+              controller.model.value = material;
               Navigator.of(context).pushNamed(
                 '/material/register',
-                arguments: material,
               );
             },
             icon: const Icon(
@@ -29,7 +33,20 @@ class MaterialDetailsPage extends StatelessWidget {
           ),
           IconButton(
             tooltip: 'Excluir',
-            onPressed: () {},
+            onPressed: () async {
+              var nav = Navigator.of(context);
+              bool confirm = await showConfirmationDialog(
+                    context,
+                    'Deseja mesmo excluir ${material.name} de sua lista de cliente?',
+                    buttonTitle: 'Sim',
+                  ) ??
+                  false;
+
+              if (confirm) {
+                controller.deleteMaterial(material.id);
+                nav.pop();
+              }
+            },
             icon: const Icon(
               Icons.delete,
             ),

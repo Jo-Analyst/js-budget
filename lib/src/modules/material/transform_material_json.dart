@@ -22,7 +22,7 @@ class TransformJson {
       type: material['type'],
       unit: material['unit'],
       price: material['price'] as double,
-      quantity: material['quantity'],
+      quantity: (material['quantity'] as num).toInt(),
       dateOfLastPurchase: material['date_of_last_purchase'],
       observation: material['observation'],
       supplier: material['supplier'],
