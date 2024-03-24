@@ -30,7 +30,7 @@ class _ClientPageState extends State<ClientPage> {
 
   @override
   Widget build(BuildContext context) {
-    var filteredClients = controller.items
+    var filteredClients = controller.data
         .watch(context)
         .where((client) =>
             client.name.toLowerCase().contains(search.toLowerCase()))

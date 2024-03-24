@@ -10,8 +10,8 @@ class ClientController with Messages {
     required ClientRepository clientRepository,
   }) : _clientRepository = clientRepository;
 
-  final _items = ListSignal<ClientModel>([]);
-  ListSignal get items => _items
+  final _data = ListSignal<ClientModel>([]);
+  ListSignal get data => _data
     ..sort(
       (a, b) => a.name
           .toString()
@@ -30,13 +30,13 @@ class ClientController with Messages {
 
     switch (result) {
       case Right(value: ClientModel model):
-        _items.add(model);
+        _data.add(model);
         showSuccess('Cliente cadastrado com sucesso');
       case Right():
         if (client.id > 0) {
           _deleteItem(client.id);
         }
-        _items.add(client);
+        _data.add(client);
         showSuccess('Cliente alterado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o cliente');
@@ -55,19 +55,17 @@ class ClientController with Messages {
   }
 
   void _deleteItem(int id) {
-    _items.removeWhere((item) => item.id == id);
+    _data.removeWhere((item) => item.id == id);
   }
 
   Future<void> findClients() async {
-    _items.clear();
+    _data.clear();
     final results = await _clientRepository.findAll();
 
     switch (results) {
       case Right(value: List<Map<String, dynamic>> clients):
         for (var client in clients) {
-          print(client);
-
-          _items.add(TransformJson.fromJson(client));
+          _data.add(TransformJson.fromJson(client));
         }
 
       case Left():

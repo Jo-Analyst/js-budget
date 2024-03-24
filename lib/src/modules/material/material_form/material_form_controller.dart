@@ -34,4 +34,17 @@ mixin MaterialFormController on State<MaterialFormPage> {
     observationEC.text = material.observation ?? '';
     dateOfLastPurchaseEC.text = material.dateOfLastPurchase ?? '';
   }
+
+  MaterialModel saveMaterial(int i) {
+    return MaterialModel(
+      name: nameEC.text,
+      type: typeMaterialEC.text,
+      unit: unitMaterialEC.text,
+      quantity: int.parse(quantityInStockEC.text),
+      price: priceMaterialEC.numberValue,
+      supplier: supplierEC.text,
+      observation: observationEC.text,
+      dateOfLastPurchase: dateOfLastPurchaseEC.text,
+    );
+  }
 }

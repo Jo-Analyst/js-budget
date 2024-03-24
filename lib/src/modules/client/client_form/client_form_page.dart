@@ -51,8 +51,9 @@ class _ClientFormPageState extends State<ClientFormPage>
         actions: [
           IconButton(
             onPressed: () async {
+              var nav = Navigator.of(context);
               if (formKey.currentState!.validate()) {
-                controller.save(
+                await controller.save(
                   saveClient(
                     client?.id ?? 0,
                     client?.address?.id ?? 0,
@@ -60,9 +61,9 @@ class _ClientFormPageState extends State<ClientFormPage>
                     isALegalEntity,
                   ),
                 );
-                Navigator.of(context).pop();
+                nav.pop();
                 if (client != null) {
-                  Navigator.of(context).pop();
+                  nav.pop();
                 }
               }
             },

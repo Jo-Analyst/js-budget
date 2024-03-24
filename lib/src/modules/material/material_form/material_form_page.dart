@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/modules/material/material_form/material_form_controller.dart';
 
 import 'package:js_budget/src/modules/material/widget/custom_show_dialog.dart';
@@ -20,6 +22,7 @@ class MaterialFormPage extends StatefulWidget {
 
 class _MaterialFormPageState extends State<MaterialFormPage>
     with MaterialFormController {
+  final controller = Injector.get<MaterialController>();
   final _formKey = GlobalKey<FormState>();
   int quantityInStock = 0;
   bool isCkecked = true;
@@ -56,8 +59,16 @@ class _MaterialFormPageState extends State<MaterialFormPage>
         title: Text(material != null ? 'Editar material' : 'Novo material'),
         actions: [
           IconButton(
-            onPressed: () {
-              _formKey.currentState!.validate();
+            onPressed: () async {
+              var nav = Navigator.of(context);
+              if (_formKey.currentState!.validate()) {
+                await controller.save(saveMaterial(material?.id ?? 0));
+
+                nav.pop();
+                if (material != null) {
+                  nav.pop();
+                }
+              }
             },
             tooltip: 'Salvar',
             icon: const Icon(Icons.save),
