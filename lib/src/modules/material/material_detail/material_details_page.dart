@@ -35,11 +35,9 @@ class MaterialDetailsPage extends StatelessWidget {
             tooltip: 'Excluir',
             onPressed: () async {
               var nav = Navigator.of(context);
-              bool confirm = await showConfirmationDialog(
-                    context,
-                    'Deseja mesmo excluir ${material.name} de sua lista de cliente?',
-                    buttonTitle: 'Sim',
-                  ) ??
+              bool confirm = await showConfirmationDialog(context,
+                      'Deseja mesmo excluir ${material.name} de sua lista de cliente?',
+                      buttonTitle: 'Sim') ??
                   false;
 
               if (confirm) {
