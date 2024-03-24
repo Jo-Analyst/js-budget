@@ -36,7 +36,6 @@ class _MaterialFormPageState extends State<MaterialFormPage>
     material = controller.model();
 
     if (material != null) {
-      print(material!.toJson());
       initilizeForm(material!);
       quantityInStock = material!.quantity;
     }
