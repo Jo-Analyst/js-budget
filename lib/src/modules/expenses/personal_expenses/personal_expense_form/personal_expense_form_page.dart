@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/personal_expense_model.dart';
+import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_form/personal_expense_form_controller.dart';
 
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
@@ -19,11 +21,12 @@ class PersonalExpenseFormPage extends StatefulWidget {
 
 class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
     with PersonalExpenseFormController {
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final controller = Injector.get<PersonalExpenseController>();
   String expenseValue = 'R\$ 0,00';
   DateTime expenseDate = DateTime.now();
   String methodPayment = 'Dinheiro';
-  PersonalExpenseModel? personalExpense;
+  PersonalExpenseModel? expense;
 
   IconData iconMethodPayment(String methodPayment) {
     switch (methodPayment.toLowerCase()) {
@@ -37,16 +40,15 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
 
     expenseDateEC.text = UtilsService.dateFormat(expenseDate);
-    personalExpense =
-        ModalRoute.of(context)!.settings.arguments as PersonalExpenseModel?;
+    expense = controller.model();
 
-    if (personalExpense != null) {
-      initializeForm(personalExpense!);
-      methodPayment = personalExpense!.methodPayment;
+    if (expense != null) {
+      initializeForm(expense!);
+      methodPayment = expense!.methodPayment;
     }
   }
 
@@ -55,14 +57,23 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          personalExpense == null
-              ? 'Nova despesa pessoal'
-              : "Editar despesa pessoal",
+          expense == null ? 'Nova despesa pessoal' : "Editar despesa pessoal",
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                formKey.currentState!.validate();
+              onPressed: () async {
+                var nav = Navigator.of(context);
+                bool valid = _formKey.currentState?.validate() ?? false;
+                print(valid);
+                if (valid) {
+                  await controller.save(
+                    saveExpense(expense?.id ?? 0, methodPayment),
+                  );
+                  nav.pop();
+                  if (expense != null) {
+                    nav.pop();
+                  }
+                }
               },
               icon: const Icon(Icons.save))
         ],
@@ -71,7 +82,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
         child: Padding(
           padding: const EdgeInsets.all(8),
           child: Form(
-            key: formKey,
+            key: _formKey,
             child: Column(
               children: <Widget>[
                 Card(
@@ -113,9 +124,10 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                           style: textStyleSmallDefault,
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            if (expenseValue == "R\$ 0,00") {
+                            if (expenseValueEC.numberValue == 0) {
                               return 'Valor da despesa obrigatório';
                             }
+                            
                             return null;
                           },
                           onChanged: (value) {

@@ -124,9 +124,10 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
                           style: textStyleSmallDefault,
                           keyboardType: TextInputType.number,
                           validator: (value) {
-                            if (expenseValue == "R\$ 0,00") {
+                            if (expenseValueEC.numberValue == 0) {
                               return 'Valor da despesa obrigatório';
                             }
+
                             return null;
                           },
                           onChanged: (value) {

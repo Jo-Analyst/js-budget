@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/personal_expense_model.dart';
+import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
+import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -9,6 +12,8 @@ class PersonalExpenseDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = context.get<PersonalExpenseController>();
+    var nav = Navigator.of(context);
     IconData iconMethodPayment(String methodPayment) {
       switch (methodPayment.toLowerCase()) {
         case 'dinheiro':
@@ -29,13 +34,22 @@ class PersonalExpenseDetailsPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed('/expense/personal/register', arguments: expense);
+              controller.model.value = expense;
+              nav.pushNamed('/expense/personal/register');
             },
             icon: const Icon(Icons.edit),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              final confirm = await showConfirmationDialog(
+                      context, 'Deseja mesmo excluir esta despesa?') ??
+                  false;
+
+              if (confirm) {
+                controller.deleteMaterial(expense.id);
+                nav.pop();
+              }
+            },
             icon: const Icon(Icons.delete),
           ),
         ],

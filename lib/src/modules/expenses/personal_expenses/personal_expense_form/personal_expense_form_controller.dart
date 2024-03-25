@@ -22,4 +22,15 @@ mixin PersonalExpenseFormController on State<PersonalExpenseFormPage> {
     expenseDateEC.text = expense.date;
     observationEC.text = expense.observation ?? '';
   }
+
+  PersonalExpenseModel saveExpense(int id, String methodPayment) {
+    return PersonalExpenseModel(
+      id: id,
+      type: typeOfExpenseEC.text.trim(),
+      value: expenseValueEC.numberValue,
+      date: expenseDateEC.text.trim(),
+      methodPayment: methodPayment,
+      observation: observationEC.text.trim(),
+    );
+  }
 }

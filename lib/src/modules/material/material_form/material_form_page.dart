@@ -48,11 +48,6 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -62,7 +57,9 @@ class _MaterialFormPageState extends State<MaterialFormPage>
             onPressed: () async {
               var nav = Navigator.of(context);
               if (_formKey.currentState!.validate()) {
-                await controller.save(saveMaterial(material?.id ?? 0));
+                await controller.save(
+                  saveMaterial(material?.id ?? 0),
+                );
 
                 nav.pop();
                 if (material != null) {

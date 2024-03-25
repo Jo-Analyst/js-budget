@@ -50,9 +50,6 @@ dependencies:
   month_picker_dialog: ^2.11.0
   contacts_service: ^0.6.3
   loading_animation_widget: ^1.2.1
-  motion_toast: ^2.8.0
-  fluttertoast: ^8.2.4
-  overlay_toast_message: ^1.0.2
   signals: ^4.5.1
   flutter_getit: ^2.0.0
   overlay_support: ^2.1.0

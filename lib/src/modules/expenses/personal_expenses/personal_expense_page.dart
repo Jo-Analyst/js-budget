@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/personal_expense_model.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
+import 'package:signals/signals_flutter.dart';
 
 class PersonalExpensePage extends StatefulWidget {
   const PersonalExpensePage({super.key});
@@ -11,21 +13,30 @@ class PersonalExpensePage extends StatefulWidget {
 }
 
 class _PersonalExpensePageState extends State<PersonalExpensePage> {
+  final controller = Injector.get<PersonalExpenseController>();
   String search = '';
 
   @override
+  void initState() {
+    super.initState();
+    controller.findExpense();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final expenses = [
-      PersonalExpenseModel(
-        type: 'Alimentação',
-        value: 450.75,
-        date: '09/03/2024',
-        methodPayment: 'Cartão de crédito',
-        observation:
-            'asdsajkdhkasjhdkjashdkjhjkashdjhsajkdhashjashdkjashdjkhasjkd asdsajkdhkasjhdkjashdkjhjkashdjhsajkdhashjashdkjashdjkhasjkd',
-      )
-    ];
-    var filteredClients = expenses
+    // final expenses = [
+    //   PersonalExpenseModel(
+    //     type: 'Alimentação',
+    //     value: 450.75,
+    //     date: '09/03/2024',
+    //     methodPayment: 'Cartão de crédito',
+    //     observation:
+    //         'asdsajkdhkasjhdkjashdkjhjkashdjhsajkdhashjashdkjashdjkhasjkd asdsajkdhkasjhdkjashdkjhjkashdjhsajkdhashjashdkjashdjkhasjkd',
+    //   )
+    // ];
+
+    var filteredClients = controller.data
+        .watch(context)
         .where((expense) =>
             expense.type.toLowerCase().contains(search.toLowerCase()))
         .toList();
@@ -114,10 +125,12 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
+                                  onTap: () async {
+                                    await Navigator.of(context).pushNamed(
                                         '/expense/personal/details',
                                         arguments: expense);
+
+                                    controller.model.value = null;
                                   },
                                   leading: const Icon(
                                       Icons.monetization_on_outlined),
