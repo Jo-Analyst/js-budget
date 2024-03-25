@@ -29,8 +29,10 @@ class _ProfileFormPageState extends State<ProfileFormPage>
   @override
   void initState() {
     super.initState();
-    profile = controller.data.first;
-    if (profile != null) {
+    // profile = controller.data.value.first;
+    print(controller.data.value);
+
+    if (controller.data.value.isNotEmpty) {
       initializeForm(profile!);
     }
   }

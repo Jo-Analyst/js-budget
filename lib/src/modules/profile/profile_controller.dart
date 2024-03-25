@@ -11,13 +11,7 @@ class ProfileController with Messages {
   }) : _profileRepository = profileRepository;
 
   final _data = ListSignal<ProfileModel>([]);
-  ListSignal get data => _data
-    ..sort(
-      (a, b) => a.fantasyName
-          .toString()
-          .toLowerCase()
-          .compareTo(b.fantasyName.toString().toLowerCase()),
-    );
+  ListSignal get data => _data;
 
   final model = signal<ProfileModel?>(null);
 
