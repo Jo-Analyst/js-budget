@@ -56,7 +56,7 @@ class _ClientPageState extends State<ClientPage> {
           ),
           IconButton(
             onPressed: () {
-              nav.pushNamed('/client/register');
+              nav.pushNamed('/client/save');
             },
             tooltip: "Novo Cliente",
             icon: const Icon(
@@ -112,7 +112,7 @@ class _ClientPageState extends State<ClientPage> {
                             onPressed: () {
                               Navigator.pushNamed(
                                 context,
-                                '/client/register',
+                                '/client/save',
                               );
                             },
                             icon: const Icon(

@@ -14,33 +14,11 @@ class FixedExpensePage extends StatefulWidget {
 
 class _PersonalExpensePageState extends State<FixedExpensePage> {
   String search = '';
+  final controller = Injector.get<FixedExpenseController>();
 
   @override
   Widget build(BuildContext context) {
-    // final expenses = [
-    //   FixedExpenseModel(
-    //     type: 'Aluguel',
-    //     methodPayment: 'Dinheiro',
-    //     value: 300.0,
-    //     date: '09/03/2024',
-    //   ),
-    //   FixedExpenseModel(
-    //       type: 'Conta de luz',
-    //       value: 85.33,
-    //       methodPayment: 'Pix',
-    //       date: '23/03/2024',
-    //       observation: 'Pagamento da conta de luz realizada  no dia 23'),
-    //   FixedExpenseModel(
-    //       type: 'Conta de água',
-    //       value: 25.0,
-    //       methodPayment: 'Cartão de débito',
-    //       date: '20/03/2024',
-    //       observation: 'Pagamento da conta água realizada  no dia 20'),
-    // ];
-
-    var filteredClients = context
-        .get<FixedExpenseController>()
-        .data
+    var filteredClients = controller.data
         .watch(context)
         .where((expense) =>
             expense.type.toLowerCase().contains(search.toLowerCase()))
@@ -54,7 +32,7 @@ class _PersonalExpensePageState extends State<FixedExpensePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/expense/fixed/register');
+              Navigator.of(context).pushNamed('/expense/fixed/save');
             },
             tooltip: "Nova despesa",
             icon: const Icon(
@@ -109,7 +87,7 @@ class _PersonalExpensePageState extends State<FixedExpensePage> {
                             ),
                             onPressed: () {
                               Navigator.pushNamed(
-                                  context, '/expense/fixed/register');
+                                  context, '/expense/fixed/save');
                             },
                             icon: const Icon(
                               Icons.add,
@@ -130,10 +108,11 @@ class _PersonalExpensePageState extends State<FixedExpensePage> {
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
+                                  onTap: () async {
+                                    await Navigator.of(context).pushNamed(
                                         '/expense/fixed/details',
                                         arguments: expense);
+                                    controller.model.value = null;
                                   },
                                   leading: const Icon(
                                       Icons.monetization_on_outlined),

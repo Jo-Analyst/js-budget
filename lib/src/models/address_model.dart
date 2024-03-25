@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
 part 'address_model.g.dart';
@@ -14,6 +13,7 @@ class AddressModel {
     required this.city,
     required this.state,
     this.clientId,
+    this.profileId,
   });
 
   final int id;
@@ -24,6 +24,7 @@ class AddressModel {
   final String city;
   final String state;
   final int? clientId;
+  final int? profileId;
 
   factory AddressModel.fromJson(Map<String, dynamic> json) =>
       _$AddressModelFromJson(json);

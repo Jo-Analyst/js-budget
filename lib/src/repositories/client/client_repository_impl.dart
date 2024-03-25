@@ -5,7 +5,7 @@ import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
-import 'package:js_budget/src/modules/client/transform_client_json.dart';
+import 'package:js_budget/src/repositories/client/transform_client_json.dart';
 import 'package:js_budget/src/repositories/client/client_repository.dart';
 
 class ClientRepositoryImpl implements ClientRepository {

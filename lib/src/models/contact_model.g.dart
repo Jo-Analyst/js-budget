@@ -12,6 +12,7 @@ ContactModel _$ContactModelFromJson(Map<String, dynamic> json) => ContactModel(
       cellPhone: json['cell_phone'] as String,
       email: json['email'] as String,
       clientId: json['client_id'] as int?,
+      profileId: json['profile_id'] as int?,
     );
 
 Map<String, dynamic> _$ContactModelToJson(ContactModel instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$ContactModelToJson(ContactModel instance) =>
       'cell_phone': instance.cellPhone,
       'email': instance.email,
       'client_id': instance.clientId,
+      'profile_id': instance.profileId,
     };

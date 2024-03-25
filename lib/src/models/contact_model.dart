@@ -10,12 +10,15 @@ class ContactModel {
   final String cellPhone;
   final String email;
   final int? clientId;
+  final int? profileId;
+  
   ContactModel({
     this.id = 0,
     required this.telePhone,
     required this.cellPhone,
     required this.email,
     this.clientId,
+    this.profileId,
   });
 
   factory ContactModel.fromJson(Map<String, dynamic> json) =>

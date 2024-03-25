@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -15,28 +14,6 @@ class FurnitureMaterials extends StatefulWidget {
 
 class _FurnitureMaterialsState extends State<FurnitureMaterials> {
   final controller = Injector.get<MaterialController>();
-  final List<MaterialModel> materials = [
-    // MaterialModel(
-    //   name: 'Madeira de Carvalho',
-    //   type: 'Madeira',
-    //   unit: 'Metros',
-    //   price: 20.0,
-    //   quantity: 30,
-    //   dateOfLastPurchase: 'Fevereiro de 2024',
-    //   observation:
-    //       'Este material é extremamente durável e resistente a insetos. Ideal para a fabricação de móveis de alta qualidade. No entanto, é um pouco mais caro em comparação com outras madeiras disponíveis no mercado',
-    //   supplier: 'Empresa XXX',
-    // ),
-    // MaterialModel(
-    //   name: 'Aço inoxidável',
-    //   type: 'Metal',
-    //   unit: 'Kilograma',
-    //   price: 50.0,
-    //   quantity: 20,
-    //   observation: '',
-    //   supplier: 'Empresa XX',
-    // )
-  ];
 
   String search = '';
 
@@ -66,7 +43,7 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/material/register');
+              Navigator.of(context).pushNamed('/material/save');
             },
             tooltip: "Novo Material",
             icon: const Icon(
@@ -120,8 +97,7 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(
-                                  context, '/material/register');
+                              Navigator.pushNamed(context, '/material/save');
                             },
                             icon: const Icon(
                               Icons.add,

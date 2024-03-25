@@ -31,10 +31,10 @@ class ExpenseModule extends FlutterGetItModule {
   @override
   Map<String, WidgetBuilder> get pages => {
         '/fixed': (_) => const FixedExpensePage(),
-        '/fixed/register': (_) => const FixedExpenseFormPage(),
+        '/fixed/save': (_) => const FixedExpenseFormPage(),
         '/fixed/details': (_) => const FixedExpenseDetailsPage(),
         '/personal': (_) => const PersonalExpensePage(),
-        '/personal/register': (_) => const PersonalExpenseFormPage(),
+        '/personal/save': (_) => const PersonalExpenseFormPage(),
         '/personal/details': (_) => const PersonalExpenseDetailsPage(),
       };
 }

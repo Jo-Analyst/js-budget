@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/fixed_expense_model.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
+import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -24,6 +25,8 @@ class FixedExpenseDetailsPage extends StatelessWidget {
 
     final expense =
         ModalRoute.of(context)!.settings.arguments as FixedExpenseModel;
+    var controller = Injector.get<FixedExpenseController>();
+    var nav = Navigator.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,13 +34,22 @@ class FixedExpenseDetailsPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Injector.get<FixedExpenseController>().model.value = expense;
-              Navigator.of(context).pushNamed('/expense/fixed/register');
+              controller.model.value = expense;
+              nav.pushNamed('/expense/fixed/save');
             },
             icon: const Icon(Icons.edit),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              final confirm = await showConfirmationDialog(
+                      context, 'Deseja mesmo excluir esta despesa?') ??
+                  false;
+
+              if (confirm) {
+                controller.deleteMaterial(expense.id);
+                nav.pop();
+              }
+            },
             icon: const Icon(Icons.delete),
           ),
         ],

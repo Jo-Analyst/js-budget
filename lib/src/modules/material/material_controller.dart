@@ -1,7 +1,7 @@
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/modules/material/transform_material_json.dart';
+import 'package:js_budget/src/repositories/material/transform_material_json.dart';
 import 'package:js_budget/src/repositories/material/material_repository.dart';
 import 'package:signals/signals.dart';
 

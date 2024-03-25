@@ -3,7 +3,7 @@ import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/modules/material/transform_material_json.dart';
+import 'package:js_budget/src/repositories/material/transform_material_json.dart';
 import 'package:js_budget/src/repositories/material/material_repository.dart';
 
 class MaterialRepositoryImpl implements MaterialRepository {

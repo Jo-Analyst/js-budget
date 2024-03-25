@@ -8,7 +8,7 @@ import 'package:js_budget/src/modules/expenses/expense_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
 import 'package:js_budget/src/pages/summary/summary_router.dart';
 import 'package:js_budget/src/pages/home/budget_details/budget_details_router.dart';
-import 'package:js_budget/src/pages/profile/profile_router.dart';
+import 'package:js_budget/src/modules/profile/profile_module.dart';
 import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
           page: (context) => const App(),
           path: '/my-app',
         ),
-        const ProfileRouter(),
         const BudgetDetailsRouter(),
         const FinanceRouter(),
       ],
@@ -42,6 +41,7 @@ class MyApp extends StatelessWidget {
         ClientModule(),
         MaterialModule(),
         ExpenseModule(),
+        ProfileModule(),
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp(
@@ -49,30 +49,6 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: lightTheme,
           routes: routes,
-          //   routes: {
-          //     RouterPage.myApp: (_) => const App(),
-          //     RouterPage.splash: (_) => const SplashPage(),
-          //     RouterPage.budgeDetails: (_) => const BudgetDetailsPage(),
-          //     RouterPage.summary: (_) => const SummaryPage(),
-          //     RouterPage.clients: (_) => const ClientPage(),
-          //     RouterPage.clientForm: (_) => const ClientFormPage(),
-          //     RouterPage.clientDetail: (_) => const ClientDetailPage(),
-          //     RouterPage.clientContactPhone: (_) => const ContactPhonePage(),
-          //     RouterPage.material: (_) => const FurnitureMaterials(),
-          //     RouterPage.materialForm: (_) => const MaterialFormPage(),
-          //     RouterPage.materialDetail: (_) => const MaterialDetailsPage(),
-          //     RouterPage.fixedExpense: (_) => const FixedExpensePage(),
-          //     RouterPage.fixedExpenseForm: (_) => const FixedExpenseFormPage(),
-          //     RouterPage.fixedExpenseDetail: (_) =>
-          //         const FixedExpenseDetailPage(),
-          //     RouterPage.personalExpense: (_) => const PersonalExpensePage(),
-          //     RouterPage.personalExpenseDetail: (_) =>
-          //         const PersonalExpenseDetailPage(),
-          //     RouterPage.personalExpenseForm: (_) =>
-          //         const PersonalExpenseFormPage(),
-          //     RouterPage.profile: (_) => const ProfilePage(),
-          //   },
-          //
         );
       },
     );

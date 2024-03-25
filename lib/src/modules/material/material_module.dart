@@ -20,7 +20,7 @@ class MaterialModule extends FlutterGetItModule {
   @override
   Map<String, WidgetBuilder> get pages => {
         '/': (_) => const FurnitureMaterials(),
-        '/register': (_) => const MaterialFormPage(),
+        '/save': (_) => const MaterialFormPage(),
         '/details': (_) => const MaterialDetailsPage(),
       };
 }

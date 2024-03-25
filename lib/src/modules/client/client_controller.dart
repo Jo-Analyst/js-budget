@@ -1,7 +1,7 @@
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/modules/client/transform_client_json.dart';
+import 'package:js_budget/src/repositories/client/transform_client_json.dart';
 import 'package:js_budget/src/repositories/client/client_repository.dart';
 import 'package:signals/signals.dart';
 

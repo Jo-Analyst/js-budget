@@ -24,17 +24,6 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final expenses = [
-    //   PersonalExpenseModel(
-    //     type: 'Alimentação',
-    //     value: 450.75,
-    //     date: '09/03/2024',
-    //     methodPayment: 'Cartão de crédito',
-    //     observation:
-    //         'asdsajkdhkasjhdkjashdkjhjkashdjhsajkdhashjashdkjashdjkhasjkd asdsajkdhkasjhdkjashdkjhjkashdjhsajkdhashjashdkjashdjkhasjkd',
-    //   )
-    // ];
-
     var filteredClients = controller.data
         .watch(context)
         .where((expense) =>
@@ -49,7 +38,7 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/expense/personal/register');
+              Navigator.of(context).pushNamed('/expense/personal/save');
             },
             tooltip: "Nova despesa",
             icon: const Icon(
@@ -104,7 +93,7 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
                             ),
                             onPressed: () {
                               Navigator.of(context)
-                                  .pushNamed('/expense/personal/register');
+                                  .pushNamed('/expense/personal/save');
                             },
                             icon: const Icon(
                               Icons.add,

@@ -8,14 +8,16 @@ part 'profile_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ProfileModel {
+  final int id;
   final String corporateReason;
-  final String name;
+  final String fantasyName;
   final String document;
   final ContactModel contact;
   final AddressModel address;
   ProfileModel({
+    this.id = 0,
     required this.corporateReason,
-    required this.name,
+    required this.fantasyName,
     required this.document,
     required this.contact,
     required this.address,

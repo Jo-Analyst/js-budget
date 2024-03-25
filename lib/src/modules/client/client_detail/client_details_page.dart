@@ -25,7 +25,7 @@ class ClientDetailsPage extends StatelessWidget {
             tooltip: 'Editar',
             onPressed: () {
               controller.model.value = client;
-              Navigator.of(context).pushNamed('/client/register');
+              Navigator.of(context).pushNamed('/client/save');
             },
             icon: const Icon(
               Icons.edit,

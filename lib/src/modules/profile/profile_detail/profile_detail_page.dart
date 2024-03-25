@@ -5,14 +5,14 @@ import 'package:js_budget/src/models/profile_model.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ProfileDetailsPage extends StatelessWidget {
+  const ProfileDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     final profile = ProfileModel(
       corporateReason: 'JS Planejar',
-      name: 'João Antônio',
+      fantasyName: 'João Antônio',
       document: '07.476.463/0001-73',
       contact: ContactModel(
           cellPhone: '(38) 9 9999-9999',
@@ -31,7 +31,14 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil'),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.edit))],
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/profile/save');
+            },
+            icon: const Icon(Icons.edit),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(

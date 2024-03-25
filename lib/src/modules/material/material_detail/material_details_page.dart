@@ -24,7 +24,7 @@ class MaterialDetailsPage extends StatelessWidget {
             onPressed: () {
               controller.model.value = material;
               Navigator.of(context).pushNamed(
-                '/material/register',
+                '/material/save',
               );
             },
             icon: const Icon(

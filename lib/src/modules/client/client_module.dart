@@ -21,7 +21,7 @@ class ClientModule extends FlutterGetItModule {
   @override
   Map<String, WidgetBuilder> get pages => {
         '/': (context) => const ClientPage(),
-        '/register': (context) => const ClientFormPage(),
+        '/save': (context) => const ClientFormPage(),
         '/details': (context) => const ClientDetailsPage(),
         '/contact-phone': (context) => const ContactPhonePage(),
       };
