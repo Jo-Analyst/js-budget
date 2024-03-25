@@ -31,7 +31,6 @@ class ProfileController with Messages {
     switch (result) {
       case Right(value: ProfileModel model):
         _data.add(model);
-        showSuccess('Seu perfil foi cadastrado com sucesso');
       case Right():
         if (profile.id > 0) {
           _deleteItem(profile.id);
@@ -47,7 +46,7 @@ class ProfileController with Messages {
     _data.removeWhere((item) => item.id == id);
   }
 
-  Future<void> findClients() async {
+  Future<void> findProfile() async {
     _data.clear();
     final results = await _profileRepository.findAll();
 

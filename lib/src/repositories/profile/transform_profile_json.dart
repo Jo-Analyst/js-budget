@@ -12,6 +12,7 @@ class TransformJson {
       'id': profile.id,
       'fantasy_name': profile.fantasyName,
       'document': profile.document,
+      'corporate_reason': profile.corporateReason
     };
 
     Map<String, dynamic> contactProfile = {
@@ -44,11 +45,11 @@ class TransformJson {
     return ProfileModel(
       id: profile['id'],
       fantasyName: profile['fantasy_name'],
-      document: profile['document'] ?? '',
+      document: profile['document'],
       corporateReason: profile['corporate_reason'],
       contact: ContactModel(
         id: profile['contact_id'] ?? 0,
-        cellPhone: profile['cell_phone'] ?? '',
+        cellPhone: profile['cell_phone'],
         telePhone: profile['tele_phone'] ?? '',
         email: profile['email'] ?? '',
         profileId: profile['id'],

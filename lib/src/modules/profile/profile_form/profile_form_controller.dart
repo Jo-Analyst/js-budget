@@ -52,7 +52,7 @@ mixin ProfileFormController on State<ProfileFormPage> {
     return ProfileModel(
       id: id,
       fantasyName: fantasyNameEC.text.trim(),
-      corporateReason: '',
+      corporateReason: corporateReasonEC.text.trim(),
       document: documentEC.text,
       contact: ContactModel(
         id: contactId,

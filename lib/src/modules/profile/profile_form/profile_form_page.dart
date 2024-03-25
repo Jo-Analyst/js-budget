@@ -25,12 +25,11 @@ class _ProfileFormPageState extends State<ProfileFormPage>
   final formKey = GlobalKey<FormState>();
   ProfileModel? profile;
   final controller = Injector.get<ProfileController>();
-  bool isALegalEntity = false;
 
   @override
   void initState() {
     super.initState();
-    profile = controller.model.value;
+    profile = controller.data.first;
     if (profile != null) {
       initializeForm(profile!);
     }
@@ -59,7 +58,8 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                     profile?.address.id ?? 0,
                   ),
                 );
-                nav.pop();
+
+                nav.pushNamedAndRemoveUntil('/my-app', (route) => false);
                 if (profile != null) {
                   nav.pop();
                 }
@@ -126,29 +126,24 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                           validator: Validatorless.required(
                               'Razão social obrigátório'),
                         ),
-                        Visibility(
-                          visible: isALegalEntity,
-                          child: TextFormField(
-                            controller: documentEC,
-                            onTapOutside: (_) =>
-                                FocusScope.of(context).unfocus(),
-                            keyboardType: TextInputType.text,
-                            inputFormatters: [
-                              MaskTextInputFormatter(
-                                  mask: '##.###.###/####-##'),
+                        TextFormField(
+                          controller: documentEC,
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          keyboardType: TextInputType.text,
+                          inputFormatters: [
+                            MaskTextInputFormatter(mask: '##.###.###/####-##'),
+                          ],
+                          decoration: const InputDecoration(
+                            labelText: 'CNPJ*',
+                            suffixIcon: Icon(Icons.description),
+                            labelStyle: TextStyle(fontFamily: 'Poppins'),
+                          ),
+                          style: textStyleSmallDefault,
+                          validator: Validatorless.multiple(
+                            [
+                              Validatorless.required('CNPJ é obrigatório'),
+                              Validatorless.cnpj('CNPJ inválido')
                             ],
-                            decoration: const InputDecoration(
-                              labelText: 'CNPJ*',
-                              suffixIcon: Icon(Icons.description),
-                              labelStyle: TextStyle(fontFamily: 'Poppins'),
-                            ),
-                            style: textStyleSmallDefault,
-                            validator: Validatorless.multiple(
-                              [
-                                Validatorless.required('CNPJ é obrigatório'),
-                                Validatorless.cnpj('CNPJ inválido')
-                              ],
-                            ),
                           ),
                         ),
                       ],

@@ -14,10 +14,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
       findAll() async {
     try {
       final db = await DataBase.openDatabase();
-      final profiles = await db.rawQuery(
-          'SELECT profiles.id, profiles.fantasy_name, profile.corporate_reason, profiles.document, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM profiles INNER JOIN contacts ON contacts.profile_id = profiles.id INNER JOIN address ON address.profile_id = profiles.id ORDER BY profiles.name');
+      final profile = await db.rawQuery(
+          'SELECT profile.id, profile.fantasy_name, profile.corporate_reason, profile.document, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM profile INNER JOIN contacts ON contacts.profile_id = profile.id INNER JOIN address ON address.profile_id = profile.id');
 
-      return Right(profiles);
+      return Right(profile);
     } catch (_) {
       return Left(RespositoryException());
     }
@@ -27,6 +27,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<Either<RespositoryException, ProfileModel>> register(
       ProfileModel profile) async {
     try {
+      print(profile.toJson());
       int lastId = 0;
       final (:infoProfile, :contactProfile, :addressProfile) =
           TransformJson.toJson(profile);
@@ -35,7 +36,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
       await db.transaction((txn) async {
         infoProfile.remove('id');
-        lastId = await txn.insert('profiles', infoProfile);
+        lastId = await txn.insert('profile', infoProfile);
 
         contactProfile!['profile_id'] = lastId;
         contactProfile.remove('id');
@@ -67,7 +68,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         await txn.update(
-            'profiles',
+            'profile',
             {
               'fantasy_name': profile.fantasyName,
               'corporate_reason': profile.corporateReason,
