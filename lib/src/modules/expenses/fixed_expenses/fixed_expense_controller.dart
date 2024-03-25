@@ -1,13 +1,13 @@
+import 'package:js_budget/src/models/fixed_expense_model.dart';
+import 'package:js_budget/src/repositories/expense/fixed_expense/fixed_repository.dart';
 import 'package:signals/signals.dart';
 
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
-import 'package:js_budget/src/models/personal_expense_model.dart';
-import 'package:js_budget/src/repositories/expense/personal_expense/transform_personal_expense_json.dart';
-import 'package:js_budget/src/repositories/expense/personal_expense/personal_repository.dart';
+import 'package:js_budget/src/repositories/expense/fixed_expense/transform_fixed_expense_json.dart';
 
-class PersonalExpenseController with Messages {
-  final _data = ListSignal<PersonalExpenseModel>([]);
+class FixedExpenseController with Messages {
+  final _data = ListSignal<FixedExpenseModel>([]);
   ListSignal get data => _data
     ..sort(
       (a, b) => a.type
@@ -16,27 +16,27 @@ class PersonalExpenseController with Messages {
           .compareTo(b.type.toString().toLowerCase()),
     );
 
-  final model = signal<PersonalExpenseModel?>(null);
+  final model = signal<FixedExpenseModel?>(null);
 
-  final PersonalExpenseRepository _expenseRepository;
-  PersonalExpenseController({
-    required PersonalExpenseRepository expenseRepository,
+  final FixedExpenseRepository _expenseRepository;
+  FixedExpenseController({
+    required FixedExpenseRepository expenseRepository,
   }) : _expenseRepository = expenseRepository;
 
-  Future<void> save(PersonalExpenseModel personalExpense) async {
-    final result = personalExpense.id == 0
-        ? await _expenseRepository.register(personalExpense)
-        : await _expenseRepository.update(personalExpense);
+  Future<void> save(FixedExpenseModel expense) async {
+    final result = expense.id == 0
+        ? await _expenseRepository.register(expense)
+        : await _expenseRepository.update(expense);
 
     switch (result) {
-      case Right(value: PersonalExpenseModel model):
+      case Right(value: FixedExpenseModel model):
         _data.add(model);
         showSuccess('Despesa cadastrado com sucesso');
       case Right():
-        if (personalExpense.id > 0) {
-          _deleteItem(personalExpense.id);
+        if (expense.id > 0) {
+          _deleteItem(expense.id);
         }
-        _data.add(personalExpense);
+        _data.add(expense);
         showSuccess('Despesa alterado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o despesa');

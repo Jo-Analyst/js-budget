@@ -63,9 +63,8 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
           IconButton(
               onPressed: () async {
                 var nav = Navigator.of(context);
-                bool valid = _formKey.currentState?.validate() ?? false;
-                print(valid);
-                if (valid) {
+
+                if (_formKey.currentState?.validate() ?? false) {
                   await controller.save(
                     saveExpense(expense?.id ?? 0, methodPayment),
                   );
@@ -127,7 +126,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                             if (expenseValueEC.numberValue == 0) {
                               return 'Valor da despesa obrigatório';
                             }
-                            
+
                             return null;
                           },
                           onChanged: (value) {

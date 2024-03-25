@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/fixed_expense_model.dart';
+import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -29,8 +31,8 @@ class FixedExpenseDetailsPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushNamed('/expense/fixed/register', arguments: expense);
+              Injector.get<FixedExpenseController>().model.value = expense;
+              Navigator.of(context).pushNamed('/expense/fixed/register');
             },
             icon: const Icon(Icons.edit),
           ),

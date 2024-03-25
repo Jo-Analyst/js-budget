@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/fixed_expense_model.dart';
+import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_form/fixed_expense_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -17,12 +19,13 @@ class FixedExpenseFormPage extends StatefulWidget {
 
 class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
     with FixedExpenseFormController {
+  final controller = Injector.get<FixedExpenseController>();
   final formKey = GlobalKey<FormState>();
   String expenseValue = 'R\$ 0,00';
   DateTime expenseDate = DateTime.now();
   String methodPayment = 'Dinheiro';
   String? typeExpense;
-  FixedExpenseModel? fixedExpense;
+  FixedExpenseModel? expense;
 
   IconData iconMethodPayment(String methodPayment) {
     switch (methodPayment.toLowerCase()) {
@@ -39,17 +42,12 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
   void initState() {
     super.initState();
     expenseDateEC.text = UtilsService.dateFormat(expenseDate);
-  }
+    expense = controller.model();
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    fixedExpense =
-        ModalRoute.of(context)?.settings.arguments as FixedExpenseModel?;
-    if (fixedExpense != null) {
-      initializeForm(fixedExpense!);
-      methodPayment = fixedExpense!.methodPayment;
-      typeExpense = fixedExpense!.type;
+    if (expense != null) {
+      initializeForm(expense!);
+      methodPayment = expense!.methodPayment;
+      typeExpense = expense!.type;
     }
   }
 
@@ -58,14 +56,24 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          fixedExpense == null
+          expense == null
               ? 'Nova despesa da oficina'
               : "Editar despesa da oficina",
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                formKey.currentState!.validate();
+              onPressed: () async {
+                var nav = Navigator.of(context);
+
+                if (formKey.currentState?.validate() ?? false) {
+                  await controller.save(
+                    saveExpense(expense?.id ?? 0, methodPayment, typeExpense!),
+                  );
+                  nav.pop();
+                  if (expense != null) {
+                    nav.pop();
+                  }
+                }
               },
               icon: const Icon(Icons.save))
         ],
@@ -99,7 +107,9 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
                           child: Text(value),
                         );
                       }).toList(),
-                      onChanged: (_) {},
+                      onChanged: (value) {
+                        typeExpense = value;
+                      },
                       validator:
                           Validatorless.required('Tipo de despesa obrigatório'),
                     ),

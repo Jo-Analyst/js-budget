@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/fixed_expense_model.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
+import 'package:signals/signals_flutter.dart';
 
 class FixedExpensePage extends StatefulWidget {
   const FixedExpensePage({super.key});
@@ -15,27 +17,31 @@ class _PersonalExpensePageState extends State<FixedExpensePage> {
 
   @override
   Widget build(BuildContext context) {
-    final expenses = [
-      FixedExpenseModel(
-        type: 'Aluguel',
-        methodPayment: 'Dinheiro',
-        value: 300.0,
-        date: '09/03/2024',
-      ),
-      FixedExpenseModel(
-          type: 'Conta de luz',
-          value: 85.33,
-          methodPayment: 'Pix',
-          date: '23/03/2024',
-          observation: 'Pagamento da conta de luz realizada  no dia 23'),
-      FixedExpenseModel(
-          type: 'Conta de água',
-          value: 25.0,
-          methodPayment: 'Cartão de débito',
-          date: '20/03/2024',
-          observation: 'Pagamento da conta água realizada  no dia 20'),
-    ];
-    var filteredClients = expenses
+    // final expenses = [
+    //   FixedExpenseModel(
+    //     type: 'Aluguel',
+    //     methodPayment: 'Dinheiro',
+    //     value: 300.0,
+    //     date: '09/03/2024',
+    //   ),
+    //   FixedExpenseModel(
+    //       type: 'Conta de luz',
+    //       value: 85.33,
+    //       methodPayment: 'Pix',
+    //       date: '23/03/2024',
+    //       observation: 'Pagamento da conta de luz realizada  no dia 23'),
+    //   FixedExpenseModel(
+    //       type: 'Conta de água',
+    //       value: 25.0,
+    //       methodPayment: 'Cartão de débito',
+    //       date: '20/03/2024',
+    //       observation: 'Pagamento da conta água realizada  no dia 20'),
+    // ];
+
+    var filteredClients = context
+        .get<FixedExpenseController>()
+        .data
+        .watch(context)
         .where((expense) =>
             expense.type.toLowerCase().contains(search.toLowerCase()))
         .toList();

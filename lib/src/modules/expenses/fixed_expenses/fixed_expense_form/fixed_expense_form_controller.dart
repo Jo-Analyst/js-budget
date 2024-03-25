@@ -19,4 +19,15 @@ mixin FixedExpenseFormController on State<FixedExpenseFormPage> {
     expenseDateEC.text = expense.date;
     observationEC.text = expense.observation ?? '';
   }
+
+  FixedExpenseModel saveExpense(int id, String methodPayment, String type) {
+    return FixedExpenseModel(
+      id: id,
+      type: type,
+      value: expenseValueEC.numberValue,
+      date: expenseDateEC.text.trim(),
+      methodPayment: methodPayment,
+      observation: observationEC.text.trim(),
+    );
+  }
 }
