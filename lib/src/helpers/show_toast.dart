@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-showToast({
-  required String message,
-  Color? color,
-  Icon? icon,
-}) {
+showToast(
+    {required String message, Color? color, Icon? icon, required Position position}) {
   showSimpleNotification(
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -21,7 +19,9 @@ showToast({
     ),
     background: color,
     leading: icon,
-    position: NotificationPosition.bottom,
+    position: position == Position.bottom
+        ? NotificationPosition.bottom
+        : NotificationPosition.top,
     duration: const Duration(seconds: 3),
   );
 }

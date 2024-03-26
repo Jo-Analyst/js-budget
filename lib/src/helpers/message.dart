@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/helpers/show_toast.dart';
 
+enum Position { top, bottom }
+
 mixin class Messages {
-  void showError(String message) {
+  void showError(String message, {Position position = Position.bottom}) {
     showToast(
       message: message,
       color: Colors.red,
+      position: position,
       icon: const Icon(
         Icons.error,
         color: Colors.white,
@@ -13,8 +16,9 @@ mixin class Messages {
     );
   }
 
-  void showInfo(String message) {
+  void showInfo(String message, {Position position = Position.bottom}) {
     showToast(
+      position: position,
       message: message,
       color: const Color.fromARGB(255, 20, 87, 143),
       icon: const Icon(
@@ -24,8 +28,9 @@ mixin class Messages {
     );
   }
 
-  void showSuccess(String message) {
+  void showSuccess(String message, {Position position = Position.bottom}) {
     showToast(
+      position: position,
       message: message,
       color: Colors.green,
       icon: const Icon(Icons.thumb_up),

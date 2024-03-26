@@ -48,6 +48,15 @@ mixin ProfileFormController on State<ProfileFormPage> {
     stateEC.text = profile.address.state;
   }
 
+  void setCep(AddressModel address, {int addressId = 0}) {
+    cepEC.text = address.cep;
+    districtEC.text = address.district;
+    streetAddressEC.text = address.streetAddress;
+    numberAddressEC.text = address.numberAddress;
+    cityEC.text = address.city;
+    stateEC.text = address.state;
+  }
+
   ProfileModel saveProfile(int id, int contactId, int addressId) {
     return ProfileModel(
       id: id,

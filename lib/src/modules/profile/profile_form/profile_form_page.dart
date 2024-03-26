@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/helpers/message.dart';
+import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/profile_model.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_form/profile_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/find_cep_controller.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
@@ -24,12 +26,13 @@ class _ProfileFormPageState extends State<ProfileFormPage>
     with ProfileFormController, Messages {
   final formKey = GlobalKey<FormState>();
   ProfileModel? profile;
-  final controller = Injector.get<ProfileController>();
+  final profileController = Injector.get<ProfileController>();
+  final cepController = Injector.get<FindCepController>();
 
   @override
   void initState() {
     super.initState();
-    profile = controller.model.value;
+    profile = profileController.model.value;
     if (profile != null) {
       initializeForm(profile!);
     }
@@ -39,6 +42,16 @@ class _ProfileFormPageState extends State<ProfileFormPage>
   void dispose() {
     super.dispose();
     disposeForm();
+  }
+
+  void findCep(value) async {
+    if (value.length == 10) {
+      await cepController.findCep(value);
+      AddressModel? address = cepController.addressModel;
+      if (address != null) {
+        setCep(address);
+      }
+    }
   }
 
   @override
@@ -51,7 +64,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
             onPressed: () async {
               var nav = Navigator.of(context);
               if (formKey.currentState!.validate()) {
-                await controller.save(
+                await profileController.save(
                   saveProfile(
                     profile?.id ?? 0,
                     profile?.contact.id ?? 0,
@@ -245,6 +258,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             MaskTextInputFormatter(mask: '##.###-###'),
                           ],
                           style: textStyleSmallDefault,
+                          onChanged: findCep,
                         ),
                         TextFormField(
                           controller: districtEC,

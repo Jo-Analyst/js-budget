@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/helpers/message.dart';
+import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/modules/client/client_form/client_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/find_cep_controller.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
@@ -24,13 +26,14 @@ class _ClientFormPageState extends State<ClientFormPage>
     with ClientFormController, Messages {
   final formKey = GlobalKey<FormState>();
   ClientModel? client;
-  final controller = Injector.get<ClientController>();
+  final clientController = Injector.get<ClientController>();
+  final cepController = Injector.get<FindCepController>();
   bool isALegalEntity = false;
 
   @override
   void initState() {
     super.initState();
-    client = controller.model.value;
+    client = clientController.model.value;
     if (client != null) {
       initializeForm(client!);
       isALegalEntity = client!.isALegalEntity;
@@ -43,6 +46,16 @@ class _ClientFormPageState extends State<ClientFormPage>
     disposeForm();
   }
 
+  void findCep(value) async {
+    if (value.length == 10) {
+      await cepController.findCep(value);
+      AddressModel? address = cepController.addressModel;
+      if (address != null) {
+        setCep(address);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +66,7 @@ class _ClientFormPageState extends State<ClientFormPage>
             onPressed: () async {
               var nav = Navigator.of(context);
               if (formKey.currentState!.validate()) {
-                await controller.save(
+                await clientController.save(
                   saveClient(
                     client?.id ?? 0,
                     client?.address?.id ?? 0,
@@ -237,6 +250,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                             MaskTextInputFormatter(mask: '##.###-###'),
                           ],
                           style: textStyleSmallDefault,
+                          onChanged: findCep,
                         ),
                         TextFormField(
                           controller: districtEC,

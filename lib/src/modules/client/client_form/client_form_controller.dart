@@ -45,6 +45,15 @@ mixin ClientFormController on State<ClientFormPage> {
     stateEC.text = client.address?.state ?? '';
   }
 
+  void setCep(AddressModel address, {int addressId = 0}) {
+    cepEC.text = address.cep;
+    districtEC.text = address.district;
+    streetAddressEC.text = address.streetAddress;
+    numberAddressEC.text = address.numberAddress;
+    cityEC.text = address.city;
+    stateEC.text = address.state;
+  }
+
   ClientModel saveClient(
       int clientId, int addressId, int contactId, isALegalEntity) {
     return ClientModel(
@@ -60,6 +69,7 @@ mixin ClientFormController on State<ClientFormPage> {
               cellPhone: cellPhoneEC.text.trim(),
               email: mailEC.text.trim(),
               telePhone: telePhoneEC.text.trim(),
+              clientId: clientId,
             )
           : null,
       address: districtEC.text.trim().isNotEmpty ||
@@ -75,6 +85,7 @@ mixin ClientFormController on State<ClientFormPage> {
               numberAddress: numberAddressEC.text.trim(),
               city: cityEC.text.trim(),
               state: stateEC.text.trim(),
+              clientId: clientId,
             )
           : null,
     );
