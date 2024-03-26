@@ -5,10 +5,15 @@ import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
+import 'package:js_budget/src/repositories/address/address_repository_impl.dart';
 import 'package:js_budget/src/repositories/client/transform_client_json.dart';
 import 'package:js_budget/src/repositories/client/client_repository.dart';
+import 'package:js_budget/src/repositories/contact/contact_repository_impl.dart';
 
 class ClientRepositoryImpl implements ClientRepository {
+  final AddressRepositoryImpl _addressRepository = AddressRepositoryImpl();
+  final ContactRepositoryImpl _contactRepository = ContactRepositoryImpl();
+
   @override
   Future<Either<RespositoryException, Unit>> delete(int id) async {
     try {
@@ -55,13 +60,15 @@ class ClientRepositoryImpl implements ClientRepository {
 
         if (client.contact != null) {
           contactClient!['client_id'] = lastId;
+
           contactClient.remove('id');
-          await txn.insert('contacts', contactClient);
+          await _contactRepository.saveContact(contactClient, txn);
         }
         if (client.address != null) {
           addressClient!['client_id'] = lastId;
           addressClient.remove('id');
-          await txn.insert('address', addressClient);
+
+          await _addressRepository.saveAddress(addressClient, txn);
         }
       });
 
@@ -100,30 +107,24 @@ class ClientRepositoryImpl implements ClientRepository {
             whereArgs: [client.id]);
 
         if (client.contact != null) {
-          await txn.update(
-              'contacts',
-              {
-                'cell_phone': client.contact!.cellPhone,
-                'tele_phone': client.contact!.telePhone,
-                'email': client.contact!.email,
-              },
-              where: 'id = ?',
-              whereArgs: [client.contact!.id]);
+          await _contactRepository.saveContact({
+            'cell_phone': client.contact!.cellPhone,
+            'tele_phone': client.contact!.telePhone,
+            'email': client.contact!.email,
+            'client_id': client.id,
+          }, txn);
         }
 
         if (client.address != null) {
-          await txn.update(
-              'address',
-              {
-                'cep': client.address?.cep,
-                'district': client.address?.district,
-                'street_address': client.address?.streetAddress,
-                'number_address': client.address?.numberAddress,
-                'city': client.address?.city,
-                'state': client.address?.state,
-              },
-              where: 'id = ?',
-              whereArgs: [client.address!.id]);
+          await _addressRepository.saveAddress({
+            'cep': client.address?.cep,
+            'district': client.address?.district,
+            'street_address': client.address?.streetAddress,
+            'number_address': client.address?.numberAddress,
+            'city': client.address?.city,
+            'state': client.address?.state,
+            'client_id': client.id,
+          }, txn);
         }
       });
 
