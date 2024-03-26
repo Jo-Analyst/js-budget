@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
@@ -10,14 +12,14 @@ import 'package:js_budget/src/repositories/profile/transform_profile_json.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
   @override
-  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
-      findAll() async {
+  Future<Either<RespositoryException, ProfileModel?>> find() async {
     try {
       final db = await DataBase.openDatabase();
       final profile = await db.rawQuery(
           'SELECT profile.id, profile.fantasy_name, profile.corporate_reason, profile.document, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM profile INNER JOIN contacts ON contacts.profile_id = profile.id INNER JOIN address ON address.profile_id = profile.id');
 
-      return Right(profile);
+      return Right(
+          profile.isNotEmpty ? TransformJson.fromJson(profile.first) : null);
     } catch (_) {
       return Left(RespositoryException());
     }
@@ -27,7 +29,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
   Future<Either<RespositoryException, ProfileModel>> register(
       ProfileModel profile) async {
     try {
-      print(profile.toJson());
       int lastId = 0;
       final (:infoProfile, :contactProfile, :addressProfile) =
           TransformJson.toJson(profile);

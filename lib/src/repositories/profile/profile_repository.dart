@@ -7,5 +7,5 @@ abstract interface class ProfileRepository {
   Future<Either<RespositoryException, ProfileModel>> register(
       ProfileModel profile);
   Future<Either<RespositoryException, Unit>> update(ProfileModel profile);
-  Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
+  Future<Either<RespositoryException, ProfileModel?>> find();
 }

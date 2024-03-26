@@ -59,7 +59,8 @@ class _SplashPageState extends State<SplashPage> {
     var nav = Navigator.of(context);
     await controller.findProfile();
     Timer(const Duration(seconds: 7), () async {
-      if (controller.data.isNotEmpty) {
+      if (controller.model.value != null) {
+        controller.model.value = controller.model.value;
         nav.pushReplacementNamed('/my-app');
         return;
       }

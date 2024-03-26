@@ -1,35 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/address_model.dart';
-import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/models/profile_model.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:signals/signals_flutter.dart';
 
-class ProfileDetailsPage extends StatefulWidget {
+class ProfileDetailsPage extends StatelessWidget {
   const ProfileDetailsPage({super.key});
 
   @override
-  State<ProfileDetailsPage> createState() => _ProfileDetailsPageState();
-}
-
-class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
-  final controller = Injector.get<ProfileController>();
-  ProfileModel? profile;
-  @override
-  void initState() {
-    super.initState();
-    loadProfile();
-  }
-
-  void loadProfile() async {
-    await controller.findProfile();
-    profile = controller.data.first;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    ProfileModel? profile =
+        context.get<ProfileController>().model.watch(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil'),
@@ -48,11 +32,25 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
           child: Column(
             children: [
               Card(
-                child: CustomListTileIcon(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  leading: const Icon(Icons.store, size: 35),
-                  title: profile!.corporateReason,
-                  subtitle: profile!.document,
+                child: Column(
+                  children: [
+                    CustomListTileIcon(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 15),
+                      leading: const Icon(Icons.store, size: 35),
+                      title: profile!.fantasyName,
+                      subtitle: profile.document,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: CustomListTileIcon(
+                        leading: const Icon(
+                          Icons.person,
+                        ),
+                        title: profile.corporateReason,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Card(
@@ -65,12 +63,12 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                       leading: const Icon(
                         Icons.phone_android,
                       ),
-                      title: profile!.contact.cellPhone,
+                      title: profile.contact.cellPhone,
                     ),
                     Visibility(
-                      visible: profile!.contact.email.isNotEmpty,
+                      visible: profile.contact.email.isNotEmpty,
                       child: CustomListTileIcon(
-                        title: profile!.contact.email,
+                        title: profile.contact.email,
                         leading: const Icon(Icons.mail_outlined),
                       ),
                     ),
@@ -84,25 +82,25 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                   textColor: Colors.black,
                   children: [
                     CustomListTileIcon(
-                      title: profile!.address.district,
+                      title: profile.address.district,
                       leading: const Icon(Icons.maps_home_work_outlined),
                     ),
                     CustomListTileIcon(
                       leading: const Icon(
                         Icons.location_on_outlined,
                       ),
-                      title: profile!.address.streetAddress,
+                      title: profile.address.streetAddress,
                     ),
                     CustomListTileIcon(
-                      title: profile!.address.numberAddress,
+                      title: profile.address.numberAddress,
                       leading: const Icon(Icons.numbers),
                     ),
                     CustomListTileIcon(
-                      title: profile!.address.city,
+                      title: profile.address.city,
                       leading: const Icon(Icons.location_city_rounded),
                     ),
                     CustomListTileIcon(
-                      title: profile!.address.state,
+                      title: profile.address.state,
                       leading: const Icon(Icons.business),
                     ),
                   ],

@@ -29,7 +29,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
   @override
   void initState() {
     super.initState();
-    profile = controller.data.first;
+    profile = controller.model.value;
     if (profile != null) {
       initializeForm(profile!);
     }
@@ -59,10 +59,12 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                   ),
                 );
 
-                nav.pushNamedAndRemoveUntil('/my-app', (route) => false);
-                if (profile != null) {
-                  nav.pop();
+                if (profile == null) {
+                  nav.pushNamedAndRemoveUntil('/my-app', (route) => false);
+                  return;
                 }
+
+                nav.pop();
               }
             },
             icon: const Icon(
