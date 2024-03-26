@@ -1,4 +1,3 @@
-import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/profile_model.dart';

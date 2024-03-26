@@ -32,26 +32,26 @@ class ProfileDetailsPage extends StatelessWidget {
           child: Column(
             children: [
               Card(
-                child: Column(
-                  children: [
-                    CustomListTileIcon(
-                      contentPadding:
-                          const EdgeInsets.symmetric(horizontal: 15),
-                      leading: const Icon(Icons.store, size: 35),
-                      title: profile!.fantasyName,
-                      subtitle: profile.document,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: CustomListTileIcon(
+                child: CustomListTileIcon(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  leading: const Icon(Icons.store, size: 35),
+                  title: profile!.fantasyName,
+                  subtitle: profile.document,
+                ),
+              ),
+              Card(
+                child: ColumnTile(
+                    title: 'Razão social',
+                    color: Colors.transparent,
+                    textColor: Colors.black,
+                    children: [
+                      CustomListTileIcon(
                         leading: const Icon(
                           Icons.person,
                         ),
                         title: profile.corporateReason,
                       ),
-                    ),
-                  ],
-                ),
+                    ]),
               ),
               Card(
                 child: ColumnTile(

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
