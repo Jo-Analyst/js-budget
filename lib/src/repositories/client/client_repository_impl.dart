@@ -87,7 +87,6 @@ class ClientRepositoryImpl implements ClientRepository {
   @override
   Future<Either<RespositoryException, Unit>> update(ClientModel client) async {
     try {
-      print(client.address!.toJson());
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         await txn.update(
