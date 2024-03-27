@@ -55,11 +55,11 @@ mixin ClientFormController on State<ClientFormPage> {
   }
 
   ClientModel saveClient(
-      int clientId, int addressId, int contactId, isALegalEntity) {
+      int clientId, int addressId, int contactId, int isALegalEntity) {
     return ClientModel(
       id: clientId,
       name: nameEC.text.trim(),
-      document: isALegalEntity ? documentEC.text : '',
+      document: isALegalEntity == 1 ? documentEC.text : '',
       isALegalEntity: isALegalEntity,
       contact: cellPhoneEC.text.trim().isNotEmpty ||
               mailEC.text.trim().isNotEmpty ||

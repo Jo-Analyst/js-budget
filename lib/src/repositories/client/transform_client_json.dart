@@ -46,7 +46,7 @@ class TransformJson {
       id: client['id'],
       name: client['name'],
       document: client['document'] ?? '',
-      isALegalEntity: client['is_a_legal_entity'] == '0' ? false : true,
+      isALegalEntity: client['is_a_legal_entity'],
       contact: _contactExists(client)
           ? ContactModel(
               id: client['contact_id'] ?? 0,

@@ -10,7 +10,7 @@ ClientModel _$ClientModelFromJson(Map<String, dynamic> json) => ClientModel(
       id: json['id'] as int? ?? 0,
       name: json['name'] as String,
       document: json['document'] as String?,
-      isALegalEntity: json['isALegalEntity'] as bool? ?? false,
+      isALegalEntity: json['isALegalEntity'] as int? ?? 0,
       contact: json['contact'] == null
           ? null
           : ContactModel.fromJson(json['contact'] as Map<String, dynamic>),

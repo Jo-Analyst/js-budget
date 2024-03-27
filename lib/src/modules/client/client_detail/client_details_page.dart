@@ -17,6 +17,7 @@ class ClientDetailsPage extends StatelessWidget {
     final controller = context.get<ClientController>();
     final client = ModalRoute.of(context)!.settings.arguments as ClientModel;
 
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do cliente'),
@@ -79,7 +80,7 @@ class ClientDetailsPage extends StatelessWidget {
                             ),
                           ),
                           Visibility(
-                            visible: client.isALegalEntity &&
+                            visible: client.isALegalEntity == 1 &&
                                 client.document!.isNotEmpty,
                             child: CustomListTileIcon(
                               title: client.document ?? '',

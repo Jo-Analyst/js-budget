@@ -12,7 +12,7 @@ class ClientModel {
     this.id = 0,
     required this.name,
     this.document,
-    this.isALegalEntity = false,
+    this.isALegalEntity = 0,
     this.contact,
     this.address,
   });
@@ -20,7 +20,7 @@ class ClientModel {
   final int id;
   final String name;
   final String? document;
-  final bool isALegalEntity;
+  final int isALegalEntity;
   final ContactModel? contact;
   final AddressModel? address;
 

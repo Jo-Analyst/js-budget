@@ -36,7 +36,7 @@ class _ClientFormPageState extends State<ClientFormPage>
     client = clientController.model.value;
     if (client != null) {
       initializeForm(client!);
-      isALegalEntity = client!.isALegalEntity;
+      isALegalEntity = client!.isALegalEntity == 1;
     }
   }
 
@@ -73,7 +73,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                     client?.id ?? 0,
                     client?.address?.id ?? 0,
                     client?.contact?.id ?? 0,
-                    isALegalEntity,
+                    isALegalEntity ? 1 : 0,
                   ),
                 );
                 nav.pop();
