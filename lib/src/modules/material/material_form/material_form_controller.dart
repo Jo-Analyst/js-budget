@@ -25,13 +25,13 @@ mixin MaterialFormController on State<MaterialFormPage> {
   }
 
   void initilizeForm(MaterialModel material) {
-    nameEC.text = material.name;
-    typeMaterialEC.text = material.type ?? '';
-    unitMaterialEC.text = material.unit;
+    nameEC.text = material.name.trim();
+    typeMaterialEC.text = material.type?.trim() ?? '';
+    unitMaterialEC.text = material.unit.trim();
     quantityInStockEC.text = material.quantity.toString();
     priceMaterialEC.updateValue(material.price);
-    supplierEC.text = material.supplier ?? '';
-    observationEC.text = material.observation ?? '';
+    supplierEC.text = material.supplier?.trim() ?? '';
+    observationEC.text = material.observation?.trim() ?? '';
     dateOfLastPurchaseEC.text = material.dateOfLastPurchase ?? '';
   }
 

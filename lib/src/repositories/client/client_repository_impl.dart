@@ -108,6 +108,7 @@ class ClientRepositoryImpl implements ClientRepository {
 
         if (client.contact != null) {
           await _contactRepository.saveContact({
+            'id': client.contact!.id,
             'cell_phone': client.contact!.cellPhone,
             'tele_phone': client.contact!.telePhone,
             'email': client.contact!.email,
@@ -117,6 +118,7 @@ class ClientRepositoryImpl implements ClientRepository {
 
         if (client.address != null) {
           await _addressRepository.saveAddress({
+            'id': client.address!.id,
             'cep': client.address?.cep,
             'district': client.address?.district,
             'street_address': client.address?.streetAddress,

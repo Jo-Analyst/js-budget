@@ -21,6 +21,7 @@ class FindCepController with Messages {
       case Left(value: RespositoryException e):
         if (e.message.toLowerCase() == 'cep inexistente.') {
           showError(e.message, position: Position.top);
+          addressModel = null;
         }
     }
   }

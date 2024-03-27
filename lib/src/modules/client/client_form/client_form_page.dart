@@ -52,6 +52,8 @@ class _ClientFormPageState extends State<ClientFormPage>
       AddressModel? address = cepController.addressModel;
       if (address != null) {
         setCep(address);
+      } else {
+        cepEC.text = '';
       }
     }
   }

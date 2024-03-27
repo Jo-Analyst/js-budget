@@ -6,7 +6,6 @@ class AddressRepositoryImpl implements AddressRepository {
   @override
   Future<void> saveAddress(
       Map<String, dynamic> address, Transaction txn) async {
-    print(address);
     int id = address['id'] ?? 0;
     if (id == 0) {
       await txn.insert('address', address);
