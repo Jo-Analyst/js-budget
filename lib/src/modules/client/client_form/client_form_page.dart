@@ -150,7 +150,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                               controller: documentEC,
                               onTapOutside: (_) =>
                                   FocusScope.of(context).unfocus(),
-                              keyboardType: TextInputType.text,
+                              keyboardType: TextInputType.number,
                               inputFormatters: [
                                 MaskTextInputFormatter(
                                     mask: '##.###.###/####-##'),
@@ -246,7 +246,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                         TextFormField(
                           controller: cepEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          keyboardType: TextInputType.streetAddress,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             labelText: 'CEP',
                             suffixIcon: Icon(Icons.map),
@@ -262,6 +262,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                           controller: districtEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           keyboardType: TextInputType.streetAddress,
+                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             labelText: 'Bairro',
                             suffixIcon: Image.asset(
@@ -276,6 +277,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                           controller: streetAddressEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           keyboardType: TextInputType.streetAddress,
+                          textCapitalization: TextCapitalization.words,
                           decoration: const InputDecoration(
                             labelText: 'Logradouro',
                             suffixIcon: Icon(Icons.location_on_outlined),
@@ -300,6 +302,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                         TextFormField(
                           controller: cityEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          textCapitalization: TextCapitalization.words,
                           decoration: const InputDecoration(
                             labelText: 'Cidade',
                             suffixIcon: Icon(Icons.location_city_rounded),

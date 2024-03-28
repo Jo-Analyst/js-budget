@@ -45,6 +45,22 @@ class DataBase {
         db.execute(
           "CREATE TABLE IF NOT EXISTS personal_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)",
         );
+
+        db.execute(
+          'CREATE TABLE IF NOT EXISTS products (id INTEGER PRIMARY KEY, name TEXT, description TEXT, unit TEXT)',
+        );
+
+        db.execute(
+          'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description)',
+        );
+
+        db.execute(
+          "CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY, date TEXT NOT NULL, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id)",
+        );
+
+        db.execute(
+          "CREATE TABLE IF NOT EXISTS items_requests (id INTEGER PRIMARY KEY, product_id INTEGER, service_id, FOREIGN KEY (product_id) REFERENCES products(id), , FOREIGN KEY (service_id) REFERENCES services(id))",
+        );
       },
       version: 1,
     );

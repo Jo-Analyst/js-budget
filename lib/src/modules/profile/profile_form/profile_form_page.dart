@@ -44,7 +44,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
     disposeForm();
   }
 
-   void findCep(value) async {
+  void findCep(value) async {
     if (value.length == 10) {
       await cepController.findCep(value);
 
@@ -150,7 +150,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                         TextFormField(
                           controller: documentEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           inputFormatters: [
                             MaskTextInputFormatter(mask: '##.###.###/####-##'),
                           ],
@@ -254,7 +254,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                         TextFormField(
                           controller: cepEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          keyboardType: TextInputType.streetAddress,
+                          keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             labelText: 'CEP',
                             suffixIcon: Icon(Icons.map),
@@ -270,6 +270,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                           controller: districtEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           keyboardType: TextInputType.streetAddress,
+                          textCapitalization: TextCapitalization.words,
                           decoration: InputDecoration(
                             labelText: 'Bairro*',
                             suffixIcon: Image.asset(
@@ -286,6 +287,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                           controller: streetAddressEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           keyboardType: TextInputType.streetAddress,
+                          textCapitalization: TextCapitalization.words,
                           decoration: const InputDecoration(
                             labelText: 'Logradouro*',
                             suffixIcon: Icon(Icons.location_on_outlined),
@@ -313,6 +315,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                         TextFormField(
                           controller: cityEC,
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          textCapitalization: TextCapitalization.words,
                           decoration: const InputDecoration(
                             labelText: 'Cidade*',
                             suffixIcon: Icon(Icons.location_city_rounded),

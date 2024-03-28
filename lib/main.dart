@@ -6,6 +6,7 @@ import 'package:js_budget/src/bindings/binding_initial_application.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/expense_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
+import 'package:js_budget/src/modules/request/request_modules.dart';
 import 'package:js_budget/src/pages/summary/summary_router.dart';
 import 'package:js_budget/src/pages/home/budget_details/budget_details_router.dart';
 import 'package:js_budget/src/modules/profile/profile_module.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         MaterialModule(),
         ExpenseModule(),
         ProfileModule(),
+        RequestModules(),
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp(

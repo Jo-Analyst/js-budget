@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
 import 'package:js_budget/src/pages/menu/widgets/list_tile_icon.dart';
 
@@ -35,6 +36,20 @@ class MenuPage extends StatelessWidget {
                   title: 'Materiais',
                   onTap: () {
                     nav.pushNamed('/material');
+                  },
+                ),
+                ListTileIcon(
+                  icon: Icons.local_offer,
+                  title: 'Produtos',
+                  onTap: () {
+                    nav.pushNamed('/product');
+                  },
+                ),
+                ListTileIcon(
+                  icon: FontAwesomeIcons.screwdriverWrench,
+                  title: 'Serviços',
+                  onTap: () {
+                    nav.pushNamed('/service');
                   },
                 ),
               ],
@@ -75,6 +90,7 @@ class MenuPage extends StatelessWidget {
                 ),
               ),
               child: ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/request'),
                 leading: const Icon(Icons.assignment),
                 title: Text(
                   'Pedidos',

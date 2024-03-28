@@ -1,0 +1,13 @@
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/request/request_page.dart';
+
+class RequestModules extends FlutterGetItModule {
+  @override
+  String get moduleRouteName => '/request';
+
+  @override
+  Map<String, WidgetBuilder> get pages => {
+        '/': (_) => const RequestPage(),
+      };
+}
