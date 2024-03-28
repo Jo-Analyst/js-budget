@@ -11,6 +11,7 @@ class FindCepController with Messages {
 
   final FindCepRepository _findCepRepository;
   AddressModel? addressModel;
+  bool thereIsAnError = false;
 
   Future<void> findCep(String numberCep) async {
     final result = await _findCepRepository.findCep(numberCep);
@@ -22,6 +23,7 @@ class FindCepController with Messages {
         if (e.message.toLowerCase() == 'cep inexistente.') {
           showError(e.message, position: Position.top);
           addressModel = null;
+          thereIsAnError = true;
         }
     }
   }

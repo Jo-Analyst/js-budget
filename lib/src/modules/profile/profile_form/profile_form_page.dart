@@ -50,6 +50,8 @@ class _ProfileFormPageState extends State<ProfileFormPage>
       AddressModel? address = cepController.addressModel;
       if (address != null) {
         setCep(address);
+      } else if (cepController.thereIsAnError) {
+        cepEC.text = '';
       }
     }
   }
