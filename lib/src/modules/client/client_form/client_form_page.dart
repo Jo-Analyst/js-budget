@@ -49,6 +49,7 @@ class _ClientFormPageState extends State<ClientFormPage>
   void findCep(value) async {
     if (value.length == 10) {
       await cepController.findCep(value);
+
       AddressModel? address = cepController.addressModel;
       if (address != null) {
         setCep(address);

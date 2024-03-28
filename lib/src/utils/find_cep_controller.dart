@@ -15,7 +15,7 @@ class FindCepController with Messages {
 
   Future<void> findCep(String numberCep) async {
     final result = await _findCepRepository.findCep(numberCep);
-
+    addressModel = null;
     switch (result) {
       case Right(value: AddressModel address):
         addressModel = address;

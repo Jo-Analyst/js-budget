@@ -44,14 +44,18 @@ class _ProfileFormPageState extends State<ProfileFormPage>
     disposeForm();
   }
 
-  void findCep(value) async {
+   void findCep(value) async {
     if (value.length == 10) {
       await cepController.findCep(value);
+
       AddressModel? address = cepController.addressModel;
       if (address != null) {
         setCep(address);
       } else if (cepController.thereIsAnError) {
         cepEC.text = '';
+        cepController.thereIsAnError = false;
+      } else {
+        cepEC.text = value;
       }
     }
   }
