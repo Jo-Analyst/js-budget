@@ -6,6 +6,7 @@ import 'package:js_budget/src/bindings/binding_initial_application.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/expense_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
+import 'package:js_budget/src/modules/products/product_module.dart';
 import 'package:js_budget/src/modules/request/request_modules.dart';
 import 'package:js_budget/src/pages/summary/summary_router.dart';
 import 'package:js_budget/src/pages/home/budget_details/budget_details_router.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       ],
       modules: [
         ClientModule(),
+        ProductModule(),
         MaterialModule(),
         ExpenseModule(),
         ProfileModule(),
