@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/product_model.dart';
-import 'package:js_budget/src/modules/products/product_form/product_form_page.dart';
+import 'package:js_budget/src/modules/product/product_form/product_form_page.dart';
 
 mixin ProductFormController on State<ProductFormPage> {
   final nameEC = TextEditingController();

@@ -51,7 +51,7 @@ class DataBase {
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description)',
+          'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description TEXT)',
         );
 
         db.execute(

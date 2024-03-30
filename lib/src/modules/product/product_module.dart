@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/modules/products/product_controller.dart';
-import 'package:js_budget/src/modules/products/product_detail/product_detail_page.dart';
-import 'package:js_budget/src/modules/products/product_form/product_form_page.dart';
-import 'package:js_budget/src/modules/products/product_page.dart';
+import 'package:js_budget/src/modules/product/product_controller.dart';
+import 'package:js_budget/src/modules/product/product_detail/product_detail_page.dart';
+import 'package:js_budget/src/modules/product/product_form/product_form_page.dart';
+import 'package:js_budget/src/modules/product/product_page.dart';
 import 'package:js_budget/src/repositories/product/product_repository.dart';
 import 'package:js_budget/src/repositories/product/product_repository_impl.dart';
 

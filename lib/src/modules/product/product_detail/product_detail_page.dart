@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
-import 'package:js_budget/src/modules/products/product_controller.dart';
+import 'package:js_budget/src/modules/product/product_controller.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 
 class ProductDetailPage extends StatelessWidget {
@@ -14,7 +14,7 @@ class ProductDetailPage extends StatelessWidget {
     final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detalhes do material'),
+        title: const Text('Detalhes do produto'),
         actions: [
           IconButton(
             tooltip: 'Editar',

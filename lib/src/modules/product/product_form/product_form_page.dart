@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/product_model.dart';
-import 'package:js_budget/src/modules/products/product_controller.dart';
-import 'package:js_budget/src/modules/products/product_form/product_form_controller.dart';
+import 'package:js_budget/src/modules/product/product_controller.dart';
+import 'package:js_budget/src/modules/product/product_form/product_form_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -79,17 +79,14 @@ class _ProductFormPageState extends State<ProductFormPage>
                       TextFormField(
                         controller: nameEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText: 'Nome do Produto*',
-                          labelStyle: const TextStyle(fontFamily: 'Poppins'),
-                          suffixIcon: Image.asset(
-                            'assets/images/materia-prima-28px.png',
-                            width: 25,
-                          ),
+                          labelStyle: TextStyle(fontFamily: 'Poppins'),
+                          suffixIcon: Icon(Icons.local_offer),
                         ),
                         style: textStyleSmallDefault,
                         validator: Validatorless.required(
-                            'Nome do material obrigatório.'),
+                            'Nome do produto obrigatório.'),
                       ),
                     ],
                   ),

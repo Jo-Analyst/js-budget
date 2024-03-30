@@ -1,49 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/modules/products/product_controller.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:js_budget/src/modules/service/service_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:signals/signals_flutter.dart';
 
-class ProductPage extends StatefulWidget {
-  const ProductPage({super.key});
+class ServicePage extends StatefulWidget {
+  const ServicePage({super.key});
 
   @override
-  State<ProductPage> createState() => _ProductPageState();
+  State<ServicePage> createState() => _ServicePageState();
 }
 
-class _ProductPageState extends State<ProductPage> {
-  final controller = Injector.get<ProductController>();
+class _ServicePageState extends State<ServicePage> {
+  final controller = Injector.get<ServiceController>();
   String search = '';
 
   @override
   void initState() {
     super.initState();
-    loadProducts();
+    loadService();
   }
 
-  Future<void> loadProducts() async {
-    await controller.findProduct();
+  Future<void> loadService() async {
+    await controller.findService();
   }
 
   @override
   Widget build(BuildContext context) {
-    var filteredProducts = controller.data
+    var filteredServices = controller.data
         .watch(context)
-        .where((product) =>
-            product.name.toLowerCase().contains(search.toLowerCase()))
+        .where((service) =>
+            service.description.toLowerCase().contains(search.toLowerCase()))
         .toList();
 
     var theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Produtos'),
+        title: const Text('Serviços'),
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/product/save');
+              Navigator.of(context).pushNamed('/service/save');
             },
-            tooltip: "Novo produto",
+            tooltip: "Novo Serviço",
             icon: const Icon(
               Icons.add,
               size: 30,
@@ -64,13 +65,13 @@ class _ProductPageState extends State<ProductPage> {
                 });
               },
               decoration: const InputDecoration(
-                labelText: 'Buscar produto',
+                labelText: 'Buscar serviço',
                 suffixIcon: Icon(Icons.search),
               ),
             ),
           ),
           Expanded(
-            child: filteredProducts.isEmpty
+            child: filteredServices.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -82,7 +83,7 @@ class _ProductPageState extends State<ProductPage> {
                         ),
                         const SizedBox(height: 5),
                         const Text(
-                          'Nenhum produto encontrado',
+                          'Nenhum serviço encontrado',
                           style: textStyleSmallDefault,
                         ),
                         const SizedBox(height: 10),
@@ -95,14 +96,14 @@ class _ProductPageState extends State<ProductPage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/product/save');
+                              Navigator.pushNamed(context, '/service/save');
                             },
                             icon: const Icon(
                               Icons.add,
                               color: Colors.black,
                             ),
                             label: const Text(
-                              'Adicionar produto',
+                              'Adicionar serviço',
                               style: textStyleSmallDefault,
                             ),
                           ),
@@ -111,28 +112,22 @@ class _ProductPageState extends State<ProductPage> {
                     ),
                   )
                 : ListView(
-                    children: filteredProducts
-                        .map((product) => Column(
+                    children: filteredServices
+                        .map((service) => Column(
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
                                   onTap: () async {
                                     await Navigator.of(context).pushNamed(
-                                        '/product/details',
-                                        arguments: product);
+                                        '/service/details',
+                                        arguments: service);
 
                                     controller.model.value = null;
                                   },
-                                  leading: Image.asset(
-                                    'assets/images/materia-prima.png',
-                                    width: 25,
-                                  ),
+                                  leading: const Icon(
+                                      FontAwesomeIcons.screwdriverWrench),
                                   title: Text(
-                                    product.name,
-                                    style: textStyleSmallDefault,
-                                  ),
-                                  subtitle: Text(
-                                    product.unit,
+                                    service.description,
                                     style: textStyleSmallDefault,
                                   ),
                                 ),
