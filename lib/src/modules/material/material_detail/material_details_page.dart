@@ -37,7 +37,7 @@ class MaterialDetailsPage extends StatelessWidget {
               var nav = Navigator.of(context);
               bool confirm = await showConfirmationDialog(
                     context,
-                    'Deseja mesmo excluir ${material.name} de sua lista de cliente?',
+                    'Deseja mesmo excluir ${material.name} de sua lista de materiais?',
                     buttonTitle: 'Sim',
                   ) ??
                   false;

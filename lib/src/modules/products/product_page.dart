@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/products_model.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/products/product_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:signals/signals_flutter.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -10,13 +12,8 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends State<ProductPage> {
+  final controller = Injector.get<ProductController>();
   String search = '';
-  List<ProductsModel> products = [
-    ProductsModel(name: 'Guarda Roupa', detail: '', unit: 'unidade'),
-    ProductsModel(name: 'Mesa', detail: '', unit: 'unidade'),
-    ProductsModel(name: 'Cadeira', detail: '', unit: 'unidade'),
-    ProductsModel(name: 'Banco', detail: '', unit: 'unidade'),
-  ];
 
   @override
   void initState() {
@@ -25,12 +22,13 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future<void> loadProducts() async {
-    // await controller.findMaterial();
+    await controller.findProduct();
   }
 
   @override
   Widget build(BuildContext context) {
-    var filteredProducts = products
+    var filteredProducts = controller.data
+        .watch(context)
         .where((product) =>
             product.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
@@ -123,7 +121,7 @@ class _ProductPageState extends State<ProductPage> {
                                         '/product/details',
                                         arguments: product);
 
-                                    // controller.model.value = null;
+                                    controller.model.value = null;
                                   },
                                   leading: Image.asset(
                                     'assets/images/materia-prima.png',

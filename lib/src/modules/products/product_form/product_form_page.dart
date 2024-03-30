@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/products_model.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/product_model.dart';
+import 'package:js_budget/src/modules/products/product_controller.dart';
 import 'package:js_budget/src/modules/products/product_form/product_form_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:validatorless/validatorless.dart';
@@ -13,21 +15,20 @@ class ProductFormPage extends StatefulWidget {
 
 class _ProductFormPageState extends State<ProductFormPage>
     with ProductFormController {
+  final controller = Injector.get<ProductController>();
   final _formKey = GlobalKey<FormState>();
-  final unit = 'Unidade Padrão';
+  String unit = 'Unidade Padrão';
 
-  ProductsModel? product;
+  ProductModel? product;
 
   @override
   void initState() {
     super.initState();
-    // dateOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
-    // product = controller.model();
+    product = controller.model();
 
-    // if (product != null) {
-    //   initilizeForm(product!);
-    //   quantityInStock = product!.quantity;
-    // }
+    if (product != null) {
+      initializeForm(product!);
+    }
   }
 
   @override
@@ -44,16 +45,16 @@ class _ProductFormPageState extends State<ProductFormPage>
         actions: [
           IconButton(
             onPressed: () async {
-              // var nav = Navigator.of(context);
+              var nav = Navigator.of(context);
               if (_formKey.currentState!.validate()) {
-                //   await controller.save(
-                //     saveMaterial(product?.id ?? 0),
-                //   );
+                await controller.save(
+                  save(product?.id ?? 0, unit),
+                );
 
-                //   nav.pop();
-                //   if (product != null) {
-                //     nav.pop();
-                //   }
+                nav.pop();
+                if (product != null) {
+                  nav.pop();
+                }
               }
             },
             tooltip: 'Salvar',
@@ -126,15 +127,21 @@ class _ProductFormPageState extends State<ProductFormPage>
                         value: unit,
                         decoration: const InputDecoration(
                           labelText: 'Unidade',
-                          suffixIcon: Icon(Icons.paid),
+                          suffixIcon: Icon(Icons.square_foot_sharp),
                         ),
                         items: <String>[
                           'Unidade Padrão',
                           'Pacote',
                           'Caixa',
                           'Milímetro (mm)',
+                          'Milímetro quadrado (mm²)',
+                          'Milímetro cúbico (mm³)',
                           'Centímetro (cm)',
+                          'Centímetro quadrado (cm²)',
+                          'Centímetro cúbico (cm³)',
                           'Metro (m)',
+                          'Metro quadrado (m²)',
+                          'Metro cúbico (m³)',
                           'Grama (g)',
                           'Quilograma (kg)',
                         ].map((String value) {
@@ -143,7 +150,9 @@ class _ProductFormPageState extends State<ProductFormPage>
                             child: Text(value),
                           );
                         }).toList(),
-                        onChanged: (value) {},
+                        onChanged: (value) {
+                          unit = value!;
+                        },
                       )
                     ],
                   ),
