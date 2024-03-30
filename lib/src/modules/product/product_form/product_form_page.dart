@@ -17,7 +17,7 @@ class _ProductFormPageState extends State<ProductFormPage>
     with ProductFormController {
   final controller = Injector.get<ProductController>();
   final _formKey = GlobalKey<FormState>();
-  String unit = 'Unidade Padrão';
+  String unit = 'Unidade';
 
   ProductModel? product;
 
@@ -68,6 +68,7 @@ class _ProductFormPageState extends State<ProductFormPage>
           padding: const EdgeInsets.all(8),
           child: Column(
             children: [
+              // Nome do produto
               Card(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -93,33 +94,14 @@ class _ProductFormPageState extends State<ProductFormPage>
                 ),
               ),
               const SizedBox(height: 5),
+
               Card(
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: TextFormField(
-                              maxLines: 5,
-                              controller: descriptionEC,
-                              onTapOutside: (_) =>
-                                  FocusScope.of(context).unfocus(),
-                              keyboardType: TextInputType.text,
-                              readOnly: product != null,
-                              decoration: const InputDecoration(
-                                labelText: 'Descrição detalhada do produto',
-                                labelStyle: TextStyle(fontFamily: 'Poppins'),
-                                suffixIcon: Icon(Icons.description),
-                              ),
-                              style: textStyleSmallDefault,
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Unidade
                       DropdownButtonFormField<String>(
                         value: unit,
                         decoration: const InputDecoration(
@@ -127,20 +109,20 @@ class _ProductFormPageState extends State<ProductFormPage>
                           suffixIcon: Icon(Icons.square_foot_sharp),
                         ),
                         items: <String>[
-                          'Unidade Padrão',
-                          'Pacote',
                           'Caixa',
-                          'Milímetro (mm)',
-                          'Milímetro quadrado (mm²)',
-                          'Milímetro cúbico (mm³)',
                           'Centímetro (cm)',
                           'Centímetro quadrado (cm²)',
                           'Centímetro cúbico (cm³)',
+                          'Grama (g)',
                           'Metro (m)',
                           'Metro quadrado (m²)',
                           'Metro cúbico (m³)',
-                          'Grama (g)',
+                          'Milímetro (mm)',
+                          'Milímetro quadrado (mm²)',
+                          'Milímetro cúbico (mm³)',
+                          'Pacote',
                           'Quilograma (kg)',
+                          'Unidade',
                         ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
@@ -150,7 +132,22 @@ class _ProductFormPageState extends State<ProductFormPage>
                         onChanged: (value) {
                           unit = value!;
                         },
-                      )
+                      ),
+
+                      // Descrição do produto
+                      TextFormField(
+                        maxLines: 5,
+                        controller: descriptionEC,
+                        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        keyboardType: TextInputType.text,
+                        readOnly: product != null,
+                        decoration: const InputDecoration(
+                          labelText: 'Descrição detalhada do produto',
+                          labelStyle: TextStyle(fontFamily: 'Poppins'),
+                          suffixIcon: Icon(Icons.description),
+                        ),
+                        style: textStyleSmallDefault,
+                      ),
                     ],
                   ),
                 ),

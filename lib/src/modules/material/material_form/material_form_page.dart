@@ -28,6 +28,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   bool isCkecked = true;
   DateTime dateOfPurchase = DateTime.now();
   MaterialModel? material;
+  String unit = 'Unidade';
 
   @override
   void initState() {
@@ -36,8 +37,11 @@ class _MaterialFormPageState extends State<MaterialFormPage>
     material = controller.model();
 
     if (material != null) {
-      initilizeForm(material!);
+      initilizeForm(
+        material!,
+      );
       quantityInStock = material!.quantity;
+      unit = material!.unit;
     }
   }
 
@@ -58,7 +62,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
               var nav = Navigator.of(context);
               if (_formKey.currentState!.validate()) {
                 await controller.save(
-                  saveMaterial(material?.id ?? 0),
+                  saveMaterial(material?.id ?? 0, unit),
                 );
 
                 nav.pop();
@@ -235,17 +239,36 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                           ),
                         ],
                       ),
-                      TextFormField(
-                        controller: unitMaterialEC,
-                        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                      DropdownButtonFormField<String>(
+                        value: unit,
                         decoration: const InputDecoration(
-                          labelText: 'Unidade de Medida*',
-                          labelStyle: TextStyle(fontFamily: 'Poppins'),
+                          labelText: 'Unidade de medida',
                           suffixIcon: Icon(Icons.square_foot_sharp),
                         ),
-                        style: textStyleSmallDefault,
-                        validator: Validatorless.required(
-                            'Unidade de medida obrigatório.'),
+                        items: <String>[
+                          'Caixa',
+                          'Centímetro (cm)',
+                          'Centímetro quadrado (cm²)',
+                          'Centímetro cúbico (cm³)',
+                          'Grama (g)',
+                          'Metro (m)',
+                          'Metro quadrado (m²)',
+                          'Metro cúbico (m³)',
+                          'Milímetro (mm)',
+                          'Milímetro quadrado (mm²)',
+                          'Milímetro cúbico (mm³)',
+                          'Pacote',
+                          'Quilograma (kg)',
+                          'Unidade',
+                        ].map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          unit = value!;
+                        },
                       ),
                       TextFormField(
                         controller: priceMaterialEC,

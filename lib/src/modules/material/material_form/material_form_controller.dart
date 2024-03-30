@@ -6,7 +6,6 @@ import 'package:js_budget/src/modules/material/material_form/material_form_page.
 mixin MaterialFormController on State<MaterialFormPage> {
   final nameEC = TextEditingController();
   final typeMaterialEC = TextEditingController();
-  final unitMaterialEC = TextEditingController();
   final quantityInStockEC = TextEditingController();
   final priceMaterialEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final dateOfLastPurchaseEC = TextEditingController();
@@ -16,7 +15,6 @@ mixin MaterialFormController on State<MaterialFormPage> {
   void disposeForm() {
     nameEC.dispose();
     typeMaterialEC.dispose();
-    unitMaterialEC.dispose();
     quantityInStockEC.dispose();
     priceMaterialEC.dispose();
     supplierEC.dispose();
@@ -27,7 +25,6 @@ mixin MaterialFormController on State<MaterialFormPage> {
   void initilizeForm(MaterialModel material) {
     nameEC.text = material.name.trim();
     typeMaterialEC.text = material.type?.trim() ?? '';
-    unitMaterialEC.text = material.unit.trim();
     quantityInStockEC.text = material.quantity.toString();
     priceMaterialEC.updateValue(material.price);
     supplierEC.text = material.supplier?.trim() ?? '';
@@ -35,12 +32,12 @@ mixin MaterialFormController on State<MaterialFormPage> {
     dateOfLastPurchaseEC.text = material.dateOfLastPurchase ?? '';
   }
 
-  MaterialModel saveMaterial(int id) {
+  MaterialModel saveMaterial(int id, String unit) {
     return MaterialModel(
       id: id,
       name: nameEC.text,
       type: typeMaterialEC.text,
-      unit: unitMaterialEC.text,
+      unit: unit,
       quantity: int.parse(quantityInStockEC.text),
       price: priceMaterialEC.numberValue,
       supplier: supplierEC.text,
