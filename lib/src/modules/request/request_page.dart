@@ -36,7 +36,11 @@ class _RequestPageState extends State<RequestPage> {
       client: ClientModel(name: 'Joelmir Rogério Carvalho'),
       items: [
         ItemRequestModel(
-          product: [ProductModel(name: 'Mesa', description: '', unit: 'unit')],
+          product: [
+            ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+            ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
+            ProductModel(name: 'Banco', description: '', unit: 'unit')
+          ],
           service: null,
         ),
       ],
@@ -61,7 +65,8 @@ class _RequestPageState extends State<RequestPage> {
       items: [
         ItemRequestModel(
           product: [
-            ProductModel(name: 'Cama box', description: '', unit: 'unit')
+            ProductModel(name: 'Cama box', description: '', unit: 'unit'),
+            ProductModel(name: 'Mesa', description: '', unit: 'unit'),
           ],
           service: null,
         ),
@@ -164,6 +169,9 @@ class _RequestPageState extends State<RequestPage> {
                           indexSelected = requestSelected ? index : null;
                         });
                       },
+                      onTap: () {
+                        Navigator.of(context).pushNamed('/request/details');
+                      },
                       child: Card(
                         color: indexSelected != null &&
                                 req.id == request[indexSelected!].id
@@ -184,12 +192,33 @@ class _RequestPageState extends State<RequestPage> {
                                     : null,
                               ),
                               ListTile(
-                                leading: Text(req.id.toString().padLeft(4, '0'),
-                                    style: textStyleSmallFontWeight),
-                                title: const Text('28/03/2014',
-                                    style: textStyleSmallDefault),
-                                subtitle: const Text('Guarda Roupa',
-                                    style: textStyleSmallDefault),
+                                leading: Text(
+                                  req.id.toString().padLeft(4, '0'),
+                                  style: textStyleSmallFontWeight,
+                                ),
+                                title: Text(
+                                  req.date,
+                                  style: textStyleSmallDefault,
+                                ),
+                                subtitle: Wrap(
+                                  children: req.items.isNotEmpty
+                                      ? req.items[0].product != null &&
+                                              req.items[0].product!.isNotEmpty
+                                          ? [
+                                              Text(
+                                                req.items[0].product![0].name,
+                                                style: textStyleSmallDefault,
+                                              ),
+                                              if (req.items[0].product!.length >
+                                                  1)
+                                                Text(
+                                                  ' e mais ${req.items[0].product!.length - 1} ${(req.items[0].product!.length - 1) > 1 ? 'items' : 'item'}',
+                                                  style: textStyleSmallDefault,
+                                                )
+                                            ]
+                                          : [Container()]
+                                      : [],
+                                ),
                                 trailing: const Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
