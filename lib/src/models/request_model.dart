@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:js_budget/src/models/client_model.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import 'package:js_budget/src/models/item_request_model.dart';
 
 part 'request_model.g.dart';
 
@@ -7,11 +10,13 @@ part 'request_model.g.dart';
 class RequestModel {
   final int id;
   final String date;
-  final int clientId;
+  final ClientModel client;
+  final List<ItemRequestModel> items;
   RequestModel({
     this.id = 0,
     required this.date,
-    required this.clientId,
+    required this.client,
+    required this.items,
   });
   factory RequestModel.fromJson(Map<String, dynamic> json) =>
       _$RequestModelFromJson(json);

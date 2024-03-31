@@ -9,13 +9,17 @@ part of 'item_request_model.dart';
 ItemRequestModel _$ItemRequestModelFromJson(Map<String, dynamic> json) =>
     ItemRequestModel(
       id: json['id'] as int? ?? 0,
-      productId: json['product_id'] as int,
-      serviceId: json['service_id'] as int,
+      product: (json['product'] as List<dynamic>?)
+          ?.map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      service: (json['service'] as List<dynamic>?)
+          ?.map((e) => ServiceModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ItemRequestModelToJson(ItemRequestModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'product_id': instance.productId,
-      'service_id': instance.serviceId,
+      'product': instance.product,
+      'service': instance.service,
     };
