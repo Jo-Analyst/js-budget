@@ -27,7 +27,10 @@ class _RequestPageState extends State<RequestPage> {
           product: [
             ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit')
           ],
-          service: [ServiceModel(description: 'Montagem de guarda roupa')],
+          service: [
+            ServiceModel(description: 'Montagem de guarda roupa'),
+            ServiceModel(description: 'Montagem de guarda roupa'),
+          ],
         ),
       ],
     ),
@@ -106,7 +109,7 @@ class _RequestPageState extends State<RequestPage> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var filteredMaterials = request
+    var filteredRequest = request
         .where((req) =>
             req.client.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
@@ -121,7 +124,7 @@ class _RequestPageState extends State<RequestPage> {
               tooltip: 'Editar',
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  '/material/save',
+                  '/material/form',
                 );
               },
               icon: const Icon(
@@ -173,7 +176,7 @@ class _RequestPageState extends State<RequestPage> {
             ),
           ),
           Expanded(
-              child: filteredMaterials.isEmpty
+              child: filteredRequest.isEmpty
                   ? Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -194,9 +197,9 @@ class _RequestPageState extends State<RequestPage> {
                       ),
                     )
                   : ListView(
-                      children: filteredMaterials
+                      children: filteredRequest
                           .map(
-                            (e) => Padding(
+                            (request) => Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 10),
                               child: Padding(
@@ -204,73 +207,148 @@ class _RequestPageState extends State<RequestPage> {
                                 child: GestureDetector(
                                   onLongPress: () {
                                     setState(() {
-                                      requestSelected = e.id != idSelected;
+                                      requestSelected =
+                                          request.id != idSelected;
                                       idSelected =
-                                          requestSelected ? e.id : null;
+                                          requestSelected ? request.id : null;
                                     });
                                   },
                                   onTap: () {
                                     Navigator.of(context).pushNamed(
                                         '/request/details',
-                                        arguments: e);
+                                        arguments: request);
                                   },
                                   child: Card(
-                                    color:
-                                        idSelected != null && e.id == idSelected
-                                            ? theme.primaryColor
-                                            : null,
+                                    color: idSelected != null &&
+                                            request.id == idSelected
+                                        ? theme.primaryColor
+                                        : null,
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 8.0),
                                       child: Column(
                                         children: [
                                           Text(
-                                            e.client.name,
+                                            request.client.name,
                                             style: textStyleSmallFontWeight,
                                           ),
                                           Divider(
                                             color: idSelected != null &&
-                                                    e.id == idSelected
+                                                    request.id == idSelected
                                                 ? Colors.black
                                                 : null,
                                           ),
                                           ListTile(
                                             leading: Text(
-                                              e.id.toString().padLeft(4, '0'),
+                                              request.id
+                                                  .toString()
+                                                  .padLeft(4, '0'),
                                               style: textStyleSmallFontWeight,
                                             ),
                                             title: Text(
-                                              e.date,
+                                              request.date,
                                               style: textStyleSmallDefault,
                                             ),
-                                            subtitle: Wrap(
-                                              children: e.items.isNotEmpty
-                                                  ? e.items[0].product !=
-                                                              null &&
-                                                          e.items[0].product!
-                                                              .isNotEmpty
-                                                      ? [
-                                                          Text(
-                                                            e
-                                                                .items[0]
-                                                                .product![0]
-                                                                .name,
-                                                            style:
-                                                                textStyleSmallDefault,
-                                                          ),
-                                                          if (e
-                                                                  .items[0]
-                                                                  .product!
-                                                                  .length >
-                                                              1)
-                                                            Text(
-                                                              ' e mais ${e.items[0].product!.length - 1} ${(e.items[0].product!.length - 1) > 1 ? 'items' : 'item'}',
-                                                              style:
-                                                                  textStyleSmallDefault,
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                if (request.items[0].product !=
+                                                    null)
+
+                                                  // Produto
+                                                  Wrap(
+                                                    children: request
+                                                            .items.isNotEmpty
+                                                        ? request.items[0]
+                                                                        .product !=
+                                                                    null &&
+                                                                request
+                                                                    .items[0]
+                                                                    .product!
+                                                                    .isNotEmpty
+                                                            ? [
+                                                                Text(
+                                                                  request
+                                                                      .items[0]
+                                                                      .product![
+                                                                          0]
+                                                                      .name,
+                                                                  style:
+                                                                      textStyleSmallDefault,
+                                                                ),
+                                                                if (request
+                                                                        .items[
+                                                                            0]
+                                                                        .product!
+                                                                        .length >
+                                                                    1)
+                                                                  Text(
+                                                                    ' e mais ${request.items[0].product!.length - 1} ${(request.items[0].product!.length - 1) > 1 ? 'produtos' : 'produto'}',
+                                                                    style:
+                                                                        textStyleSmallDefault,
+                                                                  )
+                                                              ]
+                                                            : []
+                                                        : [
+                                                            Container(
+                                                              color: Colors.red,
+                                                              width: 100,
+                                                              height: 100,
                                                             )
-                                                        ]
-                                                      : [Container()]
-                                                  : [],
+                                                          ],
+                                                  ),
+                                                if (request.items[0].service !=
+                                                        null &&
+                                                    request.items[0].product !=
+                                                        null)
+                                                  const Divider(),
+                                                if (request.items[0].service !=
+                                                    null)
+
+                                                  // Serviço
+                                                  Wrap(
+                                                    children: request
+                                                            .items.isNotEmpty
+                                                        ? request.items[0]
+                                                                        .service !=
+                                                                    null &&
+                                                                request
+                                                                    .items[0]
+                                                                    .service!
+                                                                    .isNotEmpty
+                                                            ? [
+                                                                Text(
+                                                                  request
+                                                                      .items[0]
+                                                                      .service![
+                                                                          0]
+                                                                      .description,
+                                                                  style:
+                                                                      textStyleSmallDefault,
+                                                                ),
+                                                                if (request
+                                                                        .items[
+                                                                            0]
+                                                                        .service!
+                                                                        .length >
+                                                                    1)
+                                                                  Text(
+                                                                    ' e mais ${request.items[0].service!.length - 1} ${(request.items[0].service!.length - 1) > 1 ? 'serviços' : 'serviço'}',
+                                                                    style:
+                                                                        textStyleSmallDefault,
+                                                                  )
+                                                              ]
+                                                            : []
+                                                        : [
+                                                            Container(
+                                                              color: Colors.red,
+                                                              width: 100,
+                                                              height: 100,
+                                                            )
+                                                          ],
+                                                  ),
+                                              ],
                                             ),
                                             trailing: const Column(
                                               mainAxisAlignment:
@@ -298,7 +376,7 @@ class _RequestPageState extends State<RequestPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // showModal(context, const NewTransaction());
+          Navigator.of(context).pushNamed('/request/form');
         },
         child: const Icon(
           Icons.add,

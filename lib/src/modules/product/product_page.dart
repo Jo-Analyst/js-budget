@@ -41,7 +41,7 @@ class _ProductPageState extends State<ProductPage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/product/save');
+              Navigator.of(context).pushNamed('/product/form');
             },
             tooltip: "Novo produto",
             icon: const Icon(
@@ -95,7 +95,7 @@ class _ProductPageState extends State<ProductPage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/product/save');
+                              Navigator.pushNamed(context, '/product/form');
                             },
                             icon: const Icon(
                               Icons.add,

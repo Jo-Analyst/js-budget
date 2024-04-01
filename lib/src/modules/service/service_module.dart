@@ -19,7 +19,7 @@ class ServiceModule extends FlutterGetItModule {
   @override
   Map<String, WidgetBuilder> get pages => {
         '/': (_) => const ServicePage(),
-        '/save': (_) => const ServiceFormPage(),
+        '/form': (_) => const ServiceFormPage(),
         '/details': (_) => const ServiceDetailPage()
       };
 }

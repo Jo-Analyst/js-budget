@@ -20,7 +20,7 @@ class ProfileDetailsPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/profile/save');
+              Navigator.of(context).pushNamed('/profile/form');
             },
             icon: const Icon(Icons.edit),
           ),

@@ -43,7 +43,7 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/material/save');
+              Navigator.of(context).pushNamed('/material/form');
             },
             tooltip: "Novo Material",
             icon: const Icon(
@@ -97,7 +97,7 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/material/save');
+                              Navigator.pushNamed(context, '/material/form');
                             },
                             icon: const Icon(
                               Icons.add,

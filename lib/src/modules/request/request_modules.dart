@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/request/request_detail/request_detail_page.dart';
+import 'package:js_budget/src/modules/request/request_form/request_form_page.dart';
 import 'package:js_budget/src/modules/request/request_page.dart';
 
 class RequestModules extends FlutterGetItModule {
@@ -11,5 +12,6 @@ class RequestModules extends FlutterGetItModule {
   Map<String, WidgetBuilder> get pages => {
         '/': (_) => const RequestPage(),
         '/details': (_) => const RequestDetailPage(),
+        '/form': (_) => const RequestFormPage(),
       };
 }

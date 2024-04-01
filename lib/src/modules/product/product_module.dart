@@ -19,7 +19,7 @@ class ProductModule extends FlutterGetItModule {
   @override
   Map<String, WidgetBuilder> get pages => {
         '/': (_) => const ProductPage(),
-        '/save': (_) => const ProductFormPage(),
+        '/form': (_) => const ProductFormPage(),
         '/details': (_) => const ProductDetailPage()
       };
 }

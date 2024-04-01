@@ -65,7 +65,7 @@ class _SplashPageState extends State<SplashPage> {
         return;
       }
 
-      nav.pushReplacementNamed('/profile/save');
+      nav.pushReplacementNamed('/profile/form');
     });
   }
 }

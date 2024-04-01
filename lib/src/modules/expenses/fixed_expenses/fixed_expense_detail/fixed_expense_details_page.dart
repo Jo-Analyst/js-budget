@@ -35,7 +35,7 @@ class FixedExpenseDetailsPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               controller.model.value = expense;
-              nav.pushNamed('/expense/fixed/save');
+              nav.pushNamed('/expense/fixed/form');
             },
             icon: const Icon(Icons.edit),
           ),

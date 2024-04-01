@@ -21,7 +21,7 @@ class ProductDetailPage extends StatelessWidget {
             onPressed: () {
               controller.model.value = product;
               Navigator.of(context).pushNamed(
-                '/product/save',
+                '/product/form',
               );
             },
             icon: const Icon(

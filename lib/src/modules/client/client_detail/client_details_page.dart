@@ -17,7 +17,6 @@ class ClientDetailsPage extends StatelessWidget {
     final controller = context.get<ClientController>();
     final client = ModalRoute.of(context)!.settings.arguments as ClientModel;
 
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do cliente'),
@@ -26,7 +25,7 @@ class ClientDetailsPage extends StatelessWidget {
             tooltip: 'Editar',
             onPressed: () {
               controller.model.value = client;
-              Navigator.of(context).pushNamed('/client/save');
+              Navigator.of(context).pushNamed('/client/form');
             },
             icon: const Icon(
               Icons.edit,

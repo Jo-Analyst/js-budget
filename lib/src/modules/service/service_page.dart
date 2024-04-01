@@ -42,7 +42,7 @@ class _ServicePageState extends State<ServicePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/service/save');
+              Navigator.of(context).pushNamed('/service/form');
             },
             tooltip: "Novo Serviço",
             icon: const Icon(
@@ -96,7 +96,7 @@ class _ServicePageState extends State<ServicePage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/service/save');
+                              Navigator.pushNamed(context, '/service/form');
                             },
                             icon: const Icon(
                               Icons.add,

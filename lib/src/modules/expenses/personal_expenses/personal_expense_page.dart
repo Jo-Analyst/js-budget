@@ -38,7 +38,7 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/expense/personal/save');
+              Navigator.of(context).pushNamed('/expense/personal/form');
             },
             tooltip: "Nova despesa",
             icon: const Icon(
@@ -93,7 +93,7 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
                             ),
                             onPressed: () {
                               Navigator.of(context)
-                                  .pushNamed('/expense/personal/save');
+                                  .pushNamed('/expense/personal/form');
                             },
                             icon: const Icon(
                               Icons.add,

@@ -53,52 +53,63 @@ class RequestDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 5),
-              Card(
-                child: ColumnTile(
-                  color: Colors.transparent,
-                  textColor: Colors.black,
-                  title: 'Produtos',
-                  children: [
-                    Column(
-                      children: request.items.map((req) {
-                        return Column(
-                          children: req.product != null
-                              ? req.product!.map((product) {
-                                  return CustomListTileIcon(
-                                    leading: const Icon(Icons.local_offer),
-                                    title: product.name,
-                                  );
-                                }).toList()
-                              : [],
-                        );
-                      }).toList(),
+              Visibility(
+                visible: request.items.first.product != null,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  child: Card(
+                    child: ColumnTile(
+                      color: Colors.transparent,
+                      textColor: Colors.black,
+                      title: 'Produtos',
+                      children: [
+                        Column(
+                          children: request.items.map((req) {
+                            return Column(
+                              children: req.product != null
+                                  ? req.product!.map((product) {
+                                      return CustomListTileIcon(
+                                        leading: const Icon(Icons.local_offer),
+                                        title: product.name,
+                                      );
+                                    }).toList()
+                                  : [],
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-              Card(
-                child: ColumnTile(
-                  color: Colors.transparent,
-                  textColor: Colors.black,
-                  title: 'Serviços',
-                  children: [
-                    Column(
-                      children: request.items.map((req) {
-                        return Column(
-                          children: req.service != null
-                              ? req.service!.map((service) {
-                                  return CustomListTileIcon(
-                                    leading: const Icon(
-                                        FontAwesomeIcons.screwdriverWrench),
-                                    title: service.description,
-                                  );
-                                }).toList()
-                              : [],
-                        );
-                      }).toList(),
+              Visibility(
+                visible: request.items.first.service != null,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  child: Card(
+                    child: ColumnTile(
+                      color: Colors.transparent,
+                      textColor: Colors.black,
+                      title: 'Serviços',
+                      children: [
+                        Column(
+                          children: request.items.map((req) {
+                            return Column(
+                              children: req.service != null
+                                  ? req.service!.map((service) {
+                                      return CustomListTileIcon(
+                                        leading: const Icon(
+                                            FontAwesomeIcons.screwdriverWrench),
+                                        title: service.description,
+                                      );
+                                    }).toList()
+                                  : [],
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],

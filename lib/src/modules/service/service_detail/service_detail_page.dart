@@ -22,7 +22,7 @@ class ServiceDetailPage extends StatelessWidget {
             onPressed: () {
               controller.model.value = service;
               Navigator.of(context).pushNamed(
-                '/service/save',
+                '/service/form',
               );
             },
             icon: const Icon(

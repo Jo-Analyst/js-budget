@@ -13,6 +13,6 @@ class ProfileModule extends FlutterGetItModule {
   @override
   Map<String, WidgetBuilder> get pages => {
         '/': (context) => const ProfileDetailsPage(),
-        '/save': (context) => const ProfileFormPage()
+        '/form': (context) => const ProfileFormPage()
       };
 }
