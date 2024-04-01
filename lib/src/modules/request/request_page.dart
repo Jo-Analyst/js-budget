@@ -3,6 +3,7 @@ import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/item_request_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/request_model.dart';
+import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
@@ -14,7 +15,7 @@ class RequestPage extends StatefulWidget {
 }
 
 class _RequestPageState extends State<RequestPage> {
-  int? indexSelected;
+  int? idSelected;
 
   final List<RequestModel> request = [
     RequestModel(
@@ -26,7 +27,7 @@ class _RequestPageState extends State<RequestPage> {
           product: [
             ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit')
           ],
-          service: null,
+          service: [ServiceModel(description: 'Montagem de guarda roupa')],
         ),
       ],
     ),
@@ -100,9 +101,16 @@ class _RequestPageState extends State<RequestPage> {
     ),
   ];
   bool requestSelected = false;
+  String search = '';
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var filteredMaterials = request
+        .where((req) =>
+            req.client.name.toLowerCase().contains(search.toLowerCase()))
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pedidos'),
@@ -129,7 +137,7 @@ class _RequestPageState extends State<RequestPage> {
                 var nav = Navigator.of(context);
                 bool confirm = await showConfirmationDialog(
                       context,
-                      'Deseja mesmo excluir  o pedido?',
+                      'Deseja mesmo excluir  o pedido ${request[idSelected!].id.toString().padLeft(4, '0')}?',
                       buttonTitle: 'Sim',
                     ) ??
                     false;
@@ -146,98 +154,147 @@ class _RequestPageState extends State<RequestPage> {
           ),
         ],
       ),
-      body: request.isEmpty
-          ? const Center(
-              child: Text(
-                'Não há pedidos.',
-                style: textStyleSmallDefault,
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-              child: ListView.builder(
-                itemCount: request.length,
-                itemBuilder: (context, index) {
-                  var theme = Theme.of(context);
-                  final req = request[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 5),
-                    child: GestureDetector(
-                      onLongPress: () {
-                        setState(() {
-                          requestSelected = indexSelected != index;
-                          indexSelected = requestSelected ? index : null;
-                        });
-                      },
-                      onTap: () {
-                        Navigator.of(context).pushNamed('/request/details');
-                      },
-                      child: Card(
-                        color: indexSelected != null &&
-                                req.id == request[indexSelected!].id
-                            ? theme.primaryColor
-                            : null,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                req.client.name,
-                                style: textStyleSmallFontWeight,
-                              ),
-                              Divider(
-                                color: indexSelected != null &&
-                                        req.id == request[indexSelected!].id
-                                    ? Colors.black
-                                    : null,
-                              ),
-                              ListTile(
-                                leading: Text(
-                                  req.id.toString().padLeft(4, '0'),
-                                  style: textStyleSmallFontWeight,
-                                ),
-                                title: Text(
-                                  req.date,
-                                  style: textStyleSmallDefault,
-                                ),
-                                subtitle: Wrap(
-                                  children: req.items.isNotEmpty
-                                      ? req.items[0].product != null &&
-                                              req.items[0].product!.isNotEmpty
-                                          ? [
-                                              Text(
-                                                req.items[0].product![0].name,
-                                                style: textStyleSmallDefault,
-                                              ),
-                                              if (req.items[0].product!.length >
-                                                  1)
-                                                Text(
-                                                  ' e mais ${req.items[0].product!.length - 1} ${(req.items[0].product!.length - 1) > 1 ? 'items' : 'item'}',
-                                                  style: textStyleSmallDefault,
-                                                )
-                                            ]
-                                          : [Container()]
-                                      : [],
-                                ),
-                                trailing: const Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.keyboard_arrow_right,
-                                      size: 30,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: TextFormField(
+              onTapOutside: (_) => FocusScope.of(context).unfocus(),
+              textInputAction: TextInputAction.search,
+              onChanged: (value) {
+                setState(() {
+                  search = value;
+                });
+              },
+              decoration: const InputDecoration(
+                labelText: 'Buscar cliente',
+                suffixIcon: Icon(Icons.search),
               ),
             ),
+          ),
+          Expanded(
+              child: filteredMaterials.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.assignment,
+                            size: 100,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(.7),
+                          ),
+                          const Text(
+                            'Não há nenhum pedido.',
+                            style: textStyleSmallDefault,
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView(
+                      children: filteredMaterials
+                          .map(
+                            (e) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: GestureDetector(
+                                  onLongPress: () {
+                                    setState(() {
+                                      requestSelected = e.id != idSelected;
+                                      idSelected =
+                                          requestSelected ? e.id : null;
+                                    });
+                                  },
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                        '/request/details',
+                                        arguments: e);
+                                  },
+                                  child: Card(
+                                    color:
+                                        idSelected != null && e.id == idSelected
+                                            ? theme.primaryColor
+                                            : null,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8.0),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            e.client.name,
+                                            style: textStyleSmallFontWeight,
+                                          ),
+                                          Divider(
+                                            color: idSelected != null &&
+                                                    e.id == idSelected
+                                                ? Colors.black
+                                                : null,
+                                          ),
+                                          ListTile(
+                                            leading: Text(
+                                              e.id.toString().padLeft(4, '0'),
+                                              style: textStyleSmallFontWeight,
+                                            ),
+                                            title: Text(
+                                              e.date,
+                                              style: textStyleSmallDefault,
+                                            ),
+                                            subtitle: Wrap(
+                                              children: e.items.isNotEmpty
+                                                  ? e.items[0].product !=
+                                                              null &&
+                                                          e.items[0].product!
+                                                              .isNotEmpty
+                                                      ? [
+                                                          Text(
+                                                            e
+                                                                .items[0]
+                                                                .product![0]
+                                                                .name,
+                                                            style:
+                                                                textStyleSmallDefault,
+                                                          ),
+                                                          if (e
+                                                                  .items[0]
+                                                                  .product!
+                                                                  .length >
+                                                              1)
+                                                            Text(
+                                                              ' e mais ${e.items[0].product!.length - 1} ${(e.items[0].product!.length - 1) > 1 ? 'items' : 'item'}',
+                                                              style:
+                                                                  textStyleSmallDefault,
+                                                            )
+                                                        ]
+                                                      : [Container()]
+                                                  : [],
+                                            ),
+                                            trailing: const Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.keyboard_arrow_right,
+                                                  size: 30,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ))
+        ],
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
