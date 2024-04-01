@@ -13,6 +13,8 @@ RequestModel _$RequestModelFromJson(Map<String, dynamic> json) => RequestModel(
       items: (json['items'] as List<dynamic>)
           .map((e) => ItemRequestModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      situation: json['situation'] as String?,
+      valueTotal: (json['value_total'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$RequestModelToJson(RequestModel instance) =>
@@ -21,4 +23,6 @@ Map<String, dynamic> _$RequestModelToJson(RequestModel instance) =>
       'date': instance.date,
       'client': instance.client,
       'items': instance.items,
+      'situation': instance.situation,
+      'value_total': instance.valueTotal,
     };
