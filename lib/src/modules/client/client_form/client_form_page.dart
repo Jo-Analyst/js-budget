@@ -64,6 +64,9 @@ class _ClientFormPageState extends State<ClientFormPage>
 
   @override
   Widget build(BuildContext context) {
+    bool comesFromTheOrder =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(client != null ? 'Editar cliente' : 'Novo cliente'),
@@ -81,7 +84,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                   ),
                 );
                 nav.pop();
-                if (client != null) {
+                if (client != null && !comesFromTheOrder) {
                   nav.pop();
                 }
               }

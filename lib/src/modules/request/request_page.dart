@@ -6,6 +6,7 @@ import 'package:js_budget/src/models/request_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 
 class RequestPage extends StatefulWidget {
   const RequestPage({super.key});
@@ -22,6 +23,8 @@ class _RequestPageState extends State<RequestPage> {
       id: 1,
       date: '31/03/2024',
       client: ClientModel(name: 'Valdirene Aparecida Ferreira'),
+      situation: 'Aguardando',
+      valueTotal: 0.0,
       items: [
         ItemRequestModel(
           product: [
@@ -38,6 +41,8 @@ class _RequestPageState extends State<RequestPage> {
       id: 2,
       date: '31/03/2024',
       client: ClientModel(name: 'Joelmir Rogério Carvalho'),
+      situation: 'Aguardando',
+      valueTotal: 0.0,
       items: [
         ItemRequestModel(
           product: [
@@ -53,6 +58,8 @@ class _RequestPageState extends State<RequestPage> {
       id: 3,
       date: '31/03/2024',
       client: ClientModel(name: 'Bennedito Ferreira Carvalho '),
+      situation: 'Aguardando',
+      valueTotal: 0.0,
       items: [
         ItemRequestModel(
           product: [
@@ -66,6 +73,8 @@ class _RequestPageState extends State<RequestPage> {
       id: 4,
       date: '31/03/2024',
       client: ClientModel(name: 'Noelly Cristina Ferreira Carvalho'),
+      situation: 'Aguardando',
+      valueTotal: 0.0,
       items: [
         ItemRequestModel(
           product: [
@@ -80,6 +89,8 @@ class _RequestPageState extends State<RequestPage> {
       id: 5,
       date: '31/03/2024',
       client: ClientModel(name: 'Maria Lídia Ferreira Carvalho'),
+      situation: 'Aguardando',
+      valueTotal: 0.0,
       items: [
         ItemRequestModel(
           product: [
@@ -93,6 +104,8 @@ class _RequestPageState extends State<RequestPage> {
       id: 6,
       date: '31/03/2024',
       client: ClientModel(name: 'Lorrayne Carvalho'),
+      situation: 'Aguardando',
+      valueTotal: 0.0,
       items: [
         ItemRequestModel(
           product: [
@@ -124,7 +137,7 @@ class _RequestPageState extends State<RequestPage> {
               tooltip: 'Editar',
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  '/material/form',
+                  '/request/form',
                 );
               },
               icon: const Icon(
@@ -228,9 +241,17 @@ class _RequestPageState extends State<RequestPage> {
                                           vertical: 8.0),
                                       child: Column(
                                         children: [
-                                          Text(
-                                            request.client.name,
-                                            style: textStyleSmallFontWeight,
+                                          ListTile(
+                                            leading: Text(
+                                              request.id
+                                                  .toString()
+                                                  .padLeft(4, '0'),
+                                              style: textStyleSmallFontWeight,
+                                            ),
+                                            title: Text(
+                                              '${request.client.name.split(' ').first} ${request.client.name.split(' ').last}',
+                                              style: textStyleSmallFontWeight,
+                                            ),
                                           ),
                                           Divider(
                                             color: idSelected != null &&
@@ -239,12 +260,6 @@ class _RequestPageState extends State<RequestPage> {
                                                 : null,
                                           ),
                                           ListTile(
-                                            leading: Text(
-                                              request.id
-                                                  .toString()
-                                                  .padLeft(4, '0'),
-                                              style: textStyleSmallFontWeight,
-                                            ),
                                             title: Text(
                                               request.date,
                                               style: textStyleSmallDefault,
@@ -350,14 +365,36 @@ class _RequestPageState extends State<RequestPage> {
                                                   ),
                                               ],
                                             ),
-                                            trailing: const Column(
+                                            trailing: Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Icon(
-                                                  Icons.keyboard_arrow_right,
-                                                  size: 30,
-                                                )
+                                                Text(
+                                                  UtilsService.moneyToCurrency(
+                                                      request.valueTotal ?? 0),
+                                                  style: TextStyle(
+                                                      fontFamily: 'Anta',
+                                                      fontSize:
+                                                          textStyleSmallDefault
+                                                              .fontSize,
+                                                      color: Colors.green,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
+                                                Text(
+                                                  request.situation ??
+                                                      'Aguardando',
+                                                  style: TextStyle(
+                                                      fontFamily:
+                                                          textStyleSmallDefault
+                                                              .fontFamily,
+                                                      fontSize:
+                                                          textStyleSmallDefault
+                                                              .fontSize,
+                                                      color: Colors.red,
+                                                      fontWeight:
+                                                          FontWeight.w600),
+                                                ),
                                               ],
                                             ),
                                           ),

@@ -29,6 +29,9 @@ class _ClientPageState extends State<ClientPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool comesFromTheOrder =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
+
     var filteredClients = controller.data
         .watch(context)
         .where((client) =>
@@ -134,14 +137,18 @@ class _ClientPageState extends State<ClientPage> {
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
-                                  onTap: () async {
-                                    await nav.pushNamed(
-                                      '/client/details',
-                                      arguments: client,
-                                    );
+                                  onTap: comesFromTheOrder
+                                      ? () {
+                                          nav.pop(client);
+                                        }
+                                      : () async {
+                                          await nav.pushNamed(
+                                            '/client/details',
+                                            arguments: client,
+                                          );
 
-                                    controller.model.value = null;
-                                  },
+                                          controller.model.value = null;
+                                        },
                                   leading: const Icon(Icons.person),
                                   title: Text(
                                     client.name,
@@ -159,9 +166,17 @@ class _ClientPageState extends State<ClientPage> {
                                           ),
                                         )
                                       : null,
-                                  trailing: const Icon(
-                                    Icons.keyboard_arrow_right,
-                                  ),
+                                  trailing: comesFromTheOrder
+                                      ? IconButton(
+                                          onPressed: () {
+                                            controller.model.value = client;
+                                            nav.pushNamed('/client/form',
+                                                arguments: comesFromTheOrder);
+                                          },
+                                          icon: const Icon(Icons.edit))
+                                      : const Icon(
+                                          Icons.keyboard_arrow_right,
+                                        ),
                                 ),
                                 const Divider(),
                               ],

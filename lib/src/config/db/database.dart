@@ -61,6 +61,9 @@ class DataBase {
         db.execute(
           "CREATE TABLE IF NOT EXISTS items_requests (id INTEGER PRIMARY KEY, product_id INTEGER, service_id, FOREIGN KEY (product_id) REFERENCES products(id), , FOREIGN KEY (service_id) REFERENCES services(id))",
         );
+
+        db.execute(
+            "CREATE TABLE IF NOT EXISTS payments (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, request_id INTEGER, FOREIGN KEY (request_id) REFERENCES requests(id) ON DELETE CASCADE)");
       },
       version: 1,
     );
