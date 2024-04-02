@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -14,7 +15,9 @@ class RequestFormPage extends StatefulWidget {
 
 class _RequestFormPageState extends State<RequestFormPage> {
   final dateEC = TextEditingController();
+  List<ProductModel>? products;
   DateTime requesteDate = DateTime.now();
+  int quantityProdutoSelected = 0;
   ClientModel? client;
 
   @override
@@ -101,23 +104,45 @@ class _RequestFormPageState extends State<RequestFormPage> {
 
               // Produtos
               GestureDetector(
-                onTap: () {
-                  nav.pushNamed('/product');
+                onTap: () async {
+                  products = await nav.pushNamed('/product', arguments: true)
+                      as List<ProductModel>?;
+
+                  setState(() {
+                    quantityProdutoSelected = products?.length ?? 0;
+                  });
                 },
-                child: const Card(
+                child: Card(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 15),
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
-                      leading: Icon(Icons.local_offer),
+                      leading: const Icon(Icons.local_offer),
                       title: Text(
-                        'Produtos',
+                        quantityProdutoSelected > 0
+                            ? '$quantityProdutoSelected produtos'
+                            : 'Produtos',
                         style: textStyleSmallDefault,
                       ),
-                      trailing: Icon(
-                        Icons.add,
-                        size: 30,
-                      ),
+                      trailing: quantityProdutoSelected > 0
+                          ? IconButton(
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                size: 30,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  quantityProdutoSelected = 0;
+                                  products = null;
+                                });
+                              },
+                            )
+                          : const Icon(
+                              Icons.add,
+                              size: 30,
+                            ),
                     ),
                   ),
                 ),
