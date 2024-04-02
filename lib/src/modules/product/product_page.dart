@@ -33,7 +33,8 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   void selectAll() {
-    if (selectedEverything) {
+    if (selectedEverything ||
+        productSelected.length == controller.data.length) {
       productSelected.clear();
       setState(() {
         selectedEverything = false;
