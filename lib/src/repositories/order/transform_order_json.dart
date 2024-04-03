@@ -20,13 +20,12 @@ class TransformJson {
 
   static OrderModel fromJson(Map<String, dynamic> order) {
     return OrderModel(
-        id: order['id'] as int,
-        client: ClientModel(id: order['client_id'], name: ''),
-        date: order['date'],
-        items: [
-          ItemOrderModel(),
-        ]
-        // items: [{'products': [{''}]}],
-        );
+      id: order['id'] as int,
+      client: ClientModel(id: order['client_id'], name: ''),
+      date: order['date'],
+      items: ItemOrderModel(),
+
+      // items: [{'products': [{''}]}],
+    );
   }
 }

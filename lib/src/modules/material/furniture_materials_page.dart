@@ -24,7 +24,7 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
   }
 
   Future<void> loadMaterial() async {
-    await controller.findMaterial();
+    await controller.findMaterials();
   }
 
   @override

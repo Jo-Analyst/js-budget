@@ -69,7 +69,7 @@ class ClientController with Messages {
         }
 
       case Left():
-        showError('Houver erro ao buscar o cliente');
+        showError('Houver erro ao buscar os clientes');
     }
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/item_order_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
+import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -16,6 +18,7 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+  final controller = Injector.get<OrderController>();
   int? idSelected;
 
   final List<OrderModel> order = [
@@ -25,17 +28,15 @@ class _OrderPageState extends State<OrderPage> {
       client: ClientModel(name: 'Valdirene Aparecida Ferreira'),
       situation: 'Aguardando',
       valueTotal: 0.0,
-      items: [
-        ItemOrderModel(
-          product: [
-            ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit')
-          ],
-          service: [
-            ServiceModel(description: 'Montagem de guarda roupa'),
-            ServiceModel(description: 'Montagem de guarda roupa'),
-          ],
-        ),
-      ],
+      items: ItemOrderModel(
+        products: [
+          ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit')
+        ],
+        services: [
+          ServiceModel(description: 'Montagem de guarda roupa'),
+          ServiceModel(description: 'Montagem de guarda roupa'),
+        ],
+      ),
     ),
     OrderModel(
       id: 2,
@@ -43,16 +44,14 @@ class _OrderPageState extends State<OrderPage> {
       client: ClientModel(name: 'Joelmir Rogério Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
-      items: [
-        ItemOrderModel(
-          product: [
-            ProductModel(name: 'Mesa', description: '', unit: 'unit'),
-            ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
-            ProductModel(name: 'Banco', description: '', unit: 'unit')
-          ],
-          service: null,
-        ),
-      ],
+      items: ItemOrderModel(
+        products: [
+          ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+          ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
+          ProductModel(name: 'Banco', description: '', unit: 'unit')
+        ],
+        services: null,
+      ),
     ),
     OrderModel(
       id: 3,
@@ -60,14 +59,12 @@ class _OrderPageState extends State<OrderPage> {
       client: ClientModel(name: 'Bennedito Ferreira Carvalho '),
       situation: 'Aguardando',
       valueTotal: 0.0,
-      items: [
-        ItemOrderModel(
-          product: [
-            ProductModel(name: 'Cadeira', description: '', unit: 'unit')
-          ],
-          service: null,
-        ),
-      ],
+      items: ItemOrderModel(
+        products: [
+          ProductModel(name: 'Cadeira', description: '', unit: 'unit')
+        ],
+        services: null,
+      ),
     ),
     OrderModel(
       id: 4,
@@ -75,15 +72,13 @@ class _OrderPageState extends State<OrderPage> {
       client: ClientModel(name: 'Noelly Cristina Ferreira Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
-      items: [
-        ItemOrderModel(
-          product: [
-            ProductModel(name: 'Cama box', description: '', unit: 'unit'),
-            ProductModel(name: 'Mesa', description: '', unit: 'unit'),
-          ],
-          service: null,
-        ),
-      ],
+      items: ItemOrderModel(
+        products: [
+          ProductModel(name: 'Cama box', description: '', unit: 'unit'),
+          ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+        ],
+        services: null,
+      ),
     ),
     OrderModel(
       id: 5,
@@ -91,14 +86,12 @@ class _OrderPageState extends State<OrderPage> {
       client: ClientModel(name: 'Maria Lídia Ferreira Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
-      items: [
-        ItemOrderModel(
-          product: [
-            ProductModel(name: 'Harcker', description: '', unit: 'unit')
-          ],
-          service: null,
-        ),
-      ],
+      items: ItemOrderModel(
+        products: [
+          ProductModel(name: 'Harcker', description: '', unit: 'unit')
+        ],
+        services: null,
+      ),
     ),
     OrderModel(
       id: 6,
@@ -106,18 +99,27 @@ class _OrderPageState extends State<OrderPage> {
       client: ClientModel(name: 'Lorrayne Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
-      items: [
-        ItemOrderModel(
-          product: [
-            ProductModel(name: 'Armário', description: '', unit: 'unit')
-          ],
-          service: null,
-        ),
-      ],
+      items: ItemOrderModel(
+        products: [
+          ProductModel(name: 'Armário', description: '', unit: 'unit')
+        ],
+        services: null,
+      ),
     ),
   ];
   bool orderSelected = false;
   String search = '';
+
+  Future<void> findOrders() async {
+    await controller.findOrders();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    findOrders();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -220,8 +222,7 @@ class _OrderPageState extends State<OrderPage> {
                                 child: GestureDetector(
                                   onLongPress: () {
                                     setState(() {
-                                      orderSelected =
-                                          order.id != idSelected;
+                                      orderSelected = order.id != idSelected;
                                       idSelected =
                                           orderSelected ? order.id : null;
                                     });
@@ -268,38 +269,37 @@ class _OrderPageState extends State<OrderPage> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                if (order.items[0].product !=
+                                                if (order.items.products !=
                                                     null)
 
                                                   // Produto
                                                   Wrap(
-                                                    children: order
-                                                            .items.isNotEmpty
-                                                        ? order.items[0]
-                                                                        .product !=
+                                                    children: order.items
+                                                                .products !=
+                                                            null
+                                                        ? order.items.products !=
                                                                     null &&
                                                                 order
-                                                                    .items[0]
-                                                                    .product!
+                                                                    .items
+                                                                    .products!
                                                                     .isNotEmpty
                                                             ? [
                                                                 Text(
                                                                   order
-                                                                      .items[0]
-                                                                      .product![
+                                                                      .items
+                                                                      .products![
                                                                           0]
                                                                       .name,
                                                                   style:
                                                                       textStyleSmallDefault,
                                                                 ),
                                                                 if (order
-                                                                        .items[
-                                                                            0]
-                                                                        .product!
+                                                                        .items
+                                                                        .products!
                                                                         .length >
                                                                     1)
                                                                   Text(
-                                                                    ' e mais ${order.items[0].product!.length - 1} ${(order.items[0].product!.length - 1) > 1 ? 'produtos' : 'produto'}',
+                                                                    ' e mais ${order.items.products!.length - 1} ${(order.items.products!.length - 1) > 1 ? 'produtos' : 'produto'}',
                                                                     style:
                                                                         textStyleSmallDefault,
                                                                   )
@@ -313,43 +313,42 @@ class _OrderPageState extends State<OrderPage> {
                                                             )
                                                           ],
                                                   ),
-                                                if (order.items[0].service !=
+                                                if (order.items.services !=
                                                         null &&
-                                                    order.items[0].product !=
+                                                    order.items.products !=
                                                         null)
                                                   const Divider(),
-                                                if (order.items[0].service !=
+                                                if (order.items.services !=
                                                     null)
 
                                                   // Serviço
                                                   Wrap(
-                                                    children: order
-                                                            .items.isNotEmpty
-                                                        ? order.items[0]
-                                                                        .service !=
+                                                    children: order.items
+                                                                .services !=
+                                                            null
+                                                        ? order.items.services !=
                                                                     null &&
                                                                 order
-                                                                    .items[0]
-                                                                    .service!
+                                                                    .items
+                                                                    .services!
                                                                     .isNotEmpty
                                                             ? [
                                                                 Text(
                                                                   order
-                                                                      .items[0]
-                                                                      .service![
+                                                                      .items
+                                                                      .services![
                                                                           0]
                                                                       .description,
                                                                   style:
                                                                       textStyleSmallDefault,
                                                                 ),
                                                                 if (order
-                                                                        .items[
-                                                                            0]
-                                                                        .service!
+                                                                        .items
+                                                                        .services!
                                                                         .length >
                                                                     1)
                                                                   Text(
-                                                                    ' e mais ${order.items[0].service!.length - 1} ${(order.items[0].service!.length - 1) > 1 ? 'serviços' : 'serviço'}',
+                                                                    ' e mais ${order.items.services!.length - 1} ${(order.items.services!.length - 1) > 1 ? 'serviços' : 'serviço'}',
                                                                     style:
                                                                         textStyleSmallDefault,
                                                                   )

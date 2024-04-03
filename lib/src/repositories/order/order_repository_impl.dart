@@ -20,9 +20,7 @@ class OrderRepositoryImpl implements OrderRepository {
         lastId = await txn.insert(
             'orders', {'date': order.date, 'client_id': order.client.id});
 
-        for (var item in order.items) {
-          _itemsOrderRepositoryImpl.save(txn, item, lastId);
-        }
+        _itemsOrderRepositoryImpl.save(txn, order.items, lastId);
       });
 
       return Right(order);
@@ -37,8 +35,17 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
-  Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll() {
-    throw UnimplementedError();
+  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
+      findAll() async {
+    try {
+      final db = await DataBase.openDatabase();
+      final data = await db.rawQuery(
+          'SELECT * FROM orders INNER JOIN items_orders ON items_orders.order_id = orders.id LEFT JOIN products ON products.id = items_orders.product_id LEFT JOIN services on services.id = items_orders.service_id');
+
+      return Right(data);
+    } catch (_) {
+      return Left(RespositoryException());
+    }
   }
 
   @override

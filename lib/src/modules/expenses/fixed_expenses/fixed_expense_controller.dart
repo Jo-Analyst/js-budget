@@ -43,14 +43,14 @@ class FixedExpenseController with Messages {
     }
   }
 
-  Future<void> deleteMaterial(int id) async {
+  Future<void> deleteExpense(int id) async {
     final result = await _expenseRepository.delete(id);
     switch (result) {
       case Right():
         _deleteItem(id);
         showSuccess('Despesa excluido com sucesso');
       case Left():
-        showError('Houve um erro ao excluir o despesa');
+        showError('Houve um erro ao excluir a despesa');
     }
   }
 
@@ -69,7 +69,7 @@ class FixedExpenseController with Messages {
         }
 
       case Left():
-        showError('Houver erro ao buscar o despesa');
+        showError('Houver erro ao buscar as despesas');
     }
   }
 }

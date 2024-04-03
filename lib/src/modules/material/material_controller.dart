@@ -58,7 +58,7 @@ class MaterialController with Messages {
     _data.removeWhere((item) => item.id == id);
   }
 
-  Future<void> findMaterial() async {
+  Future<void> findMaterials() async {
     _data.clear();
     final results = await _materialRepository.findAll();
 
@@ -69,7 +69,7 @@ class MaterialController with Messages {
         }
 
       case Left():
-        showError('Houver erro ao buscar o material');
+        showError('Houver erro ao buscar os materiais');
     }
   }
 }

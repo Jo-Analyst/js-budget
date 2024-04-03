@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
+import 'package:js_budget/src/modules/order/order_controller.dart';
+import 'package:js_budget/src/modules/order/order_form/order_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -14,10 +18,13 @@ class OrderFormPage extends StatefulWidget {
   State<OrderFormPage> createState() => _OrderFormPageState();
 }
 
-class _OrderFormPageState extends State<OrderFormPage> {
-  final dateEC = TextEditingController();
+class _OrderFormPageState extends State<OrderFormPage>
+    with OrderFormController {
+  final controller = Injector.get<OrderController>();
+
   List<ProductModel>? products;
   List<ServiceModel>? services;
+  OrderModel? order;
   DateTime orderDate = DateTime.now();
   int quantityProductSelected = 0, quantityServiceSelected = 0;
   ClientModel? client;
@@ -36,7 +43,10 @@ class _OrderFormPageState extends State<OrderFormPage> {
         title: const Text('Novo pedido'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              await controller
+                  .register(save(order?.id ?? 0, client!, products, services));
+            },
             icon: const Icon(Icons.save, size: 30),
           ),
         ],
@@ -46,7 +56,7 @@ class _OrderFormPageState extends State<OrderFormPage> {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: Column(
             children: [
-              // Data
+              // Card de Data
               Card(
                 child: Padding(
                   padding:
@@ -65,7 +75,7 @@ class _OrderFormPageState extends State<OrderFormPage> {
                 ),
               ),
 
-              // Cliente
+              // Card de Cliente
               GestureDetector(
                 onTap: () async {
                   client = await nav.pushNamed('/client', arguments: true)
@@ -104,7 +114,7 @@ class _OrderFormPageState extends State<OrderFormPage> {
                 ),
               ),
 
-              // Produtos
+              // Card de Produtos
               GestureDetector(
                 onTap: () async {
                   products = await nav.pushNamed('/product', arguments: true)
@@ -150,7 +160,7 @@ class _OrderFormPageState extends State<OrderFormPage> {
                 ),
               ),
 
-              // Serviços
+              // Card de Serviços
               GestureDetector(
                 onTap: () async {
                   services = await nav.pushNamed('/service', arguments: true)

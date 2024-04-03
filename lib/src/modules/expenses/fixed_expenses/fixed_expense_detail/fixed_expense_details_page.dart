@@ -46,7 +46,7 @@ class FixedExpenseDetailsPage extends StatelessWidget {
                   false;
 
               if (confirm) {
-                controller.deleteMaterial(expense.id);
+                controller.deleteExpense(expense.id);
                 nav.pop();
               }
             },

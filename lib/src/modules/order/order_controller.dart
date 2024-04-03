@@ -26,4 +26,19 @@ class OrderController with Messages {
         showError('Houver um erro ao registrar o pedido.');
     }
   }
+
+  Future<void> findOrders() async {
+    _data.clear();
+    final results = await _orderRepository.findAll();
+
+    switch (results) {
+      case Right(value: List<Map<String, dynamic>> orders):
+        print(orders);
+      // for (var material in materials) {
+      //   _data.add(TransformJson.fromJson(material));
+      // }
+      case Left():
+        showError('Houver erro ao buscar os pedidos');
+    }
+  }
 }

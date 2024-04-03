@@ -7,17 +7,17 @@ class ItemsOrderRepositoryImpl implements ItemsOrderRepository {
   @override
   Future<void> save(
       Transaction txn, ItemOrderModel itemOrder, int orderId) async {
-    if (itemOrder.product != null) {
-      for (var product in itemOrder.product!) {
+    if (itemOrder.products != null) {
+      for (var product in itemOrder.products!) {
         await txn.insert(
-            'items_order', {'order_id': orderId, 'product_id': product.id});
+            'items_orders', {'order_id': orderId, 'product_id': product.id});
       }
     }
 
-    if (itemOrder.service != null) {
-      for (var service in itemOrder.service!) {
+    if (itemOrder.services != null) {
+      for (var service in itemOrder.services!) {
         await txn.insert(
-            'items_order', {'order_id': orderId, 'service_id': service.id});
+            'items_orders', {'order_id': orderId, 'service_id': service.id});
       }
     }
   }

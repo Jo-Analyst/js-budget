@@ -8,12 +8,12 @@ part 'item_order_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ItemOrderModel {
   final int id;
-  final List<ProductModel>? product;
-  final List<ServiceModel>? service;
+  final List<ProductModel>? products;
+  final List<ServiceModel>? services;
   ItemOrderModel({
     this.id = 0,
-    this.product,
-    this.service,
+    this.products,
+    this.services,
   });
 
   factory ItemOrderModel.fromJson(Map<String, dynamic> json) =>

@@ -55,11 +55,11 @@ class DataBase {
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, situation TEXT DEFAULT 'Aguardando', value REAL DEFAULT 0, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id)",
+          "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, situation TEXT DEFAULT 'Aguardando', value REAL DEFAULT 0, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id))",
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS items_order (id INTEGER PRIMARY KEY, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES ordes(id), FOREIGN KEY (product_id) REFERENCES products(id), FOREIGN KEY (service_id) REFERENCES services(id))",
+          "CREATE TABLE IF NOT EXISTS items_orders (id INTEGER PRIMARY KEY, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id), FOREIGN KEY (product_id) REFERENCES products(id), FOREIGN KEY (service_id) REFERENCES services(id))",
         );
 
         db.execute(

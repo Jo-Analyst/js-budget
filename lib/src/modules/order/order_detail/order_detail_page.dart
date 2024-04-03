@@ -53,9 +53,8 @@ class OrderDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Visibility(
-                visible: order.items.first.product != null,
-                child: Container(
+              if (order.items.products != null)
+                Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
                     child: ColumnTile(
@@ -64,16 +63,10 @@ class OrderDetailPage extends StatelessWidget {
                       title: 'Produtos',
                       children: [
                         Column(
-                          children: order.items.map((req) {
-                            return Column(
-                              children: req.product != null
-                                  ? req.product!.map((product) {
-                                      return CustomListTileIcon(
-                                        leading: const Icon(Icons.local_offer),
-                                        title: product.name,
-                                      );
-                                    }).toList()
-                                  : [],
+                          children: order.items.products!.map((product) {
+                            return CustomListTileIcon(
+                              leading: const Icon(Icons.local_offer),
+                              title: product.name,
                             );
                           }).toList(),
                         ),
@@ -81,10 +74,8 @@ class OrderDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              Visibility(
-                visible: order.items.first.service != null,
-                child: Container(
+              if (order.items.services != null)
+                Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
                     child: ColumnTile(
@@ -93,17 +84,11 @@ class OrderDetailPage extends StatelessWidget {
                       title: 'Serviços',
                       children: [
                         Column(
-                          children: order.items.map((req) {
-                            return Column(
-                              children: req.service != null
-                                  ? req.service!.map((service) {
-                                      return CustomListTileIcon(
-                                        leading: const Icon(
-                                            FontAwesomeIcons.screwdriverWrench),
-                                        title: service.description,
-                                      );
-                                    }).toList()
-                                  : [],
+                          children: order.items.services!.map((service) {
+                            return CustomListTileIcon(
+                              leading: const Icon(
+                                  FontAwesomeIcons.screwdriverWrench),
+                              title: service.description,
                             );
                           }).toList(),
                         ),
@@ -111,7 +96,6 @@ class OrderDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),

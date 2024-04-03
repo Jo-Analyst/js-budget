@@ -9,10 +9,10 @@ part of 'item_order_model.dart';
 ItemOrderModel _$ItemOrderModelFromJson(Map<String, dynamic> json) =>
     ItemOrderModel(
       id: json['id'] as int? ?? 0,
-      product: (json['product'] as List<dynamic>?)
+      products: (json['products'] as List<dynamic>?)
           ?.map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      service: (json['service'] as List<dynamic>?)
+      services: (json['services'] as List<dynamic>?)
           ?.map((e) => ServiceModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -20,6 +20,6 @@ ItemOrderModel _$ItemOrderModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ItemOrderModelToJson(ItemOrderModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'product': instance.product,
-      'service': instance.service,
+      'products': instance.products,
+      'services': instance.services,
     };

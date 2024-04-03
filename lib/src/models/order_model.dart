@@ -11,7 +11,7 @@ class OrderModel {
   final int id;
   final String date;
   final ClientModel client;
-  final List<ItemOrderModel> items;
+  final ItemOrderModel items;
   final String? situation;
   final double? valueTotal;
   OrderModel({
