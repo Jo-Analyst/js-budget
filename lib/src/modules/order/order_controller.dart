@@ -33,7 +33,9 @@ class OrderController with Messages {
 
     switch (results) {
       case Right(value: List<Map<String, dynamic>> orders):
-        print(orders);
+        for (var order in orders) {
+          print(order);
+        }
       // for (var material in materials) {
       //   _data.add(TransformJson.fromJson(material));
       // }

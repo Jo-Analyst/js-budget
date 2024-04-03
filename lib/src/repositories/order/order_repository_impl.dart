@@ -48,7 +48,7 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final db = await DataBase.openDatabase();
       final data = await db.rawQuery(
-          'SELECT * FROM orders INNER JOIN items_orders ON items_orders.order_id = orders.id LEFT JOIN products ON products.id = items_orders.product_id LEFT JOIN services on services.id = items_orders.service_id');
+          'SELECT orders.id, orders.date, clients.name as name_client, items_orders.product_id, products.name as name_product, items_orders.service_id, services.description FROM orders INNER JOIN clients ON clients.id = orders.client_id INNER JOIN items_orders ON items_orders.order_id = orders.id LEFT JOIN products ON products.id = items_orders.product_id LEFT JOIN services on services.id = items_orders.service_id');
 
       return Right(data);
     } catch (_) {
