@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/service/service_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:signals/signals_flutter.dart';
@@ -14,12 +15,43 @@ class ServicePage extends StatefulWidget {
 
 class _ServicePageState extends State<ServicePage> {
   final controller = Injector.get<ServiceController>();
+  List<ServiceModel> serviceSelected = [];
+  bool longPressWasPressed = false, selectedEverything = false;
   String search = '';
 
-  @override
-  void initState() {
-    super.initState();
-    loadService();
+  void selectService(ServiceModel serviceModel) {
+    setState(() {
+      if (serviceSelected.any((service) => service.id == serviceModel.id)) {
+        serviceSelected.removeWhere((service) => service.id == serviceModel.id);
+        return;
+      }
+      serviceSelected.add(serviceModel);
+    });
+
+    setState(() {
+      longPressWasPressed = serviceSelected.isNotEmpty;
+    });
+  }
+
+  void selectAll() {
+    if (selectedEverything ||
+        serviceSelected.length == controller.data.length) {
+      serviceSelected.clear();
+      setState(() {
+        selectedEverything = false;
+        longPressWasPressed = false;
+      });
+      return;
+    }
+
+    serviceSelected.clear();
+    setState(() {
+      for (var product in controller.data) {
+        serviceSelected.add(product);
+      }
+
+      selectedEverything = true;
+    });
   }
 
   Future<void> loadService() async {
@@ -27,7 +59,15 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    loadService();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    bool comesFromTheOrder =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     var filteredServices = controller.data
         .watch(context)
         .where((service) =>
@@ -40,6 +80,16 @@ class _ServicePageState extends State<ServicePage> {
       appBar: AppBar(
         title: const Text('Serviços'),
         actions: [
+          Visibility(
+            visible: serviceSelected.isNotEmpty,
+            child: IconButton(
+              onPressed: selectAll,
+              icon: const Icon(
+                Icons.select_all,
+                size: 30,
+              ),
+            ),
+          ),
           IconButton(
             onPressed: () {
               Navigator.of(context).pushNamed('/service/form');
@@ -48,6 +98,18 @@ class _ServicePageState extends State<ServicePage> {
             icon: const Icon(
               Icons.add,
               size: 30,
+            ),
+          ),
+          Visibility(
+            visible: serviceSelected.isNotEmpty,
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop(serviceSelected);
+              },
+              icon: const Icon(
+                Icons.check,
+                size: 30,
+              ),
             ),
           ),
         ],
@@ -117,13 +179,23 @@ class _ServicePageState extends State<ServicePage> {
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
-                                  onTap: () async {
-                                    await Navigator.of(context).pushNamed(
-                                        '/service/details',
-                                        arguments: service);
+                                  onTap: comesFromTheOrder
+                                      ? () => selectService(service)
+                                      : () async {
+                                          await Navigator.of(context).pushNamed(
+                                              '/service/details',
+                                              arguments: service);
 
-                                    controller.model.value = null;
-                                  },
+                                          controller.model.value = null;
+                                        },
+                                  onLongPress: comesFromTheOrder
+                                      ? () => selectService(service)
+                                      : null,
+                                  selected: longPressWasPressed &&
+                                      serviceSelected.any((servSelected) =>
+                                          service.id == servSelected.id),
+                                  selectedTileColor: theme.primaryColor,
+                                  selectedColor: Colors.black54,
                                   leading: const Icon(
                                       FontAwesomeIcons.screwdriverWrench),
                                   title: Text(

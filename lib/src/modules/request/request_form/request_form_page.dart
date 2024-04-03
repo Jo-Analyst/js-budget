@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
+import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -16,8 +17,9 @@ class RequestFormPage extends StatefulWidget {
 class _RequestFormPageState extends State<RequestFormPage> {
   final dateEC = TextEditingController();
   List<ProductModel>? products;
+  List<ServiceModel>? services;
   DateTime requesteDate = DateTime.now();
-  int quantityProdutoSelected = 0;
+  int quantityProductSelected = 0, quantityServiceSelected = 0;
   ClientModel? client;
 
   @override
@@ -109,7 +111,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                       as List<ProductModel>?;
 
                   setState(() {
-                    quantityProdutoSelected = products?.length ?? 0;
+                    quantityProductSelected = products?.length ?? 0;
                   });
                 },
                 child: Card(
@@ -120,12 +122,12 @@ class _RequestFormPageState extends State<RequestFormPage> {
                       contentPadding: EdgeInsets.zero,
                       leading: const Icon(Icons.local_offer),
                       title: Text(
-                        quantityProdutoSelected > 0
-                            ? '$quantityProdutoSelected produtos'
+                        quantityProductSelected > 0
+                            ? '$quantityProductSelected produtos'
                             : 'Produtos',
                         style: textStyleSmallDefault,
                       ),
-                      trailing: quantityProdutoSelected > 0
+                      trailing: quantityProductSelected > 0
                           ? IconButton(
                               icon: const Icon(
                                 Icons.delete_outline,
@@ -134,7 +136,7 @@ class _RequestFormPageState extends State<RequestFormPage> {
                               ),
                               onPressed: () {
                                 setState(() {
-                                  quantityProdutoSelected = 0;
+                                  quantityProductSelected = 0;
                                   products = null;
                                 });
                               },
@@ -150,23 +152,46 @@ class _RequestFormPageState extends State<RequestFormPage> {
 
               // Serviços
               GestureDetector(
-                onTap: () {
-                  nav.pushNamed('/service');
+                onTap: () async {
+                  services = await nav.pushNamed('/service', arguments: true)
+                      as List<ServiceModel>?;
+
+                  setState(() {
+                    quantityServiceSelected = services?.length ?? 0;
+                    print(quantityServiceSelected);
+                  });
                 },
-                child: const Card(
+                child: Card(
                   child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 15),
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
-                      leading: Icon(FontAwesomeIcons.screwdriverWrench),
+                      leading: const Icon(FontAwesomeIcons.screwdriverWrench),
                       title: Text(
-                        'Serviços',
+                        quantityServiceSelected > 0
+                            ? '$quantityServiceSelected Serviços'
+                            : 'Serviços',
                         style: textStyleSmallDefault,
                       ),
-                      trailing: Icon(
-                        Icons.add,
-                        size: 30,
-                      ),
+                      trailing: quantityServiceSelected > 0
+                          ? IconButton(
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                size: 30,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  quantityServiceSelected = 0;
+                                  services = null;
+                                });
+                              },
+                            )
+                          : const Icon(
+                              Icons.add,
+                              size: 30,
+                            ),
                     ),
                   ),
                 ),
