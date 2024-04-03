@@ -20,7 +20,15 @@ class OrderRepositoryImpl implements OrderRepository {
         lastId = await txn.insert(
             'orders', {'date': order.date, 'client_id': order.client.id});
 
-        _itemsOrderRepositoryImpl.save(txn, order.items, lastId);
+        if (order.items.products != null) {
+          _itemsOrderRepositoryImpl.saveProduct(
+              txn, order.items.products, lastId);
+        }
+
+        if (order.items.services != null) {
+          _itemsOrderRepositoryImpl.saveService(
+              txn, order.items.services, lastId);
+        }
       });
 
       return Right(order);
