@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:js_budget/src/models/request_model.dart';
+import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class RequestDetailPage extends StatelessWidget {
-  const RequestDetailPage({super.key});
+class OrderDetailPage extends StatelessWidget {
+  const OrderDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final request = ModalRoute.of(context)!.settings.arguments as RequestModel;
+    final order = ModalRoute.of(context)!.settings.arguments as OrderModel;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pedido'),
@@ -37,7 +37,7 @@ class RequestDetailPage extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: CustomListTileIcon(
                     leading: const Icon(Icons.assignment),
-                    title: 'Pedido ${request.id.toString().padLeft(4, '0')}',
+                    title: 'Pedido ${order.id.toString().padLeft(4, '0')}',
                     titleFontWeight: FontWeight.bold,
                   ),
                 ),
@@ -49,12 +49,12 @@ class RequestDetailPage extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: CustomListTileIcon(
                     leading: const Icon(Icons.person),
-                    title: request.client.name,
+                    title: order.client.name,
                   ),
                 ),
               ),
               Visibility(
-                visible: request.items.first.product != null,
+                visible: order.items.first.product != null,
                 child: Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
@@ -64,7 +64,7 @@ class RequestDetailPage extends StatelessWidget {
                       title: 'Produtos',
                       children: [
                         Column(
-                          children: request.items.map((req) {
+                          children: order.items.map((req) {
                             return Column(
                               children: req.product != null
                                   ? req.product!.map((product) {
@@ -83,7 +83,7 @@ class RequestDetailPage extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: request.items.first.service != null,
+                visible: order.items.first.service != null,
                 child: Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
@@ -93,7 +93,7 @@ class RequestDetailPage extends StatelessWidget {
                       title: 'Serviços',
                       children: [
                         Column(
-                          children: request.items.map((req) {
+                          children: order.items.map((req) {
                             return Column(
                               children: req.service != null
                                   ? req.service!.map((service) {

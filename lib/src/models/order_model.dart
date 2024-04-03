@@ -2,19 +2,19 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/models/item_request_model.dart';
+import 'package:js_budget/src/models/item_order_model.dart';
 
-part 'request_model.g.dart';
+part 'order_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class RequestModel {
+class OrderModel {
   final int id;
   final String date;
   final ClientModel client;
-  final List<ItemRequestModel> items;
+  final List<ItemOrderModel> items;
   final String? situation;
   final double? valueTotal;
-  RequestModel({
+  OrderModel({
     this.id = 0,
     required this.date,
     required this.client,
@@ -22,8 +22,8 @@ class RequestModel {
     this.situation,
     this.valueTotal,
   });
-  factory RequestModel.fromJson(Map<String, dynamic> json) =>
-      _$RequestModelFromJson(json);
+  factory OrderModel.fromJson(Map<String, dynamic> json) =>
+      _$OrderModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RequestModelToJson(this);
+  Map<String, dynamic> toJson() => _$OrderModelToJson(this);
 }

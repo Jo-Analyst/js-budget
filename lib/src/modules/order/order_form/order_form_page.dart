@@ -7,25 +7,25 @@ import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class RequestFormPage extends StatefulWidget {
-  const RequestFormPage({super.key});
+class OrderFormPage extends StatefulWidget {
+  const OrderFormPage({super.key});
 
   @override
-  State<RequestFormPage> createState() => _RequestFormPageState();
+  State<OrderFormPage> createState() => _OrderFormPageState();
 }
 
-class _RequestFormPageState extends State<RequestFormPage> {
+class _OrderFormPageState extends State<OrderFormPage> {
   final dateEC = TextEditingController();
   List<ProductModel>? products;
   List<ServiceModel>? services;
-  DateTime requesteDate = DateTime.now();
+  DateTime orderDate = DateTime.now();
   int quantityProductSelected = 0, quantityServiceSelected = 0;
   ClientModel? client;
 
   @override
   void initState() {
     super.initState();
-    dateEC.text = UtilsService.dateFormat(requesteDate);
+    dateEC.text = UtilsService.dateFormat(orderDate);
   }
 
   @override
@@ -53,11 +53,11 @@ class _RequestFormPageState extends State<RequestFormPage> {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: FieldDatePicker(
                     controller: dateEC,
-                    initialDate: requesteDate,
+                    initialDate: orderDate,
                     labelText: 'Data',
                     onSelected: (date) {
                       setState(() {
-                        requesteDate = date;
+                        orderDate = date;
                       });
                       dateEC.text = UtilsService.dateFormat(date);
                     },
@@ -158,7 +158,6 @@ class _RequestFormPageState extends State<RequestFormPage> {
 
                   setState(() {
                     quantityServiceSelected = services?.length ?? 0;
-                    print(quantityServiceSelected);
                   });
                 },
                 child: Card(

@@ -54,10 +54,9 @@ class MaterialRepositoryImpl implements MaterialRepository {
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> update(
-      MaterialModel material) async {
+  Future<Either<RespositoryException, Unit>> update(MaterialModel material) async {
     try {
-       final data = TransformJson.toJson(material);
+      final data = TransformJson.toJson(material);
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         await txn.update('materials', data,

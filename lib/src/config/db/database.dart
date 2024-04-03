@@ -55,15 +55,15 @@ class DataBase {
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS requests (id INTEGER PRIMARY KEY, date TEXT NOT NULL, situation TEXT DEFAULT 'Aguardando', value REAL DEFAULT 0, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id)",
+          "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, situation TEXT DEFAULT 'Aguardando', value REAL DEFAULT 0, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id)",
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS items_requests (id INTEGER PRIMARY KEY, product_id INTEGER, service_id, FOREIGN KEY (product_id) REFERENCES products(id), , FOREIGN KEY (service_id) REFERENCES services(id))",
+          "CREATE TABLE IF NOT EXISTS items_order (id INTEGER PRIMARY KEY, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES ordes(id), FOREIGN KEY (product_id) REFERENCES products(id), FOREIGN KEY (service_id) REFERENCES services(id))",
         );
 
         db.execute(
-            "CREATE TABLE IF NOT EXISTS payments (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, request_id INTEGER, FOREIGN KEY (request_id) REFERENCES requests(id) ON DELETE CASCADE)");
+            "CREATE TABLE IF NOT EXISTS payments (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, order_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE)");
       },
       version: 1,
     );

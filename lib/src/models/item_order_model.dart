@@ -3,21 +3,21 @@ import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'item_request_model.g.dart';
+part 'item_order_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class ItemRequestModel {
+class ItemOrderModel {
   final int id;
   final List<ProductModel>? product;
   final List<ServiceModel>? service;
-  ItemRequestModel({
+  ItemOrderModel({
     this.id = 0,
     this.product,
     this.service,
   });
 
-  factory ItemRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$ItemRequestModelFromJson(json);
+  factory ItemOrderModel.fromJson(Map<String, dynamic> json) =>
+      _$ItemOrderModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ItemRequestModelToJson(this);
+  Map<String, dynamic> toJson() => _$ItemOrderModelToJson(this);
 }

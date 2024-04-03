@@ -90,7 +90,7 @@ class MenuPage extends StatelessWidget {
                 ),
               ),
               child: ListTile(
-                onTap: () => Navigator.of(context).pushNamed('/request'),
+                onTap: () => Navigator.of(context).pushNamed('/order'),
                 leading: const Icon(Icons.assignment),
                 title: Text(
                   'Pedidos',

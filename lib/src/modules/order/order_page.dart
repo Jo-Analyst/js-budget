@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/models/item_request_model.dart';
+import 'package:js_budget/src/models/item_order_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
-import 'package:js_budget/src/models/request_model.dart';
+import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class RequestPage extends StatefulWidget {
-  const RequestPage({super.key});
+class OrderPage extends StatefulWidget {
+  const OrderPage({super.key});
 
   @override
-  State<RequestPage> createState() => _RequestPageState();
+  State<OrderPage> createState() => _OrderPageState();
 }
 
-class _RequestPageState extends State<RequestPage> {
+class _OrderPageState extends State<OrderPage> {
   int? idSelected;
 
-  final List<RequestModel> request = [
-    RequestModel(
+  final List<OrderModel> order = [
+    OrderModel(
       id: 1,
       date: '31/03/2024',
       client: ClientModel(name: 'Valdirene Aparecida Ferreira'),
       situation: 'Aguardando',
       valueTotal: 0.0,
       items: [
-        ItemRequestModel(
+        ItemOrderModel(
           product: [
             ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit')
           ],
@@ -37,14 +37,14 @@ class _RequestPageState extends State<RequestPage> {
         ),
       ],
     ),
-    RequestModel(
+    OrderModel(
       id: 2,
       date: '31/03/2024',
       client: ClientModel(name: 'Joelmir Rogério Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
       items: [
-        ItemRequestModel(
+        ItemOrderModel(
           product: [
             ProductModel(name: 'Mesa', description: '', unit: 'unit'),
             ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
@@ -54,14 +54,14 @@ class _RequestPageState extends State<RequestPage> {
         ),
       ],
     ),
-    RequestModel(
+    OrderModel(
       id: 3,
       date: '31/03/2024',
       client: ClientModel(name: 'Bennedito Ferreira Carvalho '),
       situation: 'Aguardando',
       valueTotal: 0.0,
       items: [
-        ItemRequestModel(
+        ItemOrderModel(
           product: [
             ProductModel(name: 'Cadeira', description: '', unit: 'unit')
           ],
@@ -69,14 +69,14 @@ class _RequestPageState extends State<RequestPage> {
         ),
       ],
     ),
-    RequestModel(
+    OrderModel(
       id: 4,
       date: '31/03/2024',
       client: ClientModel(name: 'Noelly Cristina Ferreira Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
       items: [
-        ItemRequestModel(
+        ItemOrderModel(
           product: [
             ProductModel(name: 'Cama box', description: '', unit: 'unit'),
             ProductModel(name: 'Mesa', description: '', unit: 'unit'),
@@ -85,14 +85,14 @@ class _RequestPageState extends State<RequestPage> {
         ),
       ],
     ),
-    RequestModel(
+    OrderModel(
       id: 5,
       date: '31/03/2024',
       client: ClientModel(name: 'Maria Lídia Ferreira Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
       items: [
-        ItemRequestModel(
+        ItemOrderModel(
           product: [
             ProductModel(name: 'Harcker', description: '', unit: 'unit')
           ],
@@ -100,14 +100,14 @@ class _RequestPageState extends State<RequestPage> {
         ),
       ],
     ),
-    RequestModel(
+    OrderModel(
       id: 6,
       date: '31/03/2024',
       client: ClientModel(name: 'Lorrayne Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
       items: [
-        ItemRequestModel(
+        ItemOrderModel(
           product: [
             ProductModel(name: 'Armário', description: '', unit: 'unit')
           ],
@@ -116,13 +116,13 @@ class _RequestPageState extends State<RequestPage> {
       ],
     ),
   ];
-  bool requestSelected = false;
+  bool orderSelected = false;
   String search = '';
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var filteredRequest = request
+    var filteredOrder = order
         .where((req) =>
             req.client.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
@@ -132,12 +132,12 @@ class _RequestPageState extends State<RequestPage> {
         title: const Text('Pedidos'),
         actions: [
           Visibility(
-            visible: requestSelected,
+            visible: orderSelected,
             child: IconButton(
               tooltip: 'Editar',
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  '/request/form',
+                  '/order/form',
                 );
               },
               icon: const Icon(
@@ -146,14 +146,14 @@ class _RequestPageState extends State<RequestPage> {
             ),
           ),
           Visibility(
-            visible: requestSelected,
+            visible: orderSelected,
             child: IconButton(
               tooltip: 'Excluir',
               onPressed: () async {
                 var nav = Navigator.of(context);
                 bool confirm = await showConfirmationDialog(
                       context,
-                      'Deseja mesmo excluir  o pedido ${request[idSelected!].id.toString().padLeft(4, '0')}?',
+                      'Deseja mesmo excluir  o pedido ${order[idSelected!].id.toString().padLeft(4, '0')}?',
                       buttonTitle: 'Sim',
                     ) ??
                     false;
@@ -189,7 +189,7 @@ class _RequestPageState extends State<RequestPage> {
             ),
           ),
           Expanded(
-              child: filteredRequest.isEmpty
+              child: filteredOrder.isEmpty
                   ? Center(
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -210,9 +210,9 @@ class _RequestPageState extends State<RequestPage> {
                       ),
                     )
                   : ListView(
-                      children: filteredRequest
+                      children: filteredOrder
                           .map(
-                            (request) => Padding(
+                            (order) => Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 10),
                               child: Padding(
@@ -220,20 +220,20 @@ class _RequestPageState extends State<RequestPage> {
                                 child: GestureDetector(
                                   onLongPress: () {
                                     setState(() {
-                                      requestSelected =
-                                          request.id != idSelected;
+                                      orderSelected =
+                                          order.id != idSelected;
                                       idSelected =
-                                          requestSelected ? request.id : null;
+                                          orderSelected ? order.id : null;
                                     });
                                   },
                                   onTap: () {
                                     Navigator.of(context).pushNamed(
-                                        '/request/details',
-                                        arguments: request);
+                                        '/order/details',
+                                        arguments: order);
                                   },
                                   child: Card(
                                     color: idSelected != null &&
-                                            request.id == idSelected
+                                            order.id == idSelected
                                         ? theme.primaryColor
                                         : null,
                                     child: Padding(
@@ -243,48 +243,48 @@ class _RequestPageState extends State<RequestPage> {
                                         children: [
                                           ListTile(
                                             leading: Text(
-                                              request.id
+                                              order.id
                                                   .toString()
                                                   .padLeft(4, '0'),
                                               style: textStyleSmallFontWeight,
                                             ),
                                             title: Text(
-                                              '${request.client.name.split(' ').first} ${request.client.name.split(' ').last}',
+                                              '${order.client.name.split(' ').first} ${order.client.name.split(' ').last}',
                                               style: textStyleSmallFontWeight,
                                             ),
                                           ),
                                           Divider(
                                             color: idSelected != null &&
-                                                    request.id == idSelected
+                                                    order.id == idSelected
                                                 ? Colors.black
                                                 : null,
                                           ),
                                           ListTile(
                                             title: Text(
-                                              request.date,
+                                              order.date,
                                               style: textStyleSmallDefault,
                                             ),
                                             subtitle: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                if (request.items[0].product !=
+                                                if (order.items[0].product !=
                                                     null)
 
                                                   // Produto
                                                   Wrap(
-                                                    children: request
+                                                    children: order
                                                             .items.isNotEmpty
-                                                        ? request.items[0]
+                                                        ? order.items[0]
                                                                         .product !=
                                                                     null &&
-                                                                request
+                                                                order
                                                                     .items[0]
                                                                     .product!
                                                                     .isNotEmpty
                                                             ? [
                                                                 Text(
-                                                                  request
+                                                                  order
                                                                       .items[0]
                                                                       .product![
                                                                           0]
@@ -292,14 +292,14 @@ class _RequestPageState extends State<RequestPage> {
                                                                   style:
                                                                       textStyleSmallDefault,
                                                                 ),
-                                                                if (request
+                                                                if (order
                                                                         .items[
                                                                             0]
                                                                         .product!
                                                                         .length >
                                                                     1)
                                                                   Text(
-                                                                    ' e mais ${request.items[0].product!.length - 1} ${(request.items[0].product!.length - 1) > 1 ? 'produtos' : 'produto'}',
+                                                                    ' e mais ${order.items[0].product!.length - 1} ${(order.items[0].product!.length - 1) > 1 ? 'produtos' : 'produto'}',
                                                                     style:
                                                                         textStyleSmallDefault,
                                                                   )
@@ -313,28 +313,28 @@ class _RequestPageState extends State<RequestPage> {
                                                             )
                                                           ],
                                                   ),
-                                                if (request.items[0].service !=
+                                                if (order.items[0].service !=
                                                         null &&
-                                                    request.items[0].product !=
+                                                    order.items[0].product !=
                                                         null)
                                                   const Divider(),
-                                                if (request.items[0].service !=
+                                                if (order.items[0].service !=
                                                     null)
 
                                                   // Serviço
                                                   Wrap(
-                                                    children: request
+                                                    children: order
                                                             .items.isNotEmpty
-                                                        ? request.items[0]
+                                                        ? order.items[0]
                                                                         .service !=
                                                                     null &&
-                                                                request
+                                                                order
                                                                     .items[0]
                                                                     .service!
                                                                     .isNotEmpty
                                                             ? [
                                                                 Text(
-                                                                  request
+                                                                  order
                                                                       .items[0]
                                                                       .service![
                                                                           0]
@@ -342,14 +342,14 @@ class _RequestPageState extends State<RequestPage> {
                                                                   style:
                                                                       textStyleSmallDefault,
                                                                 ),
-                                                                if (request
+                                                                if (order
                                                                         .items[
                                                                             0]
                                                                         .service!
                                                                         .length >
                                                                     1)
                                                                   Text(
-                                                                    ' e mais ${request.items[0].service!.length - 1} ${(request.items[0].service!.length - 1) > 1 ? 'serviços' : 'serviço'}',
+                                                                    ' e mais ${order.items[0].service!.length - 1} ${(order.items[0].service!.length - 1) > 1 ? 'serviços' : 'serviço'}',
                                                                     style:
                                                                         textStyleSmallDefault,
                                                                   )
@@ -371,7 +371,7 @@ class _RequestPageState extends State<RequestPage> {
                                               children: [
                                                 Text(
                                                   UtilsService.moneyToCurrency(
-                                                      request.valueTotal ?? 0),
+                                                      order.valueTotal ?? 0),
                                                   style: TextStyle(
                                                       fontFamily: 'Anta',
                                                       fontSize:
@@ -382,7 +382,7 @@ class _RequestPageState extends State<RequestPage> {
                                                           FontWeight.w600),
                                                 ),
                                                 Text(
-                                                  request.situation ??
+                                                  order.situation ??
                                                       'Aguardando',
                                                   style: TextStyle(
                                                       fontFamily:
@@ -413,7 +413,7 @@ class _RequestPageState extends State<RequestPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pushNamed('/request/form');
+          Navigator.of(context).pushNamed('/order/form');
         },
         child: const Icon(
           Icons.add,

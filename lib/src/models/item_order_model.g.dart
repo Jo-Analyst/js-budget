@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'item_request_model.dart';
+part of 'item_order_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ItemRequestModel _$ItemRequestModelFromJson(Map<String, dynamic> json) =>
-    ItemRequestModel(
+ItemOrderModel _$ItemOrderModelFromJson(Map<String, dynamic> json) =>
+    ItemOrderModel(
       id: json['id'] as int? ?? 0,
       product: (json['product'] as List<dynamic>?)
           ?.map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
@@ -17,7 +17,7 @@ ItemRequestModel _$ItemRequestModelFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$ItemRequestModelToJson(ItemRequestModel instance) =>
+Map<String, dynamic> _$ItemOrderModelToJson(ItemOrderModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'product': instance.product,

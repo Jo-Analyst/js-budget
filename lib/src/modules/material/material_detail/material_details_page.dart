@@ -13,8 +13,7 @@ class MaterialDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Injector.get<MaterialController>();
-    final material =
-        ModalRoute.of(context)!.settings.arguments as MaterialModel;
+    final material = ModalRoute.of(context)!.settings.arguments as MaterialModel;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do material'),
