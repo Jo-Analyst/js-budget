@@ -64,7 +64,12 @@ class OrderRepositoryImpl implements OrderRepository {
                     })
                 .toList()
             : null,
-        // 'services': _services.isNotEmpty ? _services : null
+        'services': _services.isNotEmpty
+            ? _services
+                .map((service) =>
+                    {'id': service.id, 'description': service.description})
+                .toList()
+            : null
       }));
     } catch (e) {
       print(e.toString());
