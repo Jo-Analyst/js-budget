@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/item_order_model.dart';
-import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/order_model.dart';
+import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
@@ -28,15 +28,15 @@ class _OrderPageState extends State<OrderPage> {
       client: ClientModel(name: 'Valdirene Aparecida Ferreira'),
       situation: 'Aguardando',
       valueTotal: 0.0,
-      items: ItemOrderModel(
-        products: [
-          ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit')
-        ],
-        services: [
-          ServiceModel(description: 'Montagem de guarda roupa'),
-          ServiceModel(description: 'Montagem de guarda roupa'),
-        ],
-      ),
+      items: [
+        ItemOrderModel(
+          products:
+              ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit'),
+        ),
+        ItemOrderModel(
+          products: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+        ),
+      ],
     ),
     OrderModel(
       id: 2,
@@ -44,69 +44,90 @@ class _OrderPageState extends State<OrderPage> {
       client: ClientModel(name: 'Joelmir Rogério Carvalho'),
       situation: 'Aguardando',
       valueTotal: 0.0,
-      items: ItemOrderModel(
-        products: [
-          ProductModel(name: 'Mesa', description: '', unit: 'unit'),
-          ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
-          ProductModel(name: 'Banco', description: '', unit: 'unit')
-        ],
-        services: null,
-      ),
+      items: [
+        // ItemOrderModel(
+        //   products:
+        //       ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit'),
+        // ),
+        // ItemOrderModel(
+        //   products: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+        // ),
+        ItemOrderModel(
+            // products:
+            //     ProductModel(name: 'Banco', description: '', unit: 'unit'),
+            services: ServiceModel(description: 'Montagem')),
+      ],
     ),
-    OrderModel(
-      id: 3,
-      date: '31/03/2024',
-      client: ClientModel(name: 'Bennedito Ferreira Carvalho '),
-      situation: 'Aguardando',
-      valueTotal: 0.0,
-      items: ItemOrderModel(
-        products: [
-          ProductModel(name: 'Cadeira', description: '', unit: 'unit')
-        ],
-        services: null,
-      ),
-    ),
-    OrderModel(
-      id: 4,
-      date: '31/03/2024',
-      client: ClientModel(name: 'Noelly Cristina Ferreira Carvalho'),
-      situation: 'Aguardando',
-      valueTotal: 0.0,
-      items: ItemOrderModel(
-        products: [
-          ProductModel(name: 'Cama box', description: '', unit: 'unit'),
-          ProductModel(name: 'Mesa', description: '', unit: 'unit'),
-        ],
-        services: null,
-      ),
-    ),
-    OrderModel(
-      id: 5,
-      date: '31/03/2024',
-      client: ClientModel(name: 'Maria Lídia Ferreira Carvalho'),
-      situation: 'Aguardando',
-      valueTotal: 0.0,
-      items: ItemOrderModel(
-        products: [
-          ProductModel(name: 'Harcker', description: '', unit: 'unit')
-        ],
-        services: null,
-      ),
-    ),
-    OrderModel(
-      id: 6,
-      date: '31/03/2024',
-      client: ClientModel(name: 'Lorrayne Carvalho'),
-      situation: 'Aguardando',
-      valueTotal: 0.0,
-      items: ItemOrderModel(
-        products: [
-          ProductModel(name: 'Armário', description: '', unit: 'unit')
-        ],
-        services: null,
-      ),
-    ),
+    //   OrderModel(
+    //     id: 2,
+    //     date: '31/03/2024',
+    //     client: ClientModel(name: 'Joelmir Rogério Carvalho'),
+    //     situation: 'Aguardando',
+    //     valueTotal: 0.0,
+    //     items: ItemOrderModel(
+    //       products: [
+    //         ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+    //         ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
+    //         ProductModel(name: 'Banco', description: '', unit: 'unit')
+    //       ],
+    //       services: null,
+    //     ),
+    //   ),
+    //   OrderModel(
+    //     id: 3,
+    //     date: '31/03/2024',
+    //     client: ClientModel(name: 'Bennedito Ferreira Carvalho '),
+    //     situation: 'Aguardando',
+    //     valueTotal: 0.0,
+    //     items: ItemOrderModel(
+    //       products: [
+    //         ProductModel(name: 'Cadeira', description: '', unit: 'unit')
+    //       ],
+    //       services: null,
+    //     ),
+    //   ),
+    //   OrderModel(
+    //     id: 4,
+    //     date: '31/03/2024',
+    //     client: ClientModel(name: 'Noelly Cristina Ferreira Carvalho'),
+    //     situation: 'Aguardando',
+    //     valueTotal: 0.0,
+    //     items: ItemOrderModel(
+    //       products: [
+    //         ProductModel(name: 'Cama box', description: '', unit: 'unit'),
+    //         ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+    //       ],
+    //       services: null,
+    //     ),
+    //   ),
+    //   OrderModel(
+    //     id: 5,
+    //     date: '31/03/2024',
+    //     client: ClientModel(name: 'Maria Lídia Ferreira Carvalho'),
+    //     situation: 'Aguardando',
+    //     valueTotal: 0.0,
+    //     items: ItemOrderModel(
+    //       products: [
+    //         ProductModel(name: 'Harcker', description: '', unit: 'unit')
+    //       ],
+    //       services: null,
+    //     ),
+    //   ),
+    //   OrderModel(
+    //     id: 6,
+    //     date: '31/03/2024',
+    //     client: ClientModel(name: 'Lorrayne Carvalho'),
+    //     situation: 'Aguardando',
+    //     valueTotal: 0.0,
+    //     items: ItemOrderModel(
+    //       products: [
+    //         ProductModel(name: 'Armário', description: '', unit: 'unit')
+    //       ],
+    //       services: null,
+    //     ),
+    //   ),
   ];
+
   bool orderSelected = false;
   String search = '';
 
@@ -269,37 +290,33 @@ class _OrderPageState extends State<OrderPage> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                if (order.items.products !=
+                                                if (order.items[0].products !=
                                                     null)
 
                                                   // Produto
                                                   Wrap(
-                                                    children: order.items
+                                                    children: order.items[0]
                                                                 .products !=
                                                             null
-                                                        ? order.items.products !=
+                                                        ? order.items[0].products !=
                                                                     null &&
-                                                                order
-                                                                    .items
-                                                                    .products!
-                                                                    .isNotEmpty
+                                                                order.items[0]
+                                                                        .products !=
+                                                                    null
                                                             ? [
                                                                 Text(
                                                                   order
-                                                                      .items
-                                                                      .products![
-                                                                          0]
+                                                                      .items[0]
+                                                                      .products!
                                                                       .name,
                                                                   style:
                                                                       textStyleSmallDefault,
                                                                 ),
-                                                                if (order
-                                                                        .items
-                                                                        .products!
+                                                                if (order.items
                                                                         .length >
                                                                     1)
                                                                   Text(
-                                                                    ' e mais ${order.items.products!.length - 1} ${(order.items.products!.length - 1) > 1 ? 'produtos' : 'produto'}',
+                                                                    ' e mais ${order.items.length - 1} ${(order.items.length - 1) > 1 ? 'produtos' : 'produto'}',
                                                                     style:
                                                                         textStyleSmallDefault,
                                                                   )
@@ -313,42 +330,38 @@ class _OrderPageState extends State<OrderPage> {
                                                             )
                                                           ],
                                                   ),
-                                                if (order.items.services !=
+                                                if (order.items[0].services !=
                                                         null &&
-                                                    order.items.products !=
+                                                    order.items[0].products !=
                                                         null)
                                                   const Divider(),
-                                                if (order.items.services !=
+                                                if (order.items[0].services !=
                                                     null)
 
                                                   // Serviço
                                                   Wrap(
-                                                    children: order.items
+                                                    children: order.items[0]
                                                                 .services !=
                                                             null
-                                                        ? order.items.services !=
+                                                        ? order.items[0].services !=
                                                                     null &&
-                                                                order
-                                                                    .items
-                                                                    .services!
-                                                                    .isNotEmpty
+                                                                order.items[0]
+                                                                        .services !=
+                                                                    null
                                                             ? [
                                                                 Text(
                                                                   order
-                                                                      .items
-                                                                      .services![
-                                                                          0]
+                                                                      .items[0]
+                                                                      .services!
                                                                       .description,
                                                                   style:
                                                                       textStyleSmallDefault,
                                                                 ),
-                                                                if (order
-                                                                        .items
-                                                                        .services!
+                                                                if (order.items
                                                                         .length >
                                                                     1)
                                                                   Text(
-                                                                    ' e mais ${order.items.services!.length - 1} ${(order.items.services!.length - 1) > 1 ? 'serviços' : 'serviço'}',
+                                                                    ' e mais ${order.items.length - 1} ${(order.items.length - 1) > 1 ? 'serviços' : 'serviço'}',
                                                                     style:
                                                                         textStyleSmallDefault,
                                                                   )

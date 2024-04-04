@@ -25,27 +25,27 @@ class OrderRepositoryImpl implements OrderRepository {
         lastOrderId = await txn.insert(
             'orders', {'date': order.date, 'client_id': order.client.id});
 
-        if (order.items.products != null) {
-          for (var product in order.items.products!) {
+        if (order.items[0].products != null) {
+          for (var product in order.items) {
             int lastIdProduct = await _itemsOrderRepositoryImpl.saveProduct(
-                txn, product, lastOrderId);
+                txn, product.products!, lastOrderId);
 
             _products.add(ProductModel(
               id: lastIdProduct,
-              name: product.name,
-              description: product.description,
-              unit: product.unit,
+              name: product.products!.name,
+              description: product.products!.description,
+              unit: product.products!.unit,
             ));
           }
         }
 
-        if (order.items.services != null) {
-          for (var service in order.items.services!) {
+        if (order.items[0].services != null) {
+          for (var service in order.items) {
             int lastIdService = await _itemsOrderRepositoryImpl.saveService(
-                txn, service, lastOrderId);
+                txn, service.services!, lastOrderId);
 
             _services.add(ServiceModel(
-                id: lastIdService, description: service.description));
+                id: lastIdService, description: service.services!.description));
           }
         }
       });

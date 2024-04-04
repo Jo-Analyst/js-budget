@@ -8,8 +8,8 @@ part 'item_order_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ItemOrderModel {
   final int id;
-  final List<ProductModel>? products;
-  final List<ServiceModel>? services;
+  final ProductModel? products;
+  final ServiceModel? services;
   ItemOrderModel({
     this.id = 0,
     this.products,

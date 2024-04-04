@@ -30,7 +30,7 @@ class TransformOrderJson {
       client:
           ClientModel(id: order['client']['id'], name: order['client']['name']),
       date: order['date'],
-      items: ItemOrderModel(),
+      items: [ItemOrderModel()],
 
       // items: [{'products': [{''}]}],
     );

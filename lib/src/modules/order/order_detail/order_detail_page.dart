@@ -11,6 +11,11 @@ class OrderDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final order = ModalRoute.of(context)!.settings.arguments as OrderModel;
+
+    for (var item in order.items) {
+      print(item.products!.toJson());
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pedido'),
@@ -53,7 +58,7 @@ class OrderDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-              if (order.items.products != null)
+              if (order.items.any((item) => item.products != null))
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
@@ -63,10 +68,13 @@ class OrderDetailPage extends StatelessWidget {
                       title: 'Produtos',
                       children: [
                         Column(
-                          children: order.items.products!.map((product) {
-                            return CustomListTileIcon(
-                              leading: const Icon(Icons.local_offer),
-                              title: product.name,
+                          children: order.items.map((items) {
+                            return Visibility(
+                              visible: items.products != null,
+                              child: CustomListTileIcon(
+                                leading: const Icon(Icons.local_offer),
+                                title: items.products!.name,
+                              ),
                             );
                           }).toList(),
                         ),
@@ -74,7 +82,7 @@ class OrderDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              if (order.items.services != null)
+              if (order.items.any((item) => item.services != null))
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
@@ -84,11 +92,14 @@ class OrderDetailPage extends StatelessWidget {
                       title: 'Serviços',
                       children: [
                         Column(
-                          children: order.items.services!.map((service) {
-                            return CustomListTileIcon(
-                              leading: const Icon(
-                                  FontAwesomeIcons.screwdriverWrench),
-                              title: service.description,
+                          children: order.items.map((items) {
+                            return Visibility(
+                              visible: items.services != null,
+                              child: CustomListTileIcon(
+                                leading: const Icon(
+                                    FontAwesomeIcons.screwdriverWrench),
+                                title: items.services?.description ?? '',
+                              ),
                             );
                           }).toList(),
                         ),
