@@ -3,36 +3,71 @@ import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/order_model.dart';
+import 'package:js_budget/src/models/product_model.dart';
+import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/repositories/item_order/items_order_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository.dart';
+import 'package:js_budget/src/repositories/order/transform_order_json.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
   final ItemsOrderRepositoryImpl _itemsOrderRepositoryImpl =
       ItemsOrderRepositoryImpl();
+  final List<ProductModel> _products = [];
+  final List<ServiceModel> _services = [];
 
   @override
   Future<Either<RespositoryException, OrderModel>> register(
       OrderModel order) async {
     try {
       final db = await DataBase.openDatabase();
-      int lastId = 0;
+      int lastOrderId = 0;
       await db.transaction((txn) async {
-        lastId = await txn.insert(
+        lastOrderId = await txn.insert(
             'orders', {'date': order.date, 'client_id': order.client.id});
 
         if (order.items.products != null) {
-          _itemsOrderRepositoryImpl.saveProduct(
-              txn, order.items.products, lastId);
+          for (var product in order.items.products!) {
+            int lastIdProduct = await _itemsOrderRepositoryImpl.saveProduct(
+                txn, product, lastOrderId);
+
+            _products.add(ProductModel(
+              id: lastIdProduct,
+              name: product.name,
+              description: product.description,
+              unit: product.unit,
+            ));
+          }
         }
 
         if (order.items.services != null) {
-          _itemsOrderRepositoryImpl.saveService(
-              txn, order.items.services, lastId);
+          for (var service in order.items.services!) {
+            int lastIdService = await _itemsOrderRepositoryImpl.saveService(
+                txn, service, lastOrderId);
+
+            _services.add(ServiceModel(
+                id: lastIdService, description: service.description));
+          }
         }
       });
 
-      return Right(order);
-    } catch (_) {
+      return Right(TransformOrderJson.fromJson({
+        'id': lastOrderId,
+        'date': order.date,
+        'client': {'id': order.client.id, 'name': order.client.name},
+        'products': _products.isNotEmpty
+            ? _products
+                .map((product) => {
+                      'id': product.id,
+                      'name': product.name,
+                      'unit': product.unit,
+                      'description': product.description
+                    })
+                .toList()
+            : null,
+        // 'services': _services.isNotEmpty ? _services : null
+      }));
+    } catch (e) {
+      print(e.toString());
       return Left(RespositoryException());
     }
   }
