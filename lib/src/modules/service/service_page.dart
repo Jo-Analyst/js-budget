@@ -66,6 +66,7 @@ class _ServicePageState extends State<ServicePage> {
 
   @override
   Widget build(BuildContext context) {
+    var nav = Navigator.of(context);
     bool comesFromTheOrder =
         ModalRoute.of(context)?.settings.arguments as bool? ?? false;
     var filteredServices = controller.data
@@ -92,7 +93,7 @@ class _ServicePageState extends State<ServicePage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/service/form');
+              nav.pushNamed('/service/form');
             },
             tooltip: "Novo Serviço",
             icon: const Icon(
@@ -104,7 +105,7 @@ class _ServicePageState extends State<ServicePage> {
             visible: serviceSelected.isNotEmpty,
             child: IconButton(
               onPressed: () {
-                Navigator.of(context).pop(serviceSelected);
+                nav.pop(serviceSelected);
               },
               icon: const Icon(
                 Icons.check,
@@ -158,7 +159,7 @@ class _ServicePageState extends State<ServicePage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/service/form');
+                              nav.pushNamed('/service/form');
                             },
                             icon: const Icon(
                               Icons.add,
@@ -180,9 +181,17 @@ class _ServicePageState extends State<ServicePage> {
                                 ListTile(
                                   splashColor: Colors.transparent,
                                   onTap: comesFromTheOrder
-                                      ? () => selectService(service)
+                                      ? () {
+                                          if (longPressWasPressed) {
+                                            selectService(service);
+
+                                            return;
+                                          }
+
+                                          nav.pop([service as ServiceModel]);
+                                        }
                                       : () async {
-                                          await Navigator.of(context).pushNamed(
+                                          await nav.pushNamed(
                                               '/service/details',
                                               arguments: service);
 

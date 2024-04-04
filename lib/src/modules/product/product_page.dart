@@ -74,6 +74,7 @@ class _ProductPageState extends State<ProductPage> {
         .toList();
 
     var theme = Theme.of(context);
+    var nav = Navigator.of(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -91,7 +92,7 @@ class _ProductPageState extends State<ProductPage> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/product/form');
+              nav.pushNamed('/product/form');
             },
             tooltip: "Novo produto",
             icon: const Icon(
@@ -103,7 +104,7 @@ class _ProductPageState extends State<ProductPage> {
             visible: productSelected.isNotEmpty,
             child: IconButton(
               onPressed: () {
-                Navigator.of(context).pop(productSelected);
+                nav.pop(productSelected);
               },
               icon: const Icon(
                 Icons.check,
@@ -157,7 +158,7 @@ class _ProductPageState extends State<ProductPage> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/product/form');
+                              nav.pushNamed('/product/form');
                             },
                             icon: const Icon(
                               Icons.add,
@@ -182,12 +183,18 @@ class _ProductPageState extends State<ProductPage> {
                                     splashColor: Colors.transparent,
                                     onTap: comesFromTheOrder
                                         ? () {
-                                            selectProduct(product);
+                                            if (longPressWasPressed) {
+                                              selectProduct(product);
+
+                                              return;
+                                            }
+
+                                            nav.pop([product as ProductModel]);
                                           }
                                         : () async {
-                                            await Navigator.of(context)
-                                                .pushNamed('/product/details',
-                                                    arguments: product);
+                                            await nav.pushNamed(
+                                                '/product/details',
+                                                arguments: product);
 
                                             controller.model.value = null;
                                           },

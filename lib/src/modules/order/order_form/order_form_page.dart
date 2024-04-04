@@ -119,7 +119,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                 onTap: () async {
                   products = await nav.pushNamed('/product', arguments: true)
                       as List<ProductModel>?;
-
+                  print(products);
                   setState(() {
                     quantityProductSelected = products?.length ?? 0;
                   });
