@@ -118,8 +118,9 @@ class _OrderFormPageState extends State<OrderFormPage>
               GestureDetector(
                 onTap: () async {
                   products = await nav.pushNamed('/product', arguments: true)
-                      as List<ProductModel>?;
-                  print(products);
+                          as List<ProductModel>? ??
+                      products;
+
                   setState(() {
                     quantityProductSelected = products?.length ?? 0;
                   });
@@ -164,7 +165,8 @@ class _OrderFormPageState extends State<OrderFormPage>
               GestureDetector(
                 onTap: () async {
                   services = await nav.pushNamed('/service', arguments: true)
-                      as List<ServiceModel>?;
+                          as List<ServiceModel>? ??
+                      services;
 
                   setState(() {
                     quantityServiceSelected = services?.length ?? 0;
