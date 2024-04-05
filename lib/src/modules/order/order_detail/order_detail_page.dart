@@ -54,6 +54,8 @@ class OrderDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // Container Produtos
               if (order.items.any((item) => item.products != null))
                 Container(
                   margin: const EdgeInsets.only(top: 5),
@@ -69,7 +71,7 @@ class OrderDetailPage extends StatelessWidget {
                               visible: items.products != null,
                               child: CustomListTileIcon(
                                 leading: const Icon(Icons.local_offer),
-                                title: items.products!.name,
+                                title: items.products?.name ?? '',
                               ),
                             );
                           }).toList(),
@@ -78,6 +80,8 @@ class OrderDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
+
+              // Container Serviços
               if (order.items.any((item) => item.services != null))
                 Container(
                   margin: const EdgeInsets.only(top: 5),
