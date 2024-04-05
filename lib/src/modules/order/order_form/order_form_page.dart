@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/item_order_model.dart';
 import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
@@ -22,6 +23,7 @@ class _OrderFormPageState extends State<OrderFormPage>
     with OrderFormController {
   final controller = Injector.get<OrderController>();
 
+  List<ItemOrderModel> itemOrder = [];
   List<ProductModel>? products;
   List<ServiceModel>? services;
   OrderModel? order;
@@ -44,8 +46,8 @@ class _OrderFormPageState extends State<OrderFormPage>
         actions: [
           IconButton(
             onPressed: () async {
-              await controller.register(
-                  saveForm(order?.id ?? 0, client!, products, services));
+              await controller
+                  .register(saveForm(order?.id ?? 0, client!, itemOrder));
             },
             icon: const Icon(Icons.save, size: 30),
           ),
@@ -121,6 +123,12 @@ class _OrderFormPageState extends State<OrderFormPage>
                           as List<ProductModel>? ??
                       products;
 
+                  if (products != null) {
+                    for (var product in products!) {
+                      itemOrder.add(ItemOrderModel(product: product));
+                    }
+                  }
+
                   setState(() {
                     quantityProductSelected = products?.length ?? 0;
                   });
@@ -167,6 +175,12 @@ class _OrderFormPageState extends State<OrderFormPage>
                   services = await nav.pushNamed('/service', arguments: true)
                           as List<ServiceModel>? ??
                       services;
+
+                  if (services != null) {
+                    for (var service in services!) {
+                      itemOrder.add(ItemOrderModel(service: service));
+                    }
+                  }
 
                   setState(() {
                     quantityServiceSelected = services?.length ?? 0;

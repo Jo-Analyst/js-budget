@@ -17,11 +17,10 @@ mixin OrderFormController on State<OrderFormPage> {
     dateEC.text;
   }
 
-  OrderModel saveForm(int id, ClientModel client, List<ProductModel>? products,
-      List<ServiceModel>? services) {
+  OrderModel saveForm(int id, ClientModel client, List<ItemOrderModel> items) {
     return OrderModel(
-        client: client, date: DateTime.now().toIso8601String(), items: []
-        // items: [ItemOrderModel(product: products, service: services)],
-        );
+      client: client, date: DateTime.now().toIso8601String(), items: items,
+      // items: [ItemOrderModel(product: products, service: services)],
+    );
   }
 }
