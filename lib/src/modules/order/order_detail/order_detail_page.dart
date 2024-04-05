@@ -56,7 +56,7 @@ class OrderDetailPage extends StatelessWidget {
               ),
 
               // Container Produtos
-              if (order.items.any((item) => item.products != null))
+              if (order.items.any((item) => item.product != null))
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
@@ -68,10 +68,10 @@ class OrderDetailPage extends StatelessWidget {
                         Column(
                           children: order.items.map((items) {
                             return Visibility(
-                              visible: items.products != null,
+                              visible: items.product != null,
                               child: CustomListTileIcon(
                                 leading: const Icon(Icons.local_offer),
-                                title: items.products?.name ?? '',
+                                title: items.product?.name ?? '',
                               ),
                             );
                           }).toList(),
@@ -82,7 +82,7 @@ class OrderDetailPage extends StatelessWidget {
                 ),
 
               // Container Serviços
-              if (order.items.any((item) => item.services != null))
+              if (order.items.any((item) => item.service != null))
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
@@ -94,11 +94,11 @@ class OrderDetailPage extends StatelessWidget {
                         Column(
                           children: order.items.map((items) {
                             return Visibility(
-                              visible: items.services != null,
+                              visible: items.service != null,
                               child: CustomListTileIcon(
                                 leading: const Icon(
                                     FontAwesomeIcons.screwdriverWrench),
-                                title: items.services?.description ?? '',
+                                title: items.service?.description ?? '',
                               ),
                             );
                           }).toList(),

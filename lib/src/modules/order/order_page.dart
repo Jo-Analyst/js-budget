@@ -30,18 +30,17 @@ class _OrderPageState extends State<OrderPage> {
       valueTotal: 0.0,
       items: [
         ItemOrderModel(
-          products:
+          product:
               ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit'),
-          services: ServiceModel(description: 'Montagem'),
+          service: ServiceModel(description: 'Montagem'),
         ),
         ItemOrderModel(
-          products: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
-          services: ServiceModel(description: 'Montagem'),
+          product: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+          service: ServiceModel(description: 'Montagem'),
         ),
         ItemOrderModel(
-          products:
-              ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
-          services: ServiceModel(description: 'Montagem'),
+          product: ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
+          service: ServiceModel(description: 'Montagem'),
         ),
       ],
     ),
@@ -53,21 +52,21 @@ class _OrderPageState extends State<OrderPage> {
       valueTotal: 0.0,
       items: [
         ItemOrderModel(
-          products:
+          product:
               ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit'),
-          services: ServiceModel(description: 'Montagem'),
+          service: ServiceModel(description: 'Montagem'),
         ),
         ItemOrderModel(
-          products: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
-          services: ServiceModel(description: 'Montagem'),
+          product: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+          service: ServiceModel(description: 'Montagem'),
         ),
         ItemOrderModel(
-          products: ProductModel(name: 'Banco', description: '', unit: 'unit'),
-          services: ServiceModel(description: 'Montagem'),
+          product: ProductModel(name: 'Banco', description: '', unit: 'unit'),
+          service: ServiceModel(description: 'Montagem'),
         ),
         ItemOrderModel(
-          products: ProductModel(name: 'Banco', description: '', unit: 'unit'),
-          services: ServiceModel(description: 'Montagem'),
+          product: ProductModel(name: 'Banco', description: '', unit: 'unit'),
+          service: ServiceModel(description: 'Montagem'),
         ),
       ],
     ),
@@ -240,11 +239,11 @@ class _OrderPageState extends State<OrderPage> {
                                               children: [
                                                 // Produto
                                                 if (order.items.any((item) =>
-                                                    item.products != null))
+                                                    item.product != null))
                                                   Visibility(
                                                     visible: order.items
                                                             .where((item) =>
-                                                                item.products !=
+                                                                item.product !=
                                                                 null)
                                                             .length ==
                                                         1,
@@ -255,14 +254,14 @@ class _OrderPageState extends State<OrderPage> {
                                                             text: order.items
                                                                 .firstWhere(
                                                                     (item) =>
-                                                                        item.products !=
+                                                                        item.product !=
                                                                         null)
-                                                                .products!
+                                                                .product!
                                                                 .name,
                                                           ),
                                                           TextSpan(
                                                             text:
-                                                                ' + ${order.items.where((item) => item.products != null).length - 1} produto(s)',
+                                                                ' + ${order.items.where((item) => item.product != null).length - 1} produto(s)',
                                                           )
                                                         ],
                                                       ),
@@ -272,9 +271,9 @@ class _OrderPageState extends State<OrderPage> {
                                                     child: Text(
                                                       order.items
                                                           .firstWhere((item) =>
-                                                              item.products !=
+                                                              item.product !=
                                                               null)
-                                                          .products!
+                                                          .product!
                                                           .name,
                                                       style:
                                                           textStyleSmallDefault,
@@ -283,17 +282,16 @@ class _OrderPageState extends State<OrderPage> {
 
                                                 // Serviço
                                                 if (order.items.any((item) =>
-                                                        item.services !=
-                                                        null) &&
+                                                        item.service != null) &&
                                                     order.items.any((item) =>
-                                                        item.products != null))
+                                                        item.product != null))
                                                   const Divider(),
                                                 if (order.items.any((item) =>
-                                                    item.services != null))
+                                                    item.service != null))
                                                   Visibility(
                                                     visible: order.items
                                                             .where((item) =>
-                                                                item.services !=
+                                                                item.service !=
                                                                 null)
                                                             .length ==
                                                         1,
@@ -304,14 +302,14 @@ class _OrderPageState extends State<OrderPage> {
                                                             text: order.items
                                                                 .firstWhere(
                                                                     (item) =>
-                                                                        item.services !=
+                                                                        item.service !=
                                                                         null)
-                                                                .services!
+                                                                .service!
                                                                 .description,
                                                           ),
                                                           TextSpan(
                                                             text:
-                                                                ' + ${order.items.where((item) => item.services != null).length - 1} serviço(s)',
+                                                                ' + ${order.items.where((item) => item.service != null).length - 1} serviço(s)',
                                                           )
                                                         ],
                                                       ),
@@ -321,9 +319,9 @@ class _OrderPageState extends State<OrderPage> {
                                                     child: Text(
                                                       order.items
                                                           .firstWhere((item) =>
-                                                              item.services !=
+                                                              item.service !=
                                                               null)
-                                                          .services!
+                                                          .service!
                                                           .description,
                                                       style:
                                                           textStyleSmallDefault,

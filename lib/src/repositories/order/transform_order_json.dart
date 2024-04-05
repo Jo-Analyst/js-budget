@@ -1,9 +1,8 @@
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/models/item_order_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/models/order_model.dart';
-import 'package:js_budget/src/models/product_model.dart';
-import 'package:js_budget/src/models/service_model.dart';
+
+final List<Map<String, dynamic>> _items = [];
 
 class TransformOrderJson {
   static Map<String, dynamic> toJson(MaterialModel material) {
@@ -21,18 +20,12 @@ class TransformOrderJson {
   }
 
   static OrderModel fromJson(Map<String, dynamic> order) {
-    // print(order['products']);
-    print(order['products'].map((e) => ProductModel.fromJson(e)).toList());
-    print('=============');
-    print(order['services'].map((e) => ServiceModel.fromJson(e)).toList());
     return OrderModel(
       id: order['id'] as int,
       client:
           ClientModel(id: order['client']['id'], name: order['client']['name']),
       date: order['date'],
-      items: [ItemOrderModel()],
-
-      // items: [{'products': [{''}]}],
+      items: order["items"],
     );
   }
 }

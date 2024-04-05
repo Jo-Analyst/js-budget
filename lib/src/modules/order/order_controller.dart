@@ -20,6 +20,11 @@ class OrderController with Messages {
 
     switch (results) {
       case Right(value: OrderModel order):
+        for (var item in order.items) {
+          print(item.product?.toJson());
+          print('===================');
+          print(item.service?.toJson());
+        }
         data.add(order);
         showSuccess('Pedido registrado com sucesso');
       case Left():

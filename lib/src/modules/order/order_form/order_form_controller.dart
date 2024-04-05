@@ -18,11 +18,11 @@ mixin OrderFormController on State<OrderFormPage> {
   }
 
   OrderModel save(int id, ClientModel client, ProductModel? products,
-     ServiceModel? services) {
+      ServiceModel? services) {
     return OrderModel(
       client: client,
       date: DateTime.now().toIso8601String(),
-      items: [ItemOrderModel(products: products, services: services)],
+      items: [ItemOrderModel(product: products, service: services)],
     );
   }
 }

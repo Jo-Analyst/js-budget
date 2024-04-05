@@ -6,16 +6,12 @@ import './items_order_repository.dart';
 
 class ItemsOrderRepositoryImpl implements ItemsOrderRepository {
   @override
-  Future<int> saveProduct(
-      Transaction txn, ProductModel product, int orderId) async {
-    return txn.insert(
-        'items_orders', {'order_id': orderId, 'product_id': product.id});
-  }
-
-  @override
-  Future<int> saveService(
-      Transaction txn, ServiceModel service, int orderId) async {
-    return txn.insert(
-        'items_orders', {'order_id': orderId, 'service_id': service.id});
+  Future<int> save(Transaction txn, ProductModel? product,
+      ServiceModel? service, int orderId) async {
+    return txn.insert('items_orders', {
+      'order_id': orderId,
+      'product_id': product?.id,
+      'service_id': service?.id,
+    });
   }
 }

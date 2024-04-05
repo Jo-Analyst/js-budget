@@ -2,9 +2,8 @@ import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
+import 'package:js_budget/src/models/item_order_model.dart';
 import 'package:js_budget/src/models/order_model.dart';
-import 'package:js_budget/src/models/product_model.dart';
-import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/repositories/item_order/items_order_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository.dart';
 import 'package:js_budget/src/repositories/order/transform_order_json.dart';
@@ -12,8 +11,7 @@ import 'package:js_budget/src/repositories/order/transform_order_json.dart';
 class OrderRepositoryImpl implements OrderRepository {
   final ItemsOrderRepositoryImpl _itemsOrderRepositoryImpl =
       ItemsOrderRepositoryImpl();
-  final List<ProductModel> _products = [];
-  final List<ServiceModel> _services = [];
+  final List<ItemOrderModel> _items = [];
 
   @override
   Future<Either<RespositoryException, OrderModel>> register(
@@ -25,28 +23,16 @@ class OrderRepositoryImpl implements OrderRepository {
         lastOrderId = await txn.insert(
             'orders', {'date': order.date, 'client_id': order.client.id});
 
-        if (order.items.any((item) => item.products != null)) {
-          for (var product in order.items) {
-            int lastIdProduct = await _itemsOrderRepositoryImpl.saveProduct(
-                txn, product.products!, lastOrderId);
-
-            _products.add(ProductModel(
-              id: lastIdProduct,
-              name: product.products!.name,
-              description: product.products!.description,
-              unit: product.products!.unit,
-            ));
-          }
-        }
-
-        if (order.items.any((element) => element.services != null)) {
-          for (var service in order.items) {
-            int lastIdService = await _itemsOrderRepositoryImpl.saveService(
-                txn, service.services!, lastOrderId);
-
-            _services.add(ServiceModel(
-                id: lastIdService, description: service.services!.description));
-          }
+        for (var item in order.items) {
+          int lastIdItemOrder = await _itemsOrderRepositoryImpl.save(
+              txn, item.product, item.service, lastOrderId);
+          _items.add(
+            ItemOrderModel(
+              id: lastIdItemOrder,
+              product: item.product,
+              service: item.service,
+            ),
+          );
         }
       });
 
@@ -54,22 +40,27 @@ class OrderRepositoryImpl implements OrderRepository {
         'id': lastOrderId,
         'date': order.date,
         'client': {'id': order.client.id, 'name': order.client.name},
-        'products': _products.isNotEmpty
-            ? _products
-                .map((product) => {
-                      'id': product.id,
-                      'name': product.name,
-                      'unit': product.unit,
-                      'description': product.description
-                    })
-                .toList()
-            : null,
-        'services': _services.isNotEmpty
-            ? _services
-                .map((service) =>
-                    {'id': service.id, 'description': service.description})
-                .toList()
-            : null
+        'items': _items
+        // .map((e) => ItemOrderModel(
+        //         id: e.id, products: e.products, services: e.services)
+        //     .toJson())
+        // .toSet()
+        // 'products': _products.isNotEmpty
+        //     ? _products
+        //         .map((product) => {
+        //               'id': product.id,
+        //               'name': product.name,
+        //               'unit': product.unit,
+        //               'description': product.description
+        //             })
+        //         .toList()
+        //     : null,
+        // 'services': _services.isNotEmpty
+        //     ? _services
+        //         .map((service) =>
+        //             {'id': service.id, 'description': service.description})
+        //         .toList()
+        //     : null
       }));
     } catch (e) {
       print(e.toString());
