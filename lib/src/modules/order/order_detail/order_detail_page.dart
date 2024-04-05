@@ -12,10 +12,6 @@ class OrderDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final order = ModalRoute.of(context)!.settings.arguments as OrderModel;
 
-    for (var item in order.items) {
-      print(item.products!.toJson());
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pedido'),

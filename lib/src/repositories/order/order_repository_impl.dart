@@ -25,7 +25,7 @@ class OrderRepositoryImpl implements OrderRepository {
         lastOrderId = await txn.insert(
             'orders', {'date': order.date, 'client_id': order.client.id});
 
-        if (order.items[0].products != null) {
+        if (order.items.any((item) => item.products != null)) {
           for (var product in order.items) {
             int lastIdProduct = await _itemsOrderRepositoryImpl.saveProduct(
                 txn, product.products!, lastOrderId);
@@ -39,7 +39,7 @@ class OrderRepositoryImpl implements OrderRepository {
           }
         }
 
-        if (order.items[0].services != null) {
+        if (order.items.any((element) => element.services != null)) {
           for (var service in order.items) {
             int lastIdService = await _itemsOrderRepositoryImpl.saveService(
                 txn, service.services!, lastOrderId);

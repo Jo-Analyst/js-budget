@@ -32,10 +32,15 @@ class _OrderPageState extends State<OrderPage> {
         ItemOrderModel(
           products:
               ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit'),
+          services: ServiceModel(description: 'Montagem'),
         ),
         ItemOrderModel(
           products: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+          services: ServiceModel(description: 'Montagem'),
         ),
+        ItemOrderModel(
+            products: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
+            services: ServiceModel(description: 'Montagem')),
       ],
     ),
     OrderModel(
@@ -53,9 +58,13 @@ class _OrderPageState extends State<OrderPage> {
         //   products: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
         // ),
         ItemOrderModel(
-            // products:
-            //     ProductModel(name: 'Banco', description: '', unit: 'unit'),
-            services: ServiceModel(description: 'Montagem')),
+          products: ProductModel(name: 'Banco', description: '', unit: 'unit'),
+          // services: ServiceModel(description: 'Montagem'),
+        ),
+        ItemOrderModel(
+            // products: ProductModel(name: 'Banco', description: '', unit: 'unit'),
+            // services: ServiceModel(description: 'Montagem'),
+            ),
       ],
     ),
     //   OrderModel(
@@ -290,91 +299,88 @@ class _OrderPageState extends State<OrderPage> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                if (order.items[0].products !=
-                                                    null)
-
-                                                  // Produto
+                                                // Produto
+                                                if (order.items.any((item) =>
+                                                    item.products != null))
                                                   Wrap(
-                                                    children: order.items[0]
-                                                                .products !=
-                                                            null
-                                                        ? order.items[0].products !=
-                                                                    null &&
-                                                                order.items[0]
-                                                                        .products !=
-                                                                    null
-                                                            ? [
-                                                                Text(
-                                                                  order
-                                                                      .items[0]
-                                                                      .products!
-                                                                      .name,
-                                                                  style:
-                                                                      textStyleSmallDefault,
-                                                                ),
-                                                                if (order.items
-                                                                        .length >
-                                                                    1)
-                                                                  Text(
-                                                                    ' e mais ${order.items.length - 1} ${(order.items.length - 1) > 1 ? 'produtos' : 'produto'}',
-                                                                    style:
-                                                                        textStyleSmallDefault,
-                                                                  )
-                                                              ]
-                                                            : []
-                                                        : [
-                                                            Container(
-                                                              color: Colors.red,
-                                                              width: 100,
-                                                              height: 100,
+                                                    children: order.items.any(
+                                                            (item) =>
+                                                                item.products !=
+                                                                null)
+                                                        ? order.items
+                                                            .map(
+                                                              (e) => e.products !=
+                                                                      null
+                                                                  ? Column(
+                                                                      children: [
+                                                                        if (order.items.any((item) =>
+                                                                            item.products !=
+                                                                            null))
+                                                                          Text(
+                                                                            e.products!.name,
+                                                                            style:
+                                                                                textStyleSmallDefault,
+                                                                          ),
+                                                                        // if (order.items
+                                                                        //         .length >
+                                                                        //     1)
+                                                                        //   Text(
+                                                                        //     ' e mais ${order.items.length - 1} ${(order.items.length - 1) > 1 ? 'produtos' : 'produto'}',
+                                                                        //     style:
+                                                                        //         textStyleSmallDefault,
+                                                                        //   )
+                                                                      ],
+                                                                    )
+                                                                  : Container(),
                                                             )
-                                                          ],
+                                                            .toList()
+                                                        : [],
                                                   ),
-                                                if (order.items[0].services !=
-                                                        null &&
-                                                    order.items[0].products !=
-                                                        null)
-                                                  const Divider(),
-                                                if (order.items[0].services !=
-                                                    null)
+                                                // if (order.items[0].services !=
+                                                //         null &&
+                                                //     order.items[0].products !=
+                                                //         null)
+                                                //   const Divider(),
+                                                // if (order.items[0].services !=
+                                                //     null)
 
-                                                  // Serviço
-                                                  Wrap(
-                                                    children: order.items[0]
-                                                                .services !=
-                                                            null
-                                                        ? order.items[0].services !=
-                                                                    null &&
-                                                                order.items[0]
-                                                                        .services !=
-                                                                    null
-                                                            ? [
-                                                                Text(
-                                                                  order
-                                                                      .items[0]
-                                                                      .services!
-                                                                      .description,
-                                                                  style:
-                                                                      textStyleSmallDefault,
-                                                                ),
-                                                                if (order.items
-                                                                        .length >
-                                                                    1)
-                                                                  Text(
-                                                                    ' e mais ${order.items.length - 1} ${(order.items.length - 1) > 1 ? 'serviços' : 'serviço'}',
-                                                                    style:
-                                                                        textStyleSmallDefault,
-                                                                  )
-                                                              ]
-                                                            : []
-                                                        : [
-                                                            Container(
-                                                              color: Colors.red,
-                                                              width: 100,
-                                                              height: 100,
-                                                            )
-                                                          ],
-                                                  ),
+                                                //   // Serviço
+                                                //   Wrap(
+                                                //     children: order.items[0]
+                                                //                 .services !=
+                                                //             null
+                                                //         ? order.items[0].services !=
+                                                //                     null &&
+                                                //                 order.items[0]
+                                                //                         .services !=
+                                                //                     null
+                                                //             ? [
+                                                //                 Text(
+                                                //                   order
+                                                //                       .items[0]
+                                                //                       .services!
+                                                //                       .description,
+                                                //                   style:
+                                                //                       textStyleSmallDefault,
+                                                //                 ),
+                                                //                 if (order.items
+                                                //                         .length >
+                                                //                     1)
+                                                //                   Text(
+                                                //                     ' e mais ${order.items.length - 1} ${(order.items.length - 1) > 1 ? 'serviços' : 'serviço'}',
+                                                //                     style:
+                                                //                         textStyleSmallDefault,
+                                                //                   )
+                                                //               ]
+                                                //             : []
+                                                //         : [
+                                                //             Container(
+                                                //               color: Colors.red,
+                                                //               width: 100,
+                                                //               height: 100,
+                                                //             )
+                                                //           ],
+                                                //   ),
                                               ],
                                             ),
                                             trailing: Column(
