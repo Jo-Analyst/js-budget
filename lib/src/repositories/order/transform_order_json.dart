@@ -25,7 +25,7 @@ class TransformOrderJson {
 
     int? index;
     for (var order in orders) {
-      int id = order['order_id'];
+      int id = order['order_item_id'];
 
       if (tempOrders.isEmpty || tempOrders.any((element) => element.id != id)) {
         itemsOrder.clear();
