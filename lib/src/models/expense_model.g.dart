@@ -1,13 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fixed_expense_model.dart';
+part of 'expense_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FixedExpenseModel _$FixedExpenseModelFromJson(Map<String, dynamic> json) =>
-    FixedExpenseModel(
+ExpenseModel _$ExpenseModelFromJson(Map<String, dynamic> json) => ExpenseModel(
       id: json['id'] as int? ?? 0,
       type: json['type'] as String,
       value: (json['value'] as num).toDouble(),
@@ -16,7 +15,7 @@ FixedExpenseModel _$FixedExpenseModelFromJson(Map<String, dynamic> json) =>
       observation: json['observation'] as String?,
     );
 
-Map<String, dynamic> _$FixedExpenseModelToJson(FixedExpenseModel instance) =>
+Map<String, dynamic> _$ExpenseModelToJson(ExpenseModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': instance.type,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:js_budget/src/models/personal_expense_model.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_form/personal_expense_form_page.dart';
 
 mixin PersonalExpenseFormController on State<PersonalExpenseFormPage> {
@@ -16,15 +16,15 @@ mixin PersonalExpenseFormController on State<PersonalExpenseFormPage> {
     observationEC.dispose();
   }
 
-  initializeForm(PersonalExpenseModel expense) {
+  initializeForm(ExpenseModel expense) {
     typeOfExpenseEC.text = expense.type;
     expenseValueEC.updateValue(expense.value);
     expenseDateEC.text = expense.date;
     observationEC.text = expense.observation ?? '';
   }
 
-  PersonalExpenseModel saveExpense(int id, String methodPayment) {
-    return PersonalExpenseModel(
+  ExpenseModel saveExpense(int id, String methodPayment) {
+    return ExpenseModel(
       id: id,
       type: typeOfExpenseEC.text.trim(),
       value: expenseValueEC.numberValue,

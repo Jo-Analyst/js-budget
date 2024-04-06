@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/personal_expense_model.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_form/personal_expense_form_controller.dart';
 
@@ -26,7 +26,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
   String expenseValue = 'R\$ 0,00';
   DateTime expenseDate = DateTime.now();
   String methodPayment = 'Dinheiro';
-  PersonalExpenseModel? expense;
+  ExpenseModel? expense;
 
   IconData iconMethodPayment(String methodPayment) {
     switch (methodPayment.toLowerCase()) {

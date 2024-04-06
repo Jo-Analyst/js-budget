@@ -65,7 +65,7 @@ class MaterialController with Messages {
     switch (results) {
       case Right(value: List<Map<String, dynamic>> materials):
         for (var material in materials) {
-          _data.add(TransformJson.fromJson(material));
+          _data.add(TransformMaterialJson.fromJson(material));
         }
 
       case Left():

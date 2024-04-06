@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/fixed_expense_model.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_form/fixed_expense_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
@@ -25,7 +25,7 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
   DateTime expenseDate = DateTime.now();
   String methodPayment = 'Dinheiro';
   String? typeExpense;
-  FixedExpenseModel? expense;
+  ExpenseModel? expense;
 
   IconData iconMethodPayment(String methodPayment) {
     switch (methodPayment.toLowerCase()) {

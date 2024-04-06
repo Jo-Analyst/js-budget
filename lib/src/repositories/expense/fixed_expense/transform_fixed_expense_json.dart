@@ -1,7 +1,7 @@
-import 'package:js_budget/src/models/fixed_expense_model.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 
-class TransformJson {
-  static Map<String, dynamic> toJson(FixedExpenseModel personal) {
+class TransformFixedExpenseJson {
+  static Map<String, dynamic> toJson(ExpenseModel personal) {
     return {
       'id': personal.id,
       'type': personal.type,
@@ -12,8 +12,8 @@ class TransformJson {
     };
   }
 
-  static FixedExpenseModel fromJson(Map<String, dynamic> personal) {
-    return FixedExpenseModel(
+  static ExpenseModel fromJson(Map<String, dynamic> personal) {
+    return ExpenseModel(
       id: personal['id'] as int,
       type: personal['type'],
       value: personal['value'] as double,

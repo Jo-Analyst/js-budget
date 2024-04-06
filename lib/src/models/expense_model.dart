@@ -1,17 +1,16 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
-part 'fixed_expense_model.g.dart';
+part 'expense_model.g.dart';
 
 @JsonSerializable()
-class FixedExpenseModel {
+class ExpenseModel {
   final int id;
   final String type;
   final double value;
   final String date;
   final String methodPayment;
   final String? observation;
-  FixedExpenseModel({
+  ExpenseModel({
     this.id = 0,
     required this.type,
     required this.value,
@@ -20,8 +19,8 @@ class FixedExpenseModel {
     this.observation,
   });
 
-  factory FixedExpenseModel.fromJson(Map<String, dynamic> json) =>
-      _$FixedExpenseModelFromJson(json);
+  factory ExpenseModel.fromJson(Map<String, dynamic> json) =>
+      _$ExpenseModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FixedExpenseModelToJson(this);
+  Map<String, dynamic> toJson() => _$ExpenseModelToJson(this);
 }

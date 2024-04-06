@@ -1,6 +1,6 @@
 import 'package:js_budget/src/models/material_model.dart';
 
-class TransformJson {
+class TransformMaterialJson {
   static Map<String, dynamic> toJson(MaterialModel material) {
     return {
       'id': material.id,

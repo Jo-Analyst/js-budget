@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
-import 'package:js_budget/src/models/fixed_expense_model.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_form/fixed_expense_form_page.dart';
 
 mixin FixedExpenseFormController on State<FixedExpenseFormPage> {
@@ -14,14 +14,14 @@ mixin FixedExpenseFormController on State<FixedExpenseFormPage> {
     observationEC.dispose();
   }
 
-  initializeForm(FixedExpenseModel expense) {
+  initializeForm(ExpenseModel expense) {
     expenseValueEC.updateValue(expense.value);
     expenseDateEC.text = expense.date;
     observationEC.text = expense.observation ?? '';
   }
 
-  FixedExpenseModel saveExpense(int id, String methodPayment, String type) {
-    return FixedExpenseModel(
+  ExpenseModel saveExpense(int id, String methodPayment, String type) {
+    return ExpenseModel(
       id: id,
       type: type,
       value: expenseValueEC.numberValue,

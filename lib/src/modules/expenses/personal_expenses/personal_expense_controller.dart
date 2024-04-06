@@ -2,12 +2,12 @@ import 'package:signals/signals.dart';
 
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
-import 'package:js_budget/src/models/personal_expense_model.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/repositories/expense/personal_expense/transform_personal_expense_json.dart';
 import 'package:js_budget/src/repositories/expense/personal_expense/personal_repository.dart';
 
 class PersonalExpenseController with Messages {
-  final _data = ListSignal<PersonalExpenseModel>([]);
+  final _data = ListSignal<ExpenseModel>([]);
   ListSignal get data => _data
     ..sort(
       (a, b) => a.type
@@ -16,20 +16,20 @@ class PersonalExpenseController with Messages {
           .compareTo(b.type.toString().toLowerCase()),
     );
 
-  final model = signal<PersonalExpenseModel?>(null);
+  final model = signal<ExpenseModel?>(null);
 
   final PersonalExpenseRepository _expenseRepository;
   PersonalExpenseController({
     required PersonalExpenseRepository expenseRepository,
   }) : _expenseRepository = expenseRepository;
 
-  Future<void> save(PersonalExpenseModel personalExpense) async {
+  Future<void> save(ExpenseModel personalExpense) async {
     final result = personalExpense.id == 0
         ? await _expenseRepository.register(personalExpense)
         : await _expenseRepository.update(personalExpense);
 
     switch (result) {
-      case Right(value: PersonalExpenseModel model):
+      case Right(value: ExpenseModel model):
         _data.add(model);
         showSuccess('Despesa cadastrado com sucesso');
       case Right():
@@ -65,7 +65,7 @@ class PersonalExpenseController with Messages {
     switch (results) {
       case Right(value: List<Map<String, dynamic>> expenses):
         for (var expense in expenses) {
-          _data.add(TransformJson.fromJson(expense));
+          _data.add(TransformPersonalExpenseJson.fromJson(expense));
         }
 
       case Left():

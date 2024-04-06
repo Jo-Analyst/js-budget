@@ -9,6 +9,7 @@ import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.d
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
+import 'package:signals/signals_flutter.dart';
 
 class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
@@ -89,7 +90,8 @@ class _OrderPageState extends State<OrderPage> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var filteredOrder = order
+    var filteredOrder = controller.data
+        .watch(context)
         .where((req) =>
             req.client.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
@@ -180,190 +182,185 @@ class _OrderPageState extends State<OrderPage> {
                       children: filteredOrder
                           .map(
                             (order) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 10),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 5),
-                                child: GestureDetector(
-                                  onLongPress: () {
-                                    setState(() {
-                                      orderSelected = order.id != idSelected;
-                                      idSelected =
-                                          orderSelected ? order.id : null;
-                                    });
-                                  },
-                                  onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                        '/order/details',
-                                        arguments: order);
-                                  },
-                                  child: Card(
-                                    color: idSelected != null &&
-                                            order.id == idSelected
-                                        ? theme.primaryColor
-                                        : null,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 8.0),
-                                      child: Column(
-                                        children: [
-                                          ListTile(
-                                            leading: Text(
-                                              order.id
-                                                  .toString()
-                                                  .padLeft(4, '0'),
-                                              style: textStyleSmallFontWeight,
-                                            ),
-                                            title: Text(
-                                              '${order.client.name.split(' ').first} ${order.client.name.split(' ').last}',
-                                              style: textStyleSmallFontWeight,
-                                            ),
+                              padding: const EdgeInsets.only(
+                                left: 15,
+                                top: 5,
+                                right: 15,
+                              ),
+                              child: GestureDetector(
+                                onLongPress: () {
+                                  setState(() {
+                                    orderSelected = order.id != idSelected;
+                                    idSelected =
+                                        orderSelected ? order.id : null;
+                                  });
+                                },
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                      '/order/details',
+                                      arguments: order);
+                                },
+                                child: Card(
+                                  color: idSelected != null &&
+                                          order.id == idSelected
+                                      ? theme.primaryColor
+                                      : null,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
+                                    child: Column(
+                                      children: [
+                                        ListTile(
+                                          leading: Text(
+                                            order.id.toString().padLeft(4, '0'),
+                                            style: textStyleSmallFontWeight,
                                           ),
-                                          Divider(
-                                            color: idSelected != null &&
-                                                    order.id == idSelected
-                                                ? Colors.black
-                                                : null,
+                                          title: Text(
+                                            '${order.client.name.split(' ').first} ${order.client.name.split(' ').last}',
+                                            style: textStyleSmallFontWeight,
                                           ),
-                                          ListTile(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 15),
-                                            title: Text(
-                                              order.date,
-                                              style: textStyleSmallDefault,
-                                            ),
-                                            subtitle: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                // Produto
-                                                if (order.items.any((item) =>
-                                                    item.product != null))
-                                                  Visibility(
-                                                    visible: order.items
-                                                            .where((item) =>
-                                                                item.product !=
-                                                                null)
-                                                            .length ==
-                                                        1,
-                                                    replacement: Text.rich(
-                                                      TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text: order.items
-                                                                .firstWhere(
-                                                                    (item) =>
-                                                                        item.product !=
-                                                                        null)
-                                                                .product!
-                                                                .name,
-                                                          ),
-                                                          TextSpan(
-                                                            text:
-                                                                ' + ${order.items.where((item) => item.product != null).length - 1} produto(s)',
-                                                          )
-                                                        ],
-                                                      ),
-                                                      style:
-                                                          textStyleSmallDefault,
-                                                    ),
-                                                    child: Text(
-                                                      order.items
-                                                          .firstWhere((item) =>
+                                        ),
+                                        Divider(
+                                          color: idSelected != null &&
+                                                  order.id == idSelected
+                                              ? Colors.black
+                                              : null,
+                                        ),
+                                        ListTile(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  horizontal: 15),
+                                          title: Text(
+                                            order.date,
+                                            style: textStyleSmallDefault,
+                                          ),
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              // Produto
+                                              if (order.items.any((item) =>
+                                                  item.product != null))
+                                                Visibility(
+                                                  visible: order.items
+                                                          .where((item) =>
                                                               item.product !=
                                                               null)
-                                                          .product!
-                                                          .name,
-                                                      style:
-                                                          textStyleSmallDefault,
+                                                          .length ==
+                                                      1,
+                                                  replacement: Text.rich(
+                                                    TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: order.items
+                                                              .firstWhere((item) =>
+                                                                  item.product !=
+                                                                  null)
+                                                              .product!
+                                                              .name,
+                                                        ),
+                                                        TextSpan(
+                                                          text:
+                                                              ' + ${order.items.where((item) => item.product != null).length - 1} produto(s)',
+                                                        )
+                                                      ],
                                                     ),
+                                                    style:
+                                                        textStyleSmallDefault,
                                                   ),
+                                                  child: Text(
+                                                    order.items
+                                                        .firstWhere((item) =>
+                                                            item.product !=
+                                                            null)
+                                                        .product!
+                                                        .name,
+                                                    style:
+                                                        textStyleSmallDefault,
+                                                  ),
+                                                ),
 
-                                                // Serviço
-                                                if (order.items.any((item) =>
-                                                        item.service != null) &&
-                                                    order.items.any((item) =>
-                                                        item.product != null))
-                                                  const Divider(),
-                                                if (order.items.any((item) =>
-                                                    item.service != null))
-                                                  Visibility(
-                                                    visible: order.items
-                                                            .where((item) =>
-                                                                item.service !=
-                                                                null)
-                                                            .length ==
-                                                        1,
-                                                    replacement: Text.rich(
-                                                      TextSpan(
-                                                        children: [
-                                                          TextSpan(
-                                                            text: order.items
-                                                                .firstWhere(
-                                                                    (item) =>
-                                                                        item.service !=
-                                                                        null)
-                                                                .service!
-                                                                .description,
-                                                          ),
-                                                          TextSpan(
-                                                            text:
-                                                                ' + ${order.items.where((item) => item.service != null).length - 1} serviço(s)',
-                                                          )
-                                                        ],
-                                                      ),
-                                                      style:
-                                                          textStyleSmallDefault,
-                                                    ),
-                                                    child: Text(
-                                                      order.items
-                                                          .firstWhere((item) =>
+                                              // Serviço
+                                              if (order.items.any((item) =>
+                                                      item.service != null) &&
+                                                  order.items.any((item) =>
+                                                      item.product != null))
+                                                const Divider(),
+                                              if (order.items.any((item) =>
+                                                  item.service != null))
+                                                Visibility(
+                                                  visible: order.items
+                                                          .where((item) =>
                                                               item.service !=
                                                               null)
-                                                          .service!
-                                                          .description,
-                                                      style:
-                                                          textStyleSmallDefault,
+                                                          .length ==
+                                                      1,
+                                                  replacement: Text.rich(
+                                                    TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: order.items
+                                                              .firstWhere((item) =>
+                                                                  item.service !=
+                                                                  null)
+                                                              .service!
+                                                              .description,
+                                                        ),
+                                                        TextSpan(
+                                                          text:
+                                                              ' + ${order.items.where((item) => item.service != null).length - 1} serviço(s)',
+                                                        )
+                                                      ],
                                                     ),
+                                                    style:
+                                                        textStyleSmallDefault,
                                                   ),
-                                              ],
-                                            ),
-                                            trailing: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  UtilsService.moneyToCurrency(
-                                                      order.valueTotal ?? 0),
-                                                  style: TextStyle(
-                                                      fontFamily: 'Anta',
-                                                      fontSize:
-                                                          textStyleSmallDefault
-                                                              .fontSize,
-                                                      color: Colors.green,
-                                                      fontWeight:
-                                                          FontWeight.w600),
+                                                  child: Text(
+                                                    order.items
+                                                        .firstWhere((item) =>
+                                                            item.service !=
+                                                            null)
+                                                        .service!
+                                                        .description,
+                                                    style:
+                                                        textStyleSmallDefault,
+                                                  ),
                                                 ),
-                                                Text(
-                                                  order.situation ??
-                                                      'Aguardando',
-                                                  style: TextStyle(
-                                                      fontFamily:
-                                                          textStyleSmallDefault
-                                                              .fontFamily,
-                                                      fontSize:
-                                                          textStyleSmallDefault
-                                                              .fontSize,
-                                                      color: Colors.red,
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ],
-                                            ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                          trailing: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                UtilsService.moneyToCurrency(
+                                                    order.valueTotal ?? 0),
+                                                style: TextStyle(
+                                                    fontFamily: 'Anta',
+                                                    fontSize:
+                                                        textStyleSmallDefault
+                                                            .fontSize,
+                                                    color: Colors.green,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                              Text(
+                                                order.situation ?? 'Aguardando',
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        textStyleSmallDefault
+                                                            .fontFamily,
+                                                    fontSize:
+                                                        textStyleSmallDefault
+                                                            .fontSize,
+                                                    color: Colors.red,
+                                                    fontWeight:
+                                                        FontWeight.w600),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),

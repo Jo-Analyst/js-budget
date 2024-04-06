@@ -40,23 +40,24 @@ class MaterialRepositoryImpl implements MaterialRepository {
     try {
       int lastId = 0;
       final db = await DataBase.openDatabase();
-      final data = TransformJson.toJson(material);
+      final data = TransformMaterialJson.toJson(material);
       data.remove('id');
       await db.transaction((txn) async {
         lastId = await txn.insert('materials', data);
       });
       data['id'] = lastId;
 
-      return Right(TransformJson.fromJson(data));
+      return Right(TransformMaterialJson.fromJson(data));
     } catch (_) {
       return Left(RespositoryException());
     }
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> update(MaterialModel material) async {
+  Future<Either<RespositoryException, Unit>> update(
+      MaterialModel material) async {
     try {
-      final data = TransformJson.toJson(material);
+      final data = TransformMaterialJson.toJson(material);
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         await txn.update('materials', data,

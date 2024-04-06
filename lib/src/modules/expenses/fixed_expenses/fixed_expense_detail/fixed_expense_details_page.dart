@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/fixed_expense_model.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
@@ -23,8 +23,7 @@ class FixedExpenseDetailsPage extends StatelessWidget {
       return Icons.credit_card;
     }
 
-    final expense =
-        ModalRoute.of(context)!.settings.arguments as FixedExpenseModel;
+    final expense = ModalRoute.of(context)!.settings.arguments as ExpenseModel;
     var controller = Injector.get<FixedExpenseController>();
     var nav = Navigator.of(context);
 

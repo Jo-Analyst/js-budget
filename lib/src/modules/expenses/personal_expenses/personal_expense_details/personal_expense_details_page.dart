@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/personal_expense_model.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
@@ -25,8 +25,7 @@ class PersonalExpenseDetailsPage extends StatelessWidget {
       return Icons.credit_card;
     }
 
-    final expense =
-        ModalRoute.of(context)!.settings.arguments as PersonalExpenseModel;
+    final expense = ModalRoute.of(context)!.settings.arguments as ExpenseModel;
 
     return Scaffold(
       appBar: AppBar(

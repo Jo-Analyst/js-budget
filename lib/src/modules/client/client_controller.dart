@@ -65,7 +65,7 @@ class ClientController with Messages {
     switch (results) {
       case Right(value: List<Map<String, dynamic>> clients):
         for (var client in clients) {
-          _data.add(TransformJson.fromJson(client));
+          _data.add(TransformClientJson.fromJson(client));
         }
 
       case Left():

@@ -46,8 +46,13 @@ class _OrderFormPageState extends State<OrderFormPage>
         actions: [
           IconButton(
             onPressed: () async {
+              if (!controller.validateFields(client, products, services)) {
+                return;
+              }
+
               await controller
                   .register(saveForm(order?.id ?? 0, client!, itemOrder));
+              nav.pop();
             },
             icon: const Icon(Icons.save, size: 30),
           ),

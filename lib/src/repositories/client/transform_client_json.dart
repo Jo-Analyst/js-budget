@@ -2,7 +2,7 @@ import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
 
-class TransformJson {
+class TransformClientJson {
   static ({
     Map<String, dynamic> infoClient,
     Map<String, dynamic>? contactClient,

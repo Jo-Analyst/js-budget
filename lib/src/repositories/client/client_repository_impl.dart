@@ -50,7 +50,7 @@ class ClientRepositoryImpl implements ClientRepository {
     try {
       int lastId = 0;
       final (:infoClient, :contactClient, :addressClient) =
-          TransformJson.toJson(client);
+          TransformClientJson.toJson(client);
 
       final db = await DataBase.openDatabase();
 
