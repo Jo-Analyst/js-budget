@@ -27,9 +27,6 @@ class OrderController with Messages {
       showInfo('Informe o cliente no pedido');
     } else if (products == null && services == null) {
       showInfo('Informe o produto ou serviço no pedido');
-    } else if (client == null && products == null && services == null) {
-      showInfo(
-          'Informe um cliente, pelo menos um produto ou serviço no pedido');
     }
     return isValid;
   }

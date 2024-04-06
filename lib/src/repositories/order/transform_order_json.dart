@@ -25,13 +25,14 @@ class TransformOrderJson {
 
     int? index;
     for (var order in orders) {
-      int id = order['id'];
+      int id = order['order_id'];
 
       if (tempOrders.isEmpty || tempOrders.any((element) => element.id != id)) {
         itemsOrder.clear();
 
         tempOrders.add(
           OrderModel(
+            id: order['order_id'],
             date: order['date'],
             client:
                 ClientModel(id: order['client_id'], name: order['name_client']),

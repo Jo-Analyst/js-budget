@@ -22,57 +22,6 @@ class _OrderPageState extends State<OrderPage> {
   final controller = Injector.get<OrderController>();
   int? idSelected;
 
-  final List<OrderModel> order = [
-    OrderModel(
-      id: 1,
-      date: '31/03/2024',
-      client: ClientModel(name: 'Valdirene Aparecida Ferreira'),
-      situation: 'Aguardando',
-      valueTotal: 0.0,
-      items: [
-        ItemOrderModel(
-          product:
-              ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit'),
-          service: ServiceModel(description: 'Montagem'),
-        ),
-        ItemOrderModel(
-          product: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
-          service: ServiceModel(description: 'Montagem'),
-        ),
-        ItemOrderModel(
-          product: ProductModel(name: 'Cadeira', description: '', unit: 'unit'),
-          service: ServiceModel(description: 'Montagem'),
-        ),
-      ],
-    ),
-    OrderModel(
-      id: 2,
-      date: '31/03/2024',
-      client: ClientModel(name: 'Joelmir Rogério Carvalho'),
-      situation: 'Aguardando',
-      valueTotal: 0.0,
-      items: [
-        ItemOrderModel(
-          product:
-              ProductModel(name: 'Guarda Roupa', description: '', unit: 'unit'),
-          service: ServiceModel(description: 'Montagem'),
-        ),
-        ItemOrderModel(
-          product: ProductModel(name: 'Mesa', description: '', unit: 'unit'),
-          service: ServiceModel(description: 'Montagem'),
-        ),
-        ItemOrderModel(
-          product: ProductModel(name: 'Banco', description: '', unit: 'unit'),
-          service: ServiceModel(description: 'Montagem'),
-        ),
-        ItemOrderModel(
-          product: ProductModel(name: 'Banco', description: '', unit: 'unit'),
-          service: ServiceModel(description: 'Montagem'),
-        ),
-      ],
-    ),
-  ];
-
   bool orderSelected = false;
   String search = '';
 
@@ -122,7 +71,7 @@ class _OrderPageState extends State<OrderPage> {
                 var nav = Navigator.of(context);
                 bool confirm = await showConfirmationDialog(
                       context,
-                      'Deseja mesmo excluir  o pedido ${order[idSelected!].id.toString().padLeft(4, '0')}?',
+                      'Deseja mesmo excluir  o pedido ${filteredOrder[idSelected!].id.toString().padLeft(4, '0')}?',
                       buttonTitle: 'Sim',
                     ) ??
                     false;
