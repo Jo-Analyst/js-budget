@@ -14,4 +14,10 @@ class ItemsOrderRepositoryImpl implements ItemsOrderRepository {
       'service_id': service?.id,
     });
   }
+
+  @override
+  Future<void> delete(Transaction txn, int orderId) async {
+    await txn
+        .delete('items_orders', where: 'order_id = ?', whereArgs: [orderId]);
+  }
 }

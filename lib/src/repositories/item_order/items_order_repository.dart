@@ -5,4 +5,6 @@ import 'package:sqflite/sqflite.dart';
 abstract interface class ItemsOrderRepository {
   Future<int> save(
       Transaction txn, ProductModel product, ServiceModel service, int orderId);
+
+  Future<void> delete(Transaction txn, int orderId);
 }

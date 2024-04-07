@@ -14,7 +14,7 @@ class OrderController with Messages {
     required OrderRepository orderRepository,
   }) : _orderRepository = orderRepository;
 
-  final _data = ListSignal<OrderModel>([]);
+  final ListSignal<OrderModel> _data = ListSignal<OrderModel>([]);
   ListSignal<OrderModel> get data => _data;
 
   final OrderRepository _orderRepository;
@@ -36,10 +36,22 @@ class OrderController with Messages {
 
     switch (results) {
       case Right(value: OrderModel order):
-        data.add(order);
+        _data.value.add(order);
         showSuccess('Pedido registrado com sucesso');
       case Left():
         showError('Houver um erro ao registrar o pedido.');
+    }
+  }
+
+  Future<void> deleteOrder(int id) async {
+    final results = await _orderRepository.delete(id);
+
+    switch (results) {
+      case Right():
+        _clearData(id);
+        showSuccess('Pedido excluido com sucesso');
+      case Left():
+        showError('Houver um erro ao excluir o pedido.');
     }
   }
 
@@ -53,5 +65,9 @@ class OrderController with Messages {
       case Left():
         showError('Houver erro ao buscar os pedidos');
     }
+  }
+
+  void _clearData(int id) {
+    _data.removeWhere((data) => data.id == id);
   }
 }

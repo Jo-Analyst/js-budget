@@ -14,4 +14,12 @@ class UtilsService {
         '${partilsDate[0]} ${partilsDate[1]} ${partilsDate[2][0].toUpperCase() + partilsDate[2].substring(1)} ${partilsDate[3]} ${partilsDate[4]}';
     return firstLetterCapitalized;
   }
+
+  static (int year, int month, int day) extractDate(String date) {
+    final dt = date.split('T')[0].split('-');
+    int year = int.parse(dt[0]),
+        month = int.parse(dt[1]),
+        day = int.parse(dt[2]);
+    return (year, month, day);
+  }
 }
