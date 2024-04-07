@@ -50,6 +50,18 @@ class _OrderFormPageState extends State<OrderFormPage>
                 return;
               }
 
+              if (products != null) {
+                for (var product in products!) {
+                  itemOrder.add(ItemOrderModel(product: product));
+                }
+              }
+
+              if (services != null) {
+                for (var service in services!) {
+                  itemOrder.add(ItemOrderModel(service: service));
+                }
+              }
+
               await controller
                   .register(saveForm(order?.id ?? 0, client!, itemOrder));
               nav.pop();
@@ -128,12 +140,6 @@ class _OrderFormPageState extends State<OrderFormPage>
                           as List<ProductModel>? ??
                       products;
 
-                  if (products != null) {
-                    for (var product in products!) {
-                      itemOrder.add(ItemOrderModel(product: product));
-                    }
-                  }
-
                   setState(() {
                     quantityProductSelected = products?.length ?? 0;
                   });
@@ -180,12 +186,6 @@ class _OrderFormPageState extends State<OrderFormPage>
                   services = await nav.pushNamed('/service', arguments: true)
                           as List<ServiceModel>? ??
                       services;
-
-                  if (services != null) {
-                    for (var service in services!) {
-                      itemOrder.add(ItemOrderModel(service: service));
-                    }
-                  }
 
                   setState(() {
                     quantityServiceSelected = services?.length ?? 0;

@@ -168,10 +168,12 @@ class _ClientPageState extends State<ClientPage> {
                                       : null,
                                   trailing: comesFromTheOrder
                                       ? IconButton(
-                                          onPressed: () {
+                                          onPressed: () async {
                                             controller.model.value = client;
-                                            nav.pushNamed('/client/form',
+                                            await nav.pushNamed('/client/form',
                                                 arguments: comesFromTheOrder);
+
+                                            controller.model.value = null;
                                           },
                                           icon: const Icon(Icons.edit))
                                       : const Icon(

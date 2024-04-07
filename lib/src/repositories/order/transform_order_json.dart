@@ -21,15 +21,11 @@ class TransformOrderJson {
       List<Map<String, dynamic>> orders) {
     List<OrderModel> tempOrders = [];
 
-    List<dynamic> itemsOrder = [];
-
     int? index;
     for (var order in orders) {
-      int id = order['order_item_id'];
+      int id = order['order_id'];
 
-      if (tempOrders.isEmpty || tempOrders.any((element) => element.id != id)) {
-        itemsOrder.clear();
-
+      if (tempOrders.isEmpty || !tempOrders.any((order) => order.id == id)) {
         tempOrders.add(
           OrderModel(
             id: order['order_id'],
@@ -41,7 +37,6 @@ class TransformOrderJson {
         );
         index = index != null ? index + 1 : 0;
       }
-
       final items = ItemOrderModel(
         id: order['item_order_id'],
         product: order['product_id'] != null

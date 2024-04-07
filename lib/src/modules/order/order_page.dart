@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/models/item_order_model.dart';
-import 'package:js_budget/src/models/order_model.dart';
-import 'package:js_budget/src/models/product_model.dart';
-import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -27,6 +22,9 @@ class _OrderPageState extends State<OrderPage> {
 
   Future<void> findOrders() async {
     await controller.findOrders();
+    // for (var item in controller.data) {
+    //   print(item.toJson());
+    // }
   }
 
   @override
@@ -165,7 +163,7 @@ class _OrderPageState extends State<OrderPage> {
                                             style: textStyleSmallFontWeight,
                                           ),
                                           title: Text(
-                                            '${order.client.name.split(' ').first} ${order.client.name.split(' ').last}',
+                                            '${order.client.name.split(' ').first}${order.client.name.split(' ').length > 1 ? ' ${order.client.name.split(' ').last}' : ''}',
                                             style: textStyleSmallFontWeight,
                                           ),
                                         ),
