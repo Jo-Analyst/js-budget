@@ -10,10 +10,10 @@ import 'package:js_budget/src/modules/material/material_module.dart';
 import 'package:js_budget/src/modules/product/product_module.dart';
 import 'package:js_budget/src/modules/order/order_modules.dart';
 import 'package:js_budget/src/modules/service/service_module.dart';
+import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/pages/summary/summary_router.dart';
 import 'package:js_budget/src/pages/home/budget_details/budget_details_router.dart';
 import 'package:js_budget/src/modules/profile/profile_module.dart';
-import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:overlay_support/overlay_support.dart';
 

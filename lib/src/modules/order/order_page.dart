@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -95,19 +94,7 @@ class _OrderPageState extends State<OrderPage> {
                           ),
                           child: GestureDetector(
                             onLongPress: () async {
-                              bool confirm = await showConfirmationDialog(
-                                    context,
-                                    'Deseja mesmo excluir  o pedido ${order.id.toString().padLeft(4, '0')}?',
-                                    buttonTitle: 'Sim',
-                                  ) ??
-                                  false;
-
-                              if (confirm) {
-                                controller.deleteOrder(order.id);
-                                // if (controller.data.length == 1) {
-                                //   nav.pop();
-                                // }
-                              }
+                             
                             },
                             onTap: () {
                               Navigator.of(context).pushNamed('/order/details',

@@ -58,7 +58,10 @@ class _ProductFormPageState extends State<ProductFormPage>
               }
             },
             tooltip: 'Salvar',
-            icon: const Icon(Icons.save),
+            icon: const Icon(
+              Icons.save,
+              size: 30,
+            ),
           ),
         ],
       ),

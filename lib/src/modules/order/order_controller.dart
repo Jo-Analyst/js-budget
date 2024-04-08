@@ -36,7 +36,7 @@ class OrderController with Messages {
 
     switch (results) {
       case Right(value: OrderModel order):
-        _data.value.add(order);
+        _data.add(order);
         showSuccess('Pedido registrado com sucesso');
       case Left():
         showError('Houver um erro ao registrar o pedido.');
