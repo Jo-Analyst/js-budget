@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getit/flutter_getit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/order_model.dart';
-import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
-import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
+import 'package:js_budget/src/themes/light_theme.dart';
 
 class OrderDetailPage extends StatelessWidget {
   const OrderDetailPage({super.key});
@@ -18,33 +16,15 @@ class OrderDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Pedido'),
         actions: [
-          IconButton(
-            onPressed: () async {
-              var orderController = context.get<OrderController>(),
-                  nav = Navigator.of(context);
-              bool confirm = await showConfirmationDialog(
-                    context,
-                    'Deseja mesmo excluir  o pedido ${order.id.toString().padLeft(4, '0')}?',
-                    buttonTitle: 'Sim',
-                  ) ??
-                  false;
-
-              if (confirm) {
-                await orderController.deleteOrder(order.id);
-                nav.pop();
-              }
-            },
-            icon: const Icon(
-              Icons.delete,
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'Fazer orçamento',
+                style: textStyleSmallDefault,
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.add_chart,
-              size: 30,
-            ),
-            tooltip: 'Adicionar orçamento',
           ),
         ],
       ),

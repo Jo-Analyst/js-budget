@@ -62,9 +62,9 @@ class _OrderFormPageState extends State<OrderFormPage>
                 }
               }
 
-              await controller
+              final model = await controller
                   .register(saveForm(order?.id ?? 0, client!, itemOrder));
-              nav.pop();
+              nav.pop(model);
             },
             icon: const Icon(Icons.save, size: 30),
           ),

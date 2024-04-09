@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/order_model.dart';
+import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
-import 'package:signals/signals_flutter.dart';
 
 class OrderPage extends StatefulWidget {
   const OrderPage({super.key});
@@ -13,6 +14,9 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
+  List<OrderModel> _orders = [];
+  List<OrderModel> get orders => _orders..sort((a, b) => b.id.compareTo(a.id));
+
   final controller = Injector.get<OrderController>();
   int? idSelected, orderId;
 
@@ -21,6 +25,9 @@ class _OrderPageState extends State<OrderPage> {
 
   Future<void> findOrders() async {
     await controller.findOrders();
+    setState(() {
+      _orders = controller.data.value;
+    });
   }
 
   @override
@@ -32,8 +39,7 @@ class _OrderPageState extends State<OrderPage> {
 
   @override
   Widget build(BuildContext context) {
-    var filteredOrder = controller.data
-        .watch(context)
+    var filteredOrder = orders
         .where((req) =>
             req.client.name.toLowerCase().contains(search.toLowerCase()))
         .toList();
@@ -94,7 +100,27 @@ class _OrderPageState extends State<OrderPage> {
                           ),
                           child: GestureDetector(
                             onLongPress: () async {
-                             
+                              var orderController =
+                                  context.get<OrderController>();
+
+                              bool confirm = await showConfirmationDialog(
+                                    context,
+                                    'Deseja mesmo excluir  o pedido ${order.id.toString().padLeft(4, '0')}?',
+                                    buttonTitle: 'Sim',
+                                  ) ??
+                                  false;
+
+                              if (confirm) {
+                                final itWasExcluded =
+                                    await orderController.deleteOrder(order.id);
+
+                                if (itWasExcluded) {
+                                  _orders.removeWhere(
+                                      (data) => data.id == order.id);
+                                }
+
+                                setState(() {});
+                              }
                             },
                             onTap: () {
                               Navigator.of(context).pushNamed('/order/details',
@@ -256,8 +282,15 @@ class _OrderPageState extends State<OrderPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/order/form');
+        onPressed: () async {
+          final OrderModel? order = await Navigator.of(context)
+              .pushNamed('/order/form') as OrderModel?;
+
+          if (order != null) {
+            setState(() {
+              _orders.add(order);
+            });
+          }
         },
         child: const Icon(
           Icons.add,

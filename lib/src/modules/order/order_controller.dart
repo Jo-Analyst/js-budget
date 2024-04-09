@@ -31,28 +31,33 @@ class OrderController with Messages {
     return isValid;
   }
 
-  Future<void> register(OrderModel order) async {
-    final results = await _orderRepository.register(order);
+  Future<OrderModel?> register(OrderModel orderModel) async {
+    final results = await _orderRepository.register(orderModel);
+    OrderModel? model;
 
     switch (results) {
       case Right(value: OrderModel order):
-        _data.add(order);
+        model = order;
         showSuccess('Pedido registrado com sucesso');
       case Left():
         showError('Houver um erro ao registrar o pedido.');
     }
+
+    return model;
   }
 
-  Future<void> deleteOrder(int id) async {
+  Future<bool> deleteOrder(int id) async {
     final results = await _orderRepository.delete(id);
+    bool itWasExcluded = false;
 
     switch (results) {
       case Right():
-        _clearData(id);
+        itWasExcluded = true;
         showSuccess('Pedido excluido com sucesso');
       case Left():
         showError('Houver um erro ao excluir o pedido.');
     }
+    return itWasExcluded;
   }
 
   Future<void> findOrders() async {
@@ -65,9 +70,5 @@ class OrderController with Messages {
       case Left():
         showError('Houver erro ao buscar os pedidos');
     }
-  }
-
-  void _clearData(int id) {
-    _data.removeWhere((data) => data.id == id);
   }
 }
