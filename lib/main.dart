@@ -4,11 +4,12 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/bindings/binding_initial_application.dart';
 import 'package:js_budget/src/config/db/database.dart';
+import 'package:js_budget/src/modules/budget/budget_module.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/expense_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
 import 'package:js_budget/src/modules/product/product_module.dart';
-import 'package:js_budget/src/modules/order/order_modules.dart';
+import 'package:js_budget/src/modules/order/order_module.dart';
 import 'package:js_budget/src/modules/service/service_module.dart';
 import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/pages/summary/summary_router.dart';
@@ -52,7 +53,8 @@ class MyApp extends StatelessWidget {
         MaterialModule(),
         ExpenseModule(),
         ProfileModule(),
-        OrderModules(),
+        OrderModule(),
+        BudgetModule()
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp(

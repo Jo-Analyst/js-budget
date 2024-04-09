@@ -19,7 +19,9 @@ class OrderDetailPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 15),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed('/budget/form');
+              },
               child: const Text(
                 'Fazer orçamento',
                 style: textStyleSmallDefault,
