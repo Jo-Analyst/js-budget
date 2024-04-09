@@ -55,7 +55,7 @@ class DataBase {
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, situation TEXT DEFAULT 'Aguardando', value REAL DEFAULT 0, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id))",
+          "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id))",
         );
 
         db.execute(

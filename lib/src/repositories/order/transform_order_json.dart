@@ -32,8 +32,6 @@ class TransformOrderJson {
             date: order['date'],
             client:
                 ClientModel(id: order['client_id'], name: order['name_client']),
-            situation: order['situation'],
-            valueTotal: order['value_total'],
             items: [],
           ),
         );

@@ -242,33 +242,6 @@ class _OrderPageState extends State<OrderPage> {
                                             ),
                                         ],
                                       ),
-                                      trailing: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            UtilsService.moneyToCurrency(
-                                                order.valueTotal ?? 0),
-                                            style: TextStyle(
-                                                fontFamily: 'Anta',
-                                                fontSize: textStyleSmallDefault
-                                                    .fontSize,
-                                                color: Colors.green,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          Text(
-                                            order.situation ?? 'Aguardando',
-                                            style: TextStyle(
-                                                fontFamily:
-                                                    textStyleSmallDefault
-                                                        .fontFamily,
-                                                fontSize: textStyleSmallDefault
-                                                    .fontSize,
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ],
-                                      ),
                                     ),
                                   ],
                                 ),
