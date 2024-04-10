@@ -138,7 +138,7 @@ class _OrderPageState extends State<OrderPage> {
                                         style: textStyleSmallFontWeight,
                                       ),
                                       title: Text(
-                                        '${order.client.name.split(' ').first}${order.client.name.split(' ').length > 1 ? ' ${order.client.name.split(' ').last}' : ''}',
+                                        '-   ${order.client.name.split(' ').first}${order.client.name.split(' ').length > 1 ? ' ${order.client.name.split(' ').last}' : ''}',
                                         style: textStyleSmallFontWeight,
                                       ),
                                     ),
