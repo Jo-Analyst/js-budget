@@ -25,14 +25,14 @@ class ColumnTile extends StatelessWidget {
             vertical: 12,
             horizontal: 15,
           ),
-          color: color ?? const Color.fromARGB(255, 20, 87, 143),
+          color: color,
           child: Text(
             title,
             style: TextStyle(
               fontFamily: textStyleSmallDefault.fontFamily,
               fontSize: textStyleSmallDefault.fontSize,
               fontWeight: textStyleSmallFontWeight.fontWeight,
-              color: textColor ?? Colors.white,
+              color: textColor,
             ),
           ),
         ),

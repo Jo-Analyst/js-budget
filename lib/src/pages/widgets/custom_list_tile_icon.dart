@@ -27,18 +27,16 @@ class CustomListTileIcon extends StatelessWidget {
       leading: leading,
       title: Text(
         title,
-        style: 
-            TextStyle(
-              fontSize: textStyleSmallDefault.fontSize,
-              fontFamily: titleFontFamily ?? textStyleSmallDefault.fontFamily,
-              fontWeight: titleFontWeight
-            ),
+        style: TextStyle(
+            fontSize: textStyleSmallDefault.fontSize,
+            fontFamily: titleFontFamily ?? textStyleSmallDefault.fontFamily,
+            fontWeight: titleFontWeight),
       ),
       subtitle: subtitle != null
           ? Text(
               subtitle!,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 17.5,
                 fontFamily: textStyleSmallDefault.fontFamily,
               ),
             )
