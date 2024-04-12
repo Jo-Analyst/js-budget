@@ -80,7 +80,10 @@ class _BudgetFormState extends State<BudgetForm> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pushNamed('/budget/pricing');
+                                  },
                                   child: const Row(
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment:
