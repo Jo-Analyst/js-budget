@@ -72,30 +72,15 @@ class _BudgetFormState extends State<BudgetForm> {
                                   product.name,
                                   style: textStyleSmallDefault,
                                 ),
-                                trailing: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                trailing: IconButton(
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed('/budget/pricing'),
+                                  icon: const Icon(
+                                    Icons.add_chart,
+                                    size: 30,
+                                    color: Colors.black,
                                   ),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pushNamed('/budget/pricing');
-                                  },
-                                  child: const Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Precificar",
-                                        style: textStyleSmallDefault,
-                                      ),
-                                      Icon(Icons.keyboard_arrow_right)
-                                    ],
-                                  ),
+                                  tooltip: 'Precificar',
                                 ),
                               ),
                               const Divider()
@@ -123,27 +108,15 @@ class _BudgetFormState extends State<BudgetForm> {
                                   product.description,
                                   style: textStyleSmallDefault,
                                 ),
-                                trailing: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
+                                trailing: IconButton(
+                                  onPressed: () => Navigator.of(context)
+                                      .pushNamed('/budget/pricing'),
+                                  icon: const Icon(
+                                    Icons.add_chart,
+                                    size: 30,
+                                    color: Colors.black,
                                   ),
-                                  onPressed: () {},
-                                  child: const Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Precificar",
-                                        style: textStyleSmallDefault,
-                                      ),
-                                      Icon(Icons.keyboard_arrow_right)
-                                    ],
-                                  ),
+                                  tooltip: 'Precificar',
                                 ),
                               ),
                               const Divider()

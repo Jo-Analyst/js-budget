@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
@@ -47,7 +48,12 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
     if (expense != null) {
       initializeForm(expense!);
       methodPayment = expense!.methodPayment;
-      typeExpense = expense!.type;
+      typeExpense = (expense!.type == 'Conta de luz' ||
+              expense!.type == 'Conta de água' ||
+              expense!.type == 'Aluguel' ||
+              expense!.type == 'DAS/SIMEI')
+          ? expense!.type
+          : 'Outro';
     }
   }
 
@@ -67,7 +73,12 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
 
                 if (formKey.currentState?.validate() ?? false) {
                   await controller.save(
-                    saveExpense(expense?.id ?? 0, methodPayment, typeExpense!),
+                    saveExpense(
+                        expense?.id ?? 0,
+                        methodPayment,
+                        typeExpense != 'Outro'
+                            ? typeExpense!
+                            : otherEC.text.trim()),
                   );
                   nav.pop();
                   if (expense != null) {
@@ -100,7 +111,9 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
                       items: <String>[
                         'Conta de luz',
                         'Conta de água',
-                        'Aluguel'
+                        'Aluguel',
+                        'DAS/SIMEI',
+                        'Outro',
                       ].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
@@ -108,7 +121,9 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
                         );
                       }).toList(),
                       onChanged: (value) {
-                        typeExpense = value;
+                        setState(() {
+                          typeExpense = value;
+                        });
                       },
                       validator:
                           Validatorless.required('Tipo de despesa obrigatório'),
@@ -124,6 +139,24 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
                     ),
                     child: Column(
                       children: [
+                        Visibility(
+                          visible: typeExpense == 'Outro',
+                          child: TextFormField(
+                            controller: otherEC,
+                            decoration: const InputDecoration(
+                              labelText: 'Descrição*',
+                              labelStyle: TextStyle(fontFamily: 'Poppins'),
+                              suffixIcon: Icon(Icons.attach_money),
+                            ),
+                            style: textStyleSmallDefault,
+                            keyboardType: TextInputType.number,
+                            validator:
+                                Validatorless.required('Descrição obrigatório'),
+                            onChanged: (value) {
+                              expenseValue = value;
+                            },
+                          ),
+                        ),
                         TextFormField(
                           controller: expenseValueEC,
                           decoration: const InputDecoration(
