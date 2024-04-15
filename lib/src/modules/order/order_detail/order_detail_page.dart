@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/order_model.dart';
+import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -11,6 +13,7 @@ class OrderDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final order = ModalRoute.of(context)!.settings.arguments as OrderModel;
+    final controller = Injector.get<OrderController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -20,7 +23,9 @@ class OrderDetailPage extends StatelessWidget {
             padding: const EdgeInsets.only(right: 15),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed('/budget/form');
+                controller.model.value = order;
+                Navigator.of(context)
+                    .pushNamed('/budget/form', arguments: order);
               },
               child: const Text(
                 'Fazer orçamento',

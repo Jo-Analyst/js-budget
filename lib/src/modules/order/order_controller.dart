@@ -16,6 +16,7 @@ class OrderController with Messages {
 
   final ListSignal<OrderModel> _data = ListSignal<OrderModel>([]);
   ListSignal<OrderModel> get data => _data;
+  final model = signal<OrderModel?>(null);
 
   final OrderRepository _orderRepository;
 

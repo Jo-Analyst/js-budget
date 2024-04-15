@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
+import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -13,15 +15,35 @@ class BudgetForm extends StatefulWidget {
 }
 
 class _BudgetFormState extends State<BudgetForm> {
+  final controller = Injector.get<OrderController>();
   final List<ProductModel> products = [
-    ProductModel(name: 'Guarda Roupa', description: '', unit: ''),
-    ProductModel(name: 'Mesa', description: '', unit: ''),
-    ProductModel(name: 'Cadeira', description: '', unit: ''),
+    // ProductModel(name: 'Guarda Roupa', description: '', unit: ''),
+    // ProductModel(name: 'Mesa', description: '', unit: ''),
+    // ProductModel(name: 'Cadeira', description: '', unit: ''),
   ];
 
   final List<ServiceModel> services = [
-    ServiceModel(description: 'asdasdgashjgh')
+    // ServiceModel(description: 'asdasdgashjgh')
   ];
+
+  void loadProductsAndServices() {
+    var items = controller.model.value!.items;
+    for (var item in items) {
+      if (item.product != null) {
+        products.add(item.product!);
+      }
+
+      if (item.service != null) {
+        services.add(item.service!);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadProductsAndServices();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +65,16 @@ class _BudgetFormState extends State<BudgetForm> {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             children: [
-              const Card(
+              Card(
                 child: ColumnTile(
                   title: 'Dados do Pedido',
                   children: [
                     CustomListTileIcon(
-                      leading: Icon(Icons.assignment),
-                      title: 'Pedido 0001',
-                      subtitle: 'Cliente: Valdirene Ferreira',
+                      leading: const Icon(Icons.assignment),
+                      title:
+                          'Pedido ${controller.model.value!.id.toString().padLeft(5, '0')}',
+                      subtitle:
+                          'Cliente: ${controller.model.value!.client.name}',
                     ),
                   ],
                 ),
