@@ -4,4 +4,7 @@ import 'package:js_budget/src/modules/budget/budget_form/pricing_form/pricing_fo
 
 mixin PricingFormController on State<PricingFormPage> {
   final salaryExpectationEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final termEC = TextEditingController();
+  final profitMarginEC = MoneyMaskedTextController();
+  final otherTaxesEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
 }
