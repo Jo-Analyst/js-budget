@@ -23,6 +23,16 @@ class _PricingFormPageState extends State<PricingFormPage>
     {'type': 'Outros impostos ', 'isChecked': false},
   ];
 
+  void toggleExpenseCheckStatus(Map<String, dynamic> expense) {
+    setState(() {
+      fixedExpense
+          .where((fixedExp) => fixedExp['type'] == expense['type'])
+          .forEach((item) => item['isChecked'] = !item['isChecked']);
+    });
+
+    print(fixedExpense);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -98,19 +108,19 @@ class _PricingFormPageState extends State<PricingFormPage>
                     children: fixedExpense
                         .map(
                           (expense) => ListTile(
+                            onTap: () {
+                              toggleExpenseCheckStatus(expense);
+                            },
                             title: Text(
                               expense['type'],
                               style: textStyleSmallDefault,
                             ),
-                            trailing: IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                expense['isChecked']
-                                    ? Icons.check_box
-                                    : Icons.check_box_outline_blank_rounded,
-                                size: 35,
-                                color: Colors.black,
-                              ),
+                            trailing: Icon(
+                              expense['isChecked']
+                                  ? Icons.check_box
+                                  : Icons.check_box_outline_blank_rounded,
+                              size: 35,
+                              color: Colors.black,
                             ),
                           ),
                         )
