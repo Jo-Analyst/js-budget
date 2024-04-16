@@ -29,8 +29,6 @@ class _PricingFormPageState extends State<PricingFormPage>
           .where((fixedExp) => fixedExp['type'] == expense['type'])
           .forEach((item) => item['isChecked'] = !item['isChecked']);
     });
-
-    print(fixedExpense);
   }
 
   @override
