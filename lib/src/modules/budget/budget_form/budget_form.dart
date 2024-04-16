@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
@@ -7,6 +8,7 @@ import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 
 class BudgetForm extends StatefulWidget {
   const BudgetForm({super.key});
@@ -61,12 +63,13 @@ class _BudgetFormState extends State<BudgetForm> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Column(
                   children: [
                     Card(
@@ -165,13 +168,102 @@ class _BudgetFormState extends State<BudgetForm> {
                 ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 200,
-              color: Colors.amber,
-            )
-          ],
-        ),
+          ),
+          Card(
+            color: Theme.of(context).primaryColor,
+            shape: const BeveledRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.zero)),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              child: Column(
+                children: [
+                  Visibility(
+                    visible: products.isNotEmpty,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Valor do produto(s)',
+                          style: textStyleSmallFontWeight,
+                        ),
+                        Text(
+                          UtilsService.moneyToCurrency(0),
+                          style: const TextStyle(
+                              fontFamily: 'Anta',
+                              fontSize: 23,
+                              color: Color.fromARGB(255, 24, 113, 185)),
+                        )
+                      ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: services.isNotEmpty,
+                    child: const Divider(color: Colors.black45),
+                  ),
+                  Visibility(
+                    visible: services.isNotEmpty,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Valor do serviço(s)',
+                          style: textStyleSmallFontWeight,
+                        ),
+                        Text(
+                          UtilsService.moneyToCurrency(0),
+                          style: const TextStyle(
+                            fontFamily: 'Anta',
+                            fontSize: 23,
+                            fontWeight: FontWeight.w700,
+                            color: Color.fromARGB(255, 24, 113, 185),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Divider(color: Colors.black45),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Despesa da oficina',
+                        style: textStyleSmallFontWeight,
+                      ),
+                      Text(
+                        UtilsService.moneyToCurrency(0),
+                        style: const TextStyle(
+                          fontFamily: 'Anta',
+                          fontWeight: FontWeight.w700,
+                          fontSize: 23,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(color: Colors.black45),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Valor a pagar',
+                        style: textStyleSmallFontWeight,
+                      ),
+                      Text(
+                        UtilsService.moneyToCurrency(0),
+                        style: const TextStyle(
+                          fontFamily: 'Anta',
+                          fontSize: 23,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
