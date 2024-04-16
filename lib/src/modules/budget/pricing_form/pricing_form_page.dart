@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/budget/pricing_form/pricing_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
 class PricingFormPage extends StatefulWidget {
@@ -15,12 +17,13 @@ class PricingFormPage extends StatefulWidget {
 class _PricingFormPageState extends State<PricingFormPage>
     with PricingFormController {
   final formKey = GlobalKey<FormState>();
+  List<MaterialModel>? materials = [];
   List<Map<String, dynamic>> fixedExpense = [
-    {'type': 'Conta de luz', 'isChecked': true},
-    {'type': 'Conta de água', 'isChecked': true},
-    {'type': 'Aluguel', 'isChecked': true},
-    {'type': 'DAS/SIMEI', 'isChecked': true},
-    {'type': 'Outros impostos ', 'isChecked': false},
+    {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
+    {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': true},
+    {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': true},
+    {'icon': Icons.money_off, 'type': 'DAS/SIMEI', 'isChecked': true},
+    {'icon': Icons.money_off, 'type': 'Outros impostos ', 'isChecked': false},
   ];
 
   void toggleExpenseCheckStatus(Map<String, dynamic> expense) {
@@ -64,35 +67,45 @@ class _PricingFormPageState extends State<PricingFormPage>
               Card(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Materiais',
-                              style: textStyleSmallFontWeight,
-                            ),
-                            IconButton(
-                              onPressed: () async {
-                                final materials = await Navigator.of(context)
-                                    .pushNamed('/material', arguments: true);
-
-                                if (materials != null) {
-                                  print(materials);
-                                }
-                              },
-                              icon: const Icon(
-                                Icons.add,
-                                size: 30,
-                              ),
-                            ),
-                          ],
-                        ),
+                  child: ColumnTile(
+                    title: 'Materiais',
+                    trailing: IconButton(
+                      onPressed: () async {
+                        materials = await Navigator.of(context)
+                                .pushNamed('/material', arguments: true)
+                            as List<MaterialModel>;
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        size: 30,
                       ),
-                      const Divider()
+                    ),
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: materials?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final material = materials![index];
+                          return ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: Image.asset(
+                              'assets/images/materia-prima.png',
+                              width: 25,
+                            ),
+                            title: Text(
+                              material.name,
+                              style: textStyleSmallDefault,
+                            ),
+                            trailing: Text(
+                              UtilsService.moneyToCurrency(material.price),
+                              style: TextStyle(
+                                  fontFamily: 'Anta',
+                                  fontSize: textStyleSmallDefault.fontSize),
+                            ),
+                          );
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -106,9 +119,12 @@ class _PricingFormPageState extends State<PricingFormPage>
                     children: fixedExpense
                         .map(
                           (expense) => ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            splashColor: Colors.transparent,
                             onTap: () {
                               toggleExpenseCheckStatus(expense);
                             },
+                            leading: Icon(expense['icon']),
                             title: Text(
                               expense['type'],
                               style: textStyleSmallDefault,
@@ -138,9 +154,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                         TextFormField(
                           controller: salaryExpectationEC,
                           decoration: const InputDecoration(
-                            labelText: 'Pretensão Salarial',
-                            labelStyle: textStyleSmallDefault,
-                          ),
+                              labelText: 'Pretensão Salarial',
+                              labelStyle: textStyleSmallDefault,
+                              suffix: Icon(Icons.price_change)),
                           keyboardType: TextInputType.number,
                           style: textStyleSmallDefault,
                         ),
@@ -182,9 +198,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                           child: TextFormField(
                             controller: otherTaxesEC,
                             decoration: const InputDecoration(
-                              labelText: 'Outros impostos*',
-                              labelStyle: textStyleSmallDefault,
-                            ),
+                                labelText: 'Outros impostos*',
+                                labelStyle: textStyleSmallDefault,
+                                suffix: Icon(Icons.money_off)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             validator: (value) {
