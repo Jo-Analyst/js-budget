@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
@@ -10,20 +8,16 @@ import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class BudgetForm extends StatefulWidget {
-  const BudgetForm({super.key});
+class BudgetPage extends StatefulWidget {
+  const BudgetPage({super.key});
 
   @override
-  State<BudgetForm> createState() => _BudgetFormState();
+  State<BudgetPage> createState() => _BudgetPageState();
 }
 
-class _BudgetFormState extends State<BudgetForm> {
+class _BudgetPageState extends State<BudgetPage> {
   final controller = Injector.get<OrderController>();
-  final List<ProductModel> products = [
-    // ProductModel(name: 'Guarda Roupa', description: '', unit: ''),
-    // ProductModel(name: 'Mesa', description: '', unit: ''),
-    // ProductModel(name: 'Cadeira', description: '', unit: ''),
-  ];
+  final List<ProductModel> products = [];
 
   final List<ServiceModel> services = [
     // ServiceModel(description: 'asdasdgashjgh')
@@ -142,18 +136,14 @@ class _BudgetFormState extends State<BudgetForm> {
                                         service.description,
                                         style: textStyleSmallDefault,
                                       ),
-                                      trailing: IconButton(
-                                        onPressed: () async {
-                                          Navigator.of(context).pushNamed(
-                                              '/budget/pricing',
-                                              arguments: service.description);
-                                        },
-                                        icon: const Icon(
-                                          Icons.add_chart,
-                                          size: 30,
-                                          color: Colors.black,
+                                      trailing: Text(
+                                        UtilsService.moneyToCurrency(
+                                            service.price),
+                                        style: TextStyle(
+                                          fontFamily: 'Anta',
+                                          fontSize:
+                                              textStyleSmallDefault.fontSize,
                                         ),
-                                        tooltip: 'Precificar',
                                       ),
                                     ),
                                     const Divider()
@@ -169,10 +159,8 @@ class _BudgetFormState extends State<BudgetForm> {
               ),
             ),
           ),
-          Card(
+          Container(
             color: Theme.of(context).primaryColor,
-            shape: const BeveledRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.zero)),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: Column(
@@ -183,7 +171,7 @@ class _BudgetFormState extends State<BudgetForm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Valor do produto(s)',
+                          'Preço do produto(s)',
                           style: textStyleSmallFontWeight,
                         ),
                         Text(
@@ -206,7 +194,7 @@ class _BudgetFormState extends State<BudgetForm> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Valor do serviço(s)',
+                          'Preço do serviço(s)',
                           style: textStyleSmallFontWeight,
                         ),
                         Text(
@@ -226,7 +214,7 @@ class _BudgetFormState extends State<BudgetForm> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Despesa da oficina',
+                        'Despesa',
                         style: textStyleSmallFontWeight,
                       ),
                       Text(

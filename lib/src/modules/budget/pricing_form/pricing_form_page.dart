@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:js_budget/src/modules/budget/budget_form/pricing_form/pricing_form_controller.dart';
+import 'package:js_budget/src/modules/budget/pricing_form/pricing_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:validatorless/validatorless.dart';
@@ -16,10 +16,10 @@ class _PricingFormPageState extends State<PricingFormPage>
     with PricingFormController {
   final formKey = GlobalKey<FormState>();
   List<Map<String, dynamic>> fixedExpense = [
-    {'type': 'Conta de luz', 'isChecked': false},
-    {'type': 'Conta de água', 'isChecked': false},
-    {'type': 'Aluguel', 'isChecked': false},
-    {'type': 'DAS/SIMEI', 'isChecked': false},
+    {'type': 'Conta de luz', 'isChecked': true},
+    {'type': 'Conta de água', 'isChecked': true},
+    {'type': 'Aluguel', 'isChecked': true},
+    {'type': 'DAS/SIMEI', 'isChecked': true},
     {'type': 'Outros impostos ', 'isChecked': false},
   ];
 
@@ -68,7 +68,14 @@ class _PricingFormPageState extends State<PricingFormPage>
                               style: textStyleSmallFontWeight,
                             ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                final materials = await Navigator.of(context)
+                                    .pushNamed('/material', arguments: true);
+
+                                if (materials != null) {
+                                  print(materials);
+                                }
+                              },
                               icon: const Icon(
                                 Icons.add,
                                 size: 30,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -14,8 +15,46 @@ class FurnitureMaterials extends StatefulWidget {
 
 class _FurnitureMaterialsState extends State<FurnitureMaterials> {
   final controller = Injector.get<MaterialController>();
+  List<MaterialModel> materialSelected = [];
+  bool longPressWasPressed = false, selectedEverything = false;
 
   String search = '';
+
+  void selectMaterial(MaterialModel materialModel) {
+    setState(() {
+      if (materialSelected.any((material) => material.id == materialModel.id)) {
+        materialSelected
+            .removeWhere((material) => material.id == materialModel.id);
+        return;
+      }
+      materialSelected.add(materialModel);
+    });
+
+    setState(() {
+      longPressWasPressed = materialSelected.isNotEmpty;
+    });
+  }
+
+  void selectAll() {
+    if (selectedEverything ||
+        materialSelected.length == controller.data.length) {
+      materialSelected.clear();
+      setState(() {
+        selectedEverything = false;
+        longPressWasPressed = false;
+      });
+      return;
+    }
+
+    materialSelected.clear();
+    setState(() {
+      for (var material in controller.data) {
+        materialSelected.add(material);
+      }
+
+      selectedEverything = true;
+    });
+  }
 
   @override
   void initState() {
@@ -29,6 +68,9 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
 
   @override
   Widget build(BuildContext context) {
+    bool comesFromTheOrder =
+        ModalRoute.of(context)?.settings.arguments as bool? ?? false;
+
     var filteredMaterials = controller.data
         .watch(context)
         .where((material) =>
@@ -36,19 +78,42 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
         .toList();
 
     var theme = Theme.of(context);
+    var nav = Navigator.of(context);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Materiais'),
         actions: [
+          Visibility(
+            visible: materialSelected.isNotEmpty,
+            child: IconButton(
+              onPressed: selectAll,
+              icon: const Icon(
+                Icons.select_all,
+                size: 30,
+              ),
+            ),
+          ),
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/material/form');
+              nav.pushNamed('/material/form');
             },
             tooltip: "Novo Material",
             icon: const Icon(
               Icons.add,
               size: 30,
+            ),
+          ),
+          Visibility(
+            visible: materialSelected.isNotEmpty,
+            child: IconButton(
+              onPressed: () {
+                nav.pop(materialSelected);
+              },
+              icon: const Icon(
+                Icons.check,
+                size: 30,
+              ),
             ),
           ),
         ],
@@ -118,13 +183,33 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                               children: [
                                 ListTile(
                                   splashColor: Colors.transparent,
-                                  onTap: () async {
-                                    await Navigator.of(context).pushNamed(
-                                        '/material/details',
-                                        arguments: material);
+                                  onTap: comesFromTheOrder
+                                      ? () {
+                                          if (longPressWasPressed) {
+                                            selectMaterial(material);
 
-                                    controller.model.value = null;
-                                  },
+                                            return;
+                                          }
+
+                                          nav.pop([material as MaterialModel]);
+                                        }
+                                      : () async {
+                                          await nav.pushNamed(
+                                              '/material/details',
+                                              arguments: material);
+
+                                          controller.model.value = null;
+                                        },
+                                  onLongPress: comesFromTheOrder
+                                      ? () {
+                                          selectMaterial(material);
+                                        }
+                                      : null,
+                                  selected: longPressWasPressed &&
+                                      materialSelected.any((materialSelect) =>
+                                          material.id == materialSelect.id),
+                                  selectedTileColor: theme.primaryColor,
+                                  selectedColor: Colors.black54,
                                   leading: Image.asset(
                                     'assets/images/materia-prima.png',
                                     width: 25,

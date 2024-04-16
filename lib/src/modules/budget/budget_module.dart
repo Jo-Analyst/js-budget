@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/modules/budget/budget_form/budget_form.dart';
-import 'package:js_budget/src/modules/budget/budget_form/pricing_form/pricing_form_page.dart';
+import 'package:js_budget/src/modules/budget/budget_page.dart';
+import 'package:js_budget/src/modules/budget/pricing_form/pricing_form_page.dart';
 
 class BudgetModule extends FlutterGetItModule {
   @override
@@ -9,7 +9,7 @@ class BudgetModule extends FlutterGetItModule {
 
   @override
   Map<String, WidgetBuilder> get pages => {
-        '/form': (_) => const BudgetForm(),
+        '/form': (_) => const BudgetPage(),
         '/pricing': (_) => const PricingFormPage()
       };
 }
