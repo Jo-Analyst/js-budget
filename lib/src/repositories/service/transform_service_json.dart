@@ -5,6 +5,7 @@ class TransformJson {
     return {
       'id': service.id,
       'description': service.description,
+      'price': service.price
     };
   }
 
@@ -12,6 +13,7 @@ class TransformJson {
     return ServiceModel(
       id: service['id'] as int,
       description: service['description'],
+      price: service['price'],
     );
   }
 }

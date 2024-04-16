@@ -49,7 +49,7 @@ class _ServiceFormPageState extends State<ServiceFormPage>
               var nav = Navigator.of(context);
               if (_formKey.currentState!.validate()) {
                 await controller.save(
-                  save(service?.id ?? 0, unit),
+                  save(service?.id ?? 0),
                 );
 
                 nav.pop();
@@ -86,11 +86,31 @@ class _ServiceFormPageState extends State<ServiceFormPage>
                         decoration: const InputDecoration(
                           labelText: 'Nome do serviço*',
                           labelStyle: TextStyle(fontFamily: 'Poppins'),
-                          suffixIcon: Icon(FontAwesomeIcons.screwdriverWrench),
+                          suffixIcon: Icon(
+                            FontAwesomeIcons.screwdriverWrench,
+                            size: 20,
+                          ),
                         ),
                         style: textStyleSmallDefault,
                         validator: Validatorless.required(
                             'Nome do serviço obrigatório.'),
+                      ),
+                      TextFormField(
+                        controller: priceEC,
+                        decoration: const InputDecoration(
+                          labelText: 'Preço do serviço*',
+                          labelStyle: TextStyle(fontFamily: 'Poppins'),
+                          suffixIcon: Icon(Icons.attach_money),
+                        ),
+                        style: textStyleSmallDefault,
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (priceEC.numberValue == 0) {
+                            return 'Valor do serviço obrigatório';
+                          }
+
+                          return null;
+                        },
                       ),
                     ],
                   ),

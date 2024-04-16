@@ -5,6 +5,7 @@ import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/service/service_controller.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 
 class ServiceDetailPage extends StatelessWidget {
   const ServiceDetailPage({super.key});
@@ -62,6 +63,13 @@ class ServiceDetailPage extends StatelessWidget {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
                   leading: const Icon(FontAwesomeIcons.screwdriverWrench),
                   title: service.description,
+                ),
+              ),
+              Card(
+                child: CustomListTileIcon(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
+                  leading: const Icon(Icons.attach_money),
+                  title: UtilsService.moneyToCurrency(service.price),
                 ),
               ),
             ],

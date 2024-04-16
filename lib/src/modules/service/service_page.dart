@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/service/service_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
 class ServicePage extends StatefulWidget {
@@ -210,6 +211,13 @@ class _ServicePageState extends State<ServicePage> {
                                   title: Text(
                                     service.description,
                                     style: textStyleSmallDefault,
+                                  ),
+                                  trailing: Text(
+                                    UtilsService.moneyToCurrency(service.price),
+                                    style: TextStyle(
+                                      fontFamily: 'Anta',
+                                      fontSize: textStyleSmallDefault.fontSize,
+                                    ),
                                   ),
                                 ),
                                 const Divider(),

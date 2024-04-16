@@ -7,9 +7,11 @@ part 'service_model.g.dart';
 class ServiceModel {
   final int id;
   final String description;
+  final double price;
   ServiceModel({
     this.id = 0,
     required this.description,
+    required this.price,
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) =>

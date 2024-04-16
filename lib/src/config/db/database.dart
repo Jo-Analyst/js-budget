@@ -51,7 +51,7 @@ class DataBase {
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description TEXT)',
+          'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description TEXT, price REAL)',
         );
 
         db.execute(
@@ -59,7 +59,7 @@ class DataBase {
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS items_orders (id INTEGER PRIMARY KEY, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id), FOREIGN KEY (product_id) REFERENCES products(id), FOREIGN KEY (service_id) REFERENCES services(id))",
+          "CREATE TABLE IF NOT EXISTS items_orders (id INTEGER PRIMARY KEY, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id), FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL)",
         );
 
         db.execute(

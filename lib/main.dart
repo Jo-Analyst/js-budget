@@ -22,9 +22,8 @@ void main() async {
   await initializeDateFormatting('pt_BR', null);
   runApp(const OverlaySupport.global(child: MyApp()));
   final db = await DataBase.openDatabase();
-  await db.execute(
-    'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description TEXT)',
-  );
+  db.execute(
+      'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description TEXT, price REAL)');
 }
 
 class MyApp extends StatelessWidget {
