@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
@@ -60,99 +61,116 @@ class _BudgetFormState extends State<BudgetForm> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-          child: Column(
-            children: [
-              Card(
-                child: ColumnTile(
-                  title: 'Dados do Pedido',
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
                   children: [
-                    CustomListTileIcon(
-                      leading: const Icon(Icons.assignment),
-                      title:
-                          'Pedido ${controller.model.value!.id.toString().padLeft(5, '0')}',
-                      subtitle:
-                          'Cliente: ${controller.model.value!.client.name}',
+                    Card(
+                      child: ColumnTile(
+                        title: 'Dados do Pedido',
+                        children: [
+                          CustomListTileIcon(
+                            leading: const Icon(Icons.assignment),
+                            title:
+                                'Pedido ${controller.model.value!.id.toString().padLeft(5, '0')}',
+                            subtitle:
+                                'Cliente: ${controller.model.value!.client.name}',
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    // Produtos
+                    Visibility(
+                      visible: products.isNotEmpty,
+                      child: Card(
+                        child: ColumnTile(
+                          title: 'Produto(s)',
+                          children: products
+                              .map(
+                                (product) => Column(
+                                  children: [
+                                    ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      title: Text(
+                                        product.name,
+                                        style: textStyleSmallDefault,
+                                      ),
+                                      trailing: IconButton(
+                                        onPressed: () async {
+                                          Navigator.of(context).pushNamed(
+                                              '/budget/pricing',
+                                              arguments: product.name);
+                                        },
+                                        icon: const Icon(
+                                          Icons.add_chart,
+                                          size: 30,
+                                          color: Colors.black,
+                                        ),
+                                        tooltip: 'Precificar',
+                                      ),
+                                    ),
+                                    const Divider()
+                                  ],
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    // Serviços
+                    Visibility(
+                      visible: services.isNotEmpty,
+                      child: Card(
+                        child: ColumnTile(
+                          title: 'Serviço(s)',
+                          children: services
+                              .map(
+                                (service) => Column(
+                                  children: [
+                                    ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      title: Text(
+                                        service.description,
+                                        style: textStyleSmallDefault,
+                                      ),
+                                      trailing: IconButton(
+                                        onPressed: () async {
+                                          Navigator.of(context).pushNamed(
+                                              '/budget/pricing',
+                                              arguments: service.description);
+                                        },
+                                        icon: const Icon(
+                                          Icons.add_chart,
+                                          size: 30,
+                                          color: Colors.black,
+                                        ),
+                                        tooltip: 'Precificar',
+                                      ),
+                                    ),
+                                    const Divider()
+                                  ],
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 5),
-              // Produtos
-              Visibility(
-                visible: products.isNotEmpty,
-                child: Card(
-                  child: ColumnTile(
-                    title: 'Produto(s)',
-                    children: products
-                        .map(
-                          (product) => Column(
-                            children: [
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                title: Text(
-                                  product.name,
-                                  style: textStyleSmallDefault,
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () => Navigator.of(context)
-                                      .pushNamed('/budget/pricing'),
-                                  icon: const Icon(
-                                    Icons.add_chart,
-                                    size: 30,
-                                    color: Colors.black,
-                                  ),
-                                  tooltip: 'Precificar',
-                                ),
-                              ),
-                              const Divider()
-                            ],
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 5),
-              // Serviços
-              Visibility(
-                visible: services.isNotEmpty,
-                child: Card(
-                  child: ColumnTile(
-                    title: 'Serviço(s)',
-                    children: services
-                        .map(
-                          (product) => Column(
-                            children: [
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                title: Text(
-                                  product.description,
-                                  style: textStyleSmallDefault,
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () => Navigator.of(context)
-                                      .pushNamed('/budget/pricing'),
-                                  icon: const Icon(
-                                    Icons.add_chart,
-                                    size: 30,
-                                    color: Colors.black,
-                                  ),
-                                  tooltip: 'Precificar',
-                                ),
-                              ),
-                              const Divider()
-                            ],
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+            Container(
+              width: double.infinity,
+              height: 200,
+              color: Colors.amber,
+            )
+          ],
         ),
       ),
     );

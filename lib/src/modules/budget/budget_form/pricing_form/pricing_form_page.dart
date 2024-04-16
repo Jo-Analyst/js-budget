@@ -32,9 +32,11 @@ class _PricingFormPageState extends State<PricingFormPage>
 
   @override
   Widget build(BuildContext context) {
+    final description = ModalRoute.of(context)!.settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Guarda Roupa'),
+        title: Text(description),
         actions: [
           IconButton(
             onPressed: () {
