@@ -32,16 +32,20 @@ class DataBase {
         );
 
         db.execute(
+          "CREATE TABLE IF NOT EXISTS fixed_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)",
+        );
+
+        db.execute(
           'CREATE TABLE IF NOT EXISTS budgets (id INTEGER PRIMARY KEY, value_total REAL NOT NULL, status TEXT, created_at TEXT, client_id INTEGER NOT NULL, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)',
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS budgets_items (id INTEGER PRIMARY KEY, value REAL NOT NULL, budget_id INTEGER NOT NULL, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE SET NULL)',
+          'CREATE TABLE IF NOT EXISTS material_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, budget_id INTEGER NOT NULL, material_id INTEGER NOT NULL, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE SET NULL, FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL)',
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS fixed_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)",
-        );
+            'CREATE TABLE IF NOT EXISTS fixed_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, budget_id INTEGER NOT NULL, fixed_expense_id INTEGER NOT NULL, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE SET NULL, FOREIGN KEY (fixed_expense_id) REFERENCES fixed_expenses(id) ON DELETE SET NULL)');
+
         db.execute(
           "CREATE TABLE IF NOT EXISTS personal_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)",
         );
