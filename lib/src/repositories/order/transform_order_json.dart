@@ -50,7 +50,8 @@ class TransformOrderJson {
         service: order['service_id'] != null
             ? ServiceModel.fromJson({
                 'id': order['service_id'],
-                'description': order['description']
+                'description': order['description'],
+                'price': order['price']
               })
             : null,
       );
