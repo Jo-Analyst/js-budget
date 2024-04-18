@@ -47,7 +47,24 @@ class _PricingFormPageState extends State<PricingFormPage>
         valueExpense += expenseModel.value;
       }
 
+      if (model.isNotEmpty) {
+        valueExpense = expense['type'] == 'Conta de luz' ||
+                expense['type'] == 'Conta de água'
+            ? valueExpense / model.length
+            : valueExpense;
+      }
+
       expense['value-average'] = valueExpense;
+
+      print(valueExpense);
+
+      if (expense['type'] == 'Conta de luz') {
+        electricityBillEC.updateValue(valueExpense);
+      }
+
+      if (expense['type'] == 'Conta de água') {
+        waterBillEC.updateValue(valueExpense);
+      }
     }
   }
 
@@ -250,13 +267,13 @@ class _PricingFormPageState extends State<PricingFormPage>
                                 suffix: Icon(Icons.money_off)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
-                            // validator: (value) {
-                            //   if (otherTaxesEC.numberValue == 0) {
-                            //     return 'Informe o valor de outros impostos';
-                            //   }
+                            validator: (value) {
+                              if (otherTaxesEC.numberValue == 0) {
+                                return 'Informe o valor de outros impostos';
+                              }
 
-                            //   return null;
-                            // },
+                              return null;
+                            },
                           ),
                         ],
                       ),

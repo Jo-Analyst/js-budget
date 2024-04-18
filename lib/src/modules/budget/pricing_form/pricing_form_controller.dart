@@ -17,5 +17,9 @@ mixin PricingFormController on State<PricingFormPage> {
     termEC.dispose();
     profitMarginEC.dispose();
     otherTaxesEC.dispose();
+    electricityBillEC.dispose();
+    waterBillEC.dispose();
+    rentEC.dispose();
+    dasEC.dispose();
   }
 }
