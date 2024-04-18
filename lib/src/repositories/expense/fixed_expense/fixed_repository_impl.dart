@@ -70,4 +70,18 @@ class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
       return Left(RespositoryException());
     }
   }
+
+  @override
+  Future<Either<RespositoryException, List<Map<String, dynamic>>>> findByType(
+      String type) async {
+    try {
+      final db = await DataBase.openDatabase();
+      final expenses = await db
+          .query('fixed_expenses', where: 'type = ?', whereArgs: [type]);
+
+      return Right(expenses);
+    } catch (_) {
+      return Left(RespositoryException());
+    }
+  }
 }

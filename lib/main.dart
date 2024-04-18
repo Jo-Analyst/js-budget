@@ -3,7 +3,6 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/bindings/binding_initial_application.dart';
-import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/modules/budget/budget_module.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/expense_module.dart';
@@ -20,13 +19,10 @@ import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
   await initializeDateFormatting('pt_BR', null);
-  runApp(const OverlaySupport.global(child: MyApp()));
-  final db = await DataBase.openDatabase();
-  db.execute(
-      'CREATE TABLE IF NOT EXISTS fixed_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, budget_id INTEGER NOT NULL, fixed_expense_id INTEGER NOT NULL, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE SET NULL, FOREIGN KEY (fixed_expense_id) REFERENCES fixed_expenses(id) ON DELETE SET NULL)');
-
-  db.execute(
-    'CREATE TABLE IF NOT EXISTS material_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, budget_id INTEGER NOT NULL, material_id INTEGER NOT NULL, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE SET NULL, FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL)',
+  runApp(
+    const OverlaySupport.global(
+      child: MyApp(),
+    ),
   );
 }
 

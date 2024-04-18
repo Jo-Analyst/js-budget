@@ -72,4 +72,20 @@ class FixedExpenseController with Messages {
         showError('Houver erro ao buscar as despesas');
     }
   }
+
+  Future<List<ExpenseModel>> findExpenseType(String type) async {
+    final results = await _expenseRepository.findByType(type);
+    List<ExpenseModel> expensesModel = [];
+
+    switch (results) {
+      case Right(value: var expenses):
+        for (var expense in expenses) {
+          expensesModel.add(TransformFixedExpenseJson.fromJson(expense));
+        }
+      case Left():
+        showError('Houver erro ao buscar a conta $type');
+    }
+
+    return expensesModel;
+  }
 }

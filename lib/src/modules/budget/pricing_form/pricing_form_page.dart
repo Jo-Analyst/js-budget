@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/budget/pricing_form/pricing_form_controller.dart';
+import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -16,6 +19,7 @@ class PricingFormPage extends StatefulWidget {
 
 class _PricingFormPageState extends State<PricingFormPage>
     with PricingFormController {
+  final controller = Injector.get<FixedExpenseController>();
   final formKey = GlobalKey<FormState>();
   List<MaterialModel>? materials = [];
   List<Map<String, dynamic>> fixedExpense = [
@@ -32,6 +36,19 @@ class _PricingFormPageState extends State<PricingFormPage>
           .where((fixedExp) => fixedExp['type'] == expense['type'])
           .forEach((item) => item['isChecked'] = !item['isChecked']);
     });
+  }
+
+  void calculateAverageExpense() async {
+    for (var expense in fixedExpense) {
+      double valueExpense = 0;
+      List<ExpenseModel> model =
+          await controller.findExpenseType(expense['type']);
+      for (var expenseModel in model) {
+        valueExpense += expenseModel.value;
+      }
+
+      expense['value-average'] = valueExpense;
+    }
   }
 
   @override
@@ -121,8 +138,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                           (expense) => ListTile(
                             contentPadding: EdgeInsets.zero,
                             splashColor: Colors.transparent,
-                            onTap: () {
+                            onTap: () async {
                               toggleExpenseCheckStatus(expense);
+                              calculateAverageExpense();
                             },
                             leading: Icon(expense['icon']),
                             title: Text(
@@ -152,6 +170,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                         title: 'Valor da depesa fixa',
                         children: [
                           TextFormField(
+                            onTapOutside: (_) =>
+                                FocusScope.of(context).unfocus(),
                             controller: electricityBillEC,
                             decoration: const InputDecoration(
                                 labelText: 'Conta de luz',
@@ -168,6 +188,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                             },
                           ),
                           TextFormField(
+                            onTapOutside: (_) =>
+                                FocusScope.of(context).unfocus(),
                             controller: waterBillEC,
                             decoration: const InputDecoration(
                                 labelText: 'Conta de água',
@@ -183,6 +205,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                             },
                           ),
                           TextFormField(
+                            onTapOutside: (_) =>
+                                FocusScope.of(context).unfocus(),
                             controller: rentEC,
                             decoration: const InputDecoration(
                                 labelText: 'Aluguel',
@@ -199,6 +223,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                             },
                           ),
                           TextFormField(
+                            onTapOutside: (_) =>
+                                FocusScope.of(context).unfocus(),
                             controller: dasEC,
                             decoration: const InputDecoration(
                                 labelText: 'DAS/SIMEI',
@@ -215,6 +241,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                             },
                           ),
                           TextFormField(
+                            onTapOutside: (_) =>
+                                FocusScope.of(context).unfocus(),
                             controller: otherTaxesEC,
                             decoration: const InputDecoration(
                                 labelText: 'Outros impostos',
@@ -241,6 +269,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                         child: Column(
                           children: [
                             TextFormField(
+                              onTapOutside: (_) =>
+                                  FocusScope.of(context).unfocus(),
                               controller: salaryExpectationEC,
                               decoration: const InputDecoration(
                                   labelText: 'Pretensão Salarial',
@@ -253,6 +283,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                               children: [
                                 Expanded(
                                   child: TextFormField(
+                                    onTapOutside: (_) =>
+                                        FocusScope.of(context).unfocus(),
                                     controller: termEC,
                                     decoration: const InputDecoration(
                                         labelText: 'Prazo*',
@@ -271,6 +303,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                                 Expanded(
                                   flex: 2,
                                   child: TextFormField(
+                                    onTapOutside: (_) =>
+                                        FocusScope.of(context).unfocus(),
                                     controller: profitMarginEC,
                                     decoration: const InputDecoration(
                                         labelText: 'Margem de lucro',
