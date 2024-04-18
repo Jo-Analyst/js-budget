@@ -115,7 +115,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: ColumnTile(
-                    title: 'Despesa Fixa',
+                    title: 'Calcular média da despesa fixa',
                     children: fixedExpense
                         .map(
                           (expense) => ListTile(
@@ -145,76 +145,148 @@ class _PricingFormPageState extends State<PricingFormPage>
               const SizedBox(height: 5),
               Form(
                 key: formKey,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: salaryExpectationEC,
-                          decoration: const InputDecoration(
-                              labelText: 'Pretensão Salarial',
-                              labelStyle: textStyleSmallDefault,
-                              suffix: Icon(Icons.price_change)),
-                          keyboardType: TextInputType.number,
-                          style: textStyleSmallDefault,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: termEC,
-                                decoration: const InputDecoration(
-                                    labelText: 'Prazo*',
-                                    labelStyle: textStyleSmallDefault,
-                                    suffixText: 'Dia(s)'),
-                                style: textStyleSmallDefault,
-                                keyboardType: TextInputType.number,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                validator:
-                                    Validatorless.required('Informe o prazo'),
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              flex: 2,
-                              child: TextFormField(
-                                controller: profitMarginEC,
-                                decoration: const InputDecoration(
-                                    labelText: 'Margem de lucro',
-                                    labelStyle: textStyleSmallDefault,
-                                    suffixText: '%'),
-                                style: textStyleSmallDefault,
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Visibility(
-                          visible: fixedExpense[4]['isChecked'],
-                          child: TextFormField(
-                            controller: otherTaxesEC,
+                child: Column(
+                  children: [
+                    Card(
+                      child: ColumnTile(
+                        title: 'Valor da depesa fixa',
+                        children: [
+                          TextFormField(
+                            controller: electricityBillEC,
                             decoration: const InputDecoration(
-                                labelText: 'Outros impostos*',
+                                labelText: 'Conta de luz',
                                 labelStyle: textStyleSmallDefault,
-                                suffix: Icon(Icons.money_off)),
+                                suffix: Icon(Icons.lightbulb)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             validator: (value) {
-                              if (otherTaxesEC.numberValue == 0) {
-                                return 'Informe o valor de outros impostos';
+                              if (electricityBillEC.numberValue == 0) {
+                                return 'Informe o valor da eletricidade';
                               }
 
                               return null;
                             },
                           ),
-                        ),
-                      ],
+                          TextFormField(
+                            controller: waterBillEC,
+                            decoration: const InputDecoration(
+                                labelText: 'Conta de água',
+                                labelStyle: textStyleSmallDefault,
+                                suffix: Icon(Icons.local_drink)),
+                            style: textStyleSmallDefault,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (waterBillEC.numberValue == 0) {
+                                return 'Informe o valor da conta de água';
+                              }
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            controller: rentEC,
+                            decoration: const InputDecoration(
+                                labelText: 'Aluguel',
+                                labelStyle: textStyleSmallDefault,
+                                suffix: Icon(Icons.home)),
+                            style: textStyleSmallDefault,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (rentEC.numberValue == 0) {
+                                return 'Informe o valor do aluguel';
+                              }
+
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            controller: dasEC,
+                            decoration: const InputDecoration(
+                                labelText: 'DAS/SIMEI',
+                                labelStyle: textStyleSmallDefault,
+                                suffix: Icon(Icons.money_off)),
+                            style: textStyleSmallDefault,
+                            keyboardType: TextInputType.number,
+                            validator: (value) {
+                              if (dasEC.numberValue == 0) {
+                                return 'Informe o valor de DAS/SIMEI';
+                              }
+
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            controller: otherTaxesEC,
+                            decoration: const InputDecoration(
+                                labelText: 'Outros impostos',
+                                labelStyle: textStyleSmallDefault,
+                                suffix: Icon(Icons.money_off)),
+                            style: textStyleSmallDefault,
+                            keyboardType: TextInputType.number,
+                            // validator: (value) {
+                            //   if (otherTaxesEC.numberValue == 0) {
+                            //     return 'Informe o valor de outros impostos';
+                            //   }
+
+                            //   return null;
+                            // },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 5),
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: salaryExpectationEC,
+                              decoration: const InputDecoration(
+                                  labelText: 'Pretensão Salarial',
+                                  labelStyle: textStyleSmallDefault,
+                                  suffix: Icon(Icons.price_change)),
+                              keyboardType: TextInputType.number,
+                              style: textStyleSmallDefault,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: termEC,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Prazo*',
+                                        labelStyle: textStyleSmallDefault,
+                                        suffixText: 'Dia(s)'),
+                                    style: textStyleSmallDefault,
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly
+                                    ],
+                                    validator: Validatorless.required(
+                                        'Informe o prazo'),
+                                  ),
+                                ),
+                                const SizedBox(width: 20),
+                                Expanded(
+                                  flex: 2,
+                                  child: TextFormField(
+                                    controller: profitMarginEC,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Margem de lucro',
+                                        labelStyle: textStyleSmallDefault,
+                                        suffixText: '%'),
+                                    style: textStyleSmallDefault,
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

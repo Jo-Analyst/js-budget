@@ -7,4 +7,15 @@ mixin PricingFormController on State<PricingFormPage> {
   final termEC = TextEditingController();
   final profitMarginEC = MoneyMaskedTextController();
   final otherTaxesEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final electricityBillEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final waterBillEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final rentEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final dasEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+
+  void disposeForm() {
+    salaryExpectationEC.dispose();
+    termEC.dispose();
+    profitMarginEC.dispose();
+    otherTaxesEC.dispose();
+  }
 }

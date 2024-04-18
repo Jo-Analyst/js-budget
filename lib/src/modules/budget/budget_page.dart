@@ -18,10 +18,7 @@ class BudgetPage extends StatefulWidget {
 class _BudgetPageState extends State<BudgetPage> {
   final controller = Injector.get<OrderController>();
   final List<ProductModel> products = [];
-
-  final List<ServiceModel> services = [
-    // ServiceModel(description: 'asdasdgashjgh')
-  ];
+  final List<ServiceModel> services = [];
 
   void loadProductsAndServices() {
     var items = controller.model.value!.items;
@@ -34,6 +31,15 @@ class _BudgetPageState extends State<BudgetPage> {
         services.add(item.service!);
       }
     }
+  }
+
+  double sumPriceService() {
+    double priceTotal = 0;
+    for (var service in services) {
+      priceTotal += service.price;
+    }
+
+    return priceTotal;
   }
 
   @override
@@ -177,9 +183,10 @@ class _BudgetPageState extends State<BudgetPage> {
                         Text(
                           UtilsService.moneyToCurrency(0),
                           style: const TextStyle(
-                              fontFamily: 'Anta',
-                              fontSize: 23,
-                              color: Color.fromARGB(255, 24, 113, 185)),
+                            fontFamily: 'Anta',
+                            fontSize: 23,
+                            color: Color.fromARGB(255, 24, 113, 185),
+                          ),
                         )
                       ],
                     ),
@@ -198,7 +205,7 @@ class _BudgetPageState extends State<BudgetPage> {
                           style: textStyleSmallFontWeight,
                         ),
                         Text(
-                          UtilsService.moneyToCurrency(0),
+                          UtilsService.moneyToCurrency(sumPriceService()),
                           style: const TextStyle(
                             fontFamily: 'Anta',
                             fontSize: 23,
