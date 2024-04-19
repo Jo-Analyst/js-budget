@@ -23,10 +23,10 @@ class _PricingFormPageState extends State<PricingFormPage>
   final formKey = GlobalKey<FormState>();
   List<MaterialModel>? materials = [];
   List<Map<String, dynamic>> fixedExpense = [
-    {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
-    {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': true},
-    {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': true},
-    {'icon': Icons.money_off, 'type': 'DAS/SIMEI', 'isChecked': true},
+    {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': false},
+    {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': false},
+    {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': false},
+    {'icon': Icons.money_off, 'type': 'DAS/SIMEI', 'isChecked': false},
     {'icon': Icons.money_off, 'type': 'Outros impostos ', 'isChecked': false},
   ];
 
@@ -55,16 +55,33 @@ class _PricingFormPageState extends State<PricingFormPage>
       }
 
       expense['value-average'] = valueExpense;
+    }
+  }
 
-      print(valueExpense);
+  void setInFieldsAverageExpense(String type) {
+    if (type == 'Conta de luz') {
+      electricityBillEC.updateValue(
+          fixedExpense[0]['isChecked'] ? fixedExpense[0]['value-average'] : 0);
+    }
 
-      if (expense['type'] == 'Conta de luz') {
-        electricityBillEC.updateValue(valueExpense);
-      }
+    if (type == 'Conta de água') {
+      waterBillEC.updateValue(
+          fixedExpense[1]['isChecked'] ? fixedExpense[1]['value-average'] : 0);
+    }
 
-      if (expense['type'] == 'Conta de água') {
-        waterBillEC.updateValue(valueExpense);
-      }
+    if (type == 'Aluguel') {
+      rentEC.updateValue(
+          fixedExpense[2]['isChecked'] ? fixedExpense[2]['value-average'] : 0);
+    }
+
+    if (type == 'DAS/SIMEI') {
+      dasEC.updateValue(
+          fixedExpense[3]['isChecked'] ? fixedExpense[3]['value-average'] : 0);
+    }
+
+    if (type == 'Outros impostos') {
+      otherTaxesEC.updateValue(
+          fixedExpense[3]['isChecked'] ? fixedExpense[4]['value-average'] : 0);
     }
   }
 
@@ -72,6 +89,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   void initState() {
     super.initState();
     termEC.text = '1';
+    calculateAverageExpense();
   }
 
   @override
@@ -157,7 +175,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                             splashColor: Colors.transparent,
                             onTap: () async {
                               toggleExpenseCheckStatus(expense);
-                              calculateAverageExpense();
+                              setInFieldsAverageExpense(expense['type']);
                             },
                             leading: Icon(expense['icon']),
                             title: Text(
