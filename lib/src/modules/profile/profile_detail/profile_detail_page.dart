@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/profile_model.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
 class ProfileDetailsPage extends StatelessWidget {
@@ -31,6 +32,7 @@ class ProfileDetailsPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             children: [
+              // dados preferencial
               Card(
                 child: CustomListTileIcon(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 15),
@@ -39,6 +41,8 @@ class ProfileDetailsPage extends StatelessWidget {
                   subtitle: profile.document,
                 ),
               ),
+
+              // Razão social
               Card(
                 child: ColumnTile(
                     title: 'Razão social',
@@ -53,6 +57,8 @@ class ProfileDetailsPage extends StatelessWidget {
                       ),
                     ]),
               ),
+
+              //contato
               Card(
                 child: ColumnTile(
                   title: 'Contato',
@@ -75,6 +81,7 @@ class ProfileDetailsPage extends StatelessWidget {
                   ],
                 ),
               ),
+              // Endereço
               Card(
                 child: ColumnTile(
                   title: 'Endereço',
@@ -105,6 +112,24 @@ class ProfileDetailsPage extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+
+              // Pretensão salarial
+              Card(
+                child: ColumnTile(
+                    title: 'Razão social',
+                    color: Colors.transparent,
+                    textColor: Colors.black,
+                    children: [
+                      CustomListTileIcon(
+                        leading: const Icon(
+                          Icons.price_change,
+                        ),
+                        title: UtilsService.moneyToCurrency(
+                            profile.salaryExpectation),
+                        titleFontFamily: 'Anta',
+                      ),
+                    ]),
               ),
             ],
           ),

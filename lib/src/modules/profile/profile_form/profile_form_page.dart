@@ -167,6 +167,23 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             ],
                           ),
                         ),
+                        TextFormField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                          controller: salaryExpectationEC,
+                          decoration: const InputDecoration(
+                              labelText: 'Pretensão Salarial',
+                              labelStyle: textStyleSmallDefault,
+                              suffix: Icon(Icons.price_change)),
+                          keyboardType: TextInputType.number,
+                          style: textStyleSmallDefault,
+                          validator: (value) {
+                            if (salaryExpectationEC.numberValue == 0) {
+                              return 'Informe a sua pretensão salarial';
+                            }
+
+                            return null;
+                          },
+                        ),
                       ],
                     ),
                   ),

@@ -105,7 +105,6 @@ class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
             : null,
       );
     } catch (_) {
-      print(_.toString());
       return Left(RespositoryException());
     }
   }

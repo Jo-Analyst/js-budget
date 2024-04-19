@@ -11,6 +11,7 @@ class TransformJson {
     Map<String, dynamic> infoProfile = {
       'id': profile.id,
       'fantasy_name': profile.fantasyName,
+      'salary_expectation': profile.salaryExpectation,
       'document': profile.document,
       'corporate_reason': profile.corporateReason
     };
@@ -47,6 +48,7 @@ class TransformJson {
       fantasyName: profile['fantasy_name'],
       document: profile['document'],
       corporateReason: profile['corporate_reason'],
+      salaryExpectation: profile['salary_expectation'],
       contact: ContactModel(
         id: profile['contact_id'] ?? 0,
         cellPhone: profile['cell_phone'],

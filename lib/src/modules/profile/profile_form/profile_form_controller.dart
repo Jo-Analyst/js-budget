@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/models/profile_model.dart';
@@ -17,6 +18,7 @@ mixin ProfileFormController on State<ProfileFormPage> {
   final numberAddressEC = TextEditingController();
   final cityEC = TextEditingController();
   final stateEC = TextEditingController();
+  final salaryExpectationEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
   void disposeForm() {
     fantasyNameEC.dispose();
@@ -31,6 +33,7 @@ mixin ProfileFormController on State<ProfileFormPage> {
     numberAddressEC.dispose();
     cityEC.dispose();
     stateEC.dispose();
+    salaryExpectationEC.dispose();
   }
 
   void initializeForm(ProfileModel profile) {
@@ -46,6 +49,7 @@ mixin ProfileFormController on State<ProfileFormPage> {
     numberAddressEC.text = profile.address.numberAddress;
     cityEC.text = profile.address.city;
     stateEC.text = profile.address.state;
+    salaryExpectationEC.updateValue(profile.salaryExpectation);
   }
 
   void setCep(AddressModel address, {int addressId = 0}) {
@@ -63,6 +67,7 @@ mixin ProfileFormController on State<ProfileFormPage> {
       fantasyName: fantasyNameEC.text.trim(),
       corporateReason: corporateReasonEC.text.trim(),
       document: documentEC.text,
+      salaryExpectation: salaryExpectationEC.numberValue,
       contact: ContactModel(
         id: contactId,
         cellPhone: cellPhoneEC.text.trim(),

@@ -13,6 +13,7 @@ ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
       document: json['document'] as String,
       contact: ContactModel.fromJson(json['contact'] as Map<String, dynamic>),
       address: AddressModel.fromJson(json['address'] as Map<String, dynamic>),
+      salaryExpectation: (json['salary_expectation'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
@@ -23,4 +24,5 @@ Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
       'document': instance.document,
       'contact': instance.contact,
       'address': instance.address,
+      'salary_expectation': instance.salaryExpectation,
     };

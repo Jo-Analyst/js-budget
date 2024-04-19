@@ -1,4 +1,3 @@
-
 import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
@@ -15,8 +14,9 @@ class ProfileRepositoryImpl implements ProfileRepository {
     try {
       final db = await DataBase.openDatabase();
       final profile = await db.rawQuery(
-          'SELECT profile.id, profile.fantasy_name, profile.corporate_reason, profile.document, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM profile INNER JOIN contacts ON contacts.profile_id = profile.id INNER JOIN address ON address.profile_id = profile.id');
+          'SELECT profile.id, profile.fantasy_name, profile.corporate_reason, profile.document,  profile.salary_expectation, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM profile INNER JOIN contacts ON contacts.profile_id = profile.id INNER JOIN address ON address.profile_id = profile.id');
 
+      print(profile.first);
       return Right(
           profile.isNotEmpty ? TransformJson.fromJson(profile.first) : null);
     } catch (_) {
@@ -52,6 +52,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           id: lastId,
           fantasyName: profile.fantasyName,
           document: profile.document,
+          salaryExpectation: profile.salaryExpectation,
           address: AddressModel.fromJson(addressProfile!),
           contact: ContactModel.fromJson(contactProfile!),
         ),
@@ -73,6 +74,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
               'fantasy_name': profile.fantasyName,
               'corporate_reason': profile.corporateReason,
               'document': profile.document,
+              'salary_expectation': profile.salaryExpectation
             },
             where: 'id = ?',
             whereArgs: [profile.id]);

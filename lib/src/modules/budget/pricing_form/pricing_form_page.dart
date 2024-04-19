@@ -5,6 +5,7 @@ import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/budget/pricing_form/pricing_form_controller.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
+import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -20,7 +21,8 @@ class PricingFormPage extends StatefulWidget {
 
 class _PricingFormPageState extends State<PricingFormPage>
     with PricingFormController {
-  final controller = Injector.get<FixedExpenseController>();
+  final expenseController = Injector.get<FixedExpenseController>();
+  final profileController = Injector.get<ProfileController>();
   final formKey = GlobalKey<FormState>();
   List<MaterialModel>? materials = [];
   List<Map<String, dynamic>> fixedExpense = [
@@ -45,7 +47,7 @@ class _PricingFormPageState extends State<PricingFormPage>
       if (expense['type'] == 'Conta de luz' ||
           expense['type'] == 'Conta de água') {
         List<ExpenseModel> model =
-            await controller.findExpenseType(expense['type']);
+            await expenseController.findExpenseType(expense['type']);
         for (var expenseModel in model) {
           valueExpense += expenseModel.value;
         }
@@ -55,7 +57,7 @@ class _PricingFormPageState extends State<PricingFormPage>
         }
       } else {
         ExpenseModel? model =
-            await controller.findLastExpenseType(expense['type']);
+            await expenseController.findLastExpenseType(expense['type']);
         valueExpense = model?.value ?? 0;
       }
 
@@ -90,6 +92,8 @@ class _PricingFormPageState extends State<PricingFormPage>
     super.initState();
     termEC.text = '1';
     calculateAverageExpense();
+    salaryExpectationEC
+        .updateValue(profileController.model.value!.salaryExpectation);
   }
 
   @override
@@ -306,6 +310,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                         child: Column(
                           children: [
                             TextFormField(
+                              readOnly: true,
                               onTapOutside: (_) =>
                                   FocusScope.of(context).unfocus(),
                               controller: salaryExpectationEC,

@@ -14,6 +14,7 @@ class ProfileModel {
   final String document;
   final ContactModel contact;
   final AddressModel address;
+  final double salaryExpectation;
   ProfileModel({
     this.id = 0,
     required this.corporateReason,
@@ -21,6 +22,7 @@ class ProfileModel {
     required this.document,
     required this.contact,
     required this.address,
+    required this.salaryExpectation,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>
