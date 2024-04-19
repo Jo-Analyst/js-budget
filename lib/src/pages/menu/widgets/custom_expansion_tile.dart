@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -11,6 +10,7 @@ class CustomExpansionTileWidget extends StatefulWidget {
   final Color? color;
   final List<Widget>? children;
   final bool initiallyExpanded;
+  final bool addBorder;
   const CustomExpansionTileWidget({
     Key? key,
     required this.title,
@@ -20,6 +20,7 @@ class CustomExpansionTileWidget extends StatefulWidget {
     this.color,
     this.children,
     this.initiallyExpanded = false,
+    this.addBorder = true,
   }) : super(key: key);
 
   @override
@@ -45,14 +46,16 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: .5,
-          ),
-        ),
-      ),
+      decoration: widget.addBorder
+          ? const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.grey,
+                  width: .5,
+                ),
+              ),
+            )
+          : null,
       child: Column(
         children: [
           GestureDetector(
@@ -84,7 +87,7 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
                   child: Icon(
                     Icons.keyboard_arrow_down,
                     color: widget.iconColor,
-                    size: 25,
+                    size: 30,
                   ),
                 ),
               ),

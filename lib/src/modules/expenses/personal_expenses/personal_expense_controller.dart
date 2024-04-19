@@ -10,10 +10,10 @@ class PersonalExpenseController with Messages {
   final _data = ListSignal<ExpenseModel>([]);
   ListSignal get data => _data
     ..sort(
-      (a, b) => a.type
+      (a, b) => b.id
           .toString()
           .toLowerCase()
-          .compareTo(b.type.toString().toLowerCase()),
+          .compareTo(a.id.toString().toLowerCase()),
     );
 
   final model = signal<ExpenseModel?>(null);

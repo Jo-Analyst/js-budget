@@ -84,4 +84,29 @@ class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
       return Left(RespositoryException());
     }
   }
+
+  @override
+  Future<Either<RespositoryException, ExpenseModel?>> findMaxByType(
+      String type) async {
+    try {
+      final db = await DataBase.openDatabase();
+      final expenses = await db.rawQuery(
+          "SELECT * FROM fixed_expenses where type = '$type' ORDER BY id DESC LIMIT 1");
+
+      return Right(
+        expenses.isNotEmpty
+            ? ExpenseModel(
+                type: expenses[0]['type'] as String,
+                value: expenses[0]['value'] as double,
+                date: expenses[0]['date'] as String,
+                methodPayment: expenses[0]['method_payment'] as String,
+                observation: expenses[0]['observation'] as String,
+              )
+            : null,
+      );
+    } catch (_) {
+      print(_.toString());
+      return Left(RespositoryException());
+    }
+  }
 }

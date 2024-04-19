@@ -5,6 +5,7 @@ import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/budget/pricing_form/pricing_form_controller.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
+import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -23,11 +24,10 @@ class _PricingFormPageState extends State<PricingFormPage>
   final formKey = GlobalKey<FormState>();
   List<MaterialModel>? materials = [];
   List<Map<String, dynamic>> fixedExpense = [
-    {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': false},
-    {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': false},
-    {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': false},
-    {'icon': Icons.money_off, 'type': 'DAS/SIMEI', 'isChecked': false},
-    {'icon': Icons.money_off, 'type': 'Outros impostos ', 'isChecked': false},
+    {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
+    {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': true},
+    {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': true},
+    {'icon': Icons.money_off, 'type': 'DAS/SIMEI', 'isChecked': true},
   ];
 
   void toggleExpenseCheckStatus(Map<String, dynamic> expense) {
@@ -41,47 +41,47 @@ class _PricingFormPageState extends State<PricingFormPage>
   void calculateAverageExpense() async {
     for (var expense in fixedExpense) {
       double valueExpense = 0;
-      List<ExpenseModel> model =
-          await controller.findExpenseType(expense['type']);
-      for (var expenseModel in model) {
-        valueExpense += expenseModel.value;
-      }
 
-      if (model.isNotEmpty) {
-        valueExpense = expense['type'] == 'Conta de luz' ||
-                expense['type'] == 'Conta de água'
-            ? valueExpense / model.length
-            : valueExpense;
+      if (expense['type'] == 'Conta de luz' ||
+          expense['type'] == 'Conta de água') {
+        List<ExpenseModel> model =
+            await controller.findExpenseType(expense['type']);
+        for (var expenseModel in model) {
+          valueExpense += expenseModel.value;
+        }
+
+        if (model.isNotEmpty) {
+          valueExpense = valueExpense / model.length;
+        }
+      } else {
+        ExpenseModel? model =
+            await controller.findLastExpenseType(expense['type']);
+        valueExpense = model?.value ?? 0;
       }
 
       expense['value-average'] = valueExpense;
+      setInFieldsAverageExpense(expense['type']);
     }
   }
 
   void setInFieldsAverageExpense(String type) {
-    if (type == 'Conta de luz') {
-      electricityBillEC.updateValue(
-          fixedExpense[0]['isChecked'] ? fixedExpense[0]['value-average'] : 0);
-    }
-
-    if (type == 'Conta de água') {
-      waterBillEC.updateValue(
-          fixedExpense[1]['isChecked'] ? fixedExpense[1]['value-average'] : 0);
-    }
-
-    if (type == 'Aluguel') {
-      rentEC.updateValue(
-          fixedExpense[2]['isChecked'] ? fixedExpense[2]['value-average'] : 0);
-    }
-
-    if (type == 'DAS/SIMEI') {
-      dasEC.updateValue(
-          fixedExpense[3]['isChecked'] ? fixedExpense[3]['value-average'] : 0);
-    }
-
-    if (type == 'Outros impostos') {
-      otherTaxesEC.updateValue(
-          fixedExpense[3]['isChecked'] ? fixedExpense[4]['value-average'] : 0);
+    switch (type) {
+      case 'Conta de luz':
+        electricityBillEC.updateValue(fixedExpense[0]['isChecked']
+            ? fixedExpense[0]['value-average']
+            : 0);
+      case 'Conta de água':
+        waterBillEC.updateValue(fixedExpense[1]['isChecked']
+            ? fixedExpense[1]['value-average']
+            : 0);
+      case 'Aluguel':
+        rentEC.updateValue(fixedExpense[2]['isChecked']
+            ? fixedExpense[2]['value-average']
+            : 0);
+      case 'DAS/SIMEI':
+        dasEC.updateValue(fixedExpense[3]['isChecked']
+            ? fixedExpense[3]['value-average']
+            : 0);
     }
   }
 
@@ -166,8 +166,10 @@ class _PricingFormPageState extends State<PricingFormPage>
               Card(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ColumnTile(
-                    title: 'Calcular média da despesa fixa',
+                  child: CustomExpansionTileWidget(
+                    initiallyExpanded: true,
+                    addBorder: false,
+                    title: 'Calcular média da despesa',
                     children: fixedExpense
                         .map(
                           (expense) => ListTile(

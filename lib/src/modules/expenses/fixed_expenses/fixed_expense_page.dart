@@ -17,6 +17,12 @@ class _PersonalExpensePageState extends State<FixedExpensePage> {
   final controller = Injector.get<FixedExpenseController>();
 
   @override
+  void initState() {
+    super.initState();
+    controller.findExpense();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var filteredClients = controller.data
         .watch(context)

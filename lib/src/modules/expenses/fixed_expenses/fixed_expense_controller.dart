@@ -10,10 +10,10 @@ class FixedExpenseController with Messages {
   final _data = ListSignal<ExpenseModel>([]);
   ListSignal get data => _data
     ..sort(
-      (a, b) => a.type
+      (a, b) => b.id
           .toString()
           .toLowerCase()
-          .compareTo(b.type.toString().toLowerCase()),
+          .compareTo(a.id.toString().toLowerCase()),
     );
 
   final model = signal<ExpenseModel?>(null);
@@ -87,5 +87,19 @@ class FixedExpenseController with Messages {
     }
 
     return expensesModel;
+  }
+
+  Future<ExpenseModel?> findLastExpenseType(String type) async {
+    final results = await _expenseRepository.findMaxByType(type);
+    ExpenseModel? expenseModel;
+
+    switch (results) {
+      case Right(value: var expenses):
+        expenseModel = expenses;
+      case Left():
+        showError('Houver erro ao buscar a conta $type');
+    }
+
+    return expenseModel;
   }
 }

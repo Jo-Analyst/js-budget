@@ -10,4 +10,5 @@ abstract interface class FixedExpenseRepository {
   Future<Either<RespositoryException, Unit>> delete(int id);
   Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
   Future<Either<RespositoryException, List<Map<String, dynamic>>>> findByType(String type);
+  Future<Either<RespositoryException, ExpenseModel?>> findMaxByType(String type);
 }
