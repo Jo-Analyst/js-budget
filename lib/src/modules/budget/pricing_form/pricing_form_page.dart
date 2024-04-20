@@ -31,6 +31,7 @@ class _PricingFormPageState extends State<PricingFormPage>
     {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': true},
     {'icon': Icons.money_off, 'type': 'DAS/SIMEI', 'isChecked': true},
   ];
+  String timeIncentive = 'Dia';
 
   void toggleExpenseCheckStatus(Map<String, dynamic> expense) {
     setState(() {
@@ -286,7 +287,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                 FocusScope.of(context).unfocus(),
                             controller: otherTaxesEC,
                             decoration: const InputDecoration(
-                                labelText: 'Outros impostos',
+                                labelText: 'Outros',
                                 labelStyle: textStyleSmallDefault,
                                 suffix: Icon(Icons.money_off)),
                             style: textStyleSmallDefault,
@@ -328,10 +329,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     onTapOutside: (_) =>
                                         FocusScope.of(context).unfocus(),
                                     controller: termEC,
-                                    decoration: const InputDecoration(
+                                    decoration: InputDecoration(
                                         labelText: 'Prazo*',
                                         labelStyle: textStyleSmallDefault,
-                                        suffixText: 'Dia(s)'),
+                                        suffix: Text('$timeIncentive(s)')),
                                     style: textStyleSmallDefault,
                                     keyboardType: TextInputType.number,
                                     inputFormatters: [
@@ -343,20 +344,40 @@ class _PricingFormPageState extends State<PricingFormPage>
                                 ),
                                 const SizedBox(width: 20),
                                 Expanded(
-                                  flex: 2,
-                                  child: TextFormField(
-                                    onTapOutside: (_) =>
-                                        FocusScope.of(context).unfocus(),
-                                    controller: profitMarginEC,
+                                  child: DropdownButtonFormField<String>(
+                                    value: timeIncentive,
                                     decoration: const InputDecoration(
-                                        labelText: 'Margem de lucro',
-                                        labelStyle: textStyleSmallDefault,
-                                        suffixText: '%'),
+                                      labelText: 'Estimulo de tempo',
+                                    ),
+                                    items: <String>['Dia', 'Hora']
+                                        .map((String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        timeIncentive = value!;
+                                      });
+                                    },
+                                    validator: Validatorless.required(
+                                        'Tipo de despesa obrigatório'),
                                     style: textStyleSmallDefault,
-                                    keyboardType: TextInputType.number,
                                   ),
                                 ),
                               ],
+                            ),
+                            TextFormField(
+                              onTapOutside: (_) =>
+                                  FocusScope.of(context).unfocus(),
+                              controller: profitMarginEC,
+                              decoration: const InputDecoration(
+                                  labelText: 'Margem de lucro',
+                                  labelStyle: textStyleSmallDefault,
+                                  suffixText: '%'),
+                              style: textStyleSmallDefault,
+                              keyboardType: TextInputType.number,
                             ),
                           ],
                         ),

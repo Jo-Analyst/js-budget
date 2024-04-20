@@ -4,7 +4,7 @@ final lightTheme = ThemeData(
   appBarTheme: const AppBarTheme(
     titleTextStyle: textStyleSmallDefault,
     color: Color(0xFFDEB887),
-    toolbarHeight: 100,
+    toolbarHeight: 80,
   ),
   iconTheme: const IconThemeData(color: Colors.black),
   colorScheme: ColorScheme.fromSeed(

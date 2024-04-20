@@ -117,7 +117,7 @@ class ProfileDetailsPage extends StatelessWidget {
               // Pretensão salarial
               Card(
                 child: ColumnTile(
-                    title: 'Razão social',
+                    title: 'Informação adicional',
                     color: Colors.transparent,
                     textColor: Colors.black,
                     children: [

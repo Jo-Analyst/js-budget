@@ -16,7 +16,6 @@ class ProfileRepositoryImpl implements ProfileRepository {
       final profile = await db.rawQuery(
           'SELECT profile.id, profile.fantasy_name, profile.corporate_reason, profile.document,  profile.salary_expectation, address.id AS address_id, address.cep, address.district, address.street_address, address.number_address, address.city, address.state, contacts.id AS contact_id, contacts.cell_phone, contacts.email, contacts.tele_phone FROM profile INNER JOIN contacts ON contacts.profile_id = profile.id INNER JOIN address ON address.profile_id = profile.id');
 
-      print(profile.first);
       return Right(
           profile.isNotEmpty ? TransformJson.fromJson(profile.first) : null);
     } catch (_) {

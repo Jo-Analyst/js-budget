@@ -101,6 +101,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // Dados da empresa
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -167,28 +168,40 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             ],
                           ),
                         ),
-                        TextFormField(
-                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
-                          controller: salaryExpectationEC,
-                          decoration: const InputDecoration(
-                              labelText: 'Pretensão Salarial',
-                              labelStyle: textStyleSmallDefault,
-                              suffix: Icon(Icons.price_change)),
-                          keyboardType: TextInputType.number,
-                          style: textStyleSmallDefault,
-                          validator: (value) {
-                            if (salaryExpectationEC.numberValue == 0) {
-                              return 'Informe a sua pretensão salarial';
-                            }
-
-                            return null;
-                          },
-                        ),
                       ],
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
+                // Informação adicional
+                Card(
+                  child: ColumnTile(
+                    title: 'Informação adicional',
+                    color: Colors.transparent,
+                    textColor: Colors.black,
+                    children: [
+                      TextFormField(
+                        onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        controller: salaryExpectationEC,
+                        decoration: const InputDecoration(
+                            labelText: 'Pretensão Salarial',
+                            labelStyle: textStyleSmallDefault,
+                            suffix: Icon(Icons.price_change)),
+                        keyboardType: TextInputType.number,
+                        style: textStyleSmallDefault,
+                        validator: (value) {
+                          if (salaryExpectationEC.numberValue == 0) {
+                            return 'Informe a sua pretensão salarial';
+                          }
+
+                          return null;
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+                // Contatos da empresa
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
@@ -260,6 +273,8 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                   ),
                 ),
                 const SizedBox(height: 5),
+
+                // Endereço da empresa
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),

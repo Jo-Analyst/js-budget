@@ -126,6 +126,7 @@ class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
                       },
                       validator:
                           Validatorless.required('Tipo de despesa obrigatório'),
+                      style: textStyleSmallDefault,
                     ),
                   ),
                 ),
