@@ -8,10 +8,12 @@ class ServiceModel {
   final int id;
   final String description;
   final double price;
+  final int quantity;
   ServiceModel({
     this.id = 0,
     required this.description,
     required this.price,
+    this.quantity = 1,
   });
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) =>

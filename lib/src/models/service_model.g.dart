@@ -10,6 +10,7 @@ ServiceModel _$ServiceModelFromJson(Map<String, dynamic> json) => ServiceModel(
       id: json['id'] as int? ?? 0,
       description: json['description'] as String,
       price: (json['price'] as num).toDouble(),
+      quantity: json['quantity'] as int? ?? 1,
     );
 
 Map<String, dynamic> _$ServiceModelToJson(ServiceModel instance) =>
@@ -17,4 +18,5 @@ Map<String, dynamic> _$ServiceModelToJson(ServiceModel instance) =>
       'id': instance.id,
       'description': instance.description,
       'price': instance.price,
+      'quantity': instance.quantity,
     };

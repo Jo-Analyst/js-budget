@@ -8,6 +8,7 @@ import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/modules/order/order_form/order_form_controller.dart';
+import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -103,11 +104,13 @@ class _OrderFormPageState extends State<OrderFormPage>
                 },
                 child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
+                    padding: const EdgeInsets.fromLTRB(15, 10, 20, 10),
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
-                      leading: const Icon(Icons.person),
+                      leading: const Icon(
+                        Icons.person,
+                        color: Colors.black,
+                      ),
                       title: Text(
                         client?.name ?? 'Cliente',
                         style: textStyleSmallDefault,
@@ -126,6 +129,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                               ))
                           : const Icon(
                               Icons.add,
+                              color: Colors.black,
                               size: 30,
                             ),
                     ),
@@ -134,95 +138,177 @@ class _OrderFormPageState extends State<OrderFormPage>
               ),
 
               // Card de Produtos
-              GestureDetector(
-                onTap: () async {
-                  products = await nav.pushNamed('/product', arguments: true)
-                          as List<ProductModel>? ??
-                      products;
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                  ),
+                  child: ColumnTile(
+                    leading: const Icon(Icons.local_offer),
+                    trailing: IconButton(
+                      onPressed: () async {
+                        products = await nav.pushNamed('/product',
+                                arguments: true) as List<ProductModel>? ??
+                            products;
 
-                  setState(() {
-                    quantityProductSelected = products?.length ?? 0;
-                  });
-                },
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: const Icon(Icons.local_offer),
-                      title: Text(
-                        quantityProductSelected > 0
-                            ? '$quantityProductSelected produtos'
-                            : 'Produtos',
-                        style: textStyleSmallDefault,
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        size: 30,
                       ),
-                      trailing: quantityProductSelected > 0
-                          ? IconButton(
-                              icon: const Icon(
-                                Icons.delete_outline,
-                                size: 30,
-                                color: Colors.red,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  quantityProductSelected = 0;
-                                  products = null;
-                                });
-                              },
-                            )
-                          : const Icon(
-                              Icons.add,
-                              size: 30,
-                            ),
                     ),
+                    title: 'Produtos',
+                    children: products != null
+                        ? products!
+                            .map(
+                              (product) => Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Stack(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        radius: 30,
+                                        child: Text(
+                                          '${product.quantity}x',
+                                          style: TextStyle(
+                                            fontFamily: 'Anta',
+                                            color: Colors.black,
+                                            fontSize:
+                                                textStyleSmallDefault.fontSize,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 1,
+                                        right: 1,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(2),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: InkWell(
+                                            onTap: () {},
+                                            child: const Icon(
+                                              Icons.edit,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  title: Text(
+                                    product.name,
+                                    style: textStyleSmallDefault,
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      products!.removeWhere(
+                                          (prod) => prod.id == product.id);
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.red,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList()
+                        : [],
                   ),
                 ),
               ),
 
               // Card de Serviços
-              GestureDetector(
-                onTap: () async {
-                  services = await nav.pushNamed('/service', arguments: true)
-                          as List<ServiceModel>? ??
-                      services;
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                  ),
+                  child: ColumnTile(
+                    leading: const Icon(FontAwesomeIcons.screwdriverWrench),
+                    trailing: IconButton(
+                      onPressed: () async {
+                        services = await nav.pushNamed('/service',
+                                arguments: true) as List<ServiceModel>? ??
+                            services;
 
-                  setState(() {
-                    quantityServiceSelected = services?.length ?? 0;
-                  });
-                },
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 15),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      leading: const Icon(FontAwesomeIcons.screwdriverWrench),
-                      title: Text(
-                        quantityServiceSelected > 0
-                            ? '$quantityServiceSelected Serviços'
-                            : 'Serviços',
-                        style: textStyleSmallDefault,
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        size: 30,
                       ),
-                      trailing: quantityServiceSelected > 0
-                          ? IconButton(
-                              icon: const Icon(
-                                Icons.delete_outline,
-                                size: 30,
-                                color: Colors.red,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  quantityServiceSelected = 0;
-                                  services = null;
-                                });
-                              },
-                            )
-                          : const Icon(
-                              Icons.add,
-                              size: 30,
-                            ),
                     ),
+                    title: 'Serviços',
+                    children: services != null
+                        ? services!
+                            .map(
+                              (service) => Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Stack(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        radius: 30,
+                                        child: Text(
+                                          '${service.quantity}x',
+                                          style: TextStyle(
+                                            fontFamily: 'Anta',
+                                            color: Colors.black,
+                                            fontSize:
+                                                textStyleSmallDefault.fontSize,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 1,
+                                        right: 1,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(2),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: InkWell(
+                                            onTap: () {},
+                                            child: const Icon(
+                                              Icons.edit,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  title: Text(
+                                    service.description,
+                                    style: textStyleSmallDefault,
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      services!.removeWhere(
+                                          (serv) => serv.id == service.id);
+                                      setState(() {});
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.red,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                            .toList()
+                        : [],
                   ),
                 ),
               ),

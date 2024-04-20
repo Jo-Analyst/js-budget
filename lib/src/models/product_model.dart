@@ -7,11 +7,13 @@ part 'product_model.g.dart';
 class ProductModel {
   final int id;
   final String name;
+  final int quantity;
   final String description;
   final String unit;
   ProductModel({
     this.id = 0,
     required this.name,
+    this.quantity = 1,
     required this.description,
     required this.unit,
   });

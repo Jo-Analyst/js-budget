@@ -9,6 +9,7 @@ part of 'item_order_model.dart';
 ItemOrderModel _$ItemOrderModelFromJson(Map<String, dynamic> json) =>
     ItemOrderModel(
       id: json['id'] as int? ?? 0,
+      quantityProduct: json['quantity_product'] as int?,
       product: json['product'] == null
           ? null
           : ProductModel.fromJson(json['product'] as Map<String, dynamic>),
@@ -20,6 +21,7 @@ ItemOrderModel _$ItemOrderModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$ItemOrderModelToJson(ItemOrderModel instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'quantity_product': instance.quantityProduct,
       'product': instance.product,
       'service': instance.service,
     };

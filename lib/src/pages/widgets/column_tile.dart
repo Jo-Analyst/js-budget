@@ -6,6 +6,7 @@ import 'package:js_budget/src/themes/light_theme.dart';
 class ColumnTile extends StatelessWidget {
   final String title;
   final List<Widget> children;
+  final Widget? leading;
   final Widget? trailing;
   final Color? color;
   final Color? textColor;
@@ -13,6 +14,7 @@ class ColumnTile extends StatelessWidget {
     Key? key,
     required this.title,
     required this.children,
+    this.leading,
     this.trailing,
     this.color,
     this.textColor,
@@ -32,14 +34,23 @@ class ColumnTile extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontFamily: textStyleSmallDefault.fontFamily,
-                  fontSize: textStyleSmallDefault.fontSize,
-                  fontWeight: textStyleSmallFontWeight.fontWeight,
-                  color: textColor,
-                ),
+              Row(
+                children: [
+                  if (leading != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: leading!,
+                    ),
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: textStyleSmallDefault.fontFamily,
+                      fontSize: textStyleSmallDefault.fontSize,
+                      fontWeight: textStyleSmallFontWeight.fontWeight,
+                      color: textColor,
+                    ),
+                  ),
+                ],
               ),
               trailing ?? Container()
             ],
