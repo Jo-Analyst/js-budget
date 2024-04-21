@@ -44,14 +44,16 @@ class TransformOrderJson {
                 'id': order['product_id'],
                 'name': order['name_product'],
                 'description': order['name_product'] ?? '',
-                'unit': order['unit']
+                'unit': order['unit'],
+                'quantity': order['quantity_product']
               })
             : null,
         service: order['service_id'] != null
             ? ServiceModel.fromJson({
                 'id': order['service_id'],
                 'description': order['description'],
-                'price': order['price']
+                'price': order['price'],
+                'quantity': order['quantity_service']
               })
             : null,
       );

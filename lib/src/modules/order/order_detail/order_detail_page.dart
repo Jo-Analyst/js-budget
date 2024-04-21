@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
@@ -78,7 +77,21 @@ class OrderDetailPage extends StatelessWidget {
                             return Visibility(
                               visible: items.product != null,
                               child: CustomListTileIcon(
-                                leading: const Icon(Icons.local_offer),
+                                contentPadding:
+                                    const EdgeInsets.only(bottom: 10),
+                                leading: CircleAvatar(
+                                  radius: 30,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      '${items.product?.quantity}x',
+                                      style: TextStyle(
+                                          fontSize:
+                                              textStyleSmallDefault.fontSize,
+                                          fontFamily: 'Anta'),
+                                    ),
+                                  ),
+                                ),
                                 title: items.product?.name ?? '',
                               ),
                             );
@@ -104,8 +117,21 @@ class OrderDetailPage extends StatelessWidget {
                             return Visibility(
                               visible: items.service != null,
                               child: CustomListTileIcon(
-                                leading: const Icon(
-                                    FontAwesomeIcons.screwdriverWrench),
+                                contentPadding:
+                                    const EdgeInsets.only(bottom: 10),
+                                leading: CircleAvatar(
+                                  radius: 30,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      '${items.service?.quantity}x',
+                                      style: TextStyle(
+                                          fontSize:
+                                              textStyleSmallDefault.fontSize,
+                                          fontFamily: 'Anta'),
+                                    ),
+                                  ),
+                                ),
                                 title: items.service?.description ?? '',
                               ),
                             );
