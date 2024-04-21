@@ -258,7 +258,6 @@ class _OrderPageState extends State<OrderPage> {
         onPressed: () async {
           final OrderModel? order = await Navigator.of(context)
               .pushNamed('/order/form') as OrderModel?;
-
           if (order != null) {
             setState(() {
               _orders.add(order);
