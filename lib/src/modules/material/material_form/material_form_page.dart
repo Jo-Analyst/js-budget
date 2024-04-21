@@ -5,7 +5,7 @@ import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/modules/material/material_form/material_form_controller.dart';
 
-import 'package:js_budget/src/modules/material/widget/custom_show_dialog.dart';
+import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';

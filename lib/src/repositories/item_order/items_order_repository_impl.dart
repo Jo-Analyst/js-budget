@@ -10,6 +10,8 @@ class ItemsOrderRepositoryImpl implements ItemsOrderRepository {
       ServiceModel? service, int orderId) async {
     return txn.insert('items_orders', {
       'order_id': orderId,
+      'quantity_product': product?.quantity,
+      'quantity_service': service?.quantity,
       'product_id': product?.id,
       'service_id': service?.id,
     });

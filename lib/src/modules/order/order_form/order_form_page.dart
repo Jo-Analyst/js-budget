@@ -8,6 +8,7 @@ import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/modules/order/order_form/order_form_controller.dart';
+import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -25,8 +26,14 @@ class _OrderFormPageState extends State<OrderFormPage>
   final controller = Injector.get<OrderController>();
 
   List<ItemOrderModel> itemOrder = [];
-  List<ProductModel>? products;
-  List<ServiceModel>? services;
+  List<ProductModel>? _products;
+  List<ProductModel>? get products =>
+      _products?..sort((a, b) => a.name.compareTo(b.name));
+
+  List<ServiceModel>? _services;
+  List<ServiceModel>? get services =>
+      _services?..sort((a, b) => a.description.compareTo(b.description));
+
   OrderModel? order;
   DateTime orderDate = DateTime.now();
   int quantityProductSelected = 0, quantityServiceSelected = 0;
@@ -47,7 +54,7 @@ class _OrderFormPageState extends State<OrderFormPage>
         actions: [
           IconButton(
             onPressed: () async {
-              if (!controller.validateFields(client, products, services)) {
+              if (!controller.validateFields(client, _products, _services)) {
                 return;
               }
 
@@ -147,9 +154,9 @@ class _OrderFormPageState extends State<OrderFormPage>
                     leading: const Icon(Icons.local_offer),
                     trailing: IconButton(
                       onPressed: () async {
-                        products = await nav.pushNamed('/product',
+                        _products = await nav.pushNamed('/product',
                                 arguments: true) as List<ProductModel>? ??
-                            products;
+                            _products;
 
                         setState(() {});
                       },
@@ -170,13 +177,16 @@ class _OrderFormPageState extends State<OrderFormPage>
                                     children: <Widget>[
                                       CircleAvatar(
                                         radius: 30,
-                                        child: Text(
-                                          '${product.quantity}x',
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            color: Colors.black,
-                                            fontSize:
-                                                textStyleSmallDefault.fontSize,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            '${product.quantity}x',
+                                            style: TextStyle(
+                                              fontFamily: 'Anta',
+                                              color: Colors.black,
+                                              fontSize: textStyleSmallDefault
+                                                  .fontSize,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -190,7 +200,30 @@ class _OrderFormPageState extends State<OrderFormPage>
                                             shape: BoxShape.circle,
                                           ),
                                           child: InkWell(
-                                            onTap: () {},
+                                            onTap: () async {
+                                              final quantity =
+                                                  await showAlertDialog(context,
+                                                      "Alteração da quantidade do produto '${product.name}'",
+                                                      buttonTitle: 'Editar');
+                                              if (quantity != null) {
+                                                ProductModel productModel =
+                                                    ProductModel(
+                                                  id: product.id,
+                                                  name: product.name,
+                                                  description:
+                                                      product.description,
+                                                  unit: product.unit,
+                                                  quantity: quantity,
+                                                );
+
+                                                _products!.removeWhere(
+                                                    (element) =>
+                                                        element.id ==
+                                                        product.id);
+                                                _products!.add(productModel);
+                                                setState(() {});
+                                              }
+                                            },
                                             child: const Icon(
                                               Icons.edit,
                                               size: 18,
@@ -206,7 +239,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                                   ),
                                   trailing: IconButton(
                                     onPressed: () {
-                                      products!.removeWhere(
+                                      _products!.removeWhere(
                                           (prod) => prod.id == product.id);
                                       setState(() {});
                                     },
@@ -235,9 +268,9 @@ class _OrderFormPageState extends State<OrderFormPage>
                     leading: const Icon(FontAwesomeIcons.screwdriverWrench),
                     trailing: IconButton(
                       onPressed: () async {
-                        services = await nav.pushNamed('/service',
+                        _services = await nav.pushNamed('/service',
                                 arguments: true) as List<ServiceModel>? ??
-                            services;
+                            _services;
 
                         setState(() {});
                       },
@@ -258,13 +291,16 @@ class _OrderFormPageState extends State<OrderFormPage>
                                     children: <Widget>[
                                       CircleAvatar(
                                         radius: 30,
-                                        child: Text(
-                                          '${service.quantity}x',
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            color: Colors.black,
-                                            fontSize:
-                                                textStyleSmallDefault.fontSize,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            '${service.quantity}x',
+                                            style: TextStyle(
+                                              fontFamily: 'Anta',
+                                              color: Colors.black,
+                                              fontSize: textStyleSmallDefault
+                                                  .fontSize,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -278,7 +314,30 @@ class _OrderFormPageState extends State<OrderFormPage>
                                             shape: BoxShape.circle,
                                           ),
                                           child: InkWell(
-                                            onTap: () {},
+                                            onTap: () async {
+                                              final quantity =
+                                                  await showAlertDialog(context,
+                                                      "Alteração da quantidade do serviço '${service.description}'",
+                                                      buttonTitle: 'Editar');
+
+                                              if (quantity != null) {
+                                                ServiceModel serviceModel =
+                                                    ServiceModel(
+                                                  id: service.id,
+                                                  description:
+                                                      service.description,
+                                                  price: service.price,
+                                                  quantity: quantity,
+                                                );
+
+                                                _services!.removeWhere(
+                                                    (element) =>
+                                                        element.id ==
+                                                        service.id);
+                                                _services!.add(serviceModel);
+                                                setState(() {});
+                                              }
+                                            },
                                             child: const Icon(
                                               Icons.edit,
                                               size: 18,
@@ -294,7 +353,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                                   ),
                                   trailing: IconButton(
                                     onPressed: () {
-                                      services!.removeWhere(
+                                      _services!.removeWhere(
                                           (serv) => serv.id == service.id);
                                       setState(() {});
                                     },

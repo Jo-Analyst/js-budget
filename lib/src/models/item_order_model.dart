@@ -10,11 +10,13 @@ part 'item_order_model.g.dart';
 class ItemOrderModel {
   final int id;
   final int? quantityProduct;
+  final int? quantityService;
   final ProductModel? product;
   final ServiceModel? service;
   ItemOrderModel({
     this.id = 0,
     this.quantityProduct,
+    this.quantityService,
     this.product,
     this.service,
   });
