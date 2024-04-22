@@ -15,6 +15,15 @@ Future<int?> showAlertDialog(BuildContext context, String content,
           key: formKey,
           child: Column(
             children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  icon: const Icon(Icons.close),
+                ),
+              ),
               Text(
                 content,
                 style: textStyleSmallDefault,

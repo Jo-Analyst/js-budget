@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/modules/budget/pricing_form/pricing_form_controller.dart';
+import 'package:js_budget/src/modules/budget/pricing/pricing_form_controller.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
+import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -107,7 +108,9 @@ class _PricingFormPageState extends State<PricingFormPage>
         actions: [
           IconButton(
             onPressed: () {
-              if (formKey.currentState!.validate()) {}
+              if (formKey.currentState!.validate()) {
+                Navigator.of(context).pushNamed('/budget/pricing/preview');
+              }
             },
             icon: const Icon(
               Icons.check,
@@ -146,19 +149,87 @@ class _PricingFormPageState extends State<PricingFormPage>
                           final material = materials![index];
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
-                            leading: Image.asset(
-                              'assets/images/materia-prima.png',
-                              width: 25,
+                            leading: Stack(
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: 30,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      '${material.quantity}x',
+                                      style: TextStyle(
+                                        fontFamily: 'Anta',
+                                        color: Colors.black,
+                                        fontSize:
+                                            textStyleSmallDefault.fontSize,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 1,
+                                  right: 1,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        final quantity = await showAlertDialog(
+                                            context,
+                                            "Alteração da quantidade do material '${material.name}'",
+                                            buttonTitle: 'Editar');
+                                        if (quantity != null) {
+                                          // ProductModel productModel =
+                                          //     ProductModel(
+                                          //   id: product.id,
+                                          //   name: product.name,
+                                          //   description:
+                                          //       product.description,
+                                          //   unit: product.unit,
+                                          //   quantity: quantity,
+                                          // );
+
+                                          // _products!.removeWhere(
+                                          //     (element) =>
+                                          //         element.id == product.id);
+                                          // _products!.add(productModel);
+
+                                          setState(() {});
+                                        }
+                                      },
+                                      child: const Icon(
+                                        Icons.edit,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             title: Text(
                               material.name,
                               style: textStyleSmallDefault,
                             ),
-                            trailing: Text(
+                            subtitle: Text(
                               UtilsService.moneyToCurrency(material.price),
                               style: TextStyle(
                                   fontFamily: 'Anta',
                                   fontSize: textStyleSmallDefault.fontSize),
+                            ),
+                            trailing: IconButton(
+                              onPressed: () {
+                                materials!.removeWhere(
+                                    (element) => element.id == material.id);
+                                setState(() {});
+                              },
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                color: Colors.red,
+                                size: 30,
+                              ),
                             ),
                           );
                         },
@@ -292,13 +363,13 @@ class _PricingFormPageState extends State<PricingFormPage>
                                 suffix: Icon(Icons.money_off)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (otherTaxesEC.numberValue == 0) {
-                                return 'Informe o valor de outros impostos';
-                              }
+                            // validator: (value) {
+                            //   if (otherTaxesEC.numberValue == 0) {
+                            //     return 'Informe o valor de outros impostos';
+                            //   }
 
-                              return null;
-                            },
+                            //   return null;
+                            // },
                           ),
                         ],
                       ),

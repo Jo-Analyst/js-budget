@@ -99,6 +99,19 @@ class _BudgetPageState extends State<BudgetPage> {
                                   children: [
                                     ListTile(
                                       contentPadding: EdgeInsets.zero,
+                                      leading: CircleAvatar(
+                                        radius: 30,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            '${product.quantity}x',
+                                            style: TextStyle(
+                                                fontSize: textStyleSmallDefault
+                                                    .fontSize,
+                                                fontFamily: 'Anta'),
+                                          ),
+                                        ),
+                                      ),
                                       title: Text(
                                         product.name,
                                         style: textStyleSmallDefault,
@@ -141,6 +154,19 @@ class _BudgetPageState extends State<BudgetPage> {
                                       title: Text(
                                         service.description,
                                         style: textStyleSmallDefault,
+                                      ),
+                                      leading: CircleAvatar(
+                                        radius: 30,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            '${service.quantity}x',
+                                            style: TextStyle(
+                                                fontSize: textStyleSmallDefault
+                                                    .fontSize,
+                                                fontFamily: 'Anta'),
+                                          ),
+                                        ),
                                       ),
                                       trailing: Text(
                                         UtilsService.moneyToCurrency(
