@@ -11,11 +11,11 @@ import 'package:js_budget/src/repositories/order/transform_order_json.dart';
 class OrderRepositoryImpl implements OrderRepository {
   final ItemsOrderRepositoryImpl _itemsOrderRepositoryImpl =
       ItemsOrderRepositoryImpl();
-  final List<ItemOrderModel> _items = [];
 
   @override
   Future<Either<RespositoryException, OrderModel>> register(
       OrderModel order) async {
+    final List<ItemOrderModel> items = [];
     try {
       final db = await DataBase.openDatabase();
       int lastOrderId = 0;
@@ -26,7 +26,7 @@ class OrderRepositoryImpl implements OrderRepository {
         for (var item in order.items) {
           int lastIdItemOrder = await _itemsOrderRepositoryImpl.save(
               txn, item.product, item.service, lastOrderId);
-          _items.add(
+          items.add(
             ItemOrderModel(
               quantityProduct: item.product?.quantity,
               quantityService: item.service?.quantity,
@@ -42,7 +42,7 @@ class OrderRepositoryImpl implements OrderRepository {
         'id': lastOrderId,
         'date': order.date,
         'client': {'id': order.client.id, 'name': order.client.name},
-        'items': _items
+        'items': items
       }));
     } catch (_) {
       return Left(RespositoryException());

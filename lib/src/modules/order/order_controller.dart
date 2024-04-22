@@ -20,13 +20,14 @@ class OrderController with Messages {
 
   final OrderRepository _orderRepository;
 
-  bool validateFields(ClientModel? client, List<ProductModel>? products,
-      List<ServiceModel>? services) {
-    bool isValid = client != null && (products != null || services != null);
+  bool validateFields(ClientModel? client, List<ProductModel> products,
+      List<ServiceModel> services) {
+    bool isValid =
+        client != null && (products.isNotEmpty || services.isNotEmpty);
 
     if (client == null) {
       showInfo('Informe o cliente no pedido');
-    } else if (products == null && services == null) {
+    } else if (products.isEmpty && services.isEmpty) {
       showInfo('Informe o produto ou serviço no pedido');
     }
     return isValid;
@@ -39,6 +40,7 @@ class OrderController with Messages {
     switch (results) {
       case Right(value: OrderModel order):
         model = order;
+
         showSuccess('Pedido registrado com sucesso');
       case Left():
         showError('Houver um erro ao registrar o pedido.');
