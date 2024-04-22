@@ -98,6 +98,10 @@ class _PricingFormPageState extends State<PricingFormPage>
         .updateValue(profileController.model.value!.salaryExpectation);
   }
 
+  double calculateSubTotalMaterial(int quantity, double price) {
+    return quantity * price;
+  }
+
   @override
   Widget build(BuildContext context) {
     final description = ModalRoute.of(context)!.settings.arguments as String;
@@ -134,6 +138,11 @@ class _PricingFormPageState extends State<PricingFormPage>
                         materials = await Navigator.of(context)
                                 .pushNamed('/material', arguments: true)
                             as List<MaterialModel>;
+                        if (materials != null) {
+                          for (var material in materials!) {
+                            material.quantity = 1;
+                          }
+                        }
                       },
                       icon: const Icon(
                         Icons.add,
@@ -182,22 +191,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                             "Alteração da quantidade do material '${material.name}'",
                                             buttonTitle: 'Editar');
                                         if (quantity != null) {
-                                          // ProductModel productModel =
-                                          //     ProductModel(
-                                          //   id: product.id,
-                                          //   name: product.name,
-                                          //   description:
-                                          //       product.description,
-                                          //   unit: product.unit,
-                                          //   quantity: quantity,
-                                          // );
-
-                                          // _products!.removeWhere(
-                                          //     (element) =>
-                                          //         element.id == product.id);
-                                          // _products!.add(productModel);
-
-                                          setState(() {});
+                                          material.quantity = quantity;
                                         }
                                       },
                                       child: const Icon(
@@ -214,7 +208,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                               style: textStyleSmallDefault,
                             ),
                             subtitle: Text(
-                              UtilsService.moneyToCurrency(material.price),
+                              UtilsService.moneyToCurrency(
+                                  calculateSubTotalMaterial(
+                                      material.quantity, material.price)),
                               style: TextStyle(
                                   fontFamily: 'Anta',
                                   fontSize: textStyleSmallDefault.fontSize),

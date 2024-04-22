@@ -8,7 +8,7 @@ class ServiceModel {
   final int id;
   final String description;
   final double price;
-  final int quantity;
+  int quantity;
   ServiceModel({
     this.id = 0,
     required this.description,

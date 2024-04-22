@@ -9,7 +9,7 @@ class MaterialModel {
   final String? type;
   final String unit;
   final double price;
-  final int quantity;
+  int quantity;
   final String? observation;
   final String? dateOfLastPurchase;
   final String? supplier;

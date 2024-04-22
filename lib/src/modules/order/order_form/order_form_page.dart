@@ -217,9 +217,8 @@ class _OrderFormPageState extends State<OrderFormPage>
                                                 quantity: quantity,
                                               );
 
-                                              _products!.removeWhere(
-                                                  (element) =>
-                                                      element.id == product.id);
+                                              _products!.removeWhere((prod) =>
+                                                  prod.id == product.id);
                                               _products!.add(productModel);
 
                                               setState(() {});
@@ -328,9 +327,8 @@ class _OrderFormPageState extends State<OrderFormPage>
                                                 quantity: quantity,
                                               );
 
-                                              _services!.removeWhere(
-                                                  (element) =>
-                                                      element.id == service.id);
+                                              _services!.removeWhere((serv) =>
+                                                  serv.id == service.id);
                                               _services!.add(serviceModel);
                                               setState(() {});
                                             }
