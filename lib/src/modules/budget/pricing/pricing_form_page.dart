@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
+import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/budget/pricing/preview_page_for_confirmation.dart';
+import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_form_controller.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
@@ -24,7 +27,10 @@ class _PricingFormPageState extends State<PricingFormPage>
     with PricingFormController {
   final expenseController = Injector.get<FixedExpenseController>();
   final profileController = Injector.get<ProfileController>();
+  final pricingController = Injector.get<PricingController>();
+
   final formKey = GlobalKey<FormState>();
+  List<MaterialItemsBudgetModel> materialItemsBudget = [];
   List<MaterialModel>? materials = [];
   List<Map<String, dynamic>> fixedExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
@@ -89,6 +95,11 @@ class _PricingFormPageState extends State<PricingFormPage>
     }
   }
 
+  void calculateSubTotalMaterial(
+      MaterialItemsBudgetModel materialItemsBudget, double price) {
+    materialItemsBudget.value = materialItemsBudget.quantity * price;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -98,13 +109,11 @@ class _PricingFormPageState extends State<PricingFormPage>
         .updateValue(profileController.model.value!.salaryExpectation);
   }
 
-  double calculateSubTotalMaterial(int quantity, double price) {
-    return quantity * price;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final description = ModalRoute.of(context)!.settings.arguments as String;
+    final list = ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+    final description = list.first as String;
+    final orderId = list.last as int;
 
     return Scaffold(
       appBar: AppBar(
@@ -112,8 +121,16 @@ class _PricingFormPageState extends State<PricingFormPage>
         actions: [
           IconButton(
             onPressed: () {
-              if (formKey.currentState!.validate()) {
-                Navigator.of(context).pushNamed('/budget/pricing/preview');
+              if (formKey.currentState!.validate() &&
+                  pricingController.validate(materials ?? [])) {
+                // Navigator.of(context).pushNamed('/budget/pricing/preview');
+                showModalBottomSheet(
+                  scrollControlDisabledMaxHeightRatio: .95,
+                  context: context,
+                  builder: (context) {
+                    return const PreviewPageForConfirmation();
+                  },
+                );
               }
             },
             icon: const Icon(
@@ -128,6 +145,7 @@ class _PricingFormPageState extends State<PricingFormPage>
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: Column(
             children: [
+              // Card Materiais
               Card(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -139,8 +157,15 @@ class _PricingFormPageState extends State<PricingFormPage>
                                 .pushNamed('/material', arguments: true)
                             as List<MaterialModel>;
                         if (materials != null) {
+                          materialItemsBudget.clear();
                           for (var material in materials!) {
-                            material.quantity = 1;
+                            materialItemsBudget.add(
+                              MaterialItemsBudgetModel(
+                                value: material.price,
+                                materialId: material.id,
+                                budgetId: orderId,
+                              ),
+                            );
                           }
                         }
                       },
@@ -165,7 +190,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   child: FittedBox(
                                     fit: BoxFit.scaleDown,
                                     child: Text(
-                                      '${material.quantity}x',
+                                      '${materialItemsBudget[index].quantity}x',
                                       style: TextStyle(
                                         fontFamily: 'Anta',
                                         color: Colors.black,
@@ -191,7 +216,11 @@ class _PricingFormPageState extends State<PricingFormPage>
                                             "Alteração da quantidade do material '${material.name}'",
                                             buttonTitle: 'Editar');
                                         if (quantity != null) {
-                                          material.quantity = quantity;
+                                          materialItemsBudget[index].quantity =
+                                              quantity;
+                                          calculateSubTotalMaterial(
+                                              materialItemsBudget[index],
+                                              material.price);
                                         }
                                       },
                                       child: const Icon(
@@ -209,8 +238,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                             ),
                             subtitle: Text(
                               UtilsService.moneyToCurrency(
-                                  calculateSubTotalMaterial(
-                                      material.quantity, material.price)),
+                                  materialItemsBudget[index].value),
                               style: TextStyle(
                                   fontFamily: 'Anta',
                                   fontSize: textStyleSmallDefault.fontSize),
@@ -218,6 +246,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                             trailing: IconButton(
                               onPressed: () {
                                 materials!.removeWhere(
+                                    (element) => element.id == material.id);
+                                materialItemsBudget.removeWhere(
                                     (element) => element.id == material.id);
                                 setState(() {});
                               },
@@ -235,6 +265,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                 ),
               ),
               const SizedBox(height: 5),
+              // Card calcular Média
               Card(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -270,6 +301,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                 ),
               ),
               const SizedBox(height: 5),
+              // Formulário
               Form(
                 key: formKey,
                 child: Column(

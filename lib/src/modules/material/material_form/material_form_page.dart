@@ -282,6 +282,11 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                           suffixIcon: Icon(Icons.price_change),
                         ),
                         style: textStyleSmallDefault,
+                        validator: (value) {
+                          return priceMaterialEC.numberValue == 0
+                              ? 'Preço do material obrigatório'
+                              : null;
+                        },
                       ),
                       FieldDatePicker(
                         controller: dateOfLastPurchaseEC,

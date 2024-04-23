@@ -11,7 +11,8 @@ FixedExpenseItemsBudgetModel _$FixedExpenseItemsBudgetModelFromJson(
     FixedExpenseItemsBudgetModel(
       id: json['id'] as int? ?? 0,
       value: (json['value'] as num).toDouble(),
-      fixedExpenseId: json['fixed_expense_id'] as int,
+      description: json['description'] as String,
+      quantity: json['quantity'] as int? ?? 1,
       budgetId: json['budget_id'] as int,
     );
 
@@ -20,6 +21,7 @@ Map<String, dynamic> _$FixedExpenseItemsBudgetModelToJson(
     <String, dynamic>{
       'id': instance.id,
       'value': instance.value,
-      'fixed_expense_id': instance.fixedExpenseId,
+      'description': instance.description,
+      'quantity': instance.quantity,
       'budget_id': instance.budgetId,
     };

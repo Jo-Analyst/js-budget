@@ -3,22 +3,23 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'material_items_budget_model.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
-class MateriaItemsBudgetModel {
-  @JsonKey(defaultValue: 0)
+@JsonSerializable()
+class MaterialItemsBudgetModel {
   final int id;
-  final double value;
+  double value;
+  int quantity;
   final int materialId;
   final int budgetId;
-  MateriaItemsBudgetModel({
-    required this.id,
+  MaterialItemsBudgetModel({
+    this.id = 0,
     required this.value,
+    this.quantity = 1,
     required this.materialId,
     required this.budgetId,
   });
 
-  factory MateriaItemsBudgetModel.fromJson(Map<String, dynamic> json) =>
-      _$MateriaItemsBudgetModelFromJson(json);
+  factory MaterialItemsBudgetModel.fromJson(Map<String, dynamic> json) =>
+      _$MaterialItemsBudgetModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MateriaItemsBudgetModelToJson(this);
+  Map<String, dynamic> toJson() => _$MaterialItemsBudgetModelToJson(this);
 }

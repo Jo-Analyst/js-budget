@@ -120,7 +120,10 @@ class _BudgetPageState extends State<BudgetPage> {
                                         onPressed: () async {
                                           Navigator.of(context).pushNamed(
                                               '/budget/pricing',
-                                              arguments: product.name);
+                                              arguments: <dynamic>[
+                                                product.name,
+                                                controller.model.value!.id
+                                              ]);
                                         },
                                         icon: const Icon(
                                           Icons.add_chart,

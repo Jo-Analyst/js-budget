@@ -6,20 +6,22 @@ part of 'material_items_budget_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MateriaItemsBudgetModel _$MateriaItemsBudgetModelFromJson(
+MaterialItemsBudgetModel _$MaterialItemsBudgetModelFromJson(
         Map<String, dynamic> json) =>
-    MateriaItemsBudgetModel(
+    MaterialItemsBudgetModel(
       id: json['id'] as int? ?? 0,
       value: (json['value'] as num).toDouble(),
-      materialId: json['material_id'] as int,
-      budgetId: json['budget_id'] as int,
+      quantity: json['quantity'] as int? ?? 1,
+      materialId: json['materialId'] as int,
+      budgetId: json['budgetId'] as int,
     );
 
-Map<String, dynamic> _$MateriaItemsBudgetModelToJson(
-        MateriaItemsBudgetModel instance) =>
+Map<String, dynamic> _$MaterialItemsBudgetModelToJson(
+        MaterialItemsBudgetModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'value': instance.value,
-      'material_id': instance.materialId,
-      'budget_id': instance.budgetId,
+      'quantity': instance.quantity,
+      'materialId': instance.materialId,
+      'budgetId': instance.budgetId,
     };

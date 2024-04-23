@@ -29,7 +29,6 @@ Future<int?> showAlertDialog(BuildContext context, String content,
                 style: textStyleSmallDefault,
               ),
               TextFormField(
-                autofocus: true,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],

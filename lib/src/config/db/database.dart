@@ -36,7 +36,7 @@ class DataBase {
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS budgets (id INTEGER PRIMARY KEY, value_total REAL NOT NULL, status TEXT, created_at TEXT, client_id INTEGER NOT NULL, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)',
+          'CREATE TABLE IF NOT EXISTS budgets (id INTEGER PRIMARY KEY, value_total REAL NOT NULL, status TEXT, created_at TEXT, order_id INTEGER NOT NULL, client_id INTEGER NOT NULL, FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)',
         );
 
         db.execute(

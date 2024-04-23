@@ -8,12 +8,14 @@ class FixedExpenseItemsBudgetModel {
   @JsonKey(defaultValue: 0)
   final int id;
   final double value;
-  final int fixedExpenseId;
+  final String description;
+  final int quantity; 
   final int budgetId;
   FixedExpenseItemsBudgetModel({
     required this.id,
     required this.value,
-    required this.fixedExpenseId,
+    required this.description,
+    this.quantity = 1,
     required this.budgetId,
   });
 
