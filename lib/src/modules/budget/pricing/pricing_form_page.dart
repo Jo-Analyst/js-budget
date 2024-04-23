@@ -28,17 +28,23 @@ class _PricingFormPageState extends State<PricingFormPage>
   final expenseController = Injector.get<FixedExpenseController>();
   final profileController = Injector.get<ProfileController>();
   final pricingController = Injector.get<PricingController>();
-
   final formKey = GlobalKey<FormState>();
-  List<MaterialItemsBudgetModel> materialItemsBudget = [];
-  List<MaterialModel>? materials = [];
+  String timeIncentive = 'Dia';
+
+  final List<MaterialItemsBudgetModel> _materialItemsBudget = [];
+  List<MaterialItemsBudgetModel> get materialItemsBudget => _materialItemsBudget
+    ..sort(
+      (a, b) => a.material.name
+          .toLowerCase()
+          .compareTo(b.material.name.toLowerCase()),
+    );
+
   List<Map<String, dynamic>> fixedExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
     {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': true},
     {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': true},
     {'icon': Icons.money_off, 'type': 'DAS/SIMEI', 'isChecked': true},
   ];
-  String timeIncentive = 'Dia';
 
   void toggleExpenseCheckStatus(Map<String, dynamic> expense) {
     setState(() {
@@ -111,9 +117,7 @@ class _PricingFormPageState extends State<PricingFormPage>
 
   @override
   Widget build(BuildContext context) {
-    final list = ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-    final description = list.first as String;
-    final orderId = list.last as int;
+    final description = ModalRoute.of(context)!.settings.arguments as String;
 
     return Scaffold(
       appBar: AppBar(
@@ -122,7 +126,7 @@ class _PricingFormPageState extends State<PricingFormPage>
           IconButton(
             onPressed: () {
               if (formKey.currentState!.validate() &&
-                  pricingController.validate(materials ?? [])) {
+                  pricingController.validate(_materialItemsBudget)) {
                 // Navigator.of(context).pushNamed('/budget/pricing/preview');
                 showModalBottomSheet(
                   scrollControlDisabledMaxHeightRatio: .95,
@@ -153,20 +157,35 @@ class _PricingFormPageState extends State<PricingFormPage>
                     title: 'Materiais',
                     trailing: IconButton(
                       onPressed: () async {
-                        materials = await Navigator.of(context)
+                        final materials = await Navigator.of(context)
                                 .pushNamed('/material', arguments: true)
-                            as List<MaterialModel>;
-                        if (materials != null) {
-                          materialItemsBudget.clear();
-                          for (var material in materials!) {
-                            materialItemsBudget.add(
-                              MaterialItemsBudgetModel(
-                                value: material.price,
-                                materialId: material.id,
-                                budgetId: orderId,
+                            as List<MaterialModel>?;
+
+                        if (materials == null) return;
+
+                        List<MaterialItemsBudgetModel> materialsForAdd =
+                            materials
+                                .map(
+                                  (material) => MaterialItemsBudgetModel(
+                                    value: material.price,
+                                    material: material,
+                                    quantity: 1,
+                                  ),
+                                )
+                                .toList();
+
+                        if (_materialItemsBudget.isEmpty) {
+                          _materialItemsBudget.addAll(materialsForAdd);
+                        } else {
+                          _materialItemsBudget.addAll(
+                            materialsForAdd.where(
+                              (materialToAdd) => !_materialItemsBudget.any(
+                                (existingMaterial) =>
+                                    existingMaterial.material.id ==
+                                    materialToAdd.material.id,
                               ),
-                            );
-                          }
+                            ),
+                          );
                         }
                       },
                       icon: const Icon(
@@ -178,9 +197,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: materials?.length ?? 0,
+                        itemCount: materialItemsBudget.length,
                         itemBuilder: (context, index) {
-                          final material = materials![index];
+                          final materialItem = materialItemsBudget[index];
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: Stack(
@@ -213,14 +232,14 @@ class _PricingFormPageState extends State<PricingFormPage>
                                       onTap: () async {
                                         final quantity = await showAlertDialog(
                                             context,
-                                            "Alteração da quantidade do material '${material.name}'",
+                                            "Alteração da quantidade do material '${materialItem.material.name}'",
                                             buttonTitle: 'Editar');
                                         if (quantity != null) {
                                           materialItemsBudget[index].quantity =
                                               quantity;
                                           calculateSubTotalMaterial(
                                               materialItemsBudget[index],
-                                              material.price);
+                                              materialItem.material.price);
                                         }
                                       },
                                       child: const Icon(
@@ -233,7 +252,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                               ],
                             ),
                             title: Text(
-                              material.name,
+                              materialItem.material.name,
                               style: textStyleSmallDefault,
                             ),
                             subtitle: Text(
@@ -245,10 +264,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                             ),
                             trailing: IconButton(
                               onPressed: () {
-                                materials!.removeWhere(
-                                    (element) => element.id == material.id);
-                                materialItemsBudget.removeWhere(
-                                    (element) => element.id == material.id);
+                                _materialItemsBudget.removeWhere((element) =>
+                                    element.material.id ==
+                                    materialItem.material.id);
+
                                 setState(() {});
                               },
                               icon: const Icon(

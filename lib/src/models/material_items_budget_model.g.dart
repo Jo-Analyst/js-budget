@@ -12,8 +12,9 @@ MaterialItemsBudgetModel _$MaterialItemsBudgetModelFromJson(
       id: json['id'] as int? ?? 0,
       value: (json['value'] as num).toDouble(),
       quantity: json['quantity'] as int? ?? 1,
-      materialId: json['materialId'] as int,
-      budgetId: json['budgetId'] as int,
+      material:
+          MaterialModel.fromJson(json['material'] as Map<String, dynamic>),
+      budgetId: json['budgetId'] as int?,
     );
 
 Map<String, dynamic> _$MaterialItemsBudgetModelToJson(
@@ -22,6 +23,6 @@ Map<String, dynamic> _$MaterialItemsBudgetModelToJson(
       'id': instance.id,
       'value': instance.value,
       'quantity': instance.quantity,
-      'materialId': instance.materialId,
+      'material': instance.material,
       'budgetId': instance.budgetId,
     };
