@@ -26,13 +26,13 @@ class _OrderFormPageState extends State<OrderFormPage>
   final controller = Injector.get<OrderController>();
 
   List<ItemOrderModel> itemOrder = [];
-  List<ProductModel>? _products;
-  List<ProductModel>? get products =>
-      _products?..sort((a, b) => a.name.compareTo(b.name));
+  final List<ProductModel> _products = [];
+  List<ProductModel> get products =>
+      _products..sort((a, b) => a.name.compareTo(b.name));
 
-  List<ServiceModel>? _services;
-  List<ServiceModel>? get services =>
-      _services?..sort((a, b) => a.description.compareTo(b.description));
+  final List<ServiceModel> _services = [];
+  List<ServiceModel> get services =>
+      _services..sort((a, b) => a.description.compareTo(b.description));
 
   OrderModel? order;
   DateTime orderDate = DateTime.now();
@@ -54,21 +54,16 @@ class _OrderFormPageState extends State<OrderFormPage>
         actions: [
           IconButton(
             onPressed: () async {
-              if (!controller.validateFields(
-                  client, _products ?? [], _services ?? [])) {
+              if (!controller.validateFields(client, _products, _services)) {
                 return;
               }
 
-              if (products != null) {
-                for (var product in products!) {
-                  itemOrder.add(ItemOrderModel(product: product));
-                }
+              for (var product in products) {
+                itemOrder.add(ItemOrderModel(product: product));
               }
 
-              if (services != null) {
-                for (var service in services!) {
-                  itemOrder.add(ItemOrderModel(service: service));
-                }
+              for (var service in services) {
+                itemOrder.add(ItemOrderModel(service: service));
               }
 
               final model = await controller
@@ -151,111 +146,117 @@ class _OrderFormPageState extends State<OrderFormPage>
               // Card de Produtos
               Card(
                 child: ColumnTile(
-                  leading: const Icon(Icons.local_offer),
-                  trailing: IconButton(
-                    onPressed: () async {
-                      _products = await nav.pushNamed('/product',
-                              arguments: true) as List<ProductModel>? ??
-                          _products;
+                    leading: const Icon(Icons.local_offer),
+                    trailing: IconButton(
+                      onPressed: () async {
+                        final produts = await nav.pushNamed('/product',
+                                arguments: true) as List<ProductModel>? ??
+                            _products;
 
-                      setState(() {});
-                    },
-                    icon: const Icon(
-                      Icons.add,
-                      color: Colors.black,
-                      size: 30,
+                        if (_products.isEmpty) {
+                          _products.addAll(produts);
+                        } else {
+                          var productsForAdd = produts
+                              .where((prod) => !_products
+                                  .any((product) => product.id == prod.id))
+                              .toList();
+                          _products.addAll(productsForAdd);
+                        }
+
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.add,
+                        color: Colors.black,
+                        size: 30,
+                      ),
                     ),
-                  ),
-                  title: 'Produtos',
-                  children: products != null
-                      ? products!
-                          .map(
-                            (product) => Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                leading: Stack(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      radius: 30,
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          '${product.quantity}x',
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            color: Colors.black,
-                                            fontSize:
-                                                textStyleSmallDefault.fontSize,
-                                          ),
+                    title: 'Produtos',
+                    children: products
+                        .map(
+                          (product) => Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              leading: Stack(
+                                children: <Widget>[
+                                  CircleAvatar(
+                                    radius: 30,
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      child: Text(
+                                        '${product.quantity}x',
+                                        style: TextStyle(
+                                          fontFamily: 'Anta',
+                                          color: Colors.black,
+                                          fontSize:
+                                              textStyleSmallDefault.fontSize,
                                         ),
                                       ),
                                     ),
-                                    Positioned(
-                                      bottom: 1,
-                                      right: 1,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(2),
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: InkWell(
-                                          onTap: () async {
-                                            final quantity = await showAlertDialog(
-                                                context,
-                                                "Alteração da quantidade do produto '${product.name}'",
-                                                buttonTitle: 'Editar');
-                                            if (quantity != null) {
-                                              ProductModel productModel =
-                                                  ProductModel(
-                                                id: product.id,
-                                                name: product.name,
-                                                description:
-                                                    product.description,
-                                                unit: product.unit,
-                                                quantity: quantity,
-                                              );
-
-                                              _products!.removeWhere((prod) =>
-                                                  prod.id == product.id);
-                                              _products!.add(productModel);
-
-                                              setState(() {});
-                                            }
-                                          },
-                                          child: const Icon(
-                                            Icons.edit,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                title: Text(
-                                  product.name,
-                                  style: textStyleSmallDefault,
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    _products!.removeWhere(
-                                        (prod) => prod.id == product.id);
-
-                                    setState(() {});
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete_outline,
-                                    color: Colors.red,
-                                    size: 30,
                                   ),
+                                  Positioned(
+                                    bottom: 1,
+                                    right: 1,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(2),
+                                      decoration: const BoxDecoration(
+                                        color: Colors.white,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: InkWell(
+                                        onTap: () async {
+                                          final quantity = await showAlertDialog(
+                                              context,
+                                              "Alteração da quantidade do produto '${product.name}'",
+                                              buttonTitle: 'Editar');
+                                          if (quantity != null) {
+                                            ProductModel productModel =
+                                                ProductModel(
+                                              id: product.id,
+                                              name: product.name,
+                                              description: product.description,
+                                              unit: product.unit,
+                                              quantity: quantity,
+                                            );
+
+                                            _products.removeWhere((prod) =>
+                                                prod.id == product.id);
+                                            _products.add(productModel);
+
+                                            setState(() {});
+                                          }
+                                        },
+                                        child: const Icon(
+                                          Icons.edit,
+                                          size: 18,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              title: Text(
+                                product.name,
+                                style: textStyleSmallDefault,
+                              ),
+                              trailing: IconButton(
+                                onPressed: () {
+                                  _products.removeWhere(
+                                      (prod) => prod.id == product.id);
+
+                                  setState(() {});
+                                },
+                                icon: const Icon(
+                                  Icons.delete_outline,
+                                  color: Colors.red,
+                                  size: 30,
                                 ),
                               ),
                             ),
-                          )
-                          .toList()
-                      : [],
-                ),
+                          ),
+                        )
+                        .toList()),
               ),
 
               // Card de Serviços
@@ -264,9 +265,19 @@ class _OrderFormPageState extends State<OrderFormPage>
                   leading: const Icon(FontAwesomeIcons.screwdriverWrench),
                   trailing: IconButton(
                     onPressed: () async {
-                      _services = await nav.pushNamed('/service',
+                      final services = await nav.pushNamed('/service',
                               arguments: true) as List<ServiceModel>? ??
                           _services;
+
+                      if (_services.isEmpty) {
+                        _services.addAll(services);
+                      } else {
+                        var servicesForAdd = services
+                            .where((serv) => !_services
+                                .any((service) => service.id == serv.id))
+                            .toList();
+                        _services.addAll(servicesForAdd);
+                      }
 
                       setState(() {});
                     },
@@ -277,92 +288,89 @@ class _OrderFormPageState extends State<OrderFormPage>
                     ),
                   ),
                   title: 'Serviços',
-                  children: services != null
-                      ? services!
-                          .map(
-                            (service) => Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                leading: Stack(
-                                  children: <Widget>[
-                                    CircleAvatar(
-                                      radius: 30,
-                                      child: FittedBox(
-                                        fit: BoxFit.scaleDown,
-                                        child: Text(
-                                          '${service.quantity}x',
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            color: Colors.black,
-                                            fontSize:
-                                                textStyleSmallDefault.fontSize,
-                                          ),
-                                        ),
+                  children: services
+                      .map(
+                        (service) => Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            leading: Stack(
+                              children: <Widget>[
+                                CircleAvatar(
+                                  radius: 30,
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: Text(
+                                      '${service.quantity}x',
+                                      style: TextStyle(
+                                        fontFamily: 'Anta',
+                                        color: Colors.black,
+                                        fontSize:
+                                            textStyleSmallDefault.fontSize,
                                       ),
                                     ),
-                                    Positioned(
-                                      bottom: 1,
-                                      right: 1,
-                                      child: Container(
-                                        padding: const EdgeInsets.all(2),
-                                        decoration: const BoxDecoration(
-                                          color: Colors.white,
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: InkWell(
-                                          onTap: () async {
-                                            final quantity = await showAlertDialog(
-                                                context,
-                                                "Alteração da quantidade do serviço '${service.description}'",
-                                                buttonTitle: 'Editar');
-
-                                            if (quantity != null) {
-                                              ServiceModel serviceModel =
-                                                  ServiceModel(
-                                                id: service.id,
-                                                description:
-                                                    service.description,
-                                                price: service.price,
-                                                quantity: quantity,
-                                              );
-
-                                              _services!.removeWhere((serv) =>
-                                                  serv.id == service.id);
-                                              _services!.add(serviceModel);
-                                              setState(() {});
-                                            }
-                                          },
-                                          child: const Icon(
-                                            Icons.edit,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                title: Text(
-                                  service.description,
-                                  style: textStyleSmallDefault,
-                                ),
-                                trailing: IconButton(
-                                  onPressed: () {
-                                    _services!.removeWhere(
-                                        (serv) => serv.id == service.id);
-                                    setState(() {});
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete_outline,
-                                    color: Colors.red,
-                                    size: 30,
                                   ),
                                 ),
+                                Positioned(
+                                  bottom: 1,
+                                  right: 1,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        final quantity = await showAlertDialog(
+                                            context,
+                                            "Alteração da quantidade do serviço '${service.description}'",
+                                            buttonTitle: 'Editar');
+
+                                        if (quantity != null) {
+                                          ServiceModel serviceModel =
+                                              ServiceModel(
+                                            id: service.id,
+                                            description: service.description,
+                                            price: service.price,
+                                            quantity: quantity,
+                                          );
+
+                                          _services.removeWhere(
+                                              (serv) => serv.id == service.id);
+                                          _services.add(serviceModel);
+                                          setState(() {});
+                                        }
+                                      },
+                                      child: const Icon(
+                                        Icons.edit,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            title: Text(
+                              service.description,
+                              style: textStyleSmallDefault,
+                            ),
+                            trailing: IconButton(
+                              onPressed: () {
+                                _services.removeWhere(
+                                    (serv) => serv.id == service.id);
+                                setState(() {});
+                              },
+                              icon: const Icon(
+                                Icons.delete_outline,
+                                color: Colors.red,
+                                size: 30,
                               ),
                             ),
-                          )
-                          .toList()
-                      : [],
+                          ),
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ],
