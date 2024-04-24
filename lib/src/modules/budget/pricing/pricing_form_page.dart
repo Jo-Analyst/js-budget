@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
-import 'package:js_budget/src/models/material_items_budget_model.dart';
+import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/budget/pricing/preview_page_for_confirmation.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
@@ -31,14 +31,6 @@ class _PricingFormPageState extends State<PricingFormPage>
   final formKey = GlobalKey<FormState>();
   String timeIncentive = 'Dia';
 
-  final List<MaterialItemsBudgetModel> _materialItemsBudget = [];
-  List<MaterialItemsBudgetModel> get materialItemsBudget => _materialItemsBudget
-    ..sort(
-      (a, b) => a.material.name
-          .toLowerCase()
-          .compareTo(b.material.name.toLowerCase()),
-    );
-
   List<Map<String, dynamic>> fixedExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
     {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': true},
@@ -54,29 +46,49 @@ class _PricingFormPageState extends State<PricingFormPage>
     });
   }
 
-  void calculateAverageExpense() async {
+  Future<void> calculateAverageExpense() async {
+    pricingController.fixedExpenseItemsBudget.clear();
     for (var expense in fixedExpense) {
-      double valueExpense = 0;
-
-      if (expense['type'] == 'Conta de luz' ||
-          expense['type'] == 'Conta de água') {
-        List<ExpenseModel> model =
-            await expenseController.findExpenseType(expense['type']);
-        for (var expenseModel in model) {
-          valueExpense += expenseModel.value;
-        }
-
-        if (model.isNotEmpty) {
-          valueExpense = valueExpense / model.length;
-        }
-      } else {
-        ExpenseModel? model =
-            await expenseController.findLastExpenseType(expense['type']);
-        valueExpense = model?.value ?? 0;
-      }
-
+      double valueExpense = await _calculateExpenseValue(expense['type']);
       expense['value-average'] = valueExpense;
+      pricingController.fixedExpenseItemsBudget.add(
+        FixedExpenseItemsBudgetModel(
+          value: valueExpense,
+          type: expense['type'],
+        ),
+      );
       setInFieldsAverageExpense(expense['type']);
+    }
+    _addDefaultExpenseItems();
+    for (var item in pricingController.fixedExpenseItemsBudget) {
+      print(item.toJson());
+    }
+  }
+
+  Future<double> _calculateExpenseValue(String type) async {
+    double valueExpense = 0;
+    if (type == 'Conta de luz' || type == 'Conta de água') {
+      List<ExpenseModel> model = await expenseController.findExpenseType(type);
+      valueExpense = model.fold(0, (prev, element) => prev + element.value);
+      if (model.isNotEmpty) {
+        valueExpense /= model.length;
+      }
+    } else {
+      ExpenseModel? model = await expenseController.findLastExpenseType(type);
+      valueExpense = model?.value ?? 0;
+    }
+    return valueExpense;
+  }
+
+  void _addDefaultExpenseItems() {
+    const defaultItems = ['Outros', 'Prelabore', 'Salário do funcionário'];
+    for (var item in defaultItems) {
+      pricingController.fixedExpenseItemsBudget.add(
+        FixedExpenseItemsBudgetModel(
+          value: 0.0,
+          type: item,
+        ),
+      );
     }
   }
 
@@ -101,18 +113,13 @@ class _PricingFormPageState extends State<PricingFormPage>
     }
   }
 
-  void calculateSubTotalMaterial(
-      MaterialItemsBudgetModel materialItemsBudget, double price) {
-    materialItemsBudget.value = materialItemsBudget.quantity * price;
-  }
-
   @override
   void initState() {
     super.initState();
     termEC.text = '1';
     calculateAverageExpense();
-    salaryExpectationEC
-        .updateValue(profileController.model.value!.salaryExpectation);
+    preworkEC.updateValue(profileController.model.value!.salaryExpectation);
+    employeeSalaryEC.updateValue(1412);
   }
 
   @override
@@ -126,7 +133,8 @@ class _PricingFormPageState extends State<PricingFormPage>
           IconButton(
             onPressed: () {
               if (formKey.currentState!.validate() &&
-                  pricingController.validate(_materialItemsBudget)) {
+                  pricingController
+                      .validate(pricingController.materialItemsBudget)) {
                 // Navigator.of(context).pushNamed('/budget/pricing/preview');
                 showModalBottomSheet(
                   scrollControlDisabledMaxHeightRatio: .95,
@@ -163,30 +171,7 @@ class _PricingFormPageState extends State<PricingFormPage>
 
                         if (materials == null) return;
 
-                        List<MaterialItemsBudgetModel> materialsForAdd =
-                            materials
-                                .map(
-                                  (material) => MaterialItemsBudgetModel(
-                                    value: material.price,
-                                    material: material,
-                                    quantity: 1,
-                                  ),
-                                )
-                                .toList();
-
-                        if (_materialItemsBudget.isEmpty) {
-                          _materialItemsBudget.addAll(materialsForAdd);
-                        } else {
-                          _materialItemsBudget.addAll(
-                            materialsForAdd.where(
-                              (materialToAdd) => !_materialItemsBudget.any(
-                                (existingMaterial) =>
-                                    existingMaterial.material.id ==
-                                    materialToAdd.material.id,
-                              ),
-                            ),
-                          );
-                        }
+                        pricingController.addMaterialInListMaterial(materials);
                       },
                       icon: const Icon(
                         Icons.add,
@@ -197,9 +182,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                       ListView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: materialItemsBudget.length,
+                        itemCount: pricingController.materialItemsBudget.length,
                         itemBuilder: (context, index) {
-                          final materialItem = materialItemsBudget[index];
+                          final materialItem =
+                              pricingController.materialItemsBudget[index];
                           return ListTile(
                             contentPadding: EdgeInsets.zero,
                             leading: Stack(
@@ -209,7 +195,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   child: FittedBox(
                                     fit: BoxFit.scaleDown,
                                     child: Text(
-                                      '${materialItemsBudget[index].quantity}x',
+                                      '${pricingController.materialItemsBudget[index].quantity}x',
                                       style: TextStyle(
                                         fontFamily: 'Anta',
                                         color: Colors.black,
@@ -235,11 +221,15 @@ class _PricingFormPageState extends State<PricingFormPage>
                                             "Alteração da quantidade do material '${materialItem.material.name}'",
                                             buttonTitle: 'Editar');
                                         if (quantity != null) {
-                                          materialItemsBudget[index].quantity =
-                                              quantity;
-                                          calculateSubTotalMaterial(
-                                              materialItemsBudget[index],
-                                              materialItem.material.price);
+                                          pricingController
+                                              .materialItemsBudget[index]
+                                              .quantity = quantity;
+                                          pricingController
+                                              .calculateSubTotalMaterial(
+                                                  pricingController
+                                                          .materialItemsBudget[
+                                                      index],
+                                                  materialItem.material.price);
                                         }
                                       },
                                       child: const Icon(
@@ -256,17 +246,18 @@ class _PricingFormPageState extends State<PricingFormPage>
                               style: textStyleSmallDefault,
                             ),
                             subtitle: Text(
-                              UtilsService.moneyToCurrency(
-                                  materialItemsBudget[index].value),
+                              UtilsService.moneyToCurrency(pricingController
+                                  .materialItemsBudget[index].value),
                               style: TextStyle(
                                   fontFamily: 'Anta',
                                   fontSize: textStyleSmallDefault.fontSize),
                             ),
                             trailing: IconButton(
                               onPressed: () {
-                                _materialItemsBudget.removeWhere((element) =>
-                                    element.material.id ==
-                                    materialItem.material.id);
+                                pricingController.materialItemsBudget
+                                    .removeWhere((element) =>
+                                        element.material.id ==
+                                        materialItem.material.id);
 
                                 setState(() {});
                               },
@@ -325,6 +316,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                 key: formKey,
                 child: Column(
                   children: [
+                    // Custos Fixos ou indiretos
                     Card(
                       child: ColumnTile(
                         title: 'Valor da depesa fixa',
@@ -333,12 +325,19 @@ class _PricingFormPageState extends State<PricingFormPage>
                             onTapOutside: (_) =>
                                 FocusScope.of(context).unfocus(),
                             controller: electricityBillEC,
+                            readOnly: fixedExpense[0]['isChecked'],
                             decoration: const InputDecoration(
                                 labelText: 'Conta de luz',
                                 labelStyle: textStyleSmallDefault,
                                 suffix: Icon(Icons.lightbulb)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
+                            onChanged: !fixedExpense[0]['isChecked']
+                                ? (_) {
+                                    pricingController.fixedExpenseItemsBudget[0]
+                                        .value = electricityBillEC.numberValue;
+                                  }
+                                : null,
                             validator: (value) {
                               if (electricityBillEC.numberValue == 0) {
                                 return 'Informe o valor da eletricidade';
@@ -351,12 +350,19 @@ class _PricingFormPageState extends State<PricingFormPage>
                             onTapOutside: (_) =>
                                 FocusScope.of(context).unfocus(),
                             controller: waterBillEC,
+                            readOnly: fixedExpense[1]['isChecked'],
                             decoration: const InputDecoration(
                                 labelText: 'Conta de água',
                                 labelStyle: textStyleSmallDefault,
                                 suffix: Icon(Icons.local_drink)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
+                            onChanged: !fixedExpense[1]['isChecked']
+                                ? (_) {
+                                    pricingController.fixedExpenseItemsBudget[1]
+                                        .value = waterBillEC.numberValue;
+                                  }
+                                : null,
                             validator: (value) {
                               if (waterBillEC.numberValue == 0) {
                                 return 'Informe o valor da conta de água';
@@ -368,12 +374,19 @@ class _PricingFormPageState extends State<PricingFormPage>
                             onTapOutside: (_) =>
                                 FocusScope.of(context).unfocus(),
                             controller: rentEC,
+                            readOnly: fixedExpense[2]['isChecked'],
                             decoration: const InputDecoration(
                                 labelText: 'Aluguel',
                                 labelStyle: textStyleSmallDefault,
                                 suffix: Icon(Icons.home)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
+                            onChanged: !fixedExpense[2]['isChecked']
+                                ? (_) {
+                                    pricingController.fixedExpenseItemsBudget[2]
+                                        .value = rentEC.numberValue;
+                                  }
+                                : null,
                             validator: (value) {
                               if (rentEC.numberValue == 0) {
                                 return 'Informe o valor do aluguel';
@@ -386,12 +399,22 @@ class _PricingFormPageState extends State<PricingFormPage>
                             onTapOutside: (_) =>
                                 FocusScope.of(context).unfocus(),
                             controller: dasEC,
+                            readOnly: fixedExpense[3]['isChecked'],
                             decoration: const InputDecoration(
                                 labelText: 'DAS/SIMEI',
                                 labelStyle: textStyleSmallDefault,
                                 suffix: Icon(Icons.money_off)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
+                            onChanged: !fixedExpense[3]['isChecked']
+                                ? (_) {
+                                    pricingController.fixedExpenseItemsBudget[3]
+                                        .value = dasEC.numberValue;
+                                    print(pricingController
+                                        .fixedExpenseItemsBudget[3]
+                                        .toJson());
+                                  }
+                                : null,
                             validator: (value) {
                               if (dasEC.numberValue == 0) {
                                 return 'Informe o valor de DAS/SIMEI';
@@ -410,18 +433,12 @@ class _PricingFormPageState extends State<PricingFormPage>
                                 suffix: Icon(Icons.money_off)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
-                            // validator: (value) {
-                            //   if (otherTaxesEC.numberValue == 0) {
-                            //     return 'Informe o valor de outros impostos';
-                            //   }
-
-                            //   return null;
-                            // },
                           ),
                         ],
                       ),
                     ),
                     const SizedBox(height: 5),
+                    // Outros custos
                     Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -432,9 +449,21 @@ class _PricingFormPageState extends State<PricingFormPage>
                               readOnly: true,
                               onTapOutside: (_) =>
                                   FocusScope.of(context).unfocus(),
-                              controller: salaryExpectationEC,
+                              controller: preworkEC,
                               decoration: const InputDecoration(
                                   labelText: 'Pretensão Salarial',
+                                  labelStyle: textStyleSmallDefault,
+                                  suffix: Icon(Icons.price_change)),
+                              keyboardType: TextInputType.number,
+                              style: textStyleSmallDefault,
+                            ),
+                            TextFormField(
+                              readOnly: true,
+                              onTapOutside: (_) =>
+                                  FocusScope.of(context).unfocus(),
+                              controller: employeeSalaryEC,
+                              decoration: const InputDecoration(
+                                  labelText: 'Salário do funcionário',
                                   labelStyle: textStyleSmallDefault,
                                   suffix: Icon(Icons.price_change)),
                               keyboardType: TextInputType.number,

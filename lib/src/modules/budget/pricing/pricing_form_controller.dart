@@ -3,7 +3,7 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_form_page.dart';
 
 mixin PricingFormController on State<PricingFormPage> {
-  final salaryExpectationEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final preworkEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final termEC = TextEditingController();
   final profitMarginEC = MoneyMaskedTextController();
   final otherTaxesEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
@@ -11,9 +11,10 @@ mixin PricingFormController on State<PricingFormPage> {
   final waterBillEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final rentEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final dasEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final employeeSalaryEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
   void disposeForm() {
-    salaryExpectationEC.dispose();
+    preworkEC.dispose();
     termEC.dispose();
     profitMarginEC.dispose();
     otherTaxesEC.dispose();
@@ -21,5 +22,6 @@ mixin PricingFormController on State<PricingFormPage> {
     waterBillEC.dispose();
     rentEC.dispose();
     dasEC.dispose();
+    employeeSalaryEC.dispose();
   }
 }
