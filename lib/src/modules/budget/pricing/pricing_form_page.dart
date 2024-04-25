@@ -29,6 +29,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   final profileController = Injector.get<ProfileController>();
   final pricingController = Injector.get<PricingController>();
   final formKey = GlobalKey<FormState>();
+  double electricityBill = 0, waterBill = 0, rent = 0, das = 0;
   String timeIncentive = 'Dia';
   int term = 1;
 
@@ -107,33 +108,37 @@ class _PricingFormPageState extends State<PricingFormPage>
       case 'Conta de luz':
         electricityBillEC.updateValue(fixedExpense[0]['isChecked']
             ? fixedExpense[0]['value-average']
-            : 0);
+            : electricityBill);
         calculateExpense(0, electricityBillEC.numberValue);
       case 'Conta de água':
         waterBillEC.updateValue(fixedExpense[1]['isChecked']
             ? fixedExpense[1]['value-average']
-            : 0);
+            : waterBill);
         calculateExpense(1, waterBillEC.numberValue);
       case 'Aluguel':
         rentEC.updateValue(fixedExpense[2]['isChecked']
             ? fixedExpense[2]['value-average']
-            : 0);
+            : rent);
         calculateExpense(2, rentEC.numberValue);
       case 'DAS/SIMEI':
         dasEC.updateValue(fixedExpense[3]['isChecked']
             ? fixedExpense[3]['value-average']
-            : 0);
+            : das);
         calculateExpense(3, dasEC.numberValue);
     }
   }
 
   void calculateExpense(int index, double value) {
     pricingController.calculateExpensesByPeriodForEachExpense(
-      index,
-      timeIncentive,
-      value,
-      term,
-    );
+        index, timeIncentive, value, term);
+  }
+
+  void calculateExpenseByCompleted() {
+    pricingController.fixedExpenseItemsBudget.asMap().forEach((i, item) {
+      calculateExpense(i, item.value);
+    });
+
+    print(pricingController.fixedExpenseItemsBudget.first.toJson());
   }
 
   @override
@@ -356,8 +361,12 @@ class _PricingFormPageState extends State<PricingFormPage>
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             onChanged: !fixedExpense[0]['isChecked']
-                                ? (_) => calculateExpense(
-                                    0, electricityBillEC.numberValue)
+                                ? (_) {
+                                    calculateExpense(
+                                        0, electricityBillEC.numberValue);
+                                    electricityBill =
+                                        electricityBillEC.numberValue;
+                                  }
                                 : null,
                             validator: (value) {
                               if (electricityBillEC.numberValue == 0) {
@@ -379,8 +388,11 @@ class _PricingFormPageState extends State<PricingFormPage>
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             onChanged: !fixedExpense[1]['isChecked']
-                                ? (_) =>
-                                    calculateExpense(1, waterBillEC.numberValue)
+                                ? (_) {
+                                    calculateExpense(
+                                        1, waterBillEC.numberValue);
+                                    waterBill = waterBillEC.numberValue;
+                                  }
                                 : null,
                             validator: (value) {
                               if (waterBillEC.numberValue == 0) {
@@ -401,7 +413,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             onChanged: !fixedExpense[2]['isChecked']
-                                ? (_) => calculateExpense(2, rentEC.numberValue)
+                                ? (_) {
+                                    calculateExpense(2, rentEC.numberValue);
+                                    rent = rentEC.numberValue;
+                                  }
                                 : null,
                             validator: (value) {
                               if (rentEC.numberValue == 0) {
@@ -423,7 +438,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             onChanged: !fixedExpense[3]['isChecked']
-                                ? (_) => calculateExpense(3, dasEC.numberValue)
+                                ? (_) {
+                                    calculateExpense(3, dasEC.numberValue);
+                                    das = dasEC.numberValue;
+                                  }
                                 : null,
                             validator: (value) {
                               if (dasEC.numberValue == 0) {
@@ -505,8 +523,13 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
-                                    onChanged: (value) => term =
-                                        value.isNotEmpty ? int.parse(value) : 1,
+                                    onChanged: (value) {
+                                      term = value.isNotEmpty
+                                          ? int.parse(value)
+                                          : 1;
+
+                                      calculateExpenseByCompleted();
+                                    },
                                     validator: Validatorless.required(
                                         'Informe o prazo'),
                                   ),
@@ -528,6 +551,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     onChanged: (value) {
                                       setState(() {
                                         timeIncentive = value!;
+                                        calculateExpenseByCompleted();
                                       });
                                     },
                                     validator: Validatorless.required(
