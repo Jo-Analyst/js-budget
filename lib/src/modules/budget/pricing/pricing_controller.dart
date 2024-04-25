@@ -55,4 +55,15 @@ class PricingController with Messages {
   void calculateTotalMaterial(List<MaterialModel> materials) {}
 
   void computeMonthlyCostPerCategory() {}
+
+  void calculateExpensesByPeriodForEachExpense(
+      int index, String timeIncentive, double valueExpense, int termEC) {
+    fixedExpenseItemsBudget[index].value = valueExpense;
+
+    double dividedValue =
+        timeIncentive == "Dia" ? valueExpense / 30 : (valueExpense / 30) / 8;
+
+    fixedExpenseItemsBudget[index].dividedValue = dividedValue;
+    fixedExpenseItemsBudget[index].accumulatedValue = dividedValue * termEC;
+  }
 }

@@ -30,6 +30,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   final pricingController = Injector.get<PricingController>();
   final formKey = GlobalKey<FormState>();
   String timeIncentive = 'Dia';
+  int term = 1;
 
   List<Map<String, dynamic>> fixedExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
@@ -53,16 +54,14 @@ class _PricingFormPageState extends State<PricingFormPage>
       expense['value-average'] = valueExpense;
       pricingController.fixedExpenseItemsBudget.add(
         FixedExpenseItemsBudgetModel(
-          value: valueExpense,
-          type: expense['type'],
-        ),
+            value: valueExpense,
+            type: expense['type'],
+            dividedValue: valueExpense / 30,
+            accumulatedValue: valueExpense / 30),
       );
       setInFieldsAverageExpense(expense['type']);
     }
     _addDefaultExpenseItems();
-    for (var item in pricingController.fixedExpenseItemsBudget) {
-      print(item.toJson());
-    }
   }
 
   Future<double> _calculateExpenseValue(String type) async {
@@ -83,10 +82,21 @@ class _PricingFormPageState extends State<PricingFormPage>
   void _addDefaultExpenseItems() {
     const defaultItems = ['Outros', 'Prelabore', 'Salário do funcionário'];
     for (var item in defaultItems) {
+      double dividedValue = 0;
+      if (item == 'Prelabore') {
+        dividedValue = preworkEC.numberValue / 30;
+      }
+
+      if (item == 'Salário do funcionário') {
+        dividedValue = employeeSalaryEC.numberValue / 30;
+      }
+
       pricingController.fixedExpenseItemsBudget.add(
         FixedExpenseItemsBudgetModel(
           value: 0.0,
           type: item,
+          dividedValue: dividedValue,
+          accumulatedValue: dividedValue * int.parse(termEC.text),
         ),
       );
     }
@@ -98,25 +108,38 @@ class _PricingFormPageState extends State<PricingFormPage>
         electricityBillEC.updateValue(fixedExpense[0]['isChecked']
             ? fixedExpense[0]['value-average']
             : 0);
+        calculateExpense(0, electricityBillEC.numberValue);
       case 'Conta de água':
         waterBillEC.updateValue(fixedExpense[1]['isChecked']
             ? fixedExpense[1]['value-average']
             : 0);
+        calculateExpense(1, waterBillEC.numberValue);
       case 'Aluguel':
         rentEC.updateValue(fixedExpense[2]['isChecked']
             ? fixedExpense[2]['value-average']
             : 0);
+        calculateExpense(2, rentEC.numberValue);
       case 'DAS/SIMEI':
         dasEC.updateValue(fixedExpense[3]['isChecked']
             ? fixedExpense[3]['value-average']
             : 0);
+        calculateExpense(3, dasEC.numberValue);
     }
+  }
+
+  void calculateExpense(int index, double value) {
+    pricingController.calculateExpensesByPeriodForEachExpense(
+      index,
+      timeIncentive,
+      value,
+      term,
+    );
   }
 
   @override
   void initState() {
     super.initState();
-    termEC.text = '1';
+    termEC.text = term.toString();
     calculateAverageExpense();
     preworkEC.updateValue(profileController.model.value!.salaryExpectation);
     employeeSalaryEC.updateValue(1412);
@@ -333,10 +356,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             onChanged: !fixedExpense[0]['isChecked']
-                                ? (_) {
-                                    pricingController.fixedExpenseItemsBudget[0]
-                                        .value = electricityBillEC.numberValue;
-                                  }
+                                ? (_) => calculateExpense(
+                                    0, electricityBillEC.numberValue)
                                 : null,
                             validator: (value) {
                               if (electricityBillEC.numberValue == 0) {
@@ -358,10 +379,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             onChanged: !fixedExpense[1]['isChecked']
-                                ? (_) {
-                                    pricingController.fixedExpenseItemsBudget[1]
-                                        .value = waterBillEC.numberValue;
-                                  }
+                                ? (_) =>
+                                    calculateExpense(1, waterBillEC.numberValue)
                                 : null,
                             validator: (value) {
                               if (waterBillEC.numberValue == 0) {
@@ -382,10 +401,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             onChanged: !fixedExpense[2]['isChecked']
-                                ? (_) {
-                                    pricingController.fixedExpenseItemsBudget[2]
-                                        .value = rentEC.numberValue;
-                                  }
+                                ? (_) => calculateExpense(2, rentEC.numberValue)
                                 : null,
                             validator: (value) {
                               if (rentEC.numberValue == 0) {
@@ -407,13 +423,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
                             onChanged: !fixedExpense[3]['isChecked']
-                                ? (_) {
-                                    pricingController.fixedExpenseItemsBudget[3]
-                                        .value = dasEC.numberValue;
-                                    print(pricingController
-                                        .fixedExpenseItemsBudget[3]
-                                        .toJson());
-                                  }
+                                ? (_) => calculateExpense(3, dasEC.numberValue)
                                 : null,
                             validator: (value) {
                               if (dasEC.numberValue == 0) {
@@ -433,6 +443,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                                 suffix: Icon(Icons.money_off)),
                             style: textStyleSmallDefault,
                             keyboardType: TextInputType.number,
+                            onChanged: (value) =>
+                                calculateExpense(4, otherTaxesEC.numberValue),
                           ),
                         ],
                       ),
@@ -440,35 +452,43 @@ class _PricingFormPageState extends State<PricingFormPage>
                     const SizedBox(height: 5),
                     // Outros custos
                     Card(
+                      child: ColumnTile(
+                        title: 'Custos salariais',
+                        children: [
+                          TextFormField(
+                            readOnly: true,
+                            onTapOutside: (_) =>
+                                FocusScope.of(context).unfocus(),
+                            controller: preworkEC,
+                            decoration: const InputDecoration(
+                                labelText: 'Pretensão Salarial',
+                                labelStyle: textStyleSmallDefault,
+                                suffix: Icon(Icons.price_change)),
+                            keyboardType: TextInputType.number,
+                            style: textStyleSmallDefault,
+                          ),
+                          TextFormField(
+                            readOnly: true,
+                            onTapOutside: (_) =>
+                                FocusScope.of(context).unfocus(),
+                            controller: employeeSalaryEC,
+                            decoration: const InputDecoration(
+                                labelText: 'Salário do funcionário',
+                                labelStyle: textStyleSmallDefault,
+                                suffix: Icon(Icons.price_change)),
+                            keyboardType: TextInputType.number,
+                            style: textStyleSmallDefault,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 10, horizontal: 15),
                         child: Column(
                           children: [
-                            TextFormField(
-                              readOnly: true,
-                              onTapOutside: (_) =>
-                                  FocusScope.of(context).unfocus(),
-                              controller: preworkEC,
-                              decoration: const InputDecoration(
-                                  labelText: 'Pretensão Salarial',
-                                  labelStyle: textStyleSmallDefault,
-                                  suffix: Icon(Icons.price_change)),
-                              keyboardType: TextInputType.number,
-                              style: textStyleSmallDefault,
-                            ),
-                            TextFormField(
-                              readOnly: true,
-                              onTapOutside: (_) =>
-                                  FocusScope.of(context).unfocus(),
-                              controller: employeeSalaryEC,
-                              decoration: const InputDecoration(
-                                  labelText: 'Salário do funcionário',
-                                  labelStyle: textStyleSmallDefault,
-                                  suffix: Icon(Icons.price_change)),
-                              keyboardType: TextInputType.number,
-                              style: textStyleSmallDefault,
-                            ),
                             Row(
                               children: [
                                 Expanded(
@@ -485,6 +505,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly
                                     ],
+                                    onChanged: (value) => term =
+                                        value.isNotEmpty ? int.parse(value) : 1,
                                     validator: Validatorless.required(
                                         'Informe o prazo'),
                                   ),
