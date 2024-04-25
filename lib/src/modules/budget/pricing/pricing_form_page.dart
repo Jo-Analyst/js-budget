@@ -137,8 +137,6 @@ class _PricingFormPageState extends State<PricingFormPage>
     pricingController.fixedExpenseItemsBudget.asMap().forEach((i, item) {
       calculateExpense(i, item.value);
     });
-
-    print(pricingController.fixedExpenseItemsBudget.first.toJson());
   }
 
   @override
