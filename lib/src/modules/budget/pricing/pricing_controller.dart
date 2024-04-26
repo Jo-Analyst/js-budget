@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 
 class PricingController with Messages {
+  double? totalMaterialValue;
   final List<MaterialItemsBudgetModel> _materialItemsBudget = [];
   List<MaterialItemsBudgetModel> get materialItemsBudget => _materialItemsBudget
     ..sort(
@@ -45,16 +46,24 @@ class PricingController with Messages {
         ),
       );
     }
+
+    calculateTotalMaterial();
   }
 
   void calculateSubTotalMaterial(
       MaterialItemsBudgetModel materialItemsBudget, double price) {
     materialItemsBudget.value = materialItemsBudget.quantity * price;
+    calculateTotalMaterial();
   }
 
-  void calculateTotalMaterial(List<MaterialModel> materials) {}
+  void calculateTotalMaterial() {
+    totalMaterialValue = 0;
+    _materialItemsBudget.asMap().forEach((_, materialItem) {
+      totalMaterialValue = totalMaterialValue! + materialItem.value;
+    });
+  }
 
-  void computeMonthlyCostPerCategory() {}
+  void computedMonthlyCostByCategory() {}
 
   void calculateExpensesByPeriodForEachExpense(
       int index, String timeIncentive, double valueExpense, int termEC) {
@@ -65,5 +74,11 @@ class PricingController with Messages {
 
     fixedExpenseItemsBudget[index].dividedValue = dividedValue;
     fixedExpenseItemsBudget[index].accumulatedValue = dividedValue * termEC;
+  }
+
+  void deleteMaterial(MaterialItemsBudgetModel materialItem) {
+    materialItemsBudget.removeWhere(
+        (element) => element.material.id == materialItem.material.id);
+    totalMaterialValue = totalMaterialValue! - materialItem.value;
   }
 }

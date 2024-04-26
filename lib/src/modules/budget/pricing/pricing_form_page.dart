@@ -83,18 +83,20 @@ class _PricingFormPageState extends State<PricingFormPage>
   void _addDefaultExpenseItems() {
     const defaultItems = ['Outros', 'Prelabore', 'Salário do funcionário'];
     for (var item in defaultItems) {
-      double dividedValue = 0;
+      double dividedValue = 0, value = 0;
       if (item == 'Prelabore') {
         dividedValue = preworkEC.numberValue / 30;
+        value = preworkEC.numberValue;
       }
 
       if (item == 'Salário do funcionário') {
         dividedValue = employeeSalaryEC.numberValue / 30;
+        value = employeeSalaryEC.numberValue;
       }
 
       pricingController.fixedExpenseItemsBudget.add(
         FixedExpenseItemsBudgetModel(
-          value: 0.0,
+          value: value,
           type: item,
           dividedValue: dividedValue,
           accumulatedValue: dividedValue * int.parse(termEC.text),
@@ -280,10 +282,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                             ),
                             trailing: IconButton(
                               onPressed: () {
-                                pricingController.materialItemsBudget
-                                    .removeWhere((element) =>
-                                        element.material.id ==
-                                        materialItem.material.id);
+                                pricingController.deleteMaterial(materialItem);
 
                                 setState(() {});
                               },
