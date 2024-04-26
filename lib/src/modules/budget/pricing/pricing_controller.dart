@@ -2,9 +2,10 @@ import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 
 class PricingController with Messages {
-  double? totalMaterialValue;
+  double? totalMaterialValue, totalExpenseValue;
   final List<MaterialItemsBudgetModel> _materialItemsBudget = [];
   List<MaterialItemsBudgetModel> get materialItemsBudget => _materialItemsBudget
     ..sort(
@@ -46,14 +47,11 @@ class PricingController with Messages {
         ),
       );
     }
-
-    calculateTotalMaterial();
   }
 
   void calculateSubTotalMaterial(
       MaterialItemsBudgetModel materialItemsBudget, double price) {
     materialItemsBudget.value = materialItemsBudget.quantity * price;
-    calculateTotalMaterial();
   }
 
   void calculateTotalMaterial() {
@@ -63,7 +61,16 @@ class PricingController with Messages {
     });
   }
 
-  void computedMonthlyCostByCategory() {}
+  void calculateTotalExpenses() {
+    totalExpenseValue = 0;
+    fixedExpenseItemsBudget.asMap().forEach((key, expenseItem) {
+      totalExpenseValue = totalExpenseValue! + expenseItem.accumulatedValue;
+      print(UtilsService.moneyToCurrency(expenseItem.accumulatedValue));
+    });
+
+    print('+++++++++++++++++++++++++++++');
+    print(UtilsService.moneyToCurrency(totalExpenseValue!));
+  }
 
   void calculateExpensesByPeriodForEachExpense(
       int index, String timeIncentive, double valueExpense, int termEC) {

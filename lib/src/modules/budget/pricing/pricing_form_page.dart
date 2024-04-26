@@ -164,6 +164,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                   pricingController
                       .validate(pricingController.materialItemsBudget)) {
                 // Navigator.of(context).pushNamed('/budget/pricing/preview');
+                pricingController.calculateTotalMaterial();
+                pricingController.calculateTotalExpenses();
                 showModalBottomSheet(
                   scrollControlDisabledMaxHeightRatio: .95,
                   context: context,
