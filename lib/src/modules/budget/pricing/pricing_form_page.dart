@@ -163,16 +163,18 @@ class _PricingFormPageState extends State<PricingFormPage>
               if (formKey.currentState!.validate() &&
                   pricingController
                       .validate(pricingController.materialItemsBudget)) {
-                // Navigator.of(context).pushNamed('/budget/pricing/preview');
                 pricingController.calculateTotalMaterial();
                 pricingController.calculateTotalExpenses();
-                showModalBottomSheet(
-                  scrollControlDisabledMaxHeightRatio: .95,
-                  context: context,
-                  builder: (context) {
-                    return const PreviewPageForConfirmation();
-                  },
-                );
+                pricingController
+                    .calculateProfitMargin(profitMarginEC.numberValue);
+                Navigator.of(context).pushNamed('/budget/pricing/preview');
+                // showModalBottomSheet(
+                //   scrollControlDisabledMaxHeightRatio: .95,
+                //   context: context,
+                //   builder: (context) {
+                //     return const PreviewPageForConfirmation();
+                //   },
+                // )
               }
             },
             icon: const Icon(

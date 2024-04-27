@@ -40,6 +40,7 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
+      value: widget.initiallyExpanded ? 1.0 : 0.0,
     );
   }
 

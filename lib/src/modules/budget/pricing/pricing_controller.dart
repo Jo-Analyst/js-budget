@@ -6,6 +6,7 @@ import 'package:js_budget/src/utils/utils_service.dart';
 
 class PricingController with Messages {
   double? totalMaterialValue, totalExpenseValue;
+  double profitMargin = 0;
   final List<MaterialItemsBudgetModel> _materialItemsBudget = [];
   List<MaterialItemsBudgetModel> get materialItemsBudget => _materialItemsBudget
     ..sort(
@@ -65,11 +66,7 @@ class PricingController with Messages {
     totalExpenseValue = 0;
     fixedExpenseItemsBudget.asMap().forEach((key, expenseItem) {
       totalExpenseValue = totalExpenseValue! + expenseItem.accumulatedValue;
-      print(UtilsService.moneyToCurrency(expenseItem.accumulatedValue));
     });
-
-    print('+++++++++++++++++++++++++++++');
-    print(UtilsService.moneyToCurrency(totalExpenseValue!));
   }
 
   void calculateExpensesByPeriodForEachExpense(
@@ -87,5 +84,10 @@ class PricingController with Messages {
     materialItemsBudget.removeWhere(
         (element) => element.material.id == materialItem.material.id);
     totalMaterialValue = totalMaterialValue! - materialItem.value;
+  }
+
+  void calculateProfitMargin(double percentageProfitMargin) {
+    double totalCost = totalExpenseValue! + totalMaterialValue!;
+    profitMargin = totalCost + (totalCost * (percentageProfitMargin / 100));
   }
 }
