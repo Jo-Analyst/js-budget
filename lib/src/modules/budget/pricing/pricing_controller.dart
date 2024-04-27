@@ -2,7 +2,6 @@ import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/utils/utils_service.dart';
 
 class PricingController with Messages {
   double? totalMaterialValue, totalExpenseValue;

@@ -4,7 +4,6 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/modules/budget/pricing/preview_page_for_confirmation.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_form_controller.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
