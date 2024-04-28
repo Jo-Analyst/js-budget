@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -74,40 +71,53 @@ class PreviewPageForConfirmation extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Flexible(
-                        child: SingleChildScrollView(
-                          child: ColumnTile(
-                            title: 'Custos dos materiais',
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 15,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                children: materialItems
-                                    .map(
-                                      (item) => ListTile(
-                                        leading: CircleAvatar(
-                                          child: Text(
-                                            '${item.quantity}x',
-                                            style: TextStyle(
-                                              fontFamily: 'Anta',
-                                              fontSize: textStyleSmallDefault
-                                                  .fontSize,
+                              const Text(
+                                'Custos dos materiais',
+                                style: textStyleSmallFontWeight,
+                              ),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: materialItems
+                                        .map(
+                                          (item) => ListTile(
+                                            leading: CircleAvatar(
+                                              child: Text(
+                                                '${item.quantity}x',
+                                                style: TextStyle(
+                                                  fontFamily: 'Anta',
+                                                  fontSize:
+                                                      textStyleSmallDefault
+                                                          .fontSize,
+                                                ),
+                                              ),
+                                            ),
+                                            title: Text(
+                                              item.material.name,
+                                              style: textStyleSmallDefault,
+                                            ),
+                                            trailing: Text(
+                                              UtilsService.moneyToCurrency(
+                                                  item.value),
+                                              style: TextStyle(
+                                                fontFamily: 'Anta',
+                                                fontSize: textStyleSmallDefault
+                                                    .fontSize,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        title: Text(
-                                          item.material.name,
-                                          style: textStyleSmallDefault,
-                                        ),
-                                        trailing: Text(
-                                          UtilsService.moneyToCurrency(
-                                              item.value),
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            fontSize:
-                                                textStyleSmallDefault.fontSize,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -115,7 +125,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                       ),
                       const Divider(),
                       Padding(
-                        padding: const EdgeInsets.only(right: 25),
+                        padding: const EdgeInsets.only(right: 40),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -161,38 +171,48 @@ class PreviewPageForConfirmation extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Flexible(
-                        child: SingleChildScrollView(
-                          child: ColumnTile(
-                            title: 'Custos das despesas',
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                children: expenseItems
-                                    .map(
-                                      (item) => ListTile(
-                                        subtitle: Text(
-                                          '3x ${item.dividedValue}',
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            fontSize:
-                                                textStyleSmallDefault.fontSize,
+                              const Text(
+                                'Custos das despesas',
+                                style: textStyleSmallFontWeight,
+                              ),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: expenseItems
+                                        .map(
+                                          (item) => ListTile(
+                                            subtitle: Text(
+                                              '3x ${UtilsService.moneyToCurrency(item.dividedValue)}',
+                                              style: TextStyle(
+                                                fontFamily: 'Anta',
+                                                fontSize: textStyleSmallDefault
+                                                    .fontSize,
+                                              ),
+                                            ),
+                                            title: Text(
+                                              item.type,
+                                              style: textStyleSmallDefault,
+                                            ),
+                                            trailing: Text(
+                                              UtilsService.moneyToCurrency(
+                                                  item.accumulatedValue),
+                                              style: TextStyle(
+                                                fontFamily: 'Anta',
+                                                fontSize: textStyleSmallDefault
+                                                    .fontSize,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                        title: Text(
-                                          item.type,
-                                          style: textStyleSmallDefault,
-                                        ),
-                                        trailing: Text(
-                                          UtilsService.moneyToCurrency(
-                                              item.value),
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            fontSize:
-                                                textStyleSmallDefault.fontSize,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -200,7 +220,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                       ),
                       const Divider(),
                       Padding(
-                        padding: const EdgeInsets.only(right: 25),
+                        padding: const EdgeInsets.only(right: 40),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -217,7 +237,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: UtilsService.moneyToCurrency(420),
+                                    text: UtilsService.moneyToCurrency(72),
                                     style: const TextStyle(
                                       fontFamily: 'Anta',
                                       color: Color.fromARGB(255, 56, 142, 59),
@@ -234,6 +254,41 @@ class PreviewPageForConfirmation extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+            ),
+            Card(
+              child: Column(
+                children: [
+                  ListTile(
+                    title: const Text(
+                      'Margem de lucro',
+                      style: textStyleSmallFontWeight,
+                    ),
+                    trailing: Text(
+                      UtilsService.moneyToCurrency(22.4),
+                      style: TextStyle(
+                          fontFamily: 'Anta',
+                          fontSize: textStyleLargeDefault.fontSize,
+                          fontWeight: FontWeight.w700,
+                          color: const Color.fromARGB(255, 17, 79, 130)),
+                    ),
+                  ),
+                  ListTile(
+                    title: const Text(
+                      'Valor a cobrar',
+                      style: textStyleSmallFontWeight,
+                    ),
+                    trailing: Text(
+                      UtilsService.moneyToCurrency(134.4),
+                      style: TextStyle(
+                        fontFamily: 'Anta',
+                        fontSize: textStyleLargeDefault.fontSize,
+                        fontWeight: FontWeight.w700,
+                        color: const Color.fromARGB(255, 56, 142, 59),
+                      ),
+                    ),
+                  )
+                ],
               ),
             ),
           ],
