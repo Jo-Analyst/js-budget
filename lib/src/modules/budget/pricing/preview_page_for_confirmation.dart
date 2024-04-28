@@ -57,6 +57,15 @@ class PreviewPageForConfirmation extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Confirmação'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.check,
+              size: 30,
+            ),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
