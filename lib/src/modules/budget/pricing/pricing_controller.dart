@@ -5,11 +5,9 @@ import 'package:js_budget/src/models/material_model.dart';
 import 'package:signals/signals.dart';
 
 class PricingController with Messages {
-  var totalMaterialValue = signal<double>(0),
-      totalExpenseValue = signal<double>(0),
-      totalToBeCharged = signal<double>(0);
+  double totalMaterialValue = 0, totalExpenseValue = 0, totalToBeCharged = 0;
   double profitMargin = 0;
-  var term = signal(1);
+  var term = 1;
   final _materialItemsBudget = ListSignal<MaterialItemsBudgetModel>([]);
   ListSignal<MaterialItemsBudgetModel> get materialItemsBudget =>
       _materialItemsBudget
@@ -60,16 +58,16 @@ class PricingController with Messages {
   }
 
   void calculateTotalMaterial() {
-    totalMaterialValue.value = 0;
+    totalMaterialValue = 0;
     _materialItemsBudget.asMap().forEach((_, materialItem) {
-      totalMaterialValue.value += materialItem.value;
+      totalMaterialValue += materialItem.value;
     });
   }
 
   void calculateTotalExpenses() {
-    totalExpenseValue.value = 0;
+    totalExpenseValue = 0;
     fixedExpenseItemsBudget.asMap().forEach((key, expenseItem) {
-      totalExpenseValue.value += expenseItem.accumulatedValue;
+      totalExpenseValue += expenseItem.accumulatedValue;
     });
   }
 
@@ -87,16 +85,25 @@ class PricingController with Messages {
   void deleteMaterial(MaterialItemsBudgetModel materialItem) {
     materialItemsBudget.removeWhere(
         (element) => element.material.id == materialItem.material.id);
-    totalMaterialValue.value -= materialItem.value;
+    totalMaterialValue -= materialItem.value;
   }
 
   void calculateProfitMargin(double percentageProfitMargin) {
-    double totalCost = totalExpenseValue.value + totalMaterialValue.value;
+    double totalCost = totalExpenseValue + totalMaterialValue;
     profitMargin = totalCost * (percentageProfitMargin / 100);
   }
 
   void calculateTotalToBeCharged() {
-    totalToBeCharged.value =
-        totalExpenseValue.value + totalMaterialValue.value + profitMargin;
+    totalToBeCharged = totalExpenseValue + totalMaterialValue + profitMargin;
+  }
+
+  void clearFields() {
+    totalMaterialValue = 0;
+    totalExpenseValue = 0;
+    totalToBeCharged = 0;
+    profitMargin;
+    term = 1;
+    materialItemsBudget.clear();
+    fixedExpenseItemsBudget.clear();
   }
 }

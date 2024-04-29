@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
@@ -131,7 +130,7 @@ class _PricingFormPageState extends State<PricingFormPage>
 
   void calculateExpense(int index, double value) {
     pricingController.calculateExpensesByPeriodForEachExpense(
-        index, timeIncentive, value, pricingController.term.value);
+        index, timeIncentive, value, pricingController.term);
   }
 
   void calculateExpenseByCompleted() {
@@ -143,7 +142,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   @override
   void initState() {
     super.initState();
-    termEC.text = pricingController.term.value.toString();
+    termEC.text = pricingController.term.toString();
     calculateAverageExpense();
     preworkEC.updateValue(profileController.model.value!.salaryExpectation);
     employeeSalaryEC.updateValue(1412);
@@ -513,7 +512,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                                 .digitsOnly
                                           ],
                                           onChanged: (value) {
-                                            pricingController.term.value =
+                                            pricingController.term =
                                                 value.isNotEmpty
                                                     ? int.parse(value)
                                                     : 1;

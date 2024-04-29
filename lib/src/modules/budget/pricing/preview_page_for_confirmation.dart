@@ -117,7 +117,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                   ),
                                   TextSpan(
                                     text: UtilsService.moneyToCurrency(
-                                        controller.totalMaterialValue.value),
+                                        controller.totalMaterialValue),
                                     style: const TextStyle(
                                       fontFamily: 'Anta',
                                       color: Color.fromARGB(255, 56, 142, 59),
@@ -213,7 +213,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                   ),
                                   TextSpan(
                                     text: UtilsService.moneyToCurrency(
-                                        controller.totalExpenseValue.value),
+                                        controller.totalExpenseValue),
                                     style: const TextStyle(
                                       fontFamily: 'Anta',
                                       color: Color.fromARGB(255, 56, 142, 59),
@@ -256,7 +256,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                     ),
                     trailing: Text(
                       UtilsService.moneyToCurrency(
-                          controller.totalToBeCharged.value),
+                          controller.totalToBeCharged),
                       style: TextStyle(
                         fontFamily: 'Anta',
                         fontSize: textStyleLargeDefault.fontSize,

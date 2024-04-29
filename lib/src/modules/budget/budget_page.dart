@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
+import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
@@ -118,9 +119,11 @@ class _BudgetPageState extends State<BudgetPage> {
                                       ),
                                       trailing: IconButton(
                                         onPressed: () async {
-                                          Navigator.of(context).pushNamed(
+                                          await Navigator.of(context).pushNamed(
                                               '/budget/pricing',
                                               arguments: product.name);
+                                          Injector.get<PricingController>()
+                                              .clearFields();
                                         },
                                         icon: const Icon(
                                           Icons.add_chart,
