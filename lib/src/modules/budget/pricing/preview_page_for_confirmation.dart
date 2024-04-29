@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
-import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -10,49 +11,13 @@ class PreviewPageForConfirmation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<MaterialItemsBudgetModel> materialItems = [
-      MaterialItemsBudgetModel(
-        material: MaterialModel(
-          name: 'Madeira de Carvalho',
-          unit: 'Unidade',
-          price: 30.00,
-          quantity: 30,
-        ),
-        value: 30,
-        quantity: 1,
-      ),
-      MaterialItemsBudgetModel(
-        material: MaterialModel(
-          name: 'Cola',
-          unit: 'Unidade',
-          price: 10.00,
-          quantity: 30,
-        ),
-        value: 10,
-        quantity: 1,
-      ),
-    ];
+    final controller = context.get<PricingController>();
 
-    final List<FixedExpenseItemsBudgetModel> expenseItems = [
-      FixedExpenseItemsBudgetModel(
-        value: 60,
-        dividedValue: 2,
-        accumulatedValue: 6,
-        type: 'Conta de Luz',
-      ),
-      FixedExpenseItemsBudgetModel(
-        value: 60,
-        dividedValue: 2,
-        accumulatedValue: 6,
-        type: 'Conta de água',
-      ),
-      FixedExpenseItemsBudgetModel(
-        value: 300,
-        dividedValue: 20,
-        accumulatedValue: 60,
-        type: 'Aluguel',
-      ),
-    ];
+    final List<MaterialItemsBudgetModel> materialItems =
+        controller.materialItemsBudget;
+
+    final List<FixedExpenseItemsBudgetModel> expenseItems =
+        controller.fixedExpenseItemsBudget;
 
     return Scaffold(
       appBar: AppBar(
@@ -151,7 +116,8 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: UtilsService.moneyToCurrency(40),
+                                    text: UtilsService.moneyToCurrency(
+                                        controller.totalMaterialValue.value),
                                     style: const TextStyle(
                                       fontFamily: 'Anta',
                                       color: Color.fromARGB(255, 56, 142, 59),
@@ -197,7 +163,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                         .map(
                                           (item) => ListTile(
                                             subtitle: Text(
-                                              '3x ${UtilsService.moneyToCurrency(item.dividedValue)}',
+                                              '${controller.term}x ${UtilsService.moneyToCurrency(item.dividedValue)}',
                                               style: TextStyle(
                                                 fontFamily: 'Anta',
                                                 fontSize: textStyleSmallDefault
@@ -246,7 +212,8 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                     ),
                                   ),
                                   TextSpan(
-                                    text: UtilsService.moneyToCurrency(72),
+                                    text: UtilsService.moneyToCurrency(
+                                        controller.totalExpenseValue.value),
                                     style: const TextStyle(
                                       fontFamily: 'Anta',
                                       color: Color.fromARGB(255, 56, 142, 59),
@@ -274,7 +241,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                       style: textStyleSmallFontWeight,
                     ),
                     trailing: Text(
-                      UtilsService.moneyToCurrency(22.4),
+                      UtilsService.moneyToCurrency(controller.profitMargin),
                       style: TextStyle(
                           fontFamily: 'Anta',
                           fontSize: textStyleLargeDefault.fontSize,
@@ -288,7 +255,8 @@ class PreviewPageForConfirmation extends StatelessWidget {
                       style: textStyleSmallFontWeight,
                     ),
                     trailing: Text(
-                      UtilsService.moneyToCurrency(134.4),
+                      UtilsService.moneyToCurrency(
+                          controller.totalToBeCharged.value),
                       style: TextStyle(
                         fontFamily: 'Anta',
                         fontSize: textStyleLargeDefault.fontSize,

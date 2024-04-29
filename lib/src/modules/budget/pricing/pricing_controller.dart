@@ -2,19 +2,24 @@ import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:signals/signals.dart';
 
 class PricingController with Messages {
-  double? totalMaterialValue, totalExpenseValue;
+  var totalMaterialValue = signal<double>(0),
+      totalExpenseValue = signal<double>(0),
+      totalToBeCharged = signal<double>(0);
   double profitMargin = 0;
-  final List<MaterialItemsBudgetModel> _materialItemsBudget = [];
-  List<MaterialItemsBudgetModel> get materialItemsBudget => _materialItemsBudget
-    ..sort(
-      (a, b) => a.material.name
-          .toLowerCase()
-          .compareTo(b.material.name.toLowerCase()),
-    );
+  var term = signal(1);
+  final _materialItemsBudget = ListSignal<MaterialItemsBudgetModel>([]);
+  ListSignal<MaterialItemsBudgetModel> get materialItemsBudget =>
+      _materialItemsBudget
+        ..sort(
+          (a, b) => a.material.name
+              .toLowerCase()
+              .compareTo(b.material.name.toLowerCase()),
+        );
 
-  final List<FixedExpenseItemsBudgetModel> fixedExpenseItemsBudget = [];
+  final fixedExpenseItemsBudget = ListSignal<FixedExpenseItemsBudgetModel>([]);
 
   bool validate(List<MaterialItemsBudgetModel> materials) {
     if (materials.isEmpty) {
@@ -55,16 +60,16 @@ class PricingController with Messages {
   }
 
   void calculateTotalMaterial() {
-    totalMaterialValue = 0;
+    totalMaterialValue.value = 0;
     _materialItemsBudget.asMap().forEach((_, materialItem) {
-      totalMaterialValue = totalMaterialValue! + materialItem.value;
+      totalMaterialValue.value += materialItem.value;
     });
   }
 
   void calculateTotalExpenses() {
-    totalExpenseValue = 0;
+    totalExpenseValue.value = 0;
     fixedExpenseItemsBudget.asMap().forEach((key, expenseItem) {
-      totalExpenseValue = totalExpenseValue! + expenseItem.accumulatedValue;
+      totalExpenseValue.value += expenseItem.accumulatedValue;
     });
   }
 
@@ -82,11 +87,16 @@ class PricingController with Messages {
   void deleteMaterial(MaterialItemsBudgetModel materialItem) {
     materialItemsBudget.removeWhere(
         (element) => element.material.id == materialItem.material.id);
-    totalMaterialValue = totalMaterialValue! - materialItem.value;
+    totalMaterialValue.value -= materialItem.value;
   }
 
   void calculateProfitMargin(double percentageProfitMargin) {
-    double totalCost = totalExpenseValue! + totalMaterialValue!;
-    profitMargin = totalCost + (totalCost * (percentageProfitMargin / 100));
+    double totalCost = totalExpenseValue.value + totalMaterialValue.value;
+    profitMargin = totalCost * (percentageProfitMargin / 100);
+  }
+
+  void calculateTotalToBeCharged() {
+    totalToBeCharged.value =
+        totalExpenseValue.value + totalMaterialValue.value + profitMargin;
   }
 }

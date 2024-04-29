@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
@@ -30,7 +31,6 @@ class _PricingFormPageState extends State<PricingFormPage>
   final formKey = GlobalKey<FormState>();
   double electricityBill = 0, waterBill = 0, rent = 0, das = 0;
   String timeIncentive = 'Dia';
-  int term = 1;
 
   List<Map<String, dynamic>> fixedExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
@@ -131,7 +131,7 @@ class _PricingFormPageState extends State<PricingFormPage>
 
   void calculateExpense(int index, double value) {
     pricingController.calculateExpensesByPeriodForEachExpense(
-        index, timeIncentive, value, term);
+        index, timeIncentive, value, pricingController.term.value);
   }
 
   void calculateExpenseByCompleted() {
@@ -143,7 +143,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   @override
   void initState() {
     super.initState();
-    termEC.text = term.toString();
+    termEC.text = pricingController.term.value.toString();
     calculateAverageExpense();
     preworkEC.updateValue(profileController.model.value!.salaryExpectation);
     employeeSalaryEC.updateValue(1412);
@@ -156,432 +156,476 @@ class _PricingFormPageState extends State<PricingFormPage>
     return Scaffold(
       appBar: AppBar(
         title: Text(description),
-        actions: [
-          IconButton(
-            onPressed: () {
-              if (formKey.currentState!.validate() &&
-                  pricingController
-                      .validate(pricingController.materialItemsBudget)) {
-                pricingController.calculateTotalMaterial();
-                pricingController.calculateTotalExpenses();
-                pricingController
-                    .calculateProfitMargin(profitMarginEC.numberValue);
-                Navigator.of(context).pushNamed('/budget/pricing/preview');
-                // showModalBottomSheet(
-                //   scrollControlDisabledMaxHeightRatio: .95,
-                //   context: context,
-                //   builder: (context) {
-                //     return const PreviewPageForConfirmation();
-                //   },
-                // )
-              }
-            },
-            icon: const Icon(
-              Icons.check,
-              size: 30,
-            ),
-          )
-        ],
+        actions: const [],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          child: Column(
-            children: [
-              // Card Materiais
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ColumnTile(
-                    title: 'Materiais',
-                    trailing: IconButton(
-                      onPressed: () async {
-                        final materials = await Navigator.of(context)
-                                .pushNamed('/material', arguments: true)
-                            as List<MaterialModel>?;
-
-                        if (materials == null) return;
-
-                        pricingController.addMaterialInListMaterial(materials);
-                      },
-                      icon: const Icon(
-                        Icons.add,
-                        size: 30,
-                      ),
-                    ),
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: pricingController.materialItemsBudget.length,
-                        itemBuilder: (context, index) {
-                          final materialItem =
-                              pricingController.materialItemsBudget[index];
-                          return ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            leading: Stack(
-                              children: <Widget>[
-                                CircleAvatar(
-                                  radius: 30,
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: Text(
-                                      '${pricingController.materialItemsBudget[index].quantity}x',
-                                      style: TextStyle(
-                                        fontFamily: 'Anta',
-                                        color: Colors.black,
-                                        fontSize:
-                                            textStyleSmallDefault.fontSize,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 1,
-                                  right: 1,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(2),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        final quantity = await showAlertDialog(
-                                            context,
-                                            "Alteração da quantidade do material '${materialItem.material.name}'",
-                                            buttonTitle: 'Editar');
-                                        if (quantity != null) {
-                                          pricingController
-                                              .materialItemsBudget[index]
-                                              .quantity = quantity;
-                                          pricingController
-                                              .calculateSubTotalMaterial(
-                                                  pricingController
-                                                          .materialItemsBudget[
-                                                      index],
-                                                  materialItem.material.price);
-                                        }
-                                      },
-                                      child: const Icon(
-                                        Icons.edit,
-                                        size: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            title: Text(
-                              materialItem.material.name,
-                              style: textStyleSmallDefault,
-                            ),
-                            subtitle: Text(
-                              UtilsService.moneyToCurrency(pricingController
-                                  .materialItemsBudget[index].value),
-                              style: TextStyle(
-                                  fontFamily: 'Anta',
-                                  fontSize: textStyleSmallDefault.fontSize),
-                            ),
-                            trailing: IconButton(
-                              onPressed: () {
-                                pricingController.deleteMaterial(materialItem);
-
-                                setState(() {});
-                              },
-                              icon: const Icon(
-                                Icons.delete_outline,
-                                color: Colors.red,
-                                size: 30,
-                              ),
-                            ),
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 5),
-              // Card calcular Média
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: CustomExpansionTileWidget(
-                    initiallyExpanded: true,
-                    addBorder: false,
-                    title: 'Calcular média da despesa',
-                    children: fixedExpense
-                        .map(
-                          (expense) => ListTile(
-                            contentPadding: EdgeInsets.zero,
-                            splashColor: Colors.transparent,
-                            onTap: () async {
-                              toggleExpenseCheckStatus(expense);
-                              setInFieldsAverageExpense(expense['type']);
-                            },
-                            leading: Icon(expense['icon']),
-                            title: Text(
-                              expense['type'],
-                              style: textStyleSmallDefault,
-                            ),
-                            trailing: Icon(
-                              expense['isChecked']
-                                  ? Icons.check_box
-                                  : Icons.check_box_outline_blank_rounded,
-                              size: 35,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 5),
-              // Formulário
-              Form(
-                key: formKey,
+      body: Column(
+        children: [
+          Flexible(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                 child: Column(
                   children: [
-                    // Custos Fixos ou indiretos
-                    Card(
-                      child: ColumnTile(
-                        title: 'Valor da depesa fixa',
-                        children: [
-                          TextFormField(
-                            onTapOutside: (_) =>
-                                FocusScope.of(context).unfocus(),
-                            controller: electricityBillEC,
-                            readOnly: fixedExpense[0]['isChecked'],
-                            decoration: const InputDecoration(
-                                labelText: 'Conta de luz',
-                                labelStyle: textStyleSmallDefault,
-                                suffix: Icon(Icons.lightbulb)),
-                            style: textStyleSmallDefault,
-                            keyboardType: TextInputType.number,
-                            onChanged: !fixedExpense[0]['isChecked']
-                                ? (_) {
-                                    calculateExpense(
-                                        0, electricityBillEC.numberValue);
-                                    electricityBill =
-                                        electricityBillEC.numberValue;
-                                  }
-                                : null,
-                            validator: (value) {
-                              if (electricityBillEC.numberValue == 0) {
-                                return 'Informe o valor da eletricidade';
-                              }
-
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            onTapOutside: (_) =>
-                                FocusScope.of(context).unfocus(),
-                            controller: waterBillEC,
-                            readOnly: fixedExpense[1]['isChecked'],
-                            decoration: const InputDecoration(
-                                labelText: 'Conta de água',
-                                labelStyle: textStyleSmallDefault,
-                                suffix: Icon(Icons.local_drink)),
-                            style: textStyleSmallDefault,
-                            keyboardType: TextInputType.number,
-                            onChanged: !fixedExpense[1]['isChecked']
-                                ? (_) {
-                                    calculateExpense(
-                                        1, waterBillEC.numberValue);
-                                    waterBill = waterBillEC.numberValue;
-                                  }
-                                : null,
-                            validator: (value) {
-                              if (waterBillEC.numberValue == 0) {
-                                return 'Informe o valor da conta de água';
-                              }
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            onTapOutside: (_) =>
-                                FocusScope.of(context).unfocus(),
-                            controller: rentEC,
-                            readOnly: fixedExpense[2]['isChecked'],
-                            decoration: const InputDecoration(
-                                labelText: 'Aluguel',
-                                labelStyle: textStyleSmallDefault,
-                                suffix: Icon(Icons.home)),
-                            style: textStyleSmallDefault,
-                            keyboardType: TextInputType.number,
-                            onChanged: !fixedExpense[2]['isChecked']
-                                ? (_) {
-                                    calculateExpense(2, rentEC.numberValue);
-                                    rent = rentEC.numberValue;
-                                  }
-                                : null,
-                            validator: (value) {
-                              if (rentEC.numberValue == 0) {
-                                return 'Informe o valor do aluguel';
-                              }
-
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            onTapOutside: (_) =>
-                                FocusScope.of(context).unfocus(),
-                            controller: dasEC,
-                            readOnly: fixedExpense[3]['isChecked'],
-                            decoration: const InputDecoration(
-                                labelText: 'DAS/SIMEI',
-                                labelStyle: textStyleSmallDefault,
-                                suffix: Icon(Icons.money_off)),
-                            style: textStyleSmallDefault,
-                            keyboardType: TextInputType.number,
-                            onChanged: !fixedExpense[3]['isChecked']
-                                ? (_) {
-                                    calculateExpense(3, dasEC.numberValue);
-                                    das = dasEC.numberValue;
-                                  }
-                                : null,
-                            validator: (value) {
-                              if (dasEC.numberValue == 0) {
-                                return 'Informe o valor de DAS/SIMEI';
-                              }
-
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            onTapOutside: (_) =>
-                                FocusScope.of(context).unfocus(),
-                            controller: otherTaxesEC,
-                            decoration: const InputDecoration(
-                                labelText: 'Outros',
-                                labelStyle: textStyleSmallDefault,
-                                suffix: Icon(Icons.money_off)),
-                            style: textStyleSmallDefault,
-                            keyboardType: TextInputType.number,
-                            onChanged: (value) =>
-                                calculateExpense(4, otherTaxesEC.numberValue),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    // Outros custos
-                    Card(
-                      child: ColumnTile(
-                        title: 'Custos salariais',
-                        children: [
-                          TextFormField(
-                            readOnly: true,
-                            onTapOutside: (_) =>
-                                FocusScope.of(context).unfocus(),
-                            controller: preworkEC,
-                            decoration: const InputDecoration(
-                                labelText: 'Pretensão Salarial',
-                                labelStyle: textStyleSmallDefault,
-                                suffix: Icon(Icons.price_change)),
-                            keyboardType: TextInputType.number,
-                            style: textStyleSmallDefault,
-                          ),
-                          TextFormField(
-                            readOnly: true,
-                            onTapOutside: (_) =>
-                                FocusScope.of(context).unfocus(),
-                            controller: employeeSalaryEC,
-                            decoration: const InputDecoration(
-                                labelText: 'Salário do funcionário',
-                                labelStyle: textStyleSmallDefault,
-                                suffix: Icon(Icons.price_change)),
-                            keyboardType: TextInputType.number,
-                            style: textStyleSmallDefault,
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 5),
+                    // Card Materiais
                     Card(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: TextFormField(
-                                    onTapOutside: (_) =>
-                                        FocusScope.of(context).unfocus(),
-                                    controller: termEC,
-                                    decoration: InputDecoration(
-                                        labelText: 'Prazo*',
-                                        labelStyle: textStyleSmallDefault,
-                                        suffix: Text('$timeIncentive(s)')),
-                                    style: textStyleSmallDefault,
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly
-                                    ],
-                                    onChanged: (value) {
-                                      term = value.isNotEmpty
-                                          ? int.parse(value)
-                                          : 1;
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: ColumnTile(
+                          title: 'Materiais',
+                          trailing: IconButton(
+                            onPressed: () async {
+                              final materials = await Navigator.of(context)
+                                      .pushNamed('/material', arguments: true)
+                                  as List<MaterialModel>?;
 
-                                      calculateExpenseByCompleted();
+                              if (materials == null) return;
+
+                              pricingController
+                                  .addMaterialInListMaterial(materials);
+                            },
+                            icon: const Icon(
+                              Icons.add,
+                              size: 30,
+                            ),
+                          ),
+                          children: [
+                            ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  pricingController.materialItemsBudget.length,
+                              itemBuilder: (context, index) {
+                                final materialItem = pricingController
+                                    .materialItemsBudget[index];
+                                return ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Stack(
+                                    children: <Widget>[
+                                      CircleAvatar(
+                                        radius: 30,
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            '${pricingController.materialItemsBudget[index].quantity}x',
+                                            style: TextStyle(
+                                              fontFamily: 'Anta',
+                                              color: Colors.black,
+                                              fontSize: textStyleSmallDefault
+                                                  .fontSize,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 1,
+                                        right: 1,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(2),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              final quantity =
+                                                  await showAlertDialog(context,
+                                                      "Alteração da quantidade do material '${materialItem.material.name}'",
+                                                      buttonTitle: 'Editar');
+                                              if (quantity != null) {
+                                                pricingController
+                                                    .materialItemsBudget[index]
+                                                    .quantity = quantity;
+                                                pricingController
+                                                    .calculateSubTotalMaterial(
+                                                        pricingController
+                                                                .materialItemsBudget[
+                                                            index],
+                                                        materialItem
+                                                            .material.price);
+                                              }
+                                            },
+                                            child: const Icon(
+                                              Icons.edit,
+                                              size: 18,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  title: Text(
+                                    materialItem.material.name,
+                                    style: textStyleSmallDefault,
+                                  ),
+                                  subtitle: Text(
+                                    UtilsService.moneyToCurrency(
+                                        pricingController
+                                            .materialItemsBudget[index].value),
+                                    style: TextStyle(
+                                        fontFamily: 'Anta',
+                                        fontSize:
+                                            textStyleSmallDefault.fontSize),
+                                  ),
+                                  trailing: IconButton(
+                                    onPressed: () {
+                                      pricingController
+                                          .deleteMaterial(materialItem);
+
+                                      setState(() {});
                                     },
-                                    validator: Validatorless.required(
-                                        'Informe o prazo'),
+                                    icon: const Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.red,
+                                      size: 30,
+                                    ),
+                                  ),
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    // Card calcular Média
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: CustomExpansionTileWidget(
+                          initiallyExpanded: true,
+                          addBorder: false,
+                          title: 'Calcular média da despesa',
+                          children: fixedExpense
+                              .map(
+                                (expense) => ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  splashColor: Colors.transparent,
+                                  onTap: () async {
+                                    toggleExpenseCheckStatus(expense);
+                                    setInFieldsAverageExpense(expense['type']);
+                                  },
+                                  leading: Icon(expense['icon']),
+                                  title: Text(
+                                    expense['type'],
+                                    style: textStyleSmallDefault,
+                                  ),
+                                  trailing: Icon(
+                                    expense['isChecked']
+                                        ? Icons.check_box
+                                        : Icons.check_box_outline_blank_rounded,
+                                    size: 35,
+                                    color: Colors.black,
                                   ),
                                 ),
-                                const SizedBox(width: 20),
-                                Expanded(
-                                  child: DropdownButtonFormField<String>(
-                                    value: timeIncentive,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Estimulo de tempo',
-                                    ),
-                                    items: <String>['Dia', 'Hora']
-                                        .map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        timeIncentive = value!;
-                                        calculateExpenseByCompleted();
-                                      });
-                                    },
-                                    validator: Validatorless.required(
-                                        'Tipo de despesa obrigatório'),
-                                    style: textStyleSmallDefault,
-                                  ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    // Formulário
+                    Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          // Custos Fixos ou indiretos
+                          Card(
+                            child: ColumnTile(
+                              title: 'Valor da depesa fixa',
+                              children: [
+                                TextFormField(
+                                  onTapOutside: (_) =>
+                                      FocusScope.of(context).unfocus(),
+                                  controller: electricityBillEC,
+                                  readOnly: fixedExpense[0]['isChecked'],
+                                  decoration: const InputDecoration(
+                                      labelText: 'Conta de luz',
+                                      labelStyle: textStyleSmallDefault,
+                                      suffix: Icon(Icons.lightbulb)),
+                                  style: textStyleSmallDefault,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: !fixedExpense[0]['isChecked']
+                                      ? (_) {
+                                          calculateExpense(
+                                              0, electricityBillEC.numberValue);
+                                          electricityBill =
+                                              electricityBillEC.numberValue;
+                                        }
+                                      : null,
+                                  validator: (value) {
+                                    if (electricityBillEC.numberValue == 0) {
+                                      return 'Informe o valor da eletricidade';
+                                    }
+
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  onTapOutside: (_) =>
+                                      FocusScope.of(context).unfocus(),
+                                  controller: waterBillEC,
+                                  readOnly: fixedExpense[1]['isChecked'],
+                                  decoration: const InputDecoration(
+                                      labelText: 'Conta de água',
+                                      labelStyle: textStyleSmallDefault,
+                                      suffix: Icon(Icons.local_drink)),
+                                  style: textStyleSmallDefault,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: !fixedExpense[1]['isChecked']
+                                      ? (_) {
+                                          calculateExpense(
+                                              1, waterBillEC.numberValue);
+                                          waterBill = waterBillEC.numberValue;
+                                        }
+                                      : null,
+                                  validator: (value) {
+                                    if (waterBillEC.numberValue == 0) {
+                                      return 'Informe o valor da conta de água';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  onTapOutside: (_) =>
+                                      FocusScope.of(context).unfocus(),
+                                  controller: rentEC,
+                                  readOnly: fixedExpense[2]['isChecked'],
+                                  decoration: const InputDecoration(
+                                      labelText: 'Aluguel',
+                                      labelStyle: textStyleSmallDefault,
+                                      suffix: Icon(Icons.home)),
+                                  style: textStyleSmallDefault,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: !fixedExpense[2]['isChecked']
+                                      ? (_) {
+                                          calculateExpense(
+                                              2, rentEC.numberValue);
+                                          rent = rentEC.numberValue;
+                                        }
+                                      : null,
+                                  validator: (value) {
+                                    if (rentEC.numberValue == 0) {
+                                      return 'Informe o valor do aluguel';
+                                    }
+
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  onTapOutside: (_) =>
+                                      FocusScope.of(context).unfocus(),
+                                  controller: dasEC,
+                                  readOnly: fixedExpense[3]['isChecked'],
+                                  decoration: const InputDecoration(
+                                      labelText: 'DAS/SIMEI',
+                                      labelStyle: textStyleSmallDefault,
+                                      suffix: Icon(Icons.money_off)),
+                                  style: textStyleSmallDefault,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: !fixedExpense[3]['isChecked']
+                                      ? (_) {
+                                          calculateExpense(
+                                              3, dasEC.numberValue);
+                                          das = dasEC.numberValue;
+                                        }
+                                      : null,
+                                  validator: (value) {
+                                    if (dasEC.numberValue == 0) {
+                                      return 'Informe o valor de DAS/SIMEI';
+                                    }
+
+                                    return null;
+                                  },
+                                ),
+                                TextFormField(
+                                  onTapOutside: (_) =>
+                                      FocusScope.of(context).unfocus(),
+                                  controller: otherTaxesEC,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Outros',
+                                      labelStyle: textStyleSmallDefault,
+                                      suffix: Icon(Icons.money_off)),
+                                  style: textStyleSmallDefault,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) => calculateExpense(
+                                      4, otherTaxesEC.numberValue),
                                 ),
                               ],
                             ),
-                            TextFormField(
-                              onTapOutside: (_) =>
-                                  FocusScope.of(context).unfocus(),
-                              controller: profitMarginEC,
-                              decoration: const InputDecoration(
-                                  labelText: 'Margem de lucro',
-                                  labelStyle: textStyleSmallDefault,
-                                  suffixText: '%'),
-                              style: textStyleSmallDefault,
-                              keyboardType: TextInputType.number,
+                          ),
+                          const SizedBox(height: 5),
+                          // Outros custos
+                          Card(
+                            child: ColumnTile(
+                              title: 'Custos salariais',
+                              children: [
+                                TextFormField(
+                                  readOnly: true,
+                                  onTapOutside: (_) =>
+                                      FocusScope.of(context).unfocus(),
+                                  controller: preworkEC,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Pretensão Salarial',
+                                      labelStyle: textStyleSmallDefault,
+                                      suffix: Icon(Icons.price_change)),
+                                  keyboardType: TextInputType.number,
+                                  style: textStyleSmallDefault,
+                                ),
+                                TextFormField(
+                                  readOnly: true,
+                                  onTapOutside: (_) =>
+                                      FocusScope.of(context).unfocus(),
+                                  controller: employeeSalaryEC,
+                                  decoration: const InputDecoration(
+                                      labelText: 'Salário do funcionário',
+                                      labelStyle: textStyleSmallDefault,
+                                      suffix: Icon(Icons.price_change)),
+                                  keyboardType: TextInputType.number,
+                                  style: textStyleSmallDefault,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: 5),
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 15),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          onTapOutside: (_) =>
+                                              FocusScope.of(context).unfocus(),
+                                          controller: termEC,
+                                          decoration: InputDecoration(
+                                              labelText: 'Prazo*',
+                                              labelStyle: textStyleSmallDefault,
+                                              suffix:
+                                                  Text('$timeIncentive(s)')),
+                                          style: textStyleSmallDefault,
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                          onChanged: (value) {
+                                            pricingController.term.value =
+                                                value.isNotEmpty
+                                                    ? int.parse(value)
+                                                    : 1;
+
+                                            calculateExpenseByCompleted();
+                                          },
+                                          validator: Validatorless.required(
+                                              'Informe o prazo'),
+                                        ),
+                                      ),
+                                      const SizedBox(width: 20),
+                                      Expanded(
+                                        child: DropdownButtonFormField<String>(
+                                          value: timeIncentive,
+                                          decoration: const InputDecoration(
+                                            labelText: 'Estimulo de tempo',
+                                          ),
+                                          items: <String>['Dia', 'Hora']
+                                              .map((String value) {
+                                            return DropdownMenuItem<String>(
+                                              value: value,
+                                              child: Text(value),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              timeIncentive = value!;
+                                              calculateExpenseByCompleted();
+                                            });
+                                          },
+                                          validator: Validatorless.required(
+                                              'Tipo de despesa obrigatório'),
+                                          style: textStyleSmallDefault,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  TextFormField(
+                                    onTapOutside: (_) =>
+                                        FocusScope.of(context).unfocus(),
+                                    controller: profitMarginEC,
+                                    decoration: const InputDecoration(
+                                        labelText: 'Margem de lucro',
+                                        labelStyle: textStyleSmallDefault,
+                                        suffixText: '%'),
+                                    style: textStyleSmallDefault,
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            alignment: Alignment.centerRight,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Colors.grey,
+                  width: 1,
+                ),
+              ),
+            ),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+              onPressed: () {
+                if (formKey.currentState!.validate() &&
+                    pricingController
+                        .validate(pricingController.materialItemsBudget)) {
+                  pricingController.calculateTotalMaterial();
+                  pricingController.calculateTotalExpenses();
+                  pricingController
+                      .calculateProfitMargin(profitMarginEC.numberValue);
+                  pricingController.calculateTotalToBeCharged();
+                  Navigator.of(context).pushNamed('/budget/pricing/preview');
+                  // showModalBottomSheet(
+                  //   scrollControlDisabledMaxHeightRatio: .95,
+                  //   context: context,
+                  //   builder: (context) {
+                  //     return const PreviewPageForConfirmation();
+                  //   },
+                  // )
+                }
+              },
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Próximo',
+                    style: textStyleLargeDefault,
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_right,
+                    color: Colors.black,
+                    size: 30,
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
