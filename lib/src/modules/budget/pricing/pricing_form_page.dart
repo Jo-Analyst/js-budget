@@ -600,6 +600,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                       .calculateProfitMargin(profitMarginEC.numberValue);
                   pricingController.calculateTotalToBeCharged();
                   // Navigator.of(context).pushNamed('/budget/pricing/preview');
+                  var nav = Navigator.of(context);
                   bool isConfirmed = await showModalBottomSheet(
                         shape: const RoundedRectangleBorder(
                             borderRadius:
@@ -613,7 +614,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                       false;
 
                   if (isConfirmed) {
-                    Navigator.of(context).pop(isConfirmed);
+                    nav.pop(isConfirmed);
                   }
                 }
               },

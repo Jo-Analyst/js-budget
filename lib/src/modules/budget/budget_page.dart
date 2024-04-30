@@ -17,6 +17,7 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   final controller = Injector.get<OrderController>();
+  final pricingController = Injector.get<PricingController>();
 
   BudgetModel budgetModel = BudgetModel(
       products: [],
@@ -132,6 +133,18 @@ class _BudgetPageState extends State<BudgetPage> {
                                           product.name,
                                           style: textStyleSmallDefault,
                                         ),
+                                        subtitle: product.price > 0
+                                            ? Text(
+                                                UtilsService.moneyToCurrency(
+                                                    product.price),
+                                                style: TextStyle(
+                                                  fontFamily: 'Anta',
+                                                  fontSize:
+                                                      textStyleSmallDefault
+                                                          .fontSize,
+                                                ),
+                                              )
+                                            : null,
                                         trailing: IconButton(
                                           onPressed: () async {
                                             bool? isConfirmed = await Navigator
@@ -141,23 +154,32 @@ class _BudgetPageState extends State<BudgetPage> {
                                                         arguments: product
                                                             .name) as bool? ??
                                                 false;
-                                            final pricingController = Injector
-                                                .get<PricingController>();
+
                                             if (isConfirmed) {
                                               budgetModel.materialItemsBudget!
                                                   .addAll(pricingController
                                                       .materialItemsBudget);
                                             }
+                                            setState(() {
+                                              budgetModel.products[index]
+                                                  .price = pricingController
+                                                      .totalToBeCharged *
+                                                  product.quantity;
+                                            });
 
-                                            print(budgetModel.toJson());
-
-                                            pricingController.clearFields();
+                                            // pricingController.clearFields();
                                           },
-                                          icon: const Icon(
-                                            Icons.add_chart,
-                                            size: 30,
-                                            color: Colors.black,
-                                          ),
+                                          icon: product.price == 0
+                                              ? const Icon(
+                                                  Icons.add_chart,
+                                                  size: 30,
+                                                  color: Colors.black,
+                                                )
+                                              : const Icon(
+                                                  Icons.edit,
+                                                  size: 25,
+                                                  color: Colors.black,
+                                                ),
                                           tooltip: 'Precificar',
                                         ),
                                       ),

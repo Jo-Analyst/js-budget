@@ -8,12 +8,14 @@ class ProductModel {
   final int id;
   final String name;
   int quantity;
+  double price;
   final String description;
   final String unit;
   ProductModel({
     this.id = 0,
     required this.name,
     this.quantity = 1,
+    this.price = 0.0,
     required this.description,
     required this.unit,
   });
