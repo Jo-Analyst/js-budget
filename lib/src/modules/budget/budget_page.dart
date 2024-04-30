@@ -144,8 +144,12 @@ class _BudgetPageState extends State<BudgetPage> {
                                             final pricingController = Injector
                                                 .get<PricingController>();
                                             if (isConfirmed) {
-                                              // budgetModel.materialItemsBudget![index] = pricingController.materialItemsBudget;
+                                              budgetModel.materialItemsBudget!
+                                                  .addAll(pricingController
+                                                      .materialItemsBudget);
                                             }
+
+                                            print(budgetModel.toJson());
 
                                             pricingController.clearFields();
                                           },

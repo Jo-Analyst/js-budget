@@ -601,10 +601,6 @@ class _PricingFormPageState extends State<PricingFormPage>
                   pricingController.calculateTotalToBeCharged();
                   // Navigator.of(context).pushNamed('/budget/pricing/preview');
                   bool isConfirmed = await showModalBottomSheet(
-                        transitionAnimationController: AnimationController(
-                          vsync: this,
-                          duration: const Duration(milliseconds: 950),
-                        ),
                         shape: const RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10))),

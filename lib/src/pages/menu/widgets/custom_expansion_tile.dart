@@ -45,6 +45,12 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: widget.addBorder
