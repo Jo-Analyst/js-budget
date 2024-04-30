@@ -5,8 +5,10 @@ import 'package:js_budget/src/models/material_model.dart';
 import 'package:signals/signals.dart';
 
 class PricingController with Messages {
-  double totalMaterialValue = 0, totalExpenseValue = 0, totalToBeCharged = 0;
-  double profitMargin = 0;
+  double totalMaterialValue = 0,
+      totalExpenseValue = 0,
+      totalToBeCharged = 0,
+      profitMargin = 0;
   var term = 1;
   final _materialItemsBudget = ListSignal<MaterialItemsBudgetModel>([]);
   ListSignal<MaterialItemsBudgetModel> get materialItemsBudget =>

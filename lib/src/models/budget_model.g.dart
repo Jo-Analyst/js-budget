@@ -19,6 +19,12 @@ BudgetModel _$BudgetModelFromJson(Map<String, dynamic> json) => BudgetModel(
           ?.map((e) =>
               FixedExpenseItemsBudgetModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      products: (json['products'] as List<dynamic>)
+          .map((e) => ProductModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      services: (json['services'] as List<dynamic>)
+          .map((e) => ServiceModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       createdAt: json['created_at'] as String,
       clientId: json['client_id'] as int,
       orderId: json['order_id'] as int,
@@ -31,6 +37,8 @@ Map<String, dynamic> _$BudgetModelToJson(BudgetModel instance) =>
       'status': instance.status,
       'material_items_budget': instance.materialItemsBudget,
       'fixed_expense_items_budget': instance.fixedExpenseItemsBudget,
+      'products': instance.products,
+      'services': instance.services,
       'created_at': instance.createdAt,
       'client_id': instance.clientId,
       'order_id': instance.orderId,

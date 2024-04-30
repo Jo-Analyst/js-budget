@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/product_model.dart';
-import 'package:js_budget/src/models/service_model.dart';
+import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
@@ -18,25 +17,28 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   final controller = Injector.get<OrderController>();
-  final List<ProductModel> products = [];
-  final List<ServiceModel> services = [];
 
+  BudgetModel budgetModel = BudgetModel(
+      products: [],
+      services: [],
+      materialItemsBudget: [],
+      fixedExpenseItemsBudget: []);
   void loadProductsAndServices() {
     var items = controller.model.value!.items;
     for (var item in items) {
       if (item.product != null) {
-        products.add(item.product!);
+        budgetModel.products.add(item.product!);
       }
 
       if (item.service != null) {
-        services.add(item.service!);
+        budgetModel.services.add(item.service!);
       }
     }
   }
 
   double sumPriceService() {
     double priceTotal = 0;
-    for (var service in services) {
+    for (var service in budgetModel.services) {
       priceTotal += service.price;
     }
 
@@ -48,6 +50,8 @@ class _BudgetPageState extends State<BudgetPage> {
     super.initState();
     loadProductsAndServices();
   }
+
+  int index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -90,65 +94,87 @@ class _BudgetPageState extends State<BudgetPage> {
                     const SizedBox(height: 5),
                     // Produtos
                     Visibility(
-                      visible: products.isNotEmpty,
+                      visible: budgetModel.products.isNotEmpty,
                       child: Card(
-                        child: ColumnTile(
-                          title: 'Produto(s)',
-                          children: products
-                              .map(
-                                (product) => Column(
-                                  children: [
-                                    ListTile(
-                                      contentPadding: EdgeInsets.zero,
-                                      leading: CircleAvatar(
-                                        radius: 30,
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            '${product.quantity}x',
-                                            style: TextStyle(
-                                                fontSize: textStyleSmallDefault
-                                                    .fontSize,
-                                                fontFamily: 'Anta'),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('Produto(s)',
+                                  style: textStyleSmallFontWeight),
+                              ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: budgetModel.products.length,
+                                itemBuilder: (context, index) {
+                                  final product = budgetModel.products[index];
+                                  return Column(
+                                    children: [
+                                      ListTile(
+                                        contentPadding: EdgeInsets.zero,
+                                        leading: CircleAvatar(
+                                          radius: 30,
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              '${product.quantity}x',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      textStyleSmallDefault
+                                                          .fontSize,
+                                                  fontFamily: 'Anta'),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      title: Text(
-                                        product.name,
-                                        style: textStyleSmallDefault,
-                                      ),
-                                      trailing: IconButton(
-                                        onPressed: () async {
-                                          await Navigator.of(context).pushNamed(
-                                              '/budget/pricing',
-                                              arguments: product.name);
-                                          Injector.get<PricingController>()
-                                              .clearFields();
-                                        },
-                                        icon: const Icon(
-                                          Icons.add_chart,
-                                          size: 30,
-                                          color: Colors.black,
+                                        title: Text(
+                                          product.name,
+                                          style: textStyleSmallDefault,
                                         ),
-                                        tooltip: 'Precificar',
+                                        trailing: IconButton(
+                                          onPressed: () async {
+                                            bool? isConfirmed = await Navigator
+                                                        .of(context)
+                                                    .pushNamed(
+                                                        '/budget/pricing',
+                                                        arguments: product
+                                                            .name) as bool? ??
+                                                false;
+                                            final pricingController = Injector
+                                                .get<PricingController>();
+                                            if (isConfirmed) {
+                                              // budgetModel.materialItemsBudget![index] = pricingController.materialItemsBudget;
+                                            }
+
+                                            pricingController.clearFields();
+                                          },
+                                          icon: const Icon(
+                                            Icons.add_chart,
+                                            size: 30,
+                                            color: Colors.black,
+                                          ),
+                                          tooltip: 'Precificar',
+                                        ),
                                       ),
-                                    ),
-                                    const Divider()
-                                  ],
-                                ),
-                              )
-                              .toList(),
+                                      const Divider()
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 5),
                     // Serviços
                     Visibility(
-                      visible: services.isNotEmpty,
+                      visible: budgetModel.services.isNotEmpty,
                       child: Card(
                         child: ColumnTile(
                           title: 'Serviço(s)',
-                          children: services
+                          children: budgetModel.services
                               .map(
                                 (service) => Column(
                                   children: [
@@ -195,13 +221,20 @@ class _BudgetPageState extends State<BudgetPage> {
             ),
           ),
           Container(
-            color: Theme.of(context).primaryColor,
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  width: 1,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
               child: Column(
                 children: [
                   Visibility(
-                    visible: products.isNotEmpty,
+                    visible: budgetModel.products.isNotEmpty,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -221,11 +254,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     ),
                   ),
                   Visibility(
-                    visible: services.isNotEmpty,
-                    child: const Divider(color: Colors.black45),
-                  ),
-                  Visibility(
-                    visible: services.isNotEmpty,
+                    visible: budgetModel.services.isNotEmpty,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -245,7 +274,6 @@ class _BudgetPageState extends State<BudgetPage> {
                       ],
                     ),
                   ),
-                  const Divider(color: Colors.black45),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -264,7 +292,6 @@ class _BudgetPageState extends State<BudgetPage> {
                       ),
                     ],
                   ),
-                  const Divider(color: Colors.black45),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

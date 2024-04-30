@@ -3,29 +3,35 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
+import 'package:js_budget/src/models/product_model.dart';
+import 'package:js_budget/src/models/service_model.dart';
 
 part 'budget_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class BudgetModel {
-  final int id;
-  final double valueTotal;
-  final String status;
-  final List<MaterialItemsBudgetModel>? materialItemsBudget;
-  final List<FixedExpenseItemsBudgetModel>? fixedExpenseItemsBudget;
-  final String createdAt;
-  final int clientId;
-  final int orderId;
+  int id;
+  double? valueTotal;
+  String? status;
+  List<MaterialItemsBudgetModel>? materialItemsBudget;
+  List<FixedExpenseItemsBudgetModel>? fixedExpenseItemsBudget;
+  List<ProductModel> products;
+  List<ServiceModel> services;
+  String? createdAt;
+  int? clientId;
+  int? orderId;
 
   BudgetModel({
     this.id = 0,
-    required this.valueTotal,
-    required this.status,
+    this.valueTotal,
+    this.status,
     this.materialItemsBudget,
     this.fixedExpenseItemsBudget,
-    required this.createdAt,
-    required this.clientId,
-    required this.orderId,
+    required this.products,
+    required this.services,
+    this.createdAt,
+    this.clientId,
+    this.orderId,
   });
 
   factory BudgetModel.fromJson(Map<String, dynamic> json) =>

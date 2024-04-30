@@ -4,6 +4,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/budget/pricing/preview_page_for_confirmation.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_form_controller.dart';
 import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
@@ -23,7 +24,7 @@ class PricingFormPage extends StatefulWidget {
 }
 
 class _PricingFormPageState extends State<PricingFormPage>
-    with PricingFormController {
+    with PricingFormController, TickerProviderStateMixin {
   final expenseController = Injector.get<FixedExpenseController>();
   final profileController = Injector.get<ProfileController>();
   final pricingController = Injector.get<PricingController>();
@@ -589,7 +590,7 @@ class _PricingFormPageState extends State<PricingFormPage>
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (formKey.currentState!.validate() &&
                     pricingController
                         .validate(pricingController.materialItemsBudget)) {
@@ -598,14 +599,26 @@ class _PricingFormPageState extends State<PricingFormPage>
                   pricingController
                       .calculateProfitMargin(profitMarginEC.numberValue);
                   pricingController.calculateTotalToBeCharged();
-                  Navigator.of(context).pushNamed('/budget/pricing/preview');
-                  // showModalBottomSheet(
-                  //   scrollControlDisabledMaxHeightRatio: .95,
-                  //   context: context,
-                  //   builder: (context) {
-                  //     return const PreviewPageForConfirmation();
-                  //   },
-                  // )
+                  // Navigator.of(context).pushNamed('/budget/pricing/preview');
+                  bool isConfirmed = await showModalBottomSheet(
+                        transitionAnimationController: AnimationController(
+                          vsync: this,
+                          duration: const Duration(milliseconds: 950),
+                        ),
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        scrollControlDisabledMaxHeightRatio: .9,
+                        context: context,
+                        builder: (context) {
+                          return const PreviewPageForConfirmation();
+                        },
+                      ) ??
+                      false;
+
+                  if (isConfirmed) {
+                    Navigator.of(context).pop(isConfirmed);
+                  }
                 }
               },
               child: const Row(
