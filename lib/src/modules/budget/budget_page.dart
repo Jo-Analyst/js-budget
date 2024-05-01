@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/budget/item_budget/item_budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/pages/widgets/column_tile.dart';
@@ -16,9 +17,10 @@ class BudgetPage extends StatefulWidget {
 }
 
 class _BudgetPageState extends State<BudgetPage> {
-  final controller = Injector.get<OrderController>();
+  final orderController = Injector.get<OrderController>();
   final pricingController = Injector.get<PricingController>();
   final budgetController = Injector.get<BudgetController>();
+  final itemBudgetController = Injector.get<ItemBudgetController>();
 
   // BudgetModel budgetModel = BudgetModel(
   //     products: [],
@@ -27,22 +29,16 @@ class _BudgetPageState extends State<BudgetPage> {
   //     fixedExpenseItemsBudget: []);
 
   void loadProductsAndServices() {
-    var items = controller.model.value!.items;
-    for (var item in items) {
-      if (item.product != null) {
-        budgetController.model.value.products.add(item.product!);
-      }
-
-      if (item.service != null) {
-        budgetController.model.value.services.add(item.service!);
-      }
-    }
+    var items = orderController.model.value!.items;
+    itemBudgetController.add(items);
   }
 
   double sumPriceService() {
     double priceTotal = 0;
-    for (var service in budgetController.model.value.services) {
-      priceTotal += service.price;
+    for (var data in itemBudgetController.data) {
+      if (data.service != null) {
+        priceTotal += data.service!.price;
+      }
     }
 
     return priceTotal;
@@ -87,9 +83,9 @@ class _BudgetPageState extends State<BudgetPage> {
                           CustomListTileIcon(
                             leading: const Icon(Icons.assignment),
                             title:
-                                'Pedido ${controller.model.value!.id.toString().padLeft(5, '0')}',
+                                'Pedido ${orderController.model.value!.id.toString().padLeft(5, '0')}',
                             subtitle:
-                                'Cliente: ${controller.model.value!.client.name}',
+                                'Cliente: ${orderController.model.value!.client.name}',
                           ),
                         ],
                       ),
@@ -97,7 +93,8 @@ class _BudgetPageState extends State<BudgetPage> {
                     const SizedBox(height: 5),
                     // Produtos
                     Visibility(
-                      visible: budgetController.model.value.products.isNotEmpty,
+                      visible: itemBudgetController.data
+                          .any((itemBudget) => itemBudget.product != null),
                       child: Card(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -110,11 +107,12 @@ class _BudgetPageState extends State<BudgetPage> {
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount: budgetController
-                                    .model.value.products.length,
+                                itemCount: itemBudgetController.data
+                                    .where((element) => element.product != null)
+                                    .length,
                                 itemBuilder: (context, index) {
-                                  final product = budgetController
-                                      .model.value.products[index];
+                                  final product =
+                                      itemBudgetController.data[index].product;
                                   return Column(
                                     children: [
                                       ListTile(
@@ -124,7 +122,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                           child: FittedBox(
                                             fit: BoxFit.scaleDown,
                                             child: Text(
-                                              '${product.quantity}x',
+                                              '${product!.quantity}x',
                                               style: TextStyle(
                                                   fontSize:
                                                       textStyleSmallDefault
@@ -160,18 +158,15 @@ class _BudgetPageState extends State<BudgetPage> {
                                                 false;
 
                                             if (isConfirmed) {
-                                              budgetController.model.value
-                                                  .materialItemsBudget!
+                                              itemBudgetController.data[index]
+                                                  .materialItemsBudget
                                                   .addAll(pricingController
                                                       .materialItemsBudget);
                                               setState(() {
-                                                budgetController
-                                                    .model
-                                                    .value
-                                                    .products[index]
-                                                    .price = pricingController
-                                                        .totalToBeCharged *
-                                                    product.quantity;
+                                                product.price =
+                                                    pricingController
+                                                            .totalToBeCharged *
+                                                        product.quantity;
                                               });
 
                                               pricingController.clearFields();
@@ -204,18 +199,20 @@ class _BudgetPageState extends State<BudgetPage> {
                     const SizedBox(height: 5),
                     // Serviços
                     Visibility(
-                      visible: budgetController.model.value.services.isNotEmpty,
+                      visible: itemBudgetController.data
+                          .any((itemBudget) => itemBudget.service != null),
                       child: Card(
                         child: ColumnTile(
                           title: 'Serviço(s)',
-                          children: budgetController.model.value.services
+                          children: itemBudgetController.data
+                              .where((itemBudget) => itemBudget.service != null)
                               .map(
-                                (service) => Column(
+                                (itemBudget) => Column(
                                   children: [
                                     ListTile(
                                       contentPadding: EdgeInsets.zero,
                                       title: Text(
-                                        service.description,
+                                        itemBudget.service!.description,
                                         style: textStyleSmallDefault,
                                       ),
                                       leading: CircleAvatar(
@@ -223,7 +220,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                         child: FittedBox(
                                           fit: BoxFit.scaleDown,
                                           child: Text(
-                                            '${service.quantity}x',
+                                            '${itemBudget.service!.quantity}x',
                                             style: TextStyle(
                                                 fontSize: textStyleSmallDefault
                                                     .fontSize,
@@ -233,7 +230,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                       ),
                                       trailing: Text(
                                         UtilsService.moneyToCurrency(
-                                            service.price),
+                                            itemBudget.service!.price),
                                         style: TextStyle(
                                           fontFamily: 'Anta',
                                           fontSize:
@@ -268,7 +265,8 @@ class _BudgetPageState extends State<BudgetPage> {
               child: Column(
                 children: [
                   Visibility(
-                    visible: budgetController.model.value.products.isNotEmpty,
+                    visible: itemBudgetController.data
+                        .any((itemBudget) => itemBudget.product != null),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -288,7 +286,8 @@ class _BudgetPageState extends State<BudgetPage> {
                     ),
                   ),
                   Visibility(
-                    visible: budgetController.model.value.services.isNotEmpty,
+                    visible: itemBudgetController.data
+                        .any((itemBudget) => itemBudget.service != null),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

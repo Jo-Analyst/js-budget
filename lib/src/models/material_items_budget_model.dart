@@ -10,13 +10,13 @@ class MaterialItemsBudgetModel {
   double value;
   int quantity;
   final MaterialModel material;
-  final int? budgetId;
+  final int? itemBudgetId;
   MaterialItemsBudgetModel({
     this.id = 0,
     required this.value,
     this.quantity = 1,
     required this.material,
-    this.budgetId,
+    this.itemBudgetId,
   });
 
   factory MaterialItemsBudgetModel.fromJson(Map<String, dynamic> json) =>

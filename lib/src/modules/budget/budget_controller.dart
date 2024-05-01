@@ -6,11 +6,6 @@ class BudgetController {
   ListSignal<BudgetModel> get data => _data;
 
   final model = signal<BudgetModel>(
-    BudgetModel(
-      products: [],
-      services: [],
-      materialItemsBudget: [],
-      fixedExpenseItemsBudget: [],
-    ),
+    BudgetModel(),
   );
 }

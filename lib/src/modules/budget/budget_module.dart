@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/budget_page.dart';
+import 'package:js_budget/src/modules/budget/item_budget/item_budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/preview_page_for_confirmation.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_form_page.dart';
 
@@ -9,6 +10,7 @@ class BudgetModule extends FlutterGetItModule {
   @override
   List<Bind<Object>> get bindings => [
         Bind.lazySingleton((i) => BudgetController()),
+        Bind.lazySingleton((i) => ItemBudgetController()),
       ];
 
   @override

@@ -14,7 +14,7 @@ MaterialItemsBudgetModel _$MaterialItemsBudgetModelFromJson(
       quantity: json['quantity'] as int? ?? 1,
       material:
           MaterialModel.fromJson(json['material'] as Map<String, dynamic>),
-      budgetId: json['budgetId'] as int?,
+      itemBudgetId: json['itemBudgetId'] as int?,
     );
 
 Map<String, dynamic> _$MaterialItemsBudgetModelToJson(
@@ -24,5 +24,5 @@ Map<String, dynamic> _$MaterialItemsBudgetModelToJson(
       'value': instance.value,
       'quantity': instance.quantity,
       'material': instance.material,
-      'budgetId': instance.budgetId,
+      'itemBudgetId': instance.itemBudgetId,
     };

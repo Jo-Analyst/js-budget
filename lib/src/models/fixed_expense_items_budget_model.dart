@@ -11,7 +11,7 @@ class FixedExpenseItemsBudgetModel {
   double dividedValue;
   double accumulatedValue;
   final String type;
-  final int? budgetId;
+  final int? itemBudgetId;
 
   FixedExpenseItemsBudgetModel({
     this.id = 0,
@@ -19,7 +19,7 @@ class FixedExpenseItemsBudgetModel {
     required this.dividedValue,
     required this.accumulatedValue,
     required this.type,
-    this.budgetId,
+    this.itemBudgetId,
   });
 
   factory FixedExpenseItemsBudgetModel.fromJson(Map<String, dynamic> json) =>
