@@ -175,8 +175,8 @@ class _BudgetPageState extends State<BudgetPage> {
                                                       .profitMargin =
                                                   pricingController
                                                       .calcProfitMargin;
-                                              itemBudgetController
-                                                      .data[index].valueUnit =
+                                              itemBudgetController.data[index]
+                                                      .unitaryValue =
                                                   pricingController
                                                       .totalToBeCharged;
                                               setState(() {

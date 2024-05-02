@@ -12,7 +12,7 @@ part 'items_budget_model.g.dart';
 class ItemsBudgetModel {
   int id;
   double subValue;
-  double valueUnit;
+  double unitaryValue;
   int term;
   String timeIncentive;
   double percentageProfitMargin;
@@ -25,7 +25,7 @@ class ItemsBudgetModel {
   ItemsBudgetModel({
     this.id = 0,
     this.subValue = 0,
-    this.valueUnit = 0,
+    this.unitaryValue = 0,
     this.term = 1,
     this.timeIncentive = 'Dia',
     this.percentageProfitMargin = 0.0,
