@@ -603,8 +603,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                   var nav = Navigator.of(context);
                   bool isConfirmed = await showModalBottomSheet(
                         shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
                         scrollControlDisabledMaxHeightRatio: .9,
                         context: context,
                         builder: (context) {

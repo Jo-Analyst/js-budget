@@ -124,10 +124,10 @@ class _BudgetPageState extends State<BudgetPage> {
                                             child: Text(
                                               '${product!.quantity}x',
                                               style: TextStyle(
-                                                  fontSize:
-                                                      textStyleSmallDefault
-                                                          .fontSize,
-                                                  fontFamily: 'Anta'),
+                                                fontSize: textStyleSmallDefault
+                                                    .fontSize,
+                                                fontFamily: 'Anta',
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -135,10 +135,13 @@ class _BudgetPageState extends State<BudgetPage> {
                                           product.name,
                                           style: textStyleSmallDefault,
                                         ),
-                                        subtitle: product.price > 0
+                                        subtitle: itemBudgetController
+                                                    .data[index].value >
+                                                0
                                             ? Text(
                                                 UtilsService.moneyToCurrency(
-                                                    product.price),
+                                                    itemBudgetController
+                                                        .data[index].value),
                                                 style: TextStyle(
                                                   fontFamily: 'Anta',
                                                   fontSize:
@@ -163,16 +166,18 @@ class _BudgetPageState extends State<BudgetPage> {
                                                   .addAll(pricingController
                                                       .materialItemsBudget);
                                               setState(() {
-                                                product.price =
-                                                    pricingController
-                                                            .totalToBeCharged *
-                                                        product.quantity;
+                                                itemBudgetController.data[index]
+                                                    .value = pricingController
+                                                        .totalToBeCharged *
+                                                    product.quantity;
                                               });
 
                                               pricingController.clearFields();
                                             }
                                           },
-                                          icon: product.price == 0
+                                          icon: itemBudgetController
+                                                      .data[index].value ==
+                                                  0
                                               ? const Icon(
                                                   Icons.add_chart,
                                                   size: 30,
