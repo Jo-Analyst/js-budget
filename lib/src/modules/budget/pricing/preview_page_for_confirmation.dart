@@ -261,7 +261,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                             ),
                             trailing: Text(
                               UtilsService.moneyToCurrency(
-                                  controller.profitMargin),
+                                  controller.calcProfitMargin),
                               style: TextStyle(
                                 fontFamily: 'Anta',
                                 fontSize: textStyleLargeDefault.fontSize,

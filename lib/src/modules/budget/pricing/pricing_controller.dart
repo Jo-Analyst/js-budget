@@ -8,8 +8,11 @@ class PricingController with Messages {
   double totalMaterialValue = 0,
       totalExpenseValue = 0,
       totalToBeCharged = 0,
-      profitMargin = 0;
-  var term = 1;
+      calcProfitMargin = 0,
+      percentageProfitMargin = 0;
+  int term = 1;
+  String timeIncentive = 'Dia';
+
   final _materialItemsBudget = ListSignal<MaterialItemsBudgetModel>([]);
   ListSignal<MaterialItemsBudgetModel> get materialItemsBudget =>
       _materialItemsBudget
@@ -90,21 +93,24 @@ class PricingController with Messages {
     totalMaterialValue -= materialItem.value;
   }
 
-  void calculateProfitMargin(double percentageProfitMargin) {
+  void calculateProfitMargin() {
     double totalCost = totalExpenseValue + totalMaterialValue;
-    profitMargin = totalCost * (percentageProfitMargin / 100);
+    calcProfitMargin = totalCost * (percentageProfitMargin / 100);
   }
 
   void calculateTotalToBeCharged() {
-    totalToBeCharged = totalExpenseValue + totalMaterialValue + profitMargin;
+    totalToBeCharged =
+        totalExpenseValue + totalMaterialValue + calcProfitMargin;
   }
 
   void clearFields() {
     totalMaterialValue = 0;
     totalExpenseValue = 0;
     totalToBeCharged = 0;
-    profitMargin;
+    percentageProfitMargin = 0;
+    calcProfitMargin;
     term = 1;
+    timeIncentive = 'Dia';
     materialItemsBudget.clear();
     fixedExpenseItemsBudget.clear();
   }

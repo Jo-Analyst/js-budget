@@ -30,7 +30,6 @@ class _PricingFormPageState extends State<PricingFormPage>
   final pricingController = Injector.get<PricingController>();
   final formKey = GlobalKey<FormState>();
   double electricityBill = 0, waterBill = 0, rent = 0, das = 0;
-  String timeIncentive = 'Dia';
 
   List<Map<String, dynamic>> fixedExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
@@ -131,7 +130,7 @@ class _PricingFormPageState extends State<PricingFormPage>
 
   void calculateExpense(int index, double value) {
     pricingController.calculateExpensesByPeriodForEachExpense(
-        index, timeIncentive, value, pricingController.term);
+        index, pricingController.timeIncentive, value, pricingController.term);
   }
 
   void calculateExpenseByCompleted() {
@@ -504,8 +503,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                                           decoration: InputDecoration(
                                               labelText: 'Prazo*',
                                               labelStyle: textStyleSmallDefault,
-                                              suffix:
-                                                  Text('$timeIncentive(s)')),
+                                              suffix: Text(
+                                                  '${pricingController.timeIncentive}(s)')),
                                           style: textStyleSmallDefault,
                                           keyboardType: TextInputType.number,
                                           inputFormatters: [
@@ -527,7 +526,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                                       const SizedBox(width: 20),
                                       Expanded(
                                         child: DropdownButtonFormField<String>(
-                                          value: timeIncentive,
+                                          value:
+                                              pricingController.timeIncentive,
                                           decoration: const InputDecoration(
                                             labelText: 'Estimulo de tempo',
                                           ),
@@ -540,7 +540,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                                           }).toList(),
                                           onChanged: (value) {
                                             setState(() {
-                                              timeIncentive = value!;
+                                              pricingController.timeIncentive =
+                                                  value!;
+
                                               calculateExpenseByCompleted();
                                             });
                                           },
@@ -561,6 +563,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                                         suffixText: '%'),
                                     style: textStyleSmallDefault,
                                     keyboardType: TextInputType.number,
+                                    onChanged: (value) => pricingController
+                                            .percentageProfitMargin =
+                                        profitMarginEC.numberValue,
                                   ),
                                 ],
                               ),
@@ -596,8 +601,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                         .validate(pricingController.materialItemsBudget)) {
                   pricingController.calculateTotalMaterial();
                   pricingController.calculateTotalExpenses();
-                  pricingController
-                      .calculateProfitMargin(profitMarginEC.numberValue);
+                  pricingController.calculateProfitMargin();
                   pricingController.calculateTotalToBeCharged();
                   // Navigator.of(context).pushNamed('/budget/pricing/preview');
                   var nav = Navigator.of(context);

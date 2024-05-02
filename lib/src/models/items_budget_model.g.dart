@@ -9,14 +9,18 @@ part of 'items_budget_model.dart';
 ItemsBudgetModel _$ItemsBudgetModelFromJson(Map<String, dynamic> json) =>
     ItemsBudgetModel(
       id: json['id'] as int? ?? 0,
-      value: (json['value'] as num?)?.toDouble() ?? 0,
+      subValue: (json['sub_value'] as num?)?.toDouble() ?? 0,
+      valueUnit: (json['value_unit'] as num?)?.toDouble() ?? 0,
       term: json['term'] as int? ?? 1,
-      timeIncentive: json['timeIncentive'] as String? ?? 'Dia',
-      materialItemsBudget: (json['materialItemsBudget'] as List<dynamic>)
+      timeIncentive: json['time_incentive'] as String? ?? 'Dia',
+      percentageProfitMargin:
+          (json['percentage_profit_margin'] as num?)?.toDouble() ?? 0.0,
+      profitMargin: (json['profit_margin'] as num?)?.toDouble() ?? 0.0,
+      materialItemsBudget: (json['material_items_budget'] as List<dynamic>)
           .map((e) =>
               MaterialItemsBudgetModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fixedExpenseItemsBudget: (json['fixedExpenseItemsBudget']
+      fixedExpenseItemsBudget: (json['fixed_expense_items_budget']
               as List<dynamic>)
           .map((e) =>
               FixedExpenseItemsBudgetModel.fromJson(e as Map<String, dynamic>))
@@ -27,18 +31,21 @@ ItemsBudgetModel _$ItemsBudgetModelFromJson(Map<String, dynamic> json) =>
       service: json['service'] == null
           ? null
           : ServiceModel.fromJson(json['service'] as Map<String, dynamic>),
-      budgetId: json['budgetId'] as int?,
+      budgetId: json['budget_id'] as int?,
     );
 
 Map<String, dynamic> _$ItemsBudgetModelToJson(ItemsBudgetModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'value': instance.value,
+      'sub_value': instance.subValue,
+      'value_unit': instance.valueUnit,
       'term': instance.term,
-      'timeIncentive': instance.timeIncentive,
-      'materialItemsBudget': instance.materialItemsBudget,
-      'fixedExpenseItemsBudget': instance.fixedExpenseItemsBudget,
+      'time_incentive': instance.timeIncentive,
+      'percentage_profit_margin': instance.percentageProfitMargin,
+      'profit_margin': instance.profitMargin,
+      'material_items_budget': instance.materialItemsBudget,
+      'fixed_expense_items_budget': instance.fixedExpenseItemsBudget,
       'product': instance.product,
       'service': instance.service,
-      'budgetId': instance.budgetId,
+      'budget_id': instance.budgetId,
     };

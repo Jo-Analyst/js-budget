@@ -21,12 +21,7 @@ class _BudgetPageState extends State<BudgetPage> {
   final pricingController = Injector.get<PricingController>();
   final budgetController = Injector.get<BudgetController>();
   final itemBudgetController = Injector.get<ItemBudgetController>();
-
-  // BudgetModel budgetModel = BudgetModel(
-  //     products: [],
-  //     services: [],
-  //     materialItemsBudget: [],
-  //     fixedExpenseItemsBudget: []);
+  double valueTotalProduct = 0;
 
   void loadProductsAndServices() {
     var items = orderController.model.value!.items;
@@ -136,12 +131,12 @@ class _BudgetPageState extends State<BudgetPage> {
                                           style: textStyleSmallDefault,
                                         ),
                                         subtitle: itemBudgetController
-                                                    .data[index].value >
+                                                    .data[index].subValue >
                                                 0
                                             ? Text(
                                                 UtilsService.moneyToCurrency(
                                                     itemBudgetController
-                                                        .data[index].value),
+                                                        .data[index].subValue),
                                                 style: TextStyle(
                                                   fontFamily: 'Anta',
                                                   fontSize:
@@ -165,18 +160,45 @@ class _BudgetPageState extends State<BudgetPage> {
                                                   .materialItemsBudget
                                                   .addAll(pricingController
                                                       .materialItemsBudget);
+                                              itemBudgetController
+                                                      .data[index].term =
+                                                  pricingController.term;
+                                              itemBudgetController.data[index]
+                                                      .timeIncentive =
+                                                  pricingController
+                                                      .timeIncentive;
+                                              itemBudgetController.data[index]
+                                                      .percentageProfitMargin =
+                                                  pricingController
+                                                      .percentageProfitMargin;
+                                              itemBudgetController.data[index]
+                                                      .profitMargin =
+                                                  pricingController
+                                                      .calcProfitMargin;
+                                              itemBudgetController
+                                                      .data[index].valueUnit =
+                                                  pricingController
+                                                      .totalToBeCharged;
                                               setState(() {
-                                                itemBudgetController.data[index]
-                                                    .value = pricingController
-                                                        .totalToBeCharged *
-                                                    product.quantity;
+                                                itemBudgetController
+                                                        .data[index].subValue =
+                                                    pricingController
+                                                            .totalToBeCharged *
+                                                        product.quantity;
+                                                valueTotalProduct =
+                                                    budgetController.sumValue(
+                                                        itemBudgetController
+                                                            .data);
                                               });
 
+                                              print(itemBudgetController
+                                                  .data[index]
+                                                  .toJson());
                                               pricingController.clearFields();
                                             }
                                           },
                                           icon: itemBudgetController
-                                                      .data[index].value ==
+                                                      .data[index].subValue ==
                                                   0
                                               ? const Icon(
                                                   Icons.add_chart,
@@ -272,81 +294,57 @@ class _BudgetPageState extends State<BudgetPage> {
                   Visibility(
                     visible: itemBudgetController.data
                         .any((itemBudget) => itemBudget.product != null),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Preço do produto(s)',
-                          style: textStyleSmallFontWeight,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text(
+                        'Preço do(s) produto(s)',
+                        style: textStyleSmallFontWeight,
+                      ),
+                      trailing: Text(
+                        UtilsService.moneyToCurrency(valueTotalProduct),
+                        style: const TextStyle(
+                          fontFamily: 'Anta',
+                          fontSize: 23,
+                          color: Color.fromARGB(255, 24, 113, 185),
                         ),
-                        Text(
-                          UtilsService.moneyToCurrency(0),
-                          style: const TextStyle(
-                            fontFamily: 'Anta',
-                            fontSize: 23,
-                            color: Color.fromARGB(255, 24, 113, 185),
-                          ),
-                        )
-                      ],
+                      ),
                     ),
                   ),
                   Visibility(
                     visible: itemBudgetController.data
                         .any((itemBudget) => itemBudget.service != null),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Preço do serviço(s)',
-                          style: textStyleSmallFontWeight,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text(
+                        'Preço do serviço(s)',
+                        style: textStyleSmallFontWeight,
+                      ),
+                      trailing: Text(
+                        UtilsService.moneyToCurrency(sumPriceService()),
+                        style: const TextStyle(
+                          fontFamily: 'Anta',
+                          fontSize: 23,
+                          color: Color.fromARGB(255, 24, 113, 185),
                         ),
-                        Text(
-                          UtilsService.moneyToCurrency(sumPriceService()),
-                          style: const TextStyle(
-                            fontFamily: 'Anta',
-                            fontSize: 23,
-                            fontWeight: FontWeight.w700,
-                            color: Color.fromARGB(255, 24, 113, 185),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Despesa',
-                        style: textStyleSmallFontWeight,
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text(
+                      'Valor a cobrar',
+                      style: textStyleSmallFontWeight,
+                    ),
+                    trailing: Text(
+                      UtilsService.moneyToCurrency(
+                          sumPriceService() + valueTotalProduct),
+                      style: const TextStyle(
+                        fontFamily: 'Anta',
+                        fontSize: 23,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.green,
                       ),
-                      Text(
-                        UtilsService.moneyToCurrency(0),
-                        style: const TextStyle(
-                          fontFamily: 'Anta',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 23,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Valor a pagar',
-                        style: textStyleSmallFontWeight,
-                      ),
-                      Text(
-                        UtilsService.moneyToCurrency(0),
-                        style: const TextStyle(
-                          fontFamily: 'Anta',
-                          fontSize: 23,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.green,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ],
               ),

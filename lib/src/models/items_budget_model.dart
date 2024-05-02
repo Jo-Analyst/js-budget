@@ -8,12 +8,15 @@ import 'package:js_budget/src/models/service_model.dart';
 
 part 'items_budget_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ItemsBudgetModel {
   int id;
-  double value;
+  double subValue;
+  double valueUnit;
   int term;
   String timeIncentive;
+  double percentageProfitMargin;
+  double profitMargin;
   List<MaterialItemsBudgetModel> materialItemsBudget;
   List<FixedExpenseItemsBudgetModel> fixedExpenseItemsBudget;
   ProductModel? product;
@@ -21,9 +24,12 @@ class ItemsBudgetModel {
   int? budgetId;
   ItemsBudgetModel({
     this.id = 0,
-    this.value = 0,
+    this.subValue = 0,
+    this.valueUnit = 0,
     this.term = 1,
     this.timeIncentive = 'Dia',
+    this.percentageProfitMargin = 0.0,
+    this.profitMargin = 0.0,
     required this.materialItemsBudget,
     required this.fixedExpenseItemsBudget,
     this.product,
