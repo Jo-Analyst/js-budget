@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/item_budget/item_budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
@@ -38,32 +37,6 @@ class _BudgetPageState extends State<BudgetPage> {
     }
 
     return priceTotal;
-  }
-
-  void addDataInItemBudget(index, ProductModel product) {
-    if (itemBudgetController.data[index].subValue == 0) {
-      itemBudgetController.data[index].materialItemsBudget
-          .addAll(pricingController.materialItemsBudget);
-      itemBudgetController.data[index].fixedExpenseItemsBudget
-          .addAll(pricingController.fixedExpenseItemsBudget);
-    } else {}
-    
-    itemBudgetController.data[index].term = pricingController.term;
-    itemBudgetController.data[index].timeIncentive =
-        pricingController.timeIncentive;
-    itemBudgetController.data[index].percentageProfitMargin =
-        pricingController.percentageProfitMargin;
-    itemBudgetController.data[index].profitMargin =
-        pricingController.calcProfitMargin;
-    itemBudgetController.data[index].unitaryValue =
-        pricingController.totalToBeCharged;
-    setState(() {
-      itemBudgetController.data[index].subValue =
-          pricingController.totalToBeCharged * product.quantity;
-      valueTotalProduct = budgetController.sumValue(itemBudgetController.data);
-    });
-
-    print(itemBudgetController.data[index].toJson());
   }
 
   @override
@@ -177,6 +150,13 @@ class _BudgetPageState extends State<BudgetPage> {
                                             if (itemBudgetController
                                                     .data[index].subValue >
                                                 0) {
+                                              pricingController.term =
+                                                  itemBudgetController
+                                                      .data[index].term;
+                                              pricingController.timeIncentive =
+                                                  itemBudgetController
+                                                      .data[index]
+                                                      .timeIncentive;
                                               pricingController
                                                   .materialItemsBudget
                                                   .addAll(itemBudgetController
@@ -198,8 +178,19 @@ class _BudgetPageState extends State<BudgetPage> {
                                                 false;
 
                                             if (isConfirmed) {
-                                              addDataInItemBudget(
-                                                  index, product);
+                                              itemBudgetController
+                                                  .addMaterialsAndExpenses(
+                                                      index,
+                                                      product,
+                                                      product.quantity,
+                                                      pricingController);
+
+                                              setState(() {
+                                                valueTotalProduct =
+                                                    budgetController.sumValue(
+                                                        itemBudgetController
+                                                            .data);
+                                              });
                                             }
 
                                             pricingController.clearFields();

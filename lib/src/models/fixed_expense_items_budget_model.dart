@@ -15,9 +15,9 @@ class FixedExpenseItemsBudgetModel {
 
   FixedExpenseItemsBudgetModel({
     this.id = 0,
-    required this.value,
-    required this.dividedValue,
-    required this.accumulatedValue,
+    this.value = 0,
+    this.dividedValue = 0,
+    this.accumulatedValue = 0,
     required this.type,
     this.itemBudgetId,
   });

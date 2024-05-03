@@ -29,7 +29,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   final profileController = Injector.get<ProfileController>();
   final pricingController = Injector.get<PricingController>();
   final formKey = GlobalKey<FormState>();
-  double electricityBill = 0, waterBill = 0, rent = 0, das = 0;
+  double electricityBill = 0, waterBill = 0, rent = 0, das = 0, other = 0;
 
   List<Map<String, dynamic>> fixedExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
@@ -92,6 +92,11 @@ class _PricingFormPageState extends State<PricingFormPage>
         value = employeeSalaryEC.numberValue;
       }
 
+      if (item == 'Outros') {
+        dividedValue = otherTaxesEC.numberValue / 30;
+        value = otherTaxesEC.numberValue;
+      }
+
       pricingController.fixedExpenseItemsBudget.add(
         FixedExpenseItemsBudgetModel(
           value: value,
@@ -128,6 +133,34 @@ class _PricingFormPageState extends State<PricingFormPage>
     }
   }
 
+  void initializeForm() {
+    if (pricingController.fixedExpenseItemsBudget.isNotEmpty) {
+      fixedExpense.asMap().forEach((key, expense) {
+        expense['isChecked'] = false;
+      });
+
+      termEC.text = pricingController.term.toString();
+      calculateExpenseByCompleted();
+
+      for (var i in pricingController.fixedExpenseItemsBudget) {
+        switch (i.type.toLowerCase()) {
+          case 'conta de luz':
+            electricityBill = i.value;
+          case 'conta de água':
+            waterBill = i.value;
+          case 'aluguel':
+            rent = i.value;
+          case 'das/simei':
+            das = i.value;
+          case 'outros':
+            other = i.value;
+            calculateExpense(4, other);
+            otherTaxesEC.updateValue(other);
+        }
+      }
+    }
+  }
+
   void calculateExpense(int index, double value) {
     pricingController.calculateExpensesByPeriodForEachExpense(
         index, pricingController.timeIncentive, value, pricingController.term);
@@ -143,9 +176,12 @@ class _PricingFormPageState extends State<PricingFormPage>
   void initState() {
     super.initState();
     termEC.text = pricingController.term.toString();
-    calculateAverageExpense();
     preworkEC.updateValue(profileController.model.value!.salaryExpectation);
     employeeSalaryEC.updateValue(1412);
+
+    initializeForm();
+
+    calculateAverageExpense();
   }
 
   @override
@@ -447,8 +483,11 @@ class _PricingFormPageState extends State<PricingFormPage>
                                       suffix: Icon(Icons.money_off)),
                                   style: textStyleSmallDefault,
                                   keyboardType: TextInputType.number,
-                                  onChanged: (value) => calculateExpense(
-                                      4, otherTaxesEC.numberValue),
+                                  onChanged: (value) {
+                                    calculateExpense(
+                                        4, otherTaxesEC.numberValue);
+                                    other = otherTaxesEC.numberValue;
+                                  },
                                 ),
                               ],
                             ),
@@ -539,12 +578,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                                             );
                                           }).toList(),
                                           onChanged: (value) {
-                                            setState(() {
-                                              pricingController.timeIncentive =
-                                                  value!;
+                                            pricingController.timeIncentive =
+                                                value!;
 
-                                              calculateExpenseByCompleted();
-                                            });
+                                            calculateExpenseByCompleted();
                                           },
                                           validator: Validatorless.required(
                                               'Tipo de despesa obrigatório'),

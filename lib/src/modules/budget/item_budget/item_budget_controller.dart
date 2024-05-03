@@ -1,5 +1,7 @@
 import 'package:js_budget/src/models/item_order_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
+import 'package:js_budget/src/models/product_model.dart';
+import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:signals/signals.dart';
 
 class ItemBudgetController {
@@ -25,5 +27,24 @@ class ItemBudgetController {
     }
   }
 
-  
+  void addMaterialsAndExpenses(int index, ProductModel product, int quantity,
+      PricingController pricingController) {
+    _data[index].materialItemsBudget.clear();
+    _data[index].fixedExpenseItemsBudget.clear();
+
+    _data[index]
+        .materialItemsBudget
+        .addAll(pricingController.materialItemsBudget);
+    _data[index]
+        .fixedExpenseItemsBudget
+        .addAll(pricingController.fixedExpenseItemsBudget);
+
+    _data[index].term = pricingController.term;
+    _data[index].timeIncentive = pricingController.timeIncentive;
+    _data[index].percentageProfitMargin =
+        pricingController.percentageProfitMargin;
+    _data[index].profitMargin = pricingController.calcProfitMargin;
+    _data[index].unitaryValue = pricingController.totalToBeCharged;
+    _data[index].subValue = pricingController.totalToBeCharged * quantity;
+  }
 }

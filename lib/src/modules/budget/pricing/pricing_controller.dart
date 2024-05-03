@@ -85,6 +85,7 @@ class PricingController with Messages {
 
     fixedExpenseItemsBudget[index].dividedValue = dividedValue;
     fixedExpenseItemsBudget[index].accumulatedValue = dividedValue * termEC;
+    print(fixedExpenseItemsBudget[index].toJson());
   }
 
   void deleteMaterial(MaterialItemsBudgetModel materialItem) {
