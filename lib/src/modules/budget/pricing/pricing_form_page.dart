@@ -83,17 +83,23 @@ class _PricingFormPageState extends State<PricingFormPage>
     for (var item in defaultItems) {
       double dividedValue = 0, value = 0;
       if (item == 'Prelabore') {
-        dividedValue = preworkEC.numberValue / 30;
+        dividedValue = pricingController.timeIncentive == 'Dia'
+            ? preworkEC.numberValue / 30
+            : (preworkEC.numberValue / 30) / 8;
         value = preworkEC.numberValue;
       }
 
       if (item == 'Salário do funcionário') {
-        dividedValue = employeeSalaryEC.numberValue / 30;
+        dividedValue = pricingController.timeIncentive == 'Dia'
+            ? employeeSalaryEC.numberValue / 30
+            : (employeeSalaryEC.numberValue / 30) / 8;
         value = employeeSalaryEC.numberValue;
       }
 
       if (item == 'Outros') {
-        dividedValue = otherTaxesEC.numberValue / 30;
+        dividedValue = pricingController.timeIncentive == 'Dia'
+            ? otherTaxesEC.numberValue / 30
+            : (otherTaxesEC.numberValue / 30) / 8;
         value = otherTaxesEC.numberValue;
       }
 
