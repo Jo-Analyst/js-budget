@@ -153,6 +153,11 @@ class _BudgetPageState extends State<BudgetPage> {
                                               pricingController.term =
                                                   itemBudgetController
                                                       .data[index].term;
+                                              pricingController
+                                                      .percentageProfitMargin =
+                                                  itemBudgetController
+                                                      .data[index]
+                                                      .percentageProfitMargin;
                                               pricingController.timeIncentive =
                                                   itemBudgetController
                                                       .data[index]

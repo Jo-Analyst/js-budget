@@ -165,6 +165,9 @@ class _PricingFormPageState extends State<PricingFormPage>
         }
       }
     }
+
+    percentageProfitMarginEC
+        .updateValue(pricingController.percentageProfitMargin);
   }
 
   void calculateExpense(int index, double value) {
@@ -599,7 +602,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   TextFormField(
                                     onTapOutside: (_) =>
                                         FocusScope.of(context).unfocus(),
-                                    controller: profitMarginEC,
+                                    controller: percentageProfitMarginEC,
                                     decoration: const InputDecoration(
                                         labelText: 'Margem de lucro',
                                         labelStyle: textStyleSmallDefault,
@@ -608,7 +611,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) => pricingController
                                             .percentageProfitMargin =
-                                        profitMarginEC.numberValue,
+                                        percentageProfitMarginEC.numberValue,
                                   ),
                                 ],
                               ),

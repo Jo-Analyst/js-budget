@@ -5,7 +5,7 @@ import 'package:js_budget/src/modules/budget/pricing/pricing_form_page.dart';
 mixin PricingFormController on State<PricingFormPage> {
   final preworkEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final termEC = TextEditingController();
-  final profitMarginEC = MoneyMaskedTextController();
+  final percentageProfitMarginEC = MoneyMaskedTextController();
   final otherTaxesEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final electricityBillEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final waterBillEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
@@ -16,7 +16,7 @@ mixin PricingFormController on State<PricingFormPage> {
   void disposeForm() {
     preworkEC.dispose();
     termEC.dispose();
-    profitMarginEC.dispose();
+    percentageProfitMarginEC.dispose();
     otherTaxesEC.dispose();
     electricityBillEC.dispose();
     waterBillEC.dispose();
