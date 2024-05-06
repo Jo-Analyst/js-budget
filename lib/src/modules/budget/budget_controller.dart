@@ -10,9 +10,13 @@ class BudgetController {
     BudgetModel(),
   );
 
-  double sumValue(ListSignal<ItemsBudgetModel> data) {
+  double sumValueProducts(ListSignal<ItemsBudgetModel> data) {
     double value = 0.0;
-    data.asMap().forEach((key, item) => value += item.subValue);
+    data.asMap().forEach((key, item) {
+      if (item.product != null) {
+        value += item.subValue;
+      }
+    });
     return value;
   }
 }

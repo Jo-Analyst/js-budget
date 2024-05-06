@@ -10,9 +10,9 @@ FixedExpenseItemsBudgetModel _$FixedExpenseItemsBudgetModelFromJson(
         Map<String, dynamic> json) =>
     FixedExpenseItemsBudgetModel(
       id: json['id'] as int? ?? 0,
-      value: (json['value'] as num).toDouble(),
-      dividedValue: (json['divided_value'] as num).toDouble(),
-      accumulatedValue: (json['accumulated_value'] as num).toDouble(),
+      value: (json['value'] as num?)?.toDouble() ?? 0,
+      dividedValue: (json['divided_value'] as num?)?.toDouble() ?? 0,
+      accumulatedValue: (json['accumulated_value'] as num?)?.toDouble() ?? 0,
       type: json['type'] as String,
       itemBudgetId: json['item_budget_id'] as int?,
     );

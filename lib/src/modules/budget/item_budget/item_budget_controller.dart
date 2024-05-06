@@ -43,7 +43,7 @@ class ItemBudgetController {
     _data[index].timeIncentive = pricingController.timeIncentive;
     _data[index].percentageProfitMargin =
         pricingController.percentageProfitMargin;
-    _data[index].profitMargin = pricingController.calcProfitMargin;
+    _data[index].valueProfitMargin = pricingController.calcProfitMargin;
     _data[index].unitaryValue = pricingController.totalToBeCharged;
     _data[index].subValue = pricingController.totalToBeCharged * quantity;
   }

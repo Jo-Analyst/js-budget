@@ -89,7 +89,7 @@ class PricingController with Messages {
 
   void deleteMaterial(MaterialItemsBudgetModel materialItem) {
     materialItemsBudget.removeWhere(
-        (element) => element.material.id == materialItem.material.id);
+        (item) => item.material.id == materialItem.material.id);
     totalMaterialValue -= materialItem.value;
   }
 

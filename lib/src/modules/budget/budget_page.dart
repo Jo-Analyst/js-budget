@@ -43,6 +43,16 @@ class _BudgetPageState extends State<BudgetPage> {
   void initState() {
     super.initState();
     loadProductsAndServices();
+    changeValueServiceInItemsBudget();
+  }
+
+  void changeValueServiceInItemsBudget() {
+    for (var data in itemBudgetController.data) {
+      if (data.service != null) {
+        data.subValue = data.service!.price * data.service!.quantity;
+        data.unitaryValue = data.service!.price;
+      }
+    }
   }
 
   int index = 0;
@@ -103,7 +113,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: itemBudgetController.data
-                                    .where((element) => element.product != null)
+                                    .where((item) => item.product != null)
                                     .length,
                                 itemBuilder: (context, index) {
                                   final product =
@@ -192,9 +202,10 @@ class _BudgetPageState extends State<BudgetPage> {
 
                                               setState(() {
                                                 valueTotalProduct =
-                                                    budgetController.sumValue(
-                                                        itemBudgetController
-                                                            .data);
+                                                    budgetController
+                                                        .sumValueProducts(
+                                                            itemBudgetController
+                                                                .data);
                                               });
                                             }
 
@@ -296,7 +307,9 @@ class _BudgetPageState extends State<BudgetPage> {
                 children: [
                   Visibility(
                     visible: itemBudgetController.data
-                        .any((itemBudget) => itemBudget.product != null),
+                            .any((itemBudget) => itemBudget.product != null) &&
+                        itemBudgetController.data
+                            .any((itemBudget) => itemBudget.service != null),
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: const Text(
@@ -315,7 +328,9 @@ class _BudgetPageState extends State<BudgetPage> {
                   ),
                   Visibility(
                     visible: itemBudgetController.data
-                        .any((itemBudget) => itemBudget.service != null),
+                            .any((itemBudget) => itemBudget.product != null) &&
+                        itemBudgetController.data
+                            .any((itemBudget) => itemBudget.service != null),
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: const Text(

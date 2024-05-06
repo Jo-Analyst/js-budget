@@ -16,7 +16,7 @@ class ItemsBudgetModel {
   int term;
   String timeIncentive;
   double percentageProfitMargin;
-  double profitMargin;
+  double valueProfitMargin;
   List<MaterialItemsBudgetModel> materialItemsBudget;
   List<FixedExpenseItemsBudgetModel> fixedExpenseItemsBudget;
   ProductModel? product;
@@ -29,7 +29,7 @@ class ItemsBudgetModel {
     this.term = 1,
     this.timeIncentive = 'Dia',
     this.percentageProfitMargin = 0.0,
-    this.profitMargin = 0.0,
+    this.valueProfitMargin = 0.0,
     required this.materialItemsBudget,
     required this.fixedExpenseItemsBudget,
     this.product,
