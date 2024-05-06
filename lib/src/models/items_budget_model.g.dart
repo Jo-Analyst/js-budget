@@ -15,8 +15,8 @@ ItemsBudgetModel _$ItemsBudgetModelFromJson(Map<String, dynamic> json) =>
       timeIncentive: json['time_incentive'] as String? ?? 'Dia',
       percentageProfitMargin:
           (json['percentage_profit_margin'] as num?)?.toDouble() ?? 0.0,
-      valueProfitMargin:
-          (json['value_profit_margin'] as num?)?.toDouble() ?? 0.0,
+      profitMarginValue:
+          (json['profit_margin_value'] as num?)?.toDouble() ?? 0.0,
       materialItemsBudget: (json['material_items_budget'] as List<dynamic>)
           .map((e) =>
               MaterialItemsBudgetModel.fromJson(e as Map<String, dynamic>))
@@ -43,7 +43,7 @@ Map<String, dynamic> _$ItemsBudgetModelToJson(ItemsBudgetModel instance) =>
       'term': instance.term,
       'time_incentive': instance.timeIncentive,
       'percentage_profit_margin': instance.percentageProfitMargin,
-      'value_profit_margin': instance.valueProfitMargin,
+      'profit_margin_value': instance.profitMarginValue,
       'material_items_budget': instance.materialItemsBudget,
       'fixed_expense_items_budget': instance.fixedExpenseItemsBudget,
       'product': instance.product,
