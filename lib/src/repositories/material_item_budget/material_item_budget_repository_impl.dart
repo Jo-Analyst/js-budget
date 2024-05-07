@@ -6,7 +6,14 @@ import './material_item_budget_repository.dart';
 class MaterialItemBudgetRepositoryImpl implements MaterialItemBudgetRepository {
   @override
   Future<void> saveMaterialItemBudget(
-      Transaction txn, MaterialItemsBudgetModel materialItemsBudgetModel) {
-    throw UnimplementedError();
+      Transaction txn,
+      MaterialItemsBudgetModel materialItemsBudgetModel,
+      int budgetItemId) async {
+    await txn.insert('material_items_budget', {
+      'value': materialItemsBudgetModel.value,
+      'quantity': materialItemsBudgetModel.quantity,
+      'material_id': materialItemsBudgetModel.material.id,
+      'item_budget_id': budgetItemId,
+    });
   }
 }

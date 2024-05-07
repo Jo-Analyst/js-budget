@@ -21,7 +21,7 @@ class _BudgetPageState extends State<BudgetPage> {
   final pricingController = Injector.get<PricingController>();
   final budgetController = Injector.get<BudgetController>();
   final itemBudgetController = Injector.get<ItemBudgetController>();
-  double valueTotalProduct = 0;
+  double valueTotalProduct = 0, valueTotalBudget = 0;
 
   void loadProductsAndServices() {
     var items = orderController.model.value!.items;
@@ -39,13 +39,6 @@ class _BudgetPageState extends State<BudgetPage> {
     return priceTotal;
   }
 
-  @override
-  void initState() {
-    super.initState();
-    loadProductsAndServices();
-    changeValueServiceInItemsBudget();
-  }
-
   void changeValueServiceInItemsBudget() {
     for (var data in itemBudgetController.data) {
       if (data.service != null) {
@@ -55,7 +48,25 @@ class _BudgetPageState extends State<BudgetPage> {
     }
   }
 
-  int index = 0;
+  void initializeBudget() {
+    budgetController.model.value.orderId = orderController.model.value!.id;
+    budgetController.model.value.clientId =
+        orderController.model.value!.client.id;
+    calculateBudget();
+  }
+
+  void calculateBudget() {
+    valueTotalBudget = sumPriceService() + valueTotalProduct;
+    budgetController.model.value.valueTotal = valueTotalBudget;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadProductsAndServices();
+    changeValueServiceInItemsBudget();
+    initializeBudget();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +75,10 @@ class _BudgetPageState extends State<BudgetPage> {
         title: const Text('Novo orçamento'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              print(budgetController.model.value.itemsBudget!.last.service!
+                  .toJson());
+            },
             icon: const Icon(
               Icons.save,
               size: 30,
@@ -200,6 +214,10 @@ class _BudgetPageState extends State<BudgetPage> {
                                                       product.quantity,
                                                       pricingController);
 
+                                              budgetController
+                                                      .model.value.itemsBudget =
+                                                  itemBudgetController.data;
+
                                               setState(() {
                                                 valueTotalProduct =
                                                     budgetController
@@ -207,6 +225,8 @@ class _BudgetPageState extends State<BudgetPage> {
                                                             itemBudgetController
                                                                 .data);
                                               });
+
+                                              calculateBudget();
                                             }
 
                                             pricingController.clearFields();
@@ -354,8 +374,7 @@ class _BudgetPageState extends State<BudgetPage> {
                       style: textStyleSmallFontWeight,
                     ),
                     trailing: Text(
-                      UtilsService.moneyToCurrency(
-                          sumPriceService() + valueTotalProduct),
+                      UtilsService.moneyToCurrency(valueTotalBudget),
                       style: const TextStyle(
                         fontFamily: 'Anta',
                         fontSize: 23,

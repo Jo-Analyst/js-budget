@@ -43,11 +43,11 @@ class DataBase {
             'CREATE TABLE IF NOT EXISTS items_budget (id INTEGER PRIMARY KEY, sub_value REAL, unitary_value REAL, term INTEGER, time_incentive TEXT, percentage_profit_margin REAL, value_profit_margin REAL, product_id INTEGER, service_id INTEGER, budget_id INTEGER, FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE SET NULL)');
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS material_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, material_id INTEGER NOT NULL, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL, FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL)',
+          'CREATE TABLE IF NOT EXISTS material_items_budget (id INTEGER PRIMARY KEY, quantity INTEGER, value REAL NOT NULL, material_id INTEGER NOT NULL, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL, FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL)',
         );
 
         db.execute(
-            'CREATE TABLE IF NOT EXISTS fixed_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, type TEXT, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL)');
+            'CREATE TABLE IF NOT EXISTS fixed_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, dividedValue REAL NOT NULL, accumulatedValue REAL NOT NULL, type TEXT, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL)');
 
         db.execute(
           "CREATE TABLE IF NOT EXISTS personal_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)",
