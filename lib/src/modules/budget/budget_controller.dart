@@ -40,14 +40,18 @@ class BudgetController with Messages {
     return true;
   }
 
-  Future<void> save() async {
+  Future<bool> save() async {
+    bool? isError;
     final results = await _budgetRepository.save(model.value);
 
     switch (results) {
       case Right():
-        showSuccess('Orçamento criado com sucesso');
+        isError = false;
       case Left():
+        isError = true;
         showError('Houve um erro ao gerar o orçamento');
     }
+
+    return isError;
   }
 }

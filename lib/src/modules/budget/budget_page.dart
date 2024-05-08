@@ -93,11 +93,17 @@ class _BudgetPageState extends State<BudgetPage> {
               bool isValid =
                   budgetController.validateFields(itemBudgetController.data);
 
+              var nav = Navigator.of(context);
+
               if (isValid) {
                 budgetController.model.value.itemsBudget =
                     itemBudgetController.data;
 
-                await budgetController.save();
+                final isError = await budgetController.save();
+
+                if (!isError) {
+                  nav.pushNamed('/budget/screen-success');
+                }
               }
             },
             icon: const Icon(
