@@ -60,6 +60,20 @@ class _BudgetPageState extends State<BudgetPage> {
     budgetController.model.value.valueTotal = valueTotalBudget;
   }
 
+  void changeValuePricing(int index) {
+    if (itemBudgetController.data[index].subValue > 0) {
+      pricingController.term = itemBudgetController.data[index].term;
+      pricingController.percentageProfitMargin =
+          itemBudgetController.data[index].percentageProfitMargin;
+      pricingController.timeIncentive =
+          itemBudgetController.data[index].timeIncentive;
+      pricingController.materialItemsBudget
+          .addAll(itemBudgetController.data[index].materialItemsBudget);
+      pricingController.fixedExpenseItemsBudget
+          .addAll(itemBudgetController.data[index].fixedExpenseItemsBudget);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -75,9 +89,16 @@ class _BudgetPageState extends State<BudgetPage> {
         title: const Text('Novo orçamento'),
         actions: [
           IconButton(
-            onPressed: () {
-              print(budgetController.model.value.itemsBudget!.last.service!
-                  .toJson());
+            onPressed: () async {
+              bool isValid =
+                  budgetController.validateFields(itemBudgetController.data);
+
+              if (isValid) {
+                budgetController.model.value.itemsBudget =
+                    itemBudgetController.data;
+
+                await budgetController.save();
+              }
             },
             icon: const Icon(
               Icons.save,
@@ -171,32 +192,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                             : null,
                                         trailing: IconButton(
                                           onPressed: () async {
-                                            if (itemBudgetController
-                                                    .data[index].subValue >
-                                                0) {
-                                              pricingController.term =
-                                                  itemBudgetController
-                                                      .data[index].term;
-                                              pricingController
-                                                      .percentageProfitMargin =
-                                                  itemBudgetController
-                                                      .data[index]
-                                                      .percentageProfitMargin;
-                                              pricingController.timeIncentive =
-                                                  itemBudgetController
-                                                      .data[index]
-                                                      .timeIncentive;
-                                              pricingController
-                                                  .materialItemsBudget
-                                                  .addAll(itemBudgetController
-                                                      .data[index]
-                                                      .materialItemsBudget);
-                                              pricingController
-                                                  .fixedExpenseItemsBudget
-                                                  .addAll(itemBudgetController
-                                                      .data[index]
-                                                      .fixedExpenseItemsBudget);
-                                            }
+                                            changeValuePricing(index);
 
                                             bool? isConfirmed = await Navigator
                                                         .of(context)
@@ -213,10 +209,6 @@ class _BudgetPageState extends State<BudgetPage> {
                                                       product,
                                                       product.quantity,
                                                       pricingController);
-
-                                              budgetController
-                                                      .model.value.itemsBudget =
-                                                  itemBudgetController.data;
 
                                               setState(() {
                                                 valueTotalProduct =

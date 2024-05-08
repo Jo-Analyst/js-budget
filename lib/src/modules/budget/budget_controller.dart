@@ -29,6 +29,17 @@ class BudgetController with Messages {
     return value;
   }
 
+  bool validateFields(ListSignal<ItemsBudgetModel> data) {
+    for (var item in data) {
+      if (item.product != null && item.materialItemsBudget.isEmpty) {
+        showInfo(
+            'Existe um ou mais produtos sem precificar. Para concluir precifique todos os produtos');
+        return false;
+      }
+    }
+    return true;
+  }
+
   Future<void> save() async {
     final results = await _budgetRepository.save(model.value);
 
