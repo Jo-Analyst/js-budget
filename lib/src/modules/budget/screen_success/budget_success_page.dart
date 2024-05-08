@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class BudgetSuccessPage extends StatelessWidget {
@@ -7,31 +6,68 @@ class BudgetSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              'Orçamento criado com sucesso',
-              style: textStyleSmallFontWeight,
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Orçamento  criado com sucesso',
+                textAlign: TextAlign.center,
+                style: textStyleSmallFontWeight,
+              ),
             ),
-          ),
-          SizedBox(
-            height: 6,
-          ),
-          CircleAvatar(
-            backgroundColor: Color.fromARGB(255, 20, 87, 143),
-            maxRadius: 100,
-            child: Icon(
-              Icons.thumb_up,
-              size: 100,
-              color: Colors.white,
+            const SizedBox(height: 20),
+            const CircleAvatar(
+              backgroundColor: Color.fromARGB(255, 20, 87, 143),
+              maxRadius: 100,
+              child: Icon(
+                Icons.thumb_up,
+                size: 100,
+                color: Colors.white,
+              ),
             ),
-          )
-        ],
+            const SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 20, 87, 143),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListTile(
+                title: Text(
+                  'Pedido 0002',
+                  style: TextStyle(
+                    fontSize: textStyleSmallFontWeight.fontSize,
+                    fontFamily: textStyleSmallFontWeight.fontFamily,
+                    fontWeight: textStyleSmallFontWeight.fontWeight,
+                    color: Colors.white,
+                  ),
+                ),
+                subtitle: Text(
+                  'Pedro Lourenço',
+                  style: TextStyle(
+                    fontSize: textStyleSmallFontWeight.fontSize,
+                    fontFamily: textStyleSmallFontWeight.fontFamily,
+                    fontWeight: textStyleSmallFontWeight.fontWeight,
+                    color: const Color.fromARGB(255, 175, 172, 172),
+                  ),
+                ),
+                trailing: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.share,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
