@@ -649,6 +649,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                   pricingController.calculateTotalExpenses();
                   pricingController.calculateProfitMargin();
                   pricingController.calculateTotalToBeCharged();
+                  
                   // Navigator.of(context).pushNamed('/budget/pricing/preview');
                   var nav = Navigator.of(context);
                   bool isConfirmed = await showModalBottomSheet(
