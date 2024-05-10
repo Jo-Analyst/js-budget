@@ -45,7 +45,8 @@ class BudgetController with Messages {
     final results = await _budgetRepository.save(model.value);
 
     switch (results) {
-      case Right():
+      case Right(value: BudgetModel budget):
+        _data.add(budget);
         isError = false;
       case Left():
         isError = true;
