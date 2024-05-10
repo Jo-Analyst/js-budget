@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/pages/home/widgets/filtering_options_widget.dart';
 import 'package:js_budget/src/pages/widgets/more_details_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
+import 'package:signals/signals_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,7 +18,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final profileController = Injector.get<ProfileController>();
   final budgetController = Injector.get<BudgetController>();
-  List<BudgetModel> budgets = [];
 
   List<Map<String, dynamic>> filteringOptions = [
     {'type': 'Tudo', 'isSelected': true},
@@ -36,20 +35,22 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> loadBudgets() async {
-    await budgetController.findBudgets();
-  }
-
   @override
   void initState() {
     super.initState();
     loadBudgets();
   }
 
+  Future<void> loadBudgets() async {
+    if (budgetController.data.isEmpty) {
+      await budgetController.findBudgets();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    // budgets = budgetController.data;
+    var budgets = budgetController.data.watch(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -174,6 +175,8 @@ class _HomePageState extends State<HomePage> {
                       itemCount: budgets.length,
                       itemBuilder: (context, index) {
                         final budget = budgets[index];
+                        final (year, month, day) =
+                            UtilsService.extractDate(budget.createdAt!);
                         return Card(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
@@ -237,7 +240,8 @@ class _HomePageState extends State<HomePage> {
                                             budget.valueTotal!),
                                       ),
                                       TextSpan(
-                                        text: ' - ${budget.createdAt}',
+                                        text:
+                                            ' - ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year',
                                       ),
                                     ],
                                     style: TextStyle(

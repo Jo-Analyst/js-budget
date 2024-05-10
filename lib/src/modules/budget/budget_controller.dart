@@ -1,5 +1,6 @@
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
+import 'package:js_budget/src/repositories/budget/transform_budget_json.dart';
 import 'package:signals/signals.dart';
 
 import 'package:js_budget/src/models/budget_model.dart';
@@ -57,12 +58,23 @@ class BudgetController with Messages {
   }
 
   Future<void> findBudgets() async {
+    _data.clear();
     final results = await _budgetRepository.findAll();
     switch (results) {
       case Right(value: final List<Map<String, dynamic>> budgets):
-        budgets.asMap().forEach((key, budget) {
-          print(budget);
-        });
+        // TransformBudgetJson.fromJsonAfterDataSearch(budgets)
+        //     .asMap()
+        //     .forEach((key, budget) {
+        //   budget.itemsBudget!.asMap().forEach((key, item) {
+        //     print(item.product?.toJson());
+        //     print(item.service?.toJson());
+        //   });
+        // });
+
+        _data.addAll(TransformBudgetJson.fromJsonAfterDataSearch(budgets));
+      // budgets.asMap().forEach((key, budget) {
+      //   print(budget);
+      // });
       case Left():
         showError('Houve um erro ao gerar o orçamento');
     }

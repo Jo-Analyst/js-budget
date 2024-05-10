@@ -43,7 +43,7 @@ class TransformOrderJson {
             ? ProductModel.fromJson({
                 'id': order['product_id'],
                 'name': order['name_product'],
-                'description': order['name_product'] ?? '',
+                'description': order['description'] ?? '',
                 'unit': order['unit'],
                 'quantity': order['quantity_product']
               })

@@ -16,8 +16,8 @@ class ProductModel {
     required this.name,
     this.quantity = 1,
     this.price = 0.0,
-    required this.description,
-    required this.unit,
+    this.description = '',
+    this.unit = '',
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) =>
