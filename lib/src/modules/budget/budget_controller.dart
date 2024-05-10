@@ -55,4 +55,16 @@ class BudgetController with Messages {
 
     return isError;
   }
+
+  Future<void> findBudgets() async {
+    final results = await _budgetRepository.findAll();
+    switch (results) {
+      case Right(value: final List<Map<String, dynamic>> budgets):
+        budgets.asMap().forEach((key, budget) {
+          print(budget);
+        });
+      case Left():
+        showError('Houve um erro ao gerar o orçamento');
+    }
+  }
 }

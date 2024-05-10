@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/budget_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/pages/home/widgets/filtering_options_widget.dart';
 import 'package:js_budget/src/pages/widgets/more_details_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -12,36 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, dynamic>> budgets = [
-    {
-      "id": 1,
-      "name": "Joelmir Carvalho",
-      "status": "Em aberto",
-      "value": 2500.0,
-      "date": "25/02/2024",
-    },
-    {
-      "id": 2,
-      "name": "Valdirene Ferreira",
-      "status": "Aprovado",
-      "value": 2500.0,
-      "date": "25/02/2024",
-    },
-    {
-      "id": 3,
-      "name": "Noelly Silva",
-      "status": "Concluído",
-      "value": 2500.0,
-      "date": "25/02/2024",
-    },
-    {
-      "id": 4,
-      "name": "Benneditto Santos",
-      "status": "Cancelado",
-      "value": 2500.0,
-      "date": "25/02/2024",
-    },
-  ];
+  final profileController = Injector.get<ProfileController>();
+  final budgetController = Injector.get<BudgetController>();
+  List<BudgetModel> budgets = [];
 
   List<Map<String, dynamic>> filteringOptions = [
     {'type': 'Tudo', 'isSelected': true},
@@ -59,9 +36,20 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> loadBudgets() async {
+    await budgetController.findBudgets();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadBudgets();
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    // budgets = budgetController.data;
 
     return Scaffold(
       appBar: AppBar(
@@ -74,19 +62,19 @@ class _HomePageState extends State<HomePage> {
               width: 60,
               fit: BoxFit.cover,
             ),
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text.rich(
                   TextSpan(
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: 'Olá, ',
                         style: textStyleSmallFontWeight,
                       ),
                       TextSpan(
-                        text: 'João Antônio!',
+                        text: profileController.model.value!.corporateReason,
                         style: textStyleSmallDefault,
                       ),
                     ],
@@ -95,12 +83,12 @@ class _HomePageState extends State<HomePage> {
                 Text.rich(
                   TextSpan(
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: 'Razão Social: ',
                         style: textStyleSmallFontWeight,
                       ),
                       TextSpan(
-                        text: 'JS Planejar',
+                        text: profileController.model.value!.fantasyName,
                         style: textStyleSmallDefault,
                       ),
                     ],
@@ -109,13 +97,14 @@ class _HomePageState extends State<HomePage> {
                 Text.rich(
                   TextSpan(
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text: 'CNPJ: ',
                         style: textStyleSmallFontWeight,
                       ),
                       TextSpan(
-                        text: '00.000.000/0000-00',
-                        style: TextStyle(fontFamily: 'Anta', fontSize: 18),
+                        text: profileController.model.value!.document,
+                        style:
+                            const TextStyle(fontFamily: 'Anta', fontSize: 18),
                       ),
                     ],
                   ),
@@ -204,7 +193,7 @@ class _HomePageState extends State<HomePage> {
                                           style: textStyleSmallFontWeight,
                                         ),
                                         TextSpan(
-                                          text: budget['id']
+                                          text: budget.id
                                               .toString()
                                               .padLeft(5, '0'),
                                           style: const TextStyle(
@@ -222,11 +211,11 @@ class _HomePageState extends State<HomePage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      '${budget['name']}',
+                                      budget.client!.name,
                                       style: textStyleSmallFontWeight,
                                     ),
                                     Text(
-                                      budget['status'],
+                                      budget.status!,
                                       style: TextStyle(
                                         fontFamily:
                                             textStyleSmallDefault.fontFamily,
@@ -245,10 +234,10 @@ class _HomePageState extends State<HomePage> {
                                     children: [
                                       TextSpan(
                                         text: UtilsService.moneyToCurrency(
-                                            budget['value']),
+                                            budget.valueTotal!),
                                       ),
                                       TextSpan(
-                                        text: ' - ${budget['date']}',
+                                        text: ' - ${budget.createdAt}',
                                       ),
                                     ],
                                     style: TextStyle(

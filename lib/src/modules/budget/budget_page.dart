@@ -50,8 +50,8 @@ class _BudgetPageState extends State<BudgetPage> {
 
   void initializeBudget() {
     budgetController.model.value.orderId = orderController.model.value!.id;
-    budgetController.model.value.clientId =
-        orderController.model.value!.client.id;
+    budgetController.model.value.client =
+        orderController.model.value!.client;
     calculateBudget();
   }
 

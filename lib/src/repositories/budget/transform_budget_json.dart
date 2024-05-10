@@ -8,7 +8,7 @@ class TransformBudgetJson {
       status: 'Em aberto',
       itemsBudget: budget['items_budget'],
       createdAt: budget['created_at'],
-      clientId: budget['client_id'],
+      client: budget['client'],
       orderId: budget['order_id'],
     );
   }

@@ -18,7 +18,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
         "value_total": budget.valueTotal,
         'created_at': DateTime.now().toIso8601String(),
         'order_id': budget.orderId,
-        'client_id': budget.clientId
+        'client_id': budget.client!.id
       };
       final db = await DataBase.openDatabase();
       await db.transaction(
@@ -29,10 +29,25 @@ class BudgetRepositoryImpl implements BudgetRepository {
             await _budgetItem.saveItem(txn, item, budgetId);
           }
           data['id'] = budgetId;
+          data.remove('client_id');
+          data['client'] = budget.client;
           data['items_budget'] = budget.itemsBudget!;
         },
       );
       return Right(TransformBudgetJson.fromJson(data));
+    } catch (_) {
+      return Left(RespositoryException());
+    }
+  }
+
+  @override
+  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
+      findAll() async {
+    try {
+      final db = await DataBase.openDatabase();
+      final budgets = await db.rawQuery(
+          'SELECT budgets.value_total, budgets.status, budgets.created_at, budgets.order_id, items_budget.sub_value, products.name, services.description, material_items_budget.quantity, material_items_budget.value, fixed_expense_items_budget.accumulatedValue, fixed_expense_items_budget.type, materials.name FROM budgets LEFT JOIN clients ON clients.id = budgets.client_id LEFT JOIN items_budget ON items_budget.budget_id = budgets.id LEFT JOIN material_items_budget on material_items_budget.item_budget_id = items_budget.id LEFT JOIN materials ON materials.id = material_items_budget.material_id LEFT JOIN fixed_expense_items_budget ON fixed_expense_items_budget.item_budget_id = items_budget.id LEFT JOIN products ON products.id = items_budget.product_id LEFT JOIN services ON services.id = items_budget.service_id');
+      return Right(budgets);
     } catch (_) {
       return Left(RespositoryException());
     }

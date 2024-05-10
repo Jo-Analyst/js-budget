@@ -9,12 +9,14 @@ class FixedExpenseItemBudgetRepositoryImpl
       Transaction txn,
       FixedExpenseItemsBudgetModel fixedExpenseItemsBudget,
       int budgetItemId) async {
-    await txn.insert('fixed_expense_items_budget', {
-      'value': fixedExpenseItemsBudget.value,
-      'dividedValue': fixedExpenseItemsBudget.dividedValue,
-      'accumulatedValue': fixedExpenseItemsBudget.accumulatedValue,
-      'type': fixedExpenseItemsBudget.type,
-      'item_budget_id': budgetItemId,
-    });
+    if (fixedExpenseItemsBudget.value > 0) {
+      await txn.insert('fixed_expense_items_budget', {
+        'value': fixedExpenseItemsBudget.value,
+        'dividedValue': fixedExpenseItemsBudget.dividedValue,
+        'accumulatedValue': fixedExpenseItemsBudget.accumulatedValue,
+        'type': fixedExpenseItemsBudget.type,
+        'item_budget_id': budgetItemId,
+      });
+    }
   }
 }
