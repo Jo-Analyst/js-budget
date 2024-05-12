@@ -11,7 +11,7 @@ class BudgetModel {
   int id;
   double? valueTotal;
   String? status;
-  List<ItemsBudgetModel>? itemsBudget;
+  List<ItemsBudgetModel> itemsBudget;
 
   String? createdAt;
   ClientModel? client;
@@ -21,7 +21,7 @@ class BudgetModel {
     this.id = 0,
     this.valueTotal,
     this.status,
-    this.itemsBudget,
+    required this.itemsBudget,
     this.createdAt,
     this.client,
     this.orderId,

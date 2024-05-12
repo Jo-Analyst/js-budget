@@ -13,7 +13,7 @@ class MaterialItemsBudgetModel {
   final int? itemBudgetId;
   MaterialItemsBudgetModel({
     this.id = 0,
-    required this.value,
+    this.value = 0,
     this.quantity = 1,
     required this.material,
     this.itemBudgetId,

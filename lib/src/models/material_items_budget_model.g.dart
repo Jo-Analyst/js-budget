@@ -10,7 +10,7 @@ MaterialItemsBudgetModel _$MaterialItemsBudgetModelFromJson(
         Map<String, dynamic> json) =>
     MaterialItemsBudgetModel(
       id: json['id'] as int? ?? 0,
-      value: (json['value'] as num).toDouble(),
+      value: (json['value'] as num?)?.toDouble() ?? 0,
       quantity: json['quantity'] as int? ?? 1,
       material:
           MaterialModel.fromJson(json['material'] as Map<String, dynamic>),

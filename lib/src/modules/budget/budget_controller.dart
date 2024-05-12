@@ -17,7 +17,7 @@ class BudgetController with Messages {
   ListSignal<BudgetModel> get data => _data;
 
   final model = signal<BudgetModel>(
-    BudgetModel(),
+    BudgetModel(itemsBudget: []),
   );
 
   double sumValueProducts(ListSignal<ItemsBudgetModel> data) {
@@ -65,9 +65,13 @@ class BudgetController with Messages {
         // TransformBudgetJson.fromJsonAfterDataSearch(budgets)
         //     .asMap()
         //     .forEach((key, budget) {
-        //   budget.itemsBudget!.asMap().forEach((key, item) {
-        //     print(item.product?.toJson());
-        //     print(item.service?.toJson());
+        //   budget.itemsBudget.asMap().forEach((key, item) {
+        //     item.materialItemsBudget.asMap().forEach((key, material) {
+        //       {
+        //         // print(material.material.toJson());
+        //       }
+        //     });
+        //     // print(item.toJson());
         //   });
         // });
 
