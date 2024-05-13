@@ -13,6 +13,7 @@ class ItemBudgetController {
     for (var item in items) {
       if (item.product != null) {
         _data.add(ItemsBudgetModel(
+            quantity: item.quantityProduct ?? 1,
             product: item.product,
             materialItemsBudget: [],
             fixedExpenseItemsBudget: []));
@@ -20,6 +21,7 @@ class ItemBudgetController {
 
       if (item.service != null) {
         _data.add(ItemsBudgetModel(
+            quantity: item.quantityService ?? 1,
             service: item.service,
             materialItemsBudget: [],
             fixedExpenseItemsBudget: []));

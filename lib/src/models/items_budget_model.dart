@@ -13,6 +13,7 @@ class ItemsBudgetModel {
   int id;
   double subValue;
   double unitaryValue;
+  int quantity;
   int term;
   String timeIncentive;
   double percentageProfitMargin;
@@ -26,6 +27,7 @@ class ItemsBudgetModel {
     this.id = 0,
     this.subValue = 0,
     this.unitaryValue = 0,
+    required this.quantity,
     this.term = 1,
     this.timeIncentive = 'Dia',
     this.percentageProfitMargin = 0.0,

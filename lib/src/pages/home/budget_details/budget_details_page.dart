@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
 import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
+import 'package:js_budget/src/repositories/budget/budget_repository_impl.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -13,8 +15,8 @@ class BudgetDetailsPage extends StatefulWidget {
 }
 
 class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
-  late Map<String, dynamic> data =
-      ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+  late BudgetModel budget =
+      ModalRoute.of(context)!.settings.arguments as BudgetModel;
 
   List<Map<String, dynamic>> services = [
     {
@@ -60,11 +62,17 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   ];
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    BudgetRepositoryImpl().findProductByOrderId(budget.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          data['id'].toString().padLeft(5, '0'),
+          budget.id.toString().padLeft(5, '0'),
           style: const TextStyle(fontFamily: 'Anta'),
         ),
         actions: [
@@ -97,7 +105,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   children: [
                     Text(
                       UtilsService.moneyToCurrency(
-                        data['value'],
+                        budget.valueTotal!,
                       ),
                       style: const TextStyle(
                         fontSize: 22,
@@ -109,21 +117,21 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          data['name'],
+                          budget.client!.name,
                           style: textStyleSmallDefault,
                         ),
                         GestureDetector(
                           onTap: () async {
-                            data['status'] = await Modal.showModal(context,
-                                    StatusWidget(lastStatus: data['status'])) ??
-                                data['status'];
+                            budget.status = await Modal.showModal(context,
+                                    StatusWidget(lastStatus: budget.status!)) ??
+                                budget.status;
                             setState(() {});
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                data['status'],
+                                budget.status!,
                                 style: TextStyle(
                                   fontSize: textStyleSmallDefault.fontSize,
                                   fontFamily: textStyleSmallDefault.fontFamily,

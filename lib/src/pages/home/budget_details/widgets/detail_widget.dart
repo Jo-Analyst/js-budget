@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -25,14 +24,13 @@ class DetailWidget extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            color: const Color.fromARGB(255, 20, 87, 143),
+            color: Theme.of(context).primaryColor,
             child: Text(
               title,
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 19,
                 fontFamily: textStyleSmallDefault.fontFamily,
-                color: Colors.white,
               ),
             ),
           ),
