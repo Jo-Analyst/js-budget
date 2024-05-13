@@ -54,20 +54,4 @@ class BudgetRepositoryImpl implements BudgetRepository {
       return Left(RespositoryException());
     }
   }
-
-  @override
-  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
-      findProductByOrderId(int budgetId) async {
-    try {
-      final db = await DataBase.openDatabase();
-      final itemsBudget = await db.rawQuery(
-          'SELECT items_budget.sub_value, items_budget.unitary_value, items_budget.quantity, products.name AS product_name FROM items_budget INNER JOIN products ON products.id = items_budget.product_id WHERE items_budget.budget_id = $budgetId');
-
-      print(itemsBudget);
-
-      return Right(itemsBudget);
-    } catch (_) {
-      return Left(RespositoryException());
-    }
-  }
 }

@@ -3,7 +3,7 @@ import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
 import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
-import 'package:js_budget/src/repositories/budget/budget_repository_impl.dart';
+import 'package:js_budget/src/repositories/budget_items/budget_item_repository_impl.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -64,7 +64,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    BudgetRepositoryImpl().findProductByOrderId(budget.id);
+    BudgetItemRepositoryImpl().findProductByOrderId(budget.id);
   }
 
   @override

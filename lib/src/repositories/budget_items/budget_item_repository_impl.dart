@@ -1,4 +1,8 @@
+import 'package:js_budget/src/config/db/database.dart';
+import 'package:js_budget/src/exception/respository_exception.dart';
+import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
+import 'package:js_budget/src/repositories/budget_items/transform_budget_json.dart';
 import 'package:js_budget/src/repositories/fixed_expense_item_budget/fixed_expense_item_budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/material_item_budget/material_item_budget_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
@@ -30,5 +34,26 @@ class BudgetItemRepositoryImpl implements BudgetItemRepository {
     itemsBudget.fixedExpenseItemsBudget.asMap().forEach((key, expenseItem) {
       _expenseItemBudget.saveExpenseItemBudget(txn, expenseItem, lastId);
     });
+  }
+
+  @override
+  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
+      findProductByOrderId(int budgetId) async {
+    try {
+      final db = await DataBase.openDatabase();
+      final itemsBudget = await db.rawQuery(
+          'SELECT items_budget.id, items_budget.sub_value, items_budget.unitary_value, items_budget.quantity, products.name AS product_name FROM items_budget INNER JOIN products ON products.id = items_budget.product_id WHERE items_budget.budget_id = $budgetId');
+
+      TransformItemBudgetJson.fromJsonAfterDataSearch(itemsBudget)
+          .asMap()
+          .forEach((key, value) {
+        print(value.toJson());
+      });
+
+      return Right(itemsBudget);
+    } catch (_) {
+      print(_.toString());
+      return Left(RespositoryException());
+    }
   }
 }
