@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
+import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/pages/home/budget_details/budget_detail_controller.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
@@ -24,31 +24,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
 
   List<ItemsBudgetModel> itemsBudget = [];
 
-  List<Map<String, dynamic>> payments = [
-    {
-      'specie-payment': 'PIX',
-      'amount-to-pay': 1000.0,
-      'installment-quantity': 1, // quantidade parcela
-      'installment-value': 1000.0, // valor paracelado
-    }
-  ];
-
-  List<Map<String, dynamic>> materials = [
-    {
-      'description': 'Madeira PVC',
-      'quantity': 1,
-      'unit': 'un',
-      'price': 300.00,
-      'price-total': 300.00,
-    },
-    {
-      'description': 'Pregos',
-      'quantity': 1,
-      'unit': 'un',
-      'price': 18.00,
-      'price-total': 180.00,
-    },
-  ];
+  List<MaterialItemsBudgetModel> materials = [];
 
   @override
   void didChangeDependencies() {
@@ -62,6 +38,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     await budgetDetailController.findMaterials(budget.id);
     setState(() {
       itemsBudget = budgetDetailController.items;
+      materials = budgetDetailController.materials;
     });
   }
 
@@ -157,13 +134,14 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                 title: 'Produtos e serviços',
                 detailType: DetailType.productsAndService,
               ),
-
-              // DetailWidget(data: materials, title: 'Peças e materiais'),
-              // DetailWidget(
-              //   data: payments,
-              //   title: 'Pagamento',
-              //   iconPayment: const Icon(Icons.pix),
-              // ),
+              Visibility(
+                visible: materials.isNotEmpty,
+                child: DetailWidget(
+                  data: materials,
+                  title: 'Peças e materiais',
+                  detailType: DetailType.materials,
+                ),
+              ),
             ],
           ),
         ),

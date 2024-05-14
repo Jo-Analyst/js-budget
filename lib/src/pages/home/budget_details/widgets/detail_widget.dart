@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -11,7 +10,7 @@ enum DetailType {
 }
 
 class DetailWidget extends StatelessWidget {
-  final List<ItemsBudgetModel> data;
+  final List<dynamic> data;
   final String title;
   final DetailType detailType;
   final Icon? iconPayment;
@@ -45,9 +44,11 @@ class DetailWidget extends StatelessWidget {
           ),
           Column(
             children: data.map((dt) {
-              String title = dt.product != null
-                  ? dt.product!.name
-                  : dt.service!.description;
+              String title = detailType == DetailType.productsAndService
+                  ? dt.product != null
+                      ? dt.product!.name
+                      : dt.service!.description
+                  : dt.material.name;
               return Column(
                 children: [
                   ListTile(
@@ -57,14 +58,17 @@ class DetailWidget extends StatelessWidget {
                       style: textStyleSmallFontWeight,
                     ),
                     subtitle: Text(
-                      '${dt.quantity}x ${UtilsService.moneyToCurrency(dt.unitaryValue)}',
+                      '${dt.quantity}x ${UtilsService.moneyToCurrency(detailType == DetailType.productsAndService ? dt.unitaryValue : dt.value / dt.quantity)}',
                       style: TextStyle(
                         fontSize: textStyleSmallDefault.fontSize,
                         fontFamily: 'Anta',
                       ),
                     ),
                     trailing: Text(
-                      UtilsService.moneyToCurrency(dt.subValue),
+                      UtilsService.moneyToCurrency(
+                          detailType == DetailType.productsAndService
+                              ? dt.subValue
+                              : dt.value),
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

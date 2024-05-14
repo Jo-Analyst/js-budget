@@ -37,6 +37,7 @@ class ItemBudgetController {
     _data[index]
         .materialItemsBudget
         .addAll(pricingController.materialItemsBudget);
+    _data[index].quantity = quantity;
     _data[index]
         .fixedExpenseItemsBudget
         .addAll(pricingController.fixedExpenseItemsBudget);
