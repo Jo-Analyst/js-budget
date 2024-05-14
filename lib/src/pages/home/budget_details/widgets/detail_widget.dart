@@ -1,18 +1,27 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
+import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
+enum DetailType {
+  productsAndService,
+  materials,
+}
+
 class DetailWidget extends StatelessWidget {
-  final List<Map<String, dynamic>> data;
+  final List<ItemsBudgetModel> data;
   final String title;
+  final DetailType detailType;
   final Icon? iconPayment;
   const DetailWidget({
-    super.key,
+    Key? key,
     required this.data,
     required this.title,
+    required this.detailType,
     this.iconPayment,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,41 +44,39 @@ class DetailWidget extends StatelessWidget {
             ),
           ),
           Column(
-            children: data
-                .map(
-                  (dt) => Column(
-                    children: [
-                      ListTile(
-                        leading: iconPayment,
-                        title: Text(
-                          dt['description'] ?? dt['specie-payment'],
-                          style: textStyleSmallFontWeight,
-                        ),
-                        subtitle: Text(
-                          dt['price'] != null
-                              ? '${dt['quantity']}x ${UtilsService.moneyToCurrency(dt['price'])}'
-                              : '${dt['installment-quantity']}x ${UtilsService.moneyToCurrency(dt['installment-value'])}',
-                          style: TextStyle(
-                            fontSize: textStyleSmallDefault.fontSize,
-                            fontFamily: 'Anta',
-                          ),
-                        ),
-                        trailing: Text(
-                          UtilsService.moneyToCurrency(
-                              dt['price-total'] ?? dt['amount-to-pay']),
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.green,
-                            fontFamily: 'Anta',
-                          ),
-                        ),
+            children: data.map((dt) {
+              String title = dt.product != null
+                  ? dt.product!.name
+                  : dt.service!.description;
+              return Column(
+                children: [
+                  ListTile(
+                    leading: iconPayment,
+                    title: Text(
+                      title,
+                      style: textStyleSmallFontWeight,
+                    ),
+                    subtitle: Text(
+                      '${dt.quantity}x ${UtilsService.moneyToCurrency(dt.unitaryValue)}',
+                      style: TextStyle(
+                        fontSize: textStyleSmallDefault.fontSize,
+                        fontFamily: 'Anta',
                       ),
-                      const Divider(),
-                    ],
+                    ),
+                    trailing: Text(
+                      UtilsService.moneyToCurrency(dt.subValue),
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.green,
+                        fontFamily: 'Anta',
+                      ),
+                    ),
                   ),
-                )
-                .toList(),
+                  const Divider(),
+                ],
+              );
+            }).toList(),
           ),
         ],
       ),

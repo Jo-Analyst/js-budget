@@ -14,7 +14,10 @@ class BudgetController with Messages {
 
   final BudgetRepository _budgetRepository;
   final _data = ListSignal<BudgetModel>([]);
-  ListSignal<BudgetModel> get data => _data;
+  ListSignal<BudgetModel> get data => _data
+    ..sort(
+      (a, b) => b.id.compareTo(a.id),
+    );
 
   final model = signal<BudgetModel>(
     BudgetModel(itemsBudget: []),
@@ -62,23 +65,8 @@ class BudgetController with Messages {
     final results = await _budgetRepository.findAll();
     switch (results) {
       case Right(value: final List<Map<String, dynamic>> budgets):
-        // TransformBudgetJson.fromJsonAfterDataSearch(budgets)
-        //     .asMap()
-        //     .forEach((key, budget) {
-        //   budget.itemsBudget.asMap().forEach((key, item) {
-        //     item.materialItemsBudget.asMap().forEach((key, material) {
-        //       {
-        //         // print(material.material.toJson());
-        //       }
-        //     });
-        //     // print(item.toJson());
-        //   });
-        // });
-
         _data.addAll(TransformBudgetJson.fromJsonAfterDataSearch(budgets));
-      // budgets.asMap().forEach((key, budget) {
-      //   print(budget);
-      // });
+
       case Left():
         showError('Houve um erro ao gerar o orçamento');
     }

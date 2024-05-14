@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
+import 'package:js_budget/src/models/items_budget_model.dart';
+import 'package:js_budget/src/pages/home/budget_details/budget_detail_controller.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
 import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
-import 'package:js_budget/src/repositories/budget_items/budget_item_repository_impl.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -17,23 +20,9 @@ class BudgetDetailsPage extends StatefulWidget {
 class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   late BudgetModel budget =
       ModalRoute.of(context)!.settings.arguments as BudgetModel;
+  final budgetDetailController = Injector.get<BudgetDetailController>();
 
-  List<Map<String, dynamic>> services = [
-    {
-      'description': 'Mesa',
-      'quantity': 1,
-      'unit': 'un',
-      'price': 800.00,
-      'price-total': 800.00,
-    },
-    {
-      'description': 'Cadeira',
-      'quantity': 12,
-      'unit': 'un',
-      'price': 40.00,
-      'price-total': 480.00,
-    },
-  ];
+  List<ItemsBudgetModel> itemsBudget = [];
 
   List<Map<String, dynamic>> payments = [
     {
@@ -64,7 +53,16 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    BudgetItemRepositoryImpl().findProductByOrderId(budget.id);
+
+    loadItemsBudget();
+  }
+
+  Future<void> loadItemsBudget() async {
+    await budgetDetailController.findProducts(budget.id);
+    await budgetDetailController.findMaterials(budget.id);
+    setState(() {
+      itemsBudget = budgetDetailController.items;
+    });
   }
 
   @override
@@ -154,13 +152,18 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   ],
                 ),
               ),
-              DetailWidget(data: services, title: 'Serviços'),
-              DetailWidget(data: materials, title: 'Peças e materiais'),
               DetailWidget(
-                data: payments,
-                title: 'Pagamento',
-                iconPayment: const Icon(Icons.pix),
+                data: itemsBudget,
+                title: 'Produtos e serviços',
+                detailType: DetailType.productsAndService,
               ),
+
+              // DetailWidget(data: materials, title: 'Peças e materiais'),
+              // DetailWidget(
+              //   data: payments,
+              //   title: 'Pagamento',
+              //   iconPayment: const Icon(Icons.pix),
+              // ),
             ],
           ),
         ),
