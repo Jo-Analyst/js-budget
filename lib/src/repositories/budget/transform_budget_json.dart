@@ -3,6 +3,7 @@ import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
+import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 
@@ -106,6 +107,7 @@ class TransformBudgetJson {
         items.materialItemsBudget = material;
         items.fixedExpenseItemsBudget = expense;
         tempBudgets[index].itemsBudget!.add(items);
+        print(tempBudgets[index].itemsBudget!.last.materialItemsBudget.length);
       }
     }
 
@@ -116,10 +118,22 @@ class TransformBudgetJson {
     List<MaterialItemsBudgetModel> material,
     List<FixedExpenseItemsBudgetModel> expense
   ) getMaterialAndFixed(
-      ItemsBudgetModel itemsBudget, List<Map<String, dynamic>> budgets) {
-    // for(var budget in budgets){
-    //   if(itemsBudget.)
-    // }
-    return ([], []);
+      ItemsBudgetModel itemBudget, List<Map<String, dynamic>> budgets) {
+    for (var budget in budgets) {
+      if (itemBudget.materialItemsBudget.isEmpty &&
+          !itemBudget.materialItemsBudget.any(
+              (materialItem) => materialItem.itemBudgetId == itemBudget.id)) {
+        itemBudget.materialItemsBudget.add(
+          MaterialItemsBudgetModel(
+            quantity: budget['quantity'],
+            value: budget['value'],
+            material: MaterialModel(
+              name: budget['material_name'],
+            ),
+          ),
+        );
+      }
+    }
+    return (itemBudget.materialItemsBudget, []);
   }
 }
