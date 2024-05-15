@@ -101,7 +101,10 @@ class TransformBudgetJson {
       if (tempBudgets[index!].itemsBudget!.isEmpty ||
           !tempBudgets[index]
               .itemsBudget!
-              .any((item) => item.product!.name == budget['product_name'])) {
+              .any((item) => item.product?.name == budget['product_name'])) {
+        final (material, expense) = getMaterialAndFixed(items, budgets);
+        items.materialItemsBudget = material;
+        items.fixedExpenseItemsBudget = expense;
         tempBudgets[index].itemsBudget!.add(items);
       }
     }
@@ -112,7 +115,11 @@ class TransformBudgetJson {
   static (
     List<MaterialItemsBudgetModel> material,
     List<FixedExpenseItemsBudgetModel> expense
-  ) getMaterialAndFixed(List<ItemsBudgetModel> itemsBudget) {
+  ) getMaterialAndFixed(
+      ItemsBudgetModel itemsBudget, List<Map<String, dynamic>> budgets) {
+    // for(var budget in budgets){
+    //   if(itemsBudget.)
+    // }
     return ([], []);
   }
 }
