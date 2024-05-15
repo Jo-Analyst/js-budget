@@ -41,9 +41,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadBudgets() async {
-    if (budgetController.data.isEmpty) {
-      await budgetController.findBudgets();
-    }
+    // if (budgetController.data.isEmpty) {
+    await budgetController.findBudgets();
+    // }
   }
 
   @override

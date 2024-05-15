@@ -26,11 +26,11 @@ void main() async {
     ),
   );
 
-  final db = await DataBase.openDatabase();
-  await db.delete('budgets');
-  await db.delete('items_budget');
-  await db.delete('material_items_budget');
-  await db.delete('fixed_expense_items_budget');
+  // final db = await DataBase.openDatabase();
+  // await db.delete('budgets');
+  // await db.delete('items_budget');
+  // await db.delete('material_items_budget');
+  // await db.delete('fixed_expense_items_budget');
 }
 
 class MyApp extends StatelessWidget {
