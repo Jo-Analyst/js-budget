@@ -42,11 +42,7 @@ class BudgetDetailController with Messages {
         _materials.addAll(
             TransformItemBudgetJson.fromJsonAfterSearchingMaterialData(
                 itemsBudget));
-        TransformItemBudgetJson.fromJsonAfterSearchingMaterialData(itemsBudget)
-            .asMap()
-            .forEach((key, itemMaterial) {
-          print(itemMaterial.toJson());
-        });
+
       case Left():
         showError('Houve um erro ao buscar o material');
     }

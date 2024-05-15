@@ -50,8 +50,7 @@ class _BudgetPageState extends State<BudgetPage> {
 
   void initializeBudget() {
     budgetController.model.value.orderId = orderController.model.value!.id;
-    budgetController.model.value.client =
-        orderController.model.value!.client;
+    budgetController.model.value.client = orderController.model.value!.client;
     calculateBudget();
   }
 
@@ -184,16 +183,29 @@ class _BudgetPageState extends State<BudgetPage> {
                                         subtitle: itemBudgetController
                                                     .data[index].subValue >
                                                 0
-                                            ? Text(
-                                                UtilsService.moneyToCurrency(
-                                                    itemBudgetController
-                                                        .data[index].subValue),
-                                                style: TextStyle(
-                                                  fontFamily: 'Anta',
-                                                  fontSize:
-                                                      textStyleSmallDefault
-                                                          .fontSize,
-                                                ),
+                                            ? Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'V.Un. ${UtilsService.moneyToCurrency(itemBudgetController.data[index].unitaryValue)}',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Anta',
+                                                      fontSize:
+                                                          textStyleSmallDefault
+                                                              .fontSize,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'V.Tot. ${UtilsService.moneyToCurrency(itemBudgetController.data[index].subValue)}',
+                                                    style: TextStyle(
+                                                      fontFamily: 'Anta',
+                                                      fontSize:
+                                                          textStyleSmallDefault
+                                                              .fontSize,
+                                                    ),
+                                                  ),
+                                                ],
                                               )
                                             : null,
                                         trailing: IconButton(

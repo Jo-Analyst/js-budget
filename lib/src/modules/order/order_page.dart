@@ -105,7 +105,7 @@ class _OrderPageState extends State<OrderPage> {
 
                               bool confirm = await showConfirmationDialog(
                                     context,
-                                    'Deseja mesmo excluir  o pedido ${order.id.toString().padLeft(4, '0')}?',
+                                    'Deseja mesmo excluir  o pedido ${order.id.toString().padLeft(5, '0')}?',
                                     buttonTitle: 'Sim',
                                   ) ??
                                   false;
@@ -134,7 +134,7 @@ class _OrderPageState extends State<OrderPage> {
                                   children: [
                                     ListTile(
                                       leading: Text(
-                                        order.id.toString().padLeft(4, '0'),
+                                        order.id.toString().padLeft(5, '0'),
                                         style: textStyleSmallFontWeight,
                                       ),
                                       title: Text(

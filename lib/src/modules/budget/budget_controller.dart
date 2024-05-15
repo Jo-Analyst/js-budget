@@ -13,6 +13,7 @@ class BudgetController with Messages {
   }) : _budgetRepository = budgetRepository;
 
   final BudgetRepository _budgetRepository;
+  
   final _data = ListSignal<BudgetModel>([]);
   ListSignal<BudgetModel> get data => _data
     ..sort(

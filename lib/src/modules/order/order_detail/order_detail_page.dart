@@ -45,7 +45,7 @@ class OrderDetailPage extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: CustomListTileIcon(
                     leading: const Icon(Icons.assignment),
-                    title: 'Pedido ${order.id.toString().padLeft(4, '0')}',
+                    title: 'Pedido ${order.id.toString().padLeft(5, '0')}',
                     titleFontWeight: FontWeight.bold,
                   ),
                 ),

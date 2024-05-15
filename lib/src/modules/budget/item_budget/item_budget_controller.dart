@@ -47,7 +47,7 @@ class ItemBudgetController {
     _data[index].percentageProfitMargin =
         pricingController.percentageProfitMargin;
     _data[index].profitMarginValue = pricingController.calcProfitMargin;
-    _data[index].unitaryValue = pricingController.totalToBeCharged;
-    _data[index].subValue = pricingController.totalToBeCharged * quantity;
+    _data[index].unitaryValue = pricingController.totalToBeCharged / quantity;
+    _data[index].subValue = pricingController.totalToBeCharged;
   }
 }
