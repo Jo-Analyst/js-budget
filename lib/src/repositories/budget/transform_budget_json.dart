@@ -77,6 +77,7 @@ class TransformBudgetJson {
 
       final items = ItemsBudgetModel(
         id: budget['item_budget_id'],
+        budgetId: budget['id'],
         quantity: budget['quantity'] ?? 1,
         product: budget['product_name'] != null
             ? ProductModel.fromJson({
@@ -107,7 +108,6 @@ class TransformBudgetJson {
         items.materialItemsBudget = material;
         items.fixedExpenseItemsBudget = expense;
         tempBudgets[index].itemsBudget!.add(items);
-        print(tempBudgets[index].itemsBudget!.last.materialItemsBudget.length);
       }
     }
 
@@ -120,20 +120,33 @@ class TransformBudgetJson {
   ) getMaterialAndFixed(
       ItemsBudgetModel itemBudget, List<Map<String, dynamic>> budgets) {
     for (var budget in budgets) {
-      if (itemBudget.materialItemsBudget.isEmpty &&
+      if (itemBudget.id == budget['item_budget_id'] &&
           !itemBudget.materialItemsBudget.any(
-              (materialItem) => materialItem.itemBudgetId == itemBudget.id)) {
+              (element) => element.material.name == budget['material_name'])) {
         itemBudget.materialItemsBudget.add(
           MaterialItemsBudgetModel(
-            quantity: budget['quantity'],
+            quantity: budget['quantity'] ?? 1,
             value: budget['value'],
+            itemBudgetId: itemBudget.id,
             material: MaterialModel(
               name: budget['material_name'],
             ),
           ),
         );
       }
+
+      if (itemBudget.id == budget['item_budget_id'] &&
+          !itemBudget.fixedExpenseItemsBudget
+              .any((element) => element.type == budget['type'])) {
+        itemBudget.fixedExpenseItemsBudget.add(
+          FixedExpenseItemsBudgetModel(
+            accumulatedValue: budget['accumulated_value'],
+            itemBudgetId: itemBudget.id,
+            type: budget['type'],
+          ),
+        );
+      }
     }
-    return (itemBudget.materialItemsBudget, []);
+    return (itemBudget.materialItemsBudget, itemBudget.fixedExpenseItemsBudget);
   }
 }

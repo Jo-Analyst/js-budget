@@ -47,7 +47,7 @@ class DataBase {
         );
 
         db.execute(
-            'CREATE TABLE IF NOT EXISTS fixed_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, dividedValue REAL NOT NULL, accumulatedValue REAL NOT NULL, type TEXT, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL)');
+            'CREATE TABLE IF NOT EXISTS fixed_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, divided_value REAL NOT NULL, accumulated_value REAL NOT NULL, type TEXT, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL)');
 
         db.execute(
           "CREATE TABLE IF NOT EXISTS personal_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)",

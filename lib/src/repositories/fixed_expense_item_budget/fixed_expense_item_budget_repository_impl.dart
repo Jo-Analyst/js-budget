@@ -12,8 +12,8 @@ class FixedExpenseItemBudgetRepositoryImpl
     if (fixedExpenseItemsBudget.value > 0) {
       await txn.insert('fixed_expense_items_budget', {
         'value': fixedExpenseItemsBudget.value,
-        'dividedValue': fixedExpenseItemsBudget.dividedValue,
-        'accumulatedValue': fixedExpenseItemsBudget.accumulatedValue,
+        'divided_value': fixedExpenseItemsBudget.dividedValue,
+        'accumulated_value': fixedExpenseItemsBudget.accumulatedValue,
         'type': fixedExpenseItemsBudget.type,
         'item_budget_id': budgetItemId,
       });
