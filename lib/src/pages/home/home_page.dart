@@ -177,8 +177,11 @@ class _HomePageState extends State<HomePage> {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 5),
                           child: GestureDetector(
-                            onTap: () => Navigator.of(context)
-                                .pushNamed('/budge-details', arguments: budget),
+                            onTap: () {
+                              budgetController.model.value = budget;
+                              Navigator.of(context).pushNamed('/budge-details',
+                                  arguments: budget);
+                            },
                             child: Card(
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(

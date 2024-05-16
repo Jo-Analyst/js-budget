@@ -3,7 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
-import 'package:js_budget/src/pages/home/budget_details/budget_detail_controller.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
 import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
@@ -18,28 +18,34 @@ class BudgetDetailsPage extends StatefulWidget {
 }
 
 class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
-  late BudgetModel budget =
-      ModalRoute.of(context)!.settings.arguments as BudgetModel;
-  final budgetDetailController = Injector.get<BudgetDetailController>();
+  BudgetModel? budget;
+
+  final budgetController = Injector.get<BudgetController>();
 
   List<ItemsBudgetModel> itemsBudget = [];
 
   List<MaterialItemsBudgetModel> materials = [];
 
+  void getProducts() {
+    itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
+  }
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
 
     loadItemsBudget();
+    budget = budgetController.model.value!;
+    getProducts();
   }
 
   Future<void> loadItemsBudget() async {
-    await budgetDetailController.findProducts(budget.id);
-    await budgetDetailController.findMaterials(budget.id);
-    setState(() {
-      itemsBudget = budgetDetailController.items;
-      materials = budgetDetailController.materials;
-    });
+    // await budgetDetailController.findProducts(budget.id);
+    // await budgetDetailController.findMaterials(budget.id);
+    // setState(() {
+    //   itemsBudget = budgetDetailController.items;
+    //   materials = budgetDetailController.materials;
+    // });
   }
 
   @override
@@ -47,7 +53,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          budget.id.toString().padLeft(5, '0'),
+          budget!.orderId.toString().padLeft(5, '0'),
           style: const TextStyle(fontFamily: 'Anta'),
         ),
         actions: [
@@ -80,7 +86,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   children: [
                     Text(
                       UtilsService.moneyToCurrency(
-                        budget.valueTotal!,
+                        budget!.valueTotal!,
                       ),
                       style: const TextStyle(
                         fontSize: 22,
@@ -92,21 +98,23 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          budget.client!.name,
+                          budget!.client!.name,
                           style: textStyleSmallDefault,
                         ),
                         GestureDetector(
                           onTap: () async {
-                            budget.status = await Modal.showModal(context,
-                                    StatusWidget(lastStatus: budget.status!)) ??
-                                budget.status;
+                            budget!.status = await Modal.showModal(
+                                    context,
+                                    StatusWidget(
+                                        lastStatus: budget!.status!)) ??
+                                budget!.status;
                             setState(() {});
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                budget.status!,
+                                budget!.status!,
                                 style: TextStyle(
                                   fontSize: textStyleSmallDefault.fontSize,
                                   fontFamily: textStyleSmallDefault.fontFamily,

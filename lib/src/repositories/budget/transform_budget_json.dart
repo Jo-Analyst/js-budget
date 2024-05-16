@@ -78,6 +78,8 @@ class TransformBudgetJson {
       final items = ItemsBudgetModel(
         id: budget['item_budget_id'],
         budgetId: budget['id'],
+        subValue: budget['sub_value'],
+        unitaryValue: budget['unitary_value'],
         quantity: budget['quantity'] ?? 1,
         product: budget['product_name'] != null
             ? ProductModel.fromJson({
@@ -125,7 +127,7 @@ class TransformBudgetJson {
               (element) => element.material.name == budget['material_name'])) {
         itemBudget.materialItemsBudget.add(
           MaterialItemsBudgetModel(
-            quantity: budget['quantity'] ?? 1,
+            quantity: budget['material_quantity'] ?? 1,
             value: budget['value'],
             itemBudgetId: itemBudget.id,
             material: MaterialModel(

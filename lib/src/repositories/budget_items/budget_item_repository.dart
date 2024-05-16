@@ -6,8 +6,7 @@ import 'package:sqflite/sqflite.dart';
 abstract interface class BudgetItemRepository {
   Future<void> saveItem(
       Transaction txn, ItemsBudgetModel itemsBudget, int budgetId);
-  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
-      findProductAndServiceByBudgetId(int budgetId);
+
   Future<Either<RespositoryException, List<Map<String, dynamic>>>>
       findMaterialsByBudgetId(int budgetId);
 }

@@ -13,16 +13,14 @@ class BudgetController with Messages {
   }) : _budgetRepository = budgetRepository;
 
   final BudgetRepository _budgetRepository;
-  
+
   final _data = ListSignal<BudgetModel>([]);
   ListSignal<BudgetModel> get data => _data
     ..sort(
       (a, b) => b.id.compareTo(a.id),
     );
 
-  final model = signal<BudgetModel>(
-    BudgetModel(itemsBudget: []),
-  );
+  final model = signal<BudgetModel?>(null);
 
   double sumValueProducts(ListSignal<ItemsBudgetModel> data) {
     double value = 0.0;
@@ -47,7 +45,7 @@ class BudgetController with Messages {
 
   Future<bool> save() async {
     bool? isError;
-    final results = await _budgetRepository.save(model.value);
+    final results = await _budgetRepository.save(model.value!);
 
     switch (results) {
       case Right(value: BudgetModel budget):
