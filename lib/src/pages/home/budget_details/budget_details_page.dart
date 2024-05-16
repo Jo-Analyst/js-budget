@@ -3,6 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
+import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
@@ -30,22 +31,33 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
   }
 
+  void getMaterials() {
+    materials.clear();
+    budget!.itemsBudget!.asMap().forEach((key, itemBudget) {
+      itemBudget.materialItemsBudget.asMap().forEach((index, materialItem) {
+        if (materials.isEmpty ||
+            !materials
+                .any((mt) => mt.material.name == materialItem.material.name)) {
+          materials.add(materialItem);
+        } else {
+          for (var itemMaterial in materials) {
+            if (itemMaterial.material.name == materialItem.material.name) {
+              itemMaterial.quantity += materialItem.quantity;
+              itemMaterial.value += materialItem.value;
+            }
+          }
+        }
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
 
-    loadItemsBudget();
     budget = budgetController.model.value!;
     getProducts();
-  }
-
-  Future<void> loadItemsBudget() async {
-    // await budgetDetailController.findProducts(budget.id);
-    // await budgetDetailController.findMaterials(budget.id);
-    // setState(() {
-    //   itemsBudget = budgetDetailController.items;
-    //   materials = budgetDetailController.materials;
-    // });
+    getMaterials();
   }
 
   @override
