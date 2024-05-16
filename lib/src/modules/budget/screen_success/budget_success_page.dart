@@ -66,7 +66,7 @@ class BudgetSuccessPage extends StatelessWidget {
                 ),
                 child: ListTile(
                   title: Text(
-                    'Pedido ${budgetController.model.value!.orderId!.toString().padLeft(5, '0')}',
+                    'Pedido ${budgetController.model.value.orderId!.toString().padLeft(5, '0')}',
                     style: TextStyle(
                       fontSize: textStyleSmallFontWeight.fontSize,
                       fontFamily: textStyleSmallFontWeight.fontFamily,
@@ -75,7 +75,7 @@ class BudgetSuccessPage extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(
-                    budgetController.model.value!.client!.name,
+                    budgetController.model.value.client!.name,
                     style: TextStyle(
                       fontSize: textStyleSmallFontWeight.fontSize,
                       fontFamily: textStyleSmallFontWeight.fontFamily,

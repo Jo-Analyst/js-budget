@@ -49,14 +49,14 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
   void initializeBudget() {
-    budgetController.model.value!.orderId = orderController.model.value!.id;
-    budgetController.model.value!.client = orderController.model.value!.client;
+    budgetController.model.value.orderId = orderController.model.value!.id;
+    budgetController.model.value.client = orderController.model.value!.client;
     calculateBudget();
   }
 
   void calculateBudget() {
     valueTotalBudget = sumPriceService() + valueTotalProduct;
-    budgetController.model.value!.valueTotal = valueTotalBudget;
+    budgetController.model.value.valueTotal = valueTotalBudget;
   }
 
   void changeValuePricing(int index) {
@@ -95,7 +95,7 @@ class _BudgetPageState extends State<BudgetPage> {
               var nav = Navigator.of(context);
 
               if (isValid) {
-                budgetController.model.value!.itemsBudget =
+                budgetController.model.value.itemsBudget =
                     itemBudgetController.data;
 
                 final isError = await budgetController.save();

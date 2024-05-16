@@ -33,15 +33,26 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
 
   void getMaterials() {
     materials.clear();
+    MaterialItemsBudgetModel? materialItemBudget;
     budget!.itemsBudget!.asMap().forEach((key, itemBudget) {
       itemBudget.materialItemsBudget.asMap().forEach((index, materialItem) {
+        materialItemBudget = materialItem;
         if (materials.isEmpty ||
-            !materials
-                .any((mt) => mt.material.name == materialItem.material.name)) {
-          materials.add(materialItem);
+            !materials.any((mt) =>
+                mt.material.name == materialItemBudget!.material.name)) {
+          materials.add(
+            MaterialItemsBudgetModel(
+              value: materialItem.value,
+              quantity: materialItem.quantity,
+              material: MaterialModel(
+                name: materialItem.material.name,
+              ),
+            ),
+          );
         } else {
           for (var itemMaterial in materials) {
-            if (itemMaterial.material.name == materialItem.material.name) {
+            if (itemMaterial.material.name ==
+                materialItemBudget!.material.name) {
               itemMaterial.quantity += materialItem.quantity;
               itemMaterial.value += materialItem.value;
             }
@@ -55,7 +66,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   void initState() {
     super.initState();
 
-    budget = budgetController.model.value!;
+    budget = budgetController.model.value;
     getProducts();
     getMaterials();
   }
