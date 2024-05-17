@@ -66,6 +66,7 @@ class PricingController with Messages {
     totalMaterialValue = 0;
     _materialItemsBudget.asMap().forEach((_, materialItem) {
       totalMaterialValue += materialItem.value;
+      totalExpenseValue = double.parse(totalExpenseValue.toStringAsFixed(2));
     });
   }
 
@@ -74,6 +75,7 @@ class PricingController with Messages {
     fixedExpenseItemsBudget.asMap().forEach((key, expenseItem) {
       totalExpenseValue += expenseItem.accumulatedValue;
     });
+    totalExpenseValue = double.parse(totalExpenseValue.toStringAsFixed(2));
   }
 
   void calculateExpensesByPeriodForEachExpense(
@@ -83,24 +85,29 @@ class PricingController with Messages {
     double dividedValue =
         timeIncentive == "Dia" ? valueExpense / 30 : (valueExpense / 30) / 8;
 
-    fixedExpenseItemsBudget[index].dividedValue = dividedValue;
-    fixedExpenseItemsBudget[index].accumulatedValue = dividedValue * termEC;
+    fixedExpenseItemsBudget[index].dividedValue =
+        double.parse(dividedValue.toStringAsFixed(2));
+    fixedExpenseItemsBudget[index].accumulatedValue =
+        double.parse((dividedValue * termEC).toStringAsFixed(2));
   }
 
   void deleteMaterial(MaterialItemsBudgetModel materialItem) {
-    materialItemsBudget.removeWhere(
-        (item) => item.material.id == materialItem.material.id);
+    materialItemsBudget
+        .removeWhere((item) => item.material.id == materialItem.material.id);
     totalMaterialValue -= materialItem.value;
+    totalMaterialValue = double.parse(totalMaterialValue.toStringAsFixed(2));
   }
 
   void calculateProfitMargin() {
     double totalCost = totalExpenseValue + totalMaterialValue;
     calcProfitMargin = totalCost * (percentageProfitMargin / 100);
+    calcProfitMargin = double.parse(calcProfitMargin.toStringAsFixed(2));
   }
 
   void calculateTotalToBeCharged() {
     totalToBeCharged =
         totalExpenseValue + totalMaterialValue + calcProfitMargin;
+    totalToBeCharged = double.parse(totalToBeCharged.toStringAsFixed(2));
   }
 
   void clearFields() {

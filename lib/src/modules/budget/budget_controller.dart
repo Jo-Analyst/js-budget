@@ -1,5 +1,7 @@
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
+import 'package:js_budget/src/models/material_items_budget_model.dart';
+import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/repositories/budget/transform_budget_json.dart';
 import 'package:signals/signals.dart';
 
@@ -13,6 +15,8 @@ class BudgetController with Messages {
   }) : _budgetRepository = budgetRepository;
 
   final BudgetRepository _budgetRepository;
+  final _totalBudgets = signal<double>(0.0);
+  Signal<double> get totalBudgets => _totalBudgets;
 
   final _data = ListSignal<BudgetModel>([]);
   ListSignal<BudgetModel> get data => _data
@@ -29,7 +33,7 @@ class BudgetController with Messages {
         value += item.subValue;
       }
     });
-    return value;
+    return double.parse(value.toStringAsFixed(2));
   }
 
   bool validateFields(ListSignal<ItemsBudgetModel> data) {
@@ -50,6 +54,7 @@ class BudgetController with Messages {
     switch (results) {
       case Right(value: BudgetModel budget):
         _data.add(budget);
+        totalBudgets.value += budget.valueTotal!;
         isError = false;
       case Left():
         isError = true;
@@ -65,9 +70,46 @@ class BudgetController with Messages {
     switch (results) {
       case Right(value: final List<Map<String, dynamic>> budgets):
         _data.addAll(TransformBudgetJson.fromJsonAfterDataSearch(budgets));
+        _sumBudgets();
 
       case Left():
         showError('Houve um erro ao gerar o orçamento');
     }
+  }
+
+  void _sumBudgets() {
+    for (var data in _data) {
+      totalBudgets.value += data.valueTotal!;
+    }
+  }
+
+  List<MaterialItemsBudgetModel> getMaterials(BudgetModel budget) {
+    List<MaterialItemsBudgetModel> materialItemBudget = [];
+    budget.itemsBudget!.asMap().forEach((key, itemBudget) {
+      itemBudget.materialItemsBudget.asMap().forEach((index, materialItem) {
+        if (materialItemBudget.isEmpty ||
+            !materialItemBudget
+                .any((mt) => mt.material.name == materialItem.material.name)) {
+          materialItemBudget.add(
+            MaterialItemsBudgetModel(
+              value: materialItem.value,
+              quantity: materialItem.quantity,
+              material: MaterialModel(
+                name: materialItem.material.name,
+              ),
+            ),
+          );
+        } else {
+          for (var itemMaterial in materialItemBudget) {
+            if (itemMaterial.material.name == materialItem.material.name) {
+              itemMaterial.quantity += materialItem.quantity;
+              itemMaterial.value += materialItem.value;
+            }
+          }
+        }
+      });
+    });
+
+    return materialItemBudget;
   }
 }

@@ -3,7 +3,6 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
-import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
@@ -27,48 +26,13 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
 
   List<MaterialItemsBudgetModel> materials = [];
 
-  void getProducts() {
-    itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
-  }
-
-  void getMaterials() {
-    materials.clear();
-    MaterialItemsBudgetModel? materialItemBudget;
-    budget!.itemsBudget!.asMap().forEach((key, itemBudget) {
-      itemBudget.materialItemsBudget.asMap().forEach((index, materialItem) {
-        materialItemBudget = materialItem;
-        if (materials.isEmpty ||
-            !materials.any((mt) =>
-                mt.material.name == materialItemBudget!.material.name)) {
-          materials.add(
-            MaterialItemsBudgetModel(
-              value: materialItem.value,
-              quantity: materialItem.quantity,
-              material: MaterialModel(
-                name: materialItem.material.name,
-              ),
-            ),
-          );
-        } else {
-          for (var itemMaterial in materials) {
-            if (itemMaterial.material.name ==
-                materialItemBudget!.material.name) {
-              itemMaterial.quantity += materialItem.quantity;
-              itemMaterial.value += materialItem.value;
-            }
-          }
-        }
-      });
-    });
-  }
-
   @override
   void initState() {
     super.initState();
 
     budget = budgetController.model.value;
-    getProducts();
-    getMaterials();
+    itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
+    materials = budgetController.getMaterials(budget!);
   }
 
   @override

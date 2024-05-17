@@ -280,7 +280,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Text(
-                            UtilsService.moneyToCurrency(10000),
+                            UtilsService.moneyToCurrency(
+                                budgetController.totalBudgets.watch(context)),
                             style: const TextStyle(
                               fontFamily: "Anta",
                               fontSize: 25,

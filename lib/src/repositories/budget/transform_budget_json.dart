@@ -124,7 +124,8 @@ class TransformBudgetJson {
     for (var budget in budgets) {
       if (itemBudget.id == budget['item_budget_id'] &&
           !itemBudget.materialItemsBudget.any(
-              (element) => element.material.name == budget['material_name'])) {
+              (element) => element.material.name == budget['material_name']) &&
+          budget['product_name'] != null) {
         itemBudget.materialItemsBudget.add(
           MaterialItemsBudgetModel(
             quantity: budget['material_quantity'] ?? 1,
@@ -139,7 +140,8 @@ class TransformBudgetJson {
 
       if (itemBudget.id == budget['item_budget_id'] &&
           !itemBudget.fixedExpenseItemsBudget
-              .any((element) => element.type == budget['type'])) {
+              .any((element) => element.type == budget['type']) &&
+          budget['type'] != null) {
         itemBudget.fixedExpenseItemsBudget.add(
           FixedExpenseItemsBudgetModel(
             accumulatedValue: budget['accumulated_value'],
