@@ -4,4 +4,5 @@ import 'package:sqflite/sqflite.dart';
 abstract interface class FixedExpenseItemBudgetRepository {
   Future<void> saveExpenseItemBudget(Transaction txn,
       FixedExpenseItemsBudgetModel fixedExpenseItemsBudget, int budgetItemId);
+  Future<void> deleteFixedExpenseItem(Transaction txn, int budgetId);
 }

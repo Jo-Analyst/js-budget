@@ -54,6 +54,5 @@ class BudgetItemRepositoryImpl implements BudgetItemRepository {
   Future<void> deleteItem(Transaction txn, int budgetId) async {
     await txn
         .delete('items_budget', where: 'budget_id = ?', whereArgs: [budgetId]);
-    await _materialItemBudget.deleteMaterialItem(txn, budgetId);
   }
 }

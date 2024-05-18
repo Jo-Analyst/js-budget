@@ -19,4 +19,10 @@ class FixedExpenseItemBudgetRepositoryImpl
       });
     }
   }
+
+  @override
+  Future<void> deleteFixedExpenseItem(Transaction txn, int budgetId) async {
+    await txn.rawDelete(
+        'DELETE FROM fixed_expense_items_budget WHERE item_budget_id IN (SELECT id FROM items_budget WHERE budget_id = $budgetId)');
+  }
 }
