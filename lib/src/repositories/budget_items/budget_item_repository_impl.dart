@@ -36,8 +36,6 @@ class BudgetItemRepositoryImpl implements BudgetItemRepository {
     });
   }
 
- 
-
   @override
   Future<Either<RespositoryException, List<Map<String, dynamic>>>>
       findMaterialsByBudgetId(int budgetId) async {
@@ -50,5 +48,12 @@ class BudgetItemRepositoryImpl implements BudgetItemRepository {
     } catch (_) {
       return Left(RespositoryException());
     }
+  }
+
+  @override
+  Future<void> deleteItem(Transaction txn, int budgetId) async {
+    await txn
+        .delete('items_budget', where: 'budget_id = ?', whereArgs: [budgetId]);
+    await _materialItemBudget.deleteMaterialItem(txn, budgetId);
   }
 }

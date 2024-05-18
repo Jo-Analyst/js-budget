@@ -16,4 +16,10 @@ class MaterialItemBudgetRepositoryImpl implements MaterialItemBudgetRepository {
       'item_budget_id': budgetItemId,
     });
   }
+
+  @override
+  Future<void> deleteMaterialItem(Transaction txn, int budgetId) async {
+    await txn.rawDelete(
+        'DELETE FROM material_items_budget WHERE item_budget_id IN (SELECT id FROM items_budget WHERE budget_id = $budgetId)');
+  }
 }

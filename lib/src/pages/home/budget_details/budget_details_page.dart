@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/pages/home/budget_details/widgets/status_widget.dart';
 import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
@@ -45,7 +46,17 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              var nav = Navigator.of(context);
+              final confirm = await showConfirmationDialog(
+                      context, 'Deseja mesmo excluir o orçamento?') ??
+                  false;
+
+              if (confirm) {
+                await budgetController.delete(budget!.id);
+                nav.pop();
+              }
+            },
             icon: const Icon(Icons.delete),
             tooltip: 'Excluir',
             iconSize: 25,

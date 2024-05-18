@@ -64,6 +64,21 @@ class BudgetController with Messages {
     return isError;
   }
 
+  Future<void> delete(int budgetId) async {
+    final results = await _budgetRepository.delete(budgetId);
+
+    switch (results) {
+      case Right():
+        deleteItem(budgetId);
+      case Left():
+        showError('Houve um erro ao gerar o orçamento');
+    }
+  }
+
+  void deleteItem(int budgetId) {
+    _data.removeWhere((data) => data.id == budgetId);
+  }
+
   Future<void> findBudgets() async {
     _data.clear();
     final results = await _budgetRepository.findAll();

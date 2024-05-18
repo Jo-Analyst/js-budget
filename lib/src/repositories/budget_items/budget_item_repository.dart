@@ -9,4 +9,6 @@ abstract interface class BudgetItemRepository {
 
   Future<Either<RespositoryException, List<Map<String, dynamic>>>>
       findMaterialsByBudgetId(int budgetId);
+
+  Future<void> deleteItem(Transaction txn, int budgetId);
 }
