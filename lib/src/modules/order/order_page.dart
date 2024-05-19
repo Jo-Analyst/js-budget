@@ -92,6 +92,7 @@ class _OrderPageState extends State<OrderPage> {
                       children: filteredOrder.map((order) {
                         final (year, month, day) =
                             UtilsService.extractDate(order.date);
+
                         return Padding(
                           padding: const EdgeInsets.only(
                             left: 15,
@@ -241,6 +242,20 @@ class _OrderPageState extends State<OrderPage> {
                                               ),
                                             ),
                                         ],
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(
+                                          order.status! ==
+                                                  'Aguardando orçamento'
+                                              ? Icons.access_time
+                                              : Icons.check_circle_rounded,
+                                          size: 30,
+                                        ),
+                                        onPressed: () {},
+                                        tooltip: order.status! ==
+                                                'Aguardando orçamento'
+                                            ? 'Aguardando orçamento'
+                                            : "Orçamento criado",
                                       ),
                                     ),
                                   ],

@@ -12,11 +12,13 @@ class OrderModel {
   final String date;
   final ClientModel client;
   final List<ItemOrderModel> items;
+  final String? status;
   OrderModel({
     this.id = 0,
     required this.date,
     required this.client,
     required this.items,
+    this.status,
   });
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);

@@ -36,6 +36,14 @@ class DataBase {
         );
 
         db.execute(
+          "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, client_id INTEGER, status TEXT DEFAULT 'Aguardando orçamento', FOREIGN KEY (client_id) REFERENCES clients(id))",
+        );
+
+        db.execute(
+          'CREATE TABLE IF NOT EXISTS items_orders (id INTEGER PRIMARY KEY, quantity_product INTEGER, quantity_service INTEGER, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id), FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL)',
+        );
+
+        db.execute(
           "CREATE TABLE IF NOT EXISTS budgets (id INTEGER PRIMARY KEY, value_total REAL NOT NULL, status TEXT DEFAULT 'Em aberto', created_at TEXT, order_id INTEGER NOT NULL, client_id INTEGER NOT NULL, FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
         );
 
@@ -59,14 +67,6 @@ class DataBase {
 
         db.execute(
           'CREATE TABLE IF NOT EXISTS services (id INTEGER PRIMARY KEY, description TEXT, price REAL)',
-        );
-
-        db.execute(
-          'CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, client_id INTEGER, FOREIGN KEY (client_id) REFERENCES clients(id))',
-        );
-
-        db.execute(
-          'CREATE TABLE IF NOT EXISTS items_orders (id INTEGER PRIMARY KEY, quantity_product INTEGER, quantity_service INTEGER, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id), FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL)',
         );
 
         db.execute(

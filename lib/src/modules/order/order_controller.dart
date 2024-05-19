@@ -41,9 +41,10 @@ class OrderController with Messages {
       case Right(value: OrderModel order):
         model = order;
 
-        showSuccess('Pedido registrado com sucesso');
+        showSuccess('Pedido registrado com sucesso', position: Position.top);
       case Left():
-        showError('Houver um erro ao registrar o pedido.');
+        showError('Houver um erro ao registrar o pedido.',
+            position: Position.top);
     }
 
     return model;
@@ -56,9 +57,10 @@ class OrderController with Messages {
     switch (results) {
       case Right():
         itWasExcluded = true;
-        showSuccess('Pedido excluido com sucesso');
+        showSuccess('Pedido excluido com sucesso', position: Position.top);
       case Left():
-        showError('Houver um erro ao excluir o pedido.');
+        showError('Houver um erro ao excluir o pedido.',
+            position: Position.top);
     }
     return itWasExcluded;
   }
