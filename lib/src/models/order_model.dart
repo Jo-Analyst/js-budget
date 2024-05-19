@@ -18,7 +18,7 @@ class OrderModel {
     required this.date,
     required this.client,
     required this.items,
-    this.status,
+    this.status = 'Aguardando orçamento',
   });
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);

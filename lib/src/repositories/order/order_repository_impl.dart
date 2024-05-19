@@ -7,6 +7,7 @@ import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/repositories/item_order/items_order_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository.dart';
 import 'package:js_budget/src/repositories/order/transform_order_json.dart';
+import 'package:sqflite/sqflite.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
   final ItemsOrderRepositoryImpl _itemsOrderRepositoryImpl =
@@ -81,5 +82,11 @@ class OrderRepositoryImpl implements OrderRepository {
   @override
   Future<Either<RespositoryException, Unit>> update(OrderModel order) {
     throw UnimplementedError();
+  }
+
+  @override
+  Future<void> changeStatusOrder(Transaction txn, int orderId) async {
+    txn.update('orders', {'status': 'Orçamento criado'},
+        where: 'id = ?', whereArgs: [orderId]);
   }
 }

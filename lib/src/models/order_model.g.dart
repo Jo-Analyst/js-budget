@@ -13,7 +13,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       items: (json['items'] as List<dynamic>)
           .map((e) => ItemOrderModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: json['status'] as String?,
+      status: json['status'] as String? ?? 'Aguardando orçamento',
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>

@@ -18,17 +18,20 @@ class OrderDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Pedido'),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 15),
-            child: ElevatedButton(
-              onPressed: () {
-                controller.model.value = order;
-                Navigator.of(context)
-                    .pushNamed('/budget/form', arguments: order);
-              },
-              child: const Text(
-                'Fazer orçamento',
-                style: textStyleSmallDefault,
+          Visibility(
+            visible: order.status == 'Aguardando orçamento',
+            child: Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: ElevatedButton(
+                onPressed: () {
+                  controller.model.value = order;
+                  Navigator.of(context)
+                      .pushNamed('/budget/form', arguments: order);
+                },
+                child: const Text(
+                  'Fazer orçamento',
+                  style: textStyleSmallDefault,
+                ),
               ),
             ),
           ),
