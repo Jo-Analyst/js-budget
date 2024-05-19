@@ -49,7 +49,8 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
             onPressed: () async {
               var nav = Navigator.of(context);
               final confirm = await showConfirmationDialog(
-                      context, 'Deseja mesmo excluir o orçamento?') ??
+                      context, 'Deseja mesmo excluir o orçamento?',
+                      buttonTitle: 'Sim') ??
                   false;
 
               if (confirm) {

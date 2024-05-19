@@ -10,8 +10,7 @@ import 'package:js_budget/src/repositories/order/transform_order_json.dart';
 import 'package:sqflite/sqflite.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
-  final ItemsOrderRepositoryImpl _itemsOrderRepositoryImpl =
-      ItemsOrderRepositoryImpl();
+  final _itemsOrderRepositoryImpl = ItemsOrderRepositoryImpl();
 
   @override
   Future<Either<RespositoryException, OrderModel>> register(
@@ -77,11 +76,6 @@ class OrderRepositoryImpl implements OrderRepository {
     } catch (_) {
       return Left(RespositoryException());
     }
-  }
-
-  @override
-  Future<Either<RespositoryException, Unit>> update(OrderModel order) {
-    throw UnimplementedError();
   }
 
   @override

@@ -62,6 +62,14 @@ class BudgetRepositoryImpl implements BudgetRepository {
   }
 
   @override
+  Future<int> findByOrderId(int orderId) async {
+    final db = await DataBase.openDatabase();
+    final budget =
+        await db.rawQuery('SELECT id FROM budgets WHERE order_id = $orderId');
+    return budget.isNotEmpty ? budget[0]['id'] as int : 0;
+  }
+
+  @override
   Future<Either<RespositoryException, Unit>> delete(int budgetId) async {
     try {
       final db = await DataBase.openDatabase();
