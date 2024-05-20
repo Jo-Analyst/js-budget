@@ -1,10 +1,11 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/repositories/order/order_repository.dart';
 import 'package:js_budget/src/repositories/order/transform_order_json.dart';
 import 'package:signals/signals_flutter.dart';
@@ -56,7 +57,11 @@ class OrderController with Messages {
     bool itWasExcluded = false;
 
     switch (results) {
-      case Right():
+      case Right(value: int budgetId):
+        if (budgetId > 0) {
+          final budgetController = Injector.get<BudgetController>();
+          budgetController.deleteItem(budgetId);
+        }
         itWasExcluded = true;
         showSuccess('Pedido excluido com sucesso');
       case Left():

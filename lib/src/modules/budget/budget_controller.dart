@@ -65,7 +65,7 @@ class BudgetController with Messages {
   }
 
   Future<void> delete(int budgetId) async {
-    final results = await _budgetRepository.delete(budgetId);
+    final results = await _budgetRepository.deleteBudget(budgetId);
 
     switch (results) {
       case Right():
