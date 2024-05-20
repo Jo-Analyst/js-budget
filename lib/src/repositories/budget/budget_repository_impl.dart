@@ -77,7 +77,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         await delete(txn, budgetId);
-        await _order.changeStatusOrder(txn, orderId, budgetWasCreated: false);
+        await _order.changeStatusOrder(txn, orderId, budgetWasDeleted: true);
       });
 
       return Right(unit);
