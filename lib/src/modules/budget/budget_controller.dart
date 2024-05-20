@@ -64,8 +64,8 @@ class BudgetController with Messages {
     return isError;
   }
 
-  Future<void> delete(int budgetId) async {
-    final results = await _budgetRepository.deleteBudget(budgetId);
+  Future<void> delete(int budgetId, int orderId) async {
+    final results = await _budgetRepository.deleteBudget(budgetId, orderId);
 
     switch (results) {
       case Right():
@@ -76,6 +76,8 @@ class BudgetController with Messages {
   }
 
   void deleteItem(int budgetId) {
+    totalBudgets.value -=
+        _data.value.where((data) => data.id == budgetId).first.valueTotal!;
     _data.removeWhere((data) => data.id == budgetId);
   }
 

@@ -81,8 +81,15 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
-  Future<void> changeStatusOrder(Transaction txn, int orderId) async {
-    txn.update('orders', {'status': 'Orçamento criado'},
-        where: 'id = ?', whereArgs: [orderId]);
+  Future<void> changeStatusOrder(Transaction txn, int orderId,
+      {bool budgetWasCreated = true}) async {
+    txn.update(
+        'orders',
+        {
+          'status':
+              budgetWasCreated ? 'Orçamento criado' : 'Aguardando orçamento'
+        },
+        where: 'id = ?',
+        whereArgs: [orderId]);
   }
 }

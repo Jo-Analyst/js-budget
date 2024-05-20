@@ -54,7 +54,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   false;
 
               if (confirm) {
-                await budgetController.delete(budget!.id);
+                await budgetController.delete(budget!.id, budget!.orderId!);
                 nav.pop();
               }
             },

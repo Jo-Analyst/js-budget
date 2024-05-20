@@ -71,11 +71,13 @@ class BudgetRepositoryImpl implements BudgetRepository {
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> deleteBudget(int budgetId) async {
+  Future<Either<RespositoryException, Unit>> deleteBudget(
+      int budgetId, int orderId) async {
     try {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         await delete(txn, budgetId);
+        await _order.changeStatusOrder(txn, orderId, budgetWasCreated: false);
       });
 
       return Right(unit);
