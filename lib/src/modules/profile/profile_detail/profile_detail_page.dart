@@ -3,7 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/profile_model.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
-import 'package:js_budget/src/pages/widgets/listView_tile.dart';
+import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 

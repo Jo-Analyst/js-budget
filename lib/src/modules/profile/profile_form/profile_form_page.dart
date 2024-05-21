@@ -6,7 +6,7 @@ import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/profile_model.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_form/profile_form_controller.dart';
-import 'package:js_budget/src/pages/widgets/listView_tile.dart';
+import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/find_cep_controller.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';

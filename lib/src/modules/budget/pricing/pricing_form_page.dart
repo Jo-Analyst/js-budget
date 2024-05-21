@@ -11,7 +11,7 @@ import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_cont
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
-import 'package:js_budget/src/pages/widgets/listView_tile.dart';
+import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
