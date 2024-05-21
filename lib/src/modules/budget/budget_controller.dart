@@ -54,7 +54,7 @@ class BudgetController with Messages {
     switch (results) {
       case Right(value: BudgetModel budget):
         _data.add(budget);
-        totalBudgets.value += budget.valueTotal!;
+        _sumBudgets(_data);
         isError = false;
       case Left():
         isError = true;
@@ -87,17 +87,28 @@ class BudgetController with Messages {
     switch (results) {
       case Right(value: final List<Map<String, dynamic>> budgets):
         _data.addAll(TransformBudgetJson.fromJsonAfterDataSearch(budgets));
-        _sumBudgets();
+        _sumBudgets(_data.value);
 
       case Left():
         showError('Houve um erro ao gerar o orçamento');
     }
   }
 
-  void _sumBudgets() {
-    for (var data in _data) {
+  void _sumBudgets(List<BudgetModel> budgets) {
+    totalBudgets.value = 0;
+    for (var data in budgets) {
       totalBudgets.value += data.valueTotal!;
     }
+  }
+
+  List<BudgetModel> filterData(String status) {
+    final budgets = _data
+        .where(
+            (data) => data.status!.toLowerCase().contains(status.toLowerCase()))
+        .toList();
+
+    _sumBudgets(budgets);
+    return budgets;
   }
 
   List<MaterialItemsBudgetModel> getMaterials(BudgetModel budget) {
@@ -146,8 +157,6 @@ class BudgetController with Messages {
         showError('Houve um erro ao atualizar o status');
         isError = true;
     }
-
-    print(_data);
 
     return isError;
   }

@@ -17,12 +17,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final profileController = Injector.get<ProfileController>();
   final budgetController = Injector.get<BudgetController>();
+  String search = '';
 
   List<Map<String, dynamic>> filteringOptions = [
     {'type': 'Tudo', 'isSelected': true},
     {'type': 'Em aberto', 'isSelected': false},
     {'type': 'Aprovado', 'isSelected': false},
     {'type': 'Concluído', 'isSelected': false},
+    {'type': 'Cancelado', 'isSelected': false},
   ];
 
   void selectOptions(Map<String, dynamic> filter) {
@@ -49,7 +51,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var budgets = budgetController.data.watch(context);
+    var budgets = budgetController.data
+        .watch(context)
+        .where((budget) =>
+            budget.status!.toLowerCase().contains(search.toLowerCase()))
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -114,198 +120,205 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: budgets.isEmpty
-          ? const Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.insert_chart_rounded,
-                    size: 80,
-                  ),
-                  Text(
-                    'Nenhum orçamento aberto',
-                    style: textStyleLargeDefault,
-                  ),
-                ],
+      body: Padding(
+        padding: const EdgeInsets.only(
+          top: 10,
+          left: 10,
+          right: 10,
+          bottom: 5,
+        ),
+        child: Column(
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: filteringOptions
+                    .map(
+                      (filter) => GestureDetector(
+                        onTap: () {
+                          selectOptions(filter);
+                          search =
+                              filter['type'] == 'Tudo' ? '' : filter['type'];
+                          budgetController.filterData(search);
+                        },
+                        child: FilteringOptionsWidget(
+                          title: filter['type'],
+                          backgroundColor: filter['isSelected']
+                              ? Colors.deepPurple
+                              : theme.primaryColor,
+                          fontWeight: filter['isSelected']
+                              ? FontWeight.w500
+                              : FontWeight.w600,
+                          textColor: filter['isSelected'] ? Colors.white : null,
+                        ),
+                      ),
+                    )
+                    .toList(),
               ),
-            )
-          : Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                left: 10,
-                right: 10,
-                bottom: 5,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: filteringOptions
-                          .map(
-                            (filter) => GestureDetector(
-                              onTap: () {
-                                selectOptions(filter);
-                              },
-                              child: FilteringOptionsWidget(
-                                title: filter['type'],
-                                backgroundColor: filter['isSelected']
-                                    ? Colors.deepPurple
-                                    : theme.primaryColor,
-                                fontWeight: filter['isSelected']
-                                    ? FontWeight.w500
-                                    : FontWeight.w600,
-                                textColor:
-                                    filter['isSelected'] ? Colors.white : null,
-                              ),
-                            ),
-                          )
-                          .toList(),
+            ),
+            budgets.isEmpty
+                ? const Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.insert_chart_rounded,
+                            size: 80,
+                          ),
+                          Text(
+                            'Nenhum orçamento aberto',
+                            style: textStyleLargeDefault,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: budgets.length,
-                      itemBuilder: (context, index) {
-                        final budget = budgets[index];
-                        final (year, month, day) =
-                            UtilsService.extractDate(budget.createdAt!);
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: GestureDetector(
-                            onTap: () {
-                              budgetController.model.value = budget;
-                              Navigator.of(context).pushNamed('/budge-details',
-                                  arguments: budget);
-                            },
-                            child: Card(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 15,
-                                  vertical: 10,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text.rich(
-                                      TextSpan(
+                  )
+                : Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: budgets.length,
+                            itemBuilder: (context, index) {
+                              final budget = budgets[index];
+                              final (year, month, day) =
+                                  UtilsService.extractDate(budget.createdAt!);
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    budgetController.model.value = budget;
+                                    Navigator.of(context).pushNamed(
+                                        '/budge-details',
+                                        arguments: budget);
+                                  },
+                                  child: Card(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 10,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          const TextSpan(
-                                            text: 'Orçamento do Pedido: ',
-                                            style: textStyleSmallFontWeight,
+                                          Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                const TextSpan(
+                                                  text: 'Orçamento do Pedido: ',
+                                                  style:
+                                                      textStyleSmallFontWeight,
+                                                ),
+                                                TextSpan(
+                                                  text: budget.orderId
+                                                      .toString()
+                                                      .padLeft(5, '0'),
+                                                  style: const TextStyle(
+                                                    fontFamily: 'Anta',
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          TextSpan(
-                                            text: budget.orderId
-                                                .toString()
-                                                .padLeft(5, '0'),
-                                            style: const TextStyle(
-                                              fontFamily: 'Anta',
-                                              fontSize: 20,
+                                          const SizedBox(height: 10),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                budget.client!.name,
+                                                style: textStyleSmallFontWeight,
+                                              ),
+                                              Text(
+                                                budget.status!,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                      textStyleSmallDefault
+                                                          .fontFamily,
+                                                  color: const Color.fromARGB(
+                                                      255, 20, 87, 143),
+                                                  fontSize:
+                                                      textStyleSmallDefault
+                                                          .fontSize,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(height: 10),
+                                          Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: UtilsService
+                                                      .moneyToCurrency(
+                                                          budget.valueTotal!),
+                                                ),
+                                                TextSpan(
+                                                  text:
+                                                      ' - ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year',
+                                                ),
+                                              ],
+                                              style: TextStyle(
+                                                fontSize: textStyleSmallDefault
+                                                    .fontSize,
+                                                fontFamily: 'Anta',
+                                                color: const Color.fromARGB(
+                                                    255, 20, 87, 143),
+                                              ),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          budget.client!.name,
-                                          style: textStyleSmallFontWeight,
-                                        ),
-                                        Text(
-                                          budget.status!,
-                                          style: TextStyle(
-                                            fontFamily: textStyleSmallDefault
-                                                .fontFamily,
-                                            color: const Color.fromARGB(
-                                                255, 20, 87, 143),
-                                            fontSize:
-                                                textStyleSmallDefault.fontSize,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text.rich(
-                                      TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: UtilsService.moneyToCurrency(
-                                                budget.valueTotal!),
-                                          ),
-                                          TextSpan(
-                                            text:
-                                                ' - ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year',
-                                          ),
-                                        ],
-                                        style: TextStyle(
-                                          fontSize:
-                                              textStyleSmallDefault.fontSize,
-                                          fontFamily: 'Anta',
-                                          color: const Color.fromARGB(
-                                              255, 20, 87, 143),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                              );
+                            },
+                          ),
+                        ),
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'Total',
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Text(
+                                  UtilsService.moneyToCurrency(budgetController
+                                      .totalBudgets
+                                      .watch(context)),
+                                  style: const TextStyle(
+                                    fontFamily: "Anta",
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.green,
+                                  ),
+                                )
+                              ],
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   ),
-                  Card(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text(
-                            'Total',
-                            style: TextStyle(
-                              fontFamily: "Poppins",
-                              fontSize: 23,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          Text(
-                            UtilsService.moneyToCurrency(
-                                budgetController.totalBudgets.watch(context)),
-                            style: const TextStyle(
-                              fontFamily: "Anta",
-                              fontSize: 25,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.green,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     // showModal(context, const NewTransaction());
-      //   },
-      //   child: const Icon(
-      //     Icons.add,
-      //     size: 30,
-      //   ),
-      // ),
+          ],
+        ),
+      ),
     );
   }
 }

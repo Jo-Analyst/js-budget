@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
-import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class StatusWidget extends StatefulWidget {
@@ -120,6 +119,9 @@ class _StatusWidgetState extends State<StatusWidget> {
                 var nav = Navigator.of(context);
                 final isError = await budgetController.changeStatus(
                     status, widget.budgetId);
+                if (!isError) {
+                  budgetController.filterData(widget.lastStatus);
+                }
                 nav.pop(!isError ? status : widget.lastStatus);
               },
               child: Text(
