@@ -7,5 +7,7 @@ abstract interface class BudgetRepository {
   Future<Either<RespositoryException, BudgetModel>> save(BudgetModel budget);
   Future<int> findByOrderId(int orderId);
   Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
-  Future<Either<RespositoryException, Unit>> deleteBudget(int budgetId, int orderId);
+  Future<Either<RespositoryException, Unit>> deleteBudget(
+      int budgetId, int orderId);
+  Future<Either<RespositoryException, Unit>> changeStatus(String status, int budgetId);
 }

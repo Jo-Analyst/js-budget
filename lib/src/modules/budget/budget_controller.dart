@@ -129,4 +129,26 @@ class BudgetController with Messages {
 
     return materialItemBudget;
   }
+
+  Future<bool> changeStatus(String status, int budgetId) async {
+    bool isError = false;
+    final results = await _budgetRepository.changeStatus(status, budgetId);
+
+    switch (results) {
+      case Right():
+        for (int i = 0; i < _data.length; i++) {
+          if (_data[i].id == budgetId) {
+            data[i].status = status;
+            break;
+          }
+        }
+      case Left():
+        showError('Houve um erro ao atualizar o status');
+        isError = true;
+    }
+
+    print(_data);
+
+    return isError;
+  }
 }

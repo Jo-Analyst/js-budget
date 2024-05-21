@@ -92,4 +92,15 @@ class BudgetRepositoryImpl implements BudgetRepository {
     await _expenseItemBudget.deleteFixedExpenseItem(txn, budgetId);
     await _budgetItem.deleteItem(txn, budgetId);
   }
+
+  @override
+  Future<Either<RespositoryException, Unit>> changeStatus(String status, int budgetId) async {
+    try {
+      final db = await DataBase.openDatabase();
+      await db.update('budgets', {'status': status}, where: 'id = ?', whereArgs: [budgetId]);
+      return Right(unit);
+    } catch (_) {
+      return Left(RespositoryException());
+    }
+  }
 }

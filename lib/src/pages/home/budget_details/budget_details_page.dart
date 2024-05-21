@@ -103,9 +103,12 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                         GestureDetector(
                           onTap: () async {
                             budget!.status = await Modal.showModal(
-                                    context,
-                                    StatusWidget(
-                                        lastStatus: budget!.status!)) ??
+                                  context,
+                                  StatusWidget(
+                                    lastStatus: budget!.status!,
+                                    budgetId: budget!.id,
+                                  ),
+                                ) ??
                                 budget!.status;
                             setState(() {});
                           },

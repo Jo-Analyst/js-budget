@@ -1,20 +1,26 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class StatusWidget extends StatefulWidget {
   final String lastStatus;
+  final int budgetId;
   const StatusWidget({
-    super.key,
+    Key? key,
     required this.lastStatus,
-  });
+    required this.budgetId,
+  }) : super(key: key);
 
   @override
   State<StatusWidget> createState() => _StatusWidgetState();
 }
 
 class _StatusWidgetState extends State<StatusWidget> {
+  final budgetController = Injector.get<BudgetController>();
   late String status;
   List<Map<String, dynamic>> situations = [
     {'status': 'Em aberto', 'isChecked': false},
@@ -110,8 +116,11 @@ class _StatusWidgetState extends State<StatusWidget> {
                 backgroundColor: Colors.deepPurple,
                 foregroundColor: Colors.white,
               ),
-              onPressed: () {
-                Navigator.of(context).pop(status);
+              onPressed: () async {
+                var nav = Navigator.of(context);
+                final isError = await budgetController.changeStatus(
+                    status, widget.budgetId);
+                nav.pop(!isError ? status : widget.lastStatus);
               },
               child: Text(
                 'Alterar Status',
