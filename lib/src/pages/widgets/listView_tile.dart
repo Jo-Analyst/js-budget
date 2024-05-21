@@ -4,21 +4,25 @@ import 'package:flutter/widgets.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class ColumnTile extends StatelessWidget {
+enum AxisListDirection { horizontal, vertical }
+
+class ListViewTile extends StatelessWidget {
   final String title;
   final List<Widget> children;
   final VoidCallback? onTap;
   final Widget? leading;
   final Widget? trailing;
+  final AxisListDirection axis;
   final Color? color;
   final Color? textColor;
-  const ColumnTile({
+  const ListViewTile({
     Key? key,
     required this.title,
     required this.children,
     this.onTap,
     this.leading,
     this.trailing,
+    this.axis = AxisListDirection.vertical,
     this.color,
     this.textColor,
   }) : super(key: key);
@@ -64,9 +68,13 @@ class ColumnTile extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: children,
-          ),
+          child: axis == AxisListDirection.vertical
+              ? Column(
+                  children: children,
+                )
+              : Row(
+                  children: children,
+                ),
         ),
       ],
     );

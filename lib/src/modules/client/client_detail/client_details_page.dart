@@ -4,7 +4,7 @@ import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/widgets/address_widget.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/pages/widgets/contact_widget.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -66,7 +66,7 @@ class ClientDetailsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Card(
-                      child: ColumnTile(
+                      child: ListViewTile(
                         color: Colors.transparent,
                         textColor: Colors.black,
                         title: 'Dados do cliente',

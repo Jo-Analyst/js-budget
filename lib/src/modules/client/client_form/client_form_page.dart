@@ -6,7 +6,7 @@ import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/modules/client/client_form/client_form_controller.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/find_cep_controller.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
@@ -174,7 +174,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
-                    child: ColumnTile(
+                    child: ListViewTile(
                       color: Colors.transparent,
                       textColor: Colors.black,
                       title: 'Contatos',
@@ -241,7 +241,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
-                    child: ColumnTile(
+                    child: ListViewTile(
                       color: Colors.transparent,
                       textColor: Colors.black,
                       title: 'Endereço',

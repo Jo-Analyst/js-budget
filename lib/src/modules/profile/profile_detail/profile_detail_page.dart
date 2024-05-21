@@ -3,7 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/profile_model.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -44,7 +44,7 @@ class ProfileDetailsPage extends StatelessWidget {
 
               // Razão social
               Card(
-                child: ColumnTile(
+                child: ListViewTile(
                     title: 'Razão social',
                     color: Colors.transparent,
                     textColor: Colors.black,
@@ -60,7 +60,7 @@ class ProfileDetailsPage extends StatelessWidget {
 
               //contato
               Card(
-                child: ColumnTile(
+                child: ListViewTile(
                   title: 'Contato',
                   color: Colors.transparent,
                   textColor: Colors.black,
@@ -83,7 +83,7 @@ class ProfileDetailsPage extends StatelessWidget {
               ),
               // Endereço
               Card(
-                child: ColumnTile(
+                child: ListViewTile(
                   title: 'Endereço',
                   color: Colors.transparent,
                   textColor: Colors.black,
@@ -116,7 +116,7 @@ class ProfileDetailsPage extends StatelessWidget {
 
               // Pretensão salarial
               Card(
-                child: ColumnTile(
+                child: ListViewTile(
                     title: 'Informação adicional',
                     color: Colors.transparent,
                     textColor: Colors.black,

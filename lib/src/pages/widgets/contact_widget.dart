@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/contact_model.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
@@ -12,7 +12,7 @@ class ContactWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return contact != null
         ? Card(
-            child: ColumnTile(
+            child: ListViewTile(
               color: Colors.transparent,
               textColor: Colors.black,
               title: 'Contatos',
@@ -42,7 +42,7 @@ class ContactWidget extends StatelessWidget {
             ),
           )
         : const Card(
-            child: ColumnTile(
+            child: ListViewTile(
               title: 'Contatos',
               color: Colors.transparent,
               textColor: Colors.black,

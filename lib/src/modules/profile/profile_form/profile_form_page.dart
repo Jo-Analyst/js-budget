@@ -6,7 +6,7 @@ import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/profile_model.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_form/profile_form_controller.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/find_cep_controller.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
@@ -175,7 +175,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                 const SizedBox(height: 5),
                 // Informação adicional
                 Card(
-                  child: ColumnTile(
+                  child: ListViewTile(
                     title: 'Informação adicional',
                     color: Colors.transparent,
                     textColor: Colors.black,
@@ -205,7 +205,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
-                    child: ColumnTile(
+                    child: ListViewTile(
                       color: Colors.transparent,
                       textColor: Colors.black,
                       title: 'Contatos',
@@ -278,7 +278,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 20),
-                    child: ColumnTile(
+                    child: ListViewTile(
                       color: Colors.transparent,
                       textColor: Colors.black,
                       title: 'Endereço',

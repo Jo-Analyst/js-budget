@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
@@ -70,7 +70,7 @@ class OrderDetailPage extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
-                    child: ColumnTile(
+                    child: ListViewTile(
                       color: Colors.transparent,
                       textColor: Colors.black,
                       title: 'Produtos',
@@ -110,7 +110,7 @@ class OrderDetailPage extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
-                    child: ColumnTile(
+                    child: ListViewTile(
                       color: Colors.transparent,
                       textColor: Colors.black,
                       title: 'Serviços',

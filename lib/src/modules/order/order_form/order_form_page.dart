@@ -9,7 +9,7 @@ import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/modules/order/order_form/order_form_controller.dart';
 import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -145,7 +145,7 @@ class _OrderFormPageState extends State<OrderFormPage>
 
               // Card de Produtos
               Card(
-                child: ColumnTile(
+                child: ListViewTile(
                     leading: const Icon(Icons.local_offer),
                     trailing: IconButton(
                       onPressed: () async {
@@ -261,7 +261,7 @@ class _OrderFormPageState extends State<OrderFormPage>
 
               // Card de Serviços
               Card(
-                child: ColumnTile(
+                child: ListViewTile(
                   leading: const Icon(FontAwesomeIcons.screwdriverWrench),
                   trailing: IconButton(
                     onPressed: () async {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/address_model.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
@@ -12,7 +12,7 @@ class AddressWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return address != null
         ? Card(
-            child: ColumnTile(
+            child: ListViewTile(
               title: 'Endereço',
               color: Colors.transparent,
               textColor: Colors.black,
@@ -65,7 +65,7 @@ class AddressWidget extends StatelessWidget {
             ),
           )
         : const Card(
-            child: ColumnTile(
+            child: ListViewTile(
               title: 'Endereço',
               color: Colors.transparent,
               textColor: Colors.black,

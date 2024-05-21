@@ -11,7 +11,7 @@ import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_cont
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
@@ -215,7 +215,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                     Card(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: ColumnTile(
+                        child: ListViewTile(
                           title: 'Materiais',
                           trailing: IconButton(
                             onPressed: () async {
@@ -375,7 +375,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                         children: [
                           // Custos Fixos ou indiretos
                           Card(
-                            child: ColumnTile(
+                            child: ListViewTile(
                               title: 'Valor da depesa fixa',
                               children: [
                                 TextFormField(
@@ -504,7 +504,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                           const SizedBox(height: 5),
                           // Outros custos
                           Card(
-                            child: ColumnTile(
+                            child: ListViewTile(
                               title: 'Custos salariais',
                               children: [
                                 TextFormField(
@@ -649,7 +649,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                   pricingController.calculateTotalExpenses();
                   pricingController.calculateProfitMargin();
                   pricingController.calculateTotalToBeCharged();
-                  
+
                   // Navigator.of(context).pushNamed('/budget/pricing/preview');
                   var nav = Navigator.of(context);
                   bool isConfirmed = await showModalBottomSheet(

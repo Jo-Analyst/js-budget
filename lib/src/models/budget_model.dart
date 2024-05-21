@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:js_budget/src/models/client_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 
 part 'budget_model.g.dart';
@@ -11,6 +11,7 @@ class BudgetModel {
   int id;
   double? valueTotal;
   String? status;
+  String? paymentMethod;
   List<ItemsBudgetModel>? itemsBudget;
 
   String? createdAt;
@@ -21,6 +22,7 @@ class BudgetModel {
     this.id = 0,
     this.valueTotal,
     this.status,
+    this.paymentMethod,
     this.itemsBudget,
     this.createdAt,
     this.client,

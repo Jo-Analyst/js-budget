@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/item_budget/item_budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
+import 'package:js_budget/src/modules/budget/widget/payment_methods_widget.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -22,6 +25,7 @@ class _BudgetPageState extends State<BudgetPage> {
   final budgetController = Injector.get<BudgetController>();
   final itemBudgetController = Injector.get<ItemBudgetController>();
   double valueTotalProduct = 0, valueTotalBudget = 0;
+  String methodPayment = 'Nenhum';
 
   void loadProductsAndServices() {
     var items = orderController.model.value!.items;
@@ -122,7 +126,7 @@ class _BudgetPageState extends State<BudgetPage> {
                 child: Column(
                   children: [
                     Card(
-                      child: ColumnTile(
+                      child: ListViewTile(
                         title: 'Dados do Pedido',
                         children: [
                           CustomListTileIcon(
@@ -273,7 +277,7 @@ class _BudgetPageState extends State<BudgetPage> {
                       visible: itemBudgetController.data
                           .any((itemBudget) => itemBudget.service != null),
                       child: Card(
-                        child: ColumnTile(
+                        child: ListViewTile(
                           title: 'Serviço(s)',
                           children: itemBudgetController.data
                               .where((itemBudget) => itemBudget.service != null)
@@ -317,6 +321,43 @@ class _BudgetPageState extends State<BudgetPage> {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 5),
+                    // Meio de pagamento
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: ListViewTile(
+                          title: 'Meio de pagamento',
+                          children: [
+                            ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                title: Text(
+                                  methodPayment,
+                                  style: textStyleSmallDefault,
+                                ),
+                                trailing: IconButton(
+                                  icon: Icon(
+                                    methodPayment == 'Nenhum'
+                                        ? Icons.add_card_outlined
+                                        : Icons.movie_edit,
+                                    size: 30,
+                                  ),
+                                  onPressed: () async {
+                                    methodPayment = await Modal.showModal(
+                                          context,
+                                          PaymentMethodsWidget(
+                                            lastStatus: methodPayment,
+                                            budgetId: 1,
+                                          ),
+                                        ) ??
+                                        methodPayment;
+                                    setState(() {});
+                                  },
+                                ))
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

@@ -5,44 +5,45 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
-class StatusWidget extends StatefulWidget {
+class PaymentMethodsWidget extends StatefulWidget {
   final String lastStatus;
   final int budgetId;
-  const StatusWidget({
+  const PaymentMethodsWidget({
     Key? key,
     required this.lastStatus,
     required this.budgetId,
   }) : super(key: key);
 
   @override
-  State<StatusWidget> createState() => _StatusWidgetState();
+  State<PaymentMethodsWidget> createState() => _PaymentMethodsWidgetState();
 }
 
-class _StatusWidgetState extends State<StatusWidget> {
+class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
   final budgetController = Injector.get<BudgetController>();
-  late String status;
-  List<Map<String, dynamic>> situations = [
-    {'status': 'Em aberto', 'isChecked': false},
-    {'status': 'Aprovado', 'isChecked': false},
-    {'status': 'Concluído', 'isChecked': false},
-    {'status': 'Cancelado', 'isChecked': false},
+  late String methods;
+  List<Map<String, dynamic>> paymentsMethods = [
+    {'methods': 'Nenhum', 'isChecked': false},
+    {'methods': 'Dinheiro', 'isChecked': false},
+    {'methods': 'PIX', 'isChecked': false},
+    {'methods': 'Crédito', 'isChecked': false},
+    {'methods': 'Débito', 'isChecked': false},
   ];
 
-  void selectStatus(Map<String, dynamic> situation) {
-    for (var st in situations) {
+  void selectMethod(Map<String, dynamic> method) {
+    for (var st in paymentsMethods) {
       st['isChecked'] = false;
     }
     setState(() {
-      situation['isChecked'] = true;
-      status = situation['status'];
+      method['isChecked'] = true;
+      methods = method['methods'];
     });
   }
 
-  void selectLastStatus(String status) {
-    for (var situation in situations) {
-      String status = situation['status'];
-      if (status == widget.lastStatus) {
-        situation['isChecked'] = true;
+  void selectLastStatus(String statuss) {
+    for (var paymentsMethod in paymentsMethods) {
+      String methods = paymentsMethod['methods'];
+      if (methods == widget.lastStatus) {
+        paymentsMethod['isChecked'] = true;
       }
     }
   }
@@ -50,7 +51,7 @@ class _StatusWidgetState extends State<StatusWidget> {
   @override
   void initState() {
     super.initState();
-    status = widget.lastStatus;
+    methods = widget.lastStatus;
     selectLastStatus(widget.lastStatus);
   }
 
@@ -66,14 +67,14 @@ class _StatusWidgetState extends State<StatusWidget> {
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Text(
-              'Status do orçamento',
+              'Meios de Pagamentos',
               style: textStyleSmallFontWeight,
             ),
           ),
           const Divider(),
           SizedBox(
             child: Column(
-              children: situations.map(
+              children: paymentsMethods.map(
                 (st) {
                   bool isChecked = st['isChecked'];
 
@@ -83,14 +84,14 @@ class _StatusWidgetState extends State<StatusWidget> {
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: ListTile(
                           splashColor: Colors.transparent,
-                          onTap: () => selectStatus(st),
+                          onTap: () => selectMethod(st),
                           leading: Icon(
                             isChecked ? Icons.check : null,
                             color: Colors.deepPurple,
                             size: 25,
                           ),
                           title: Text(
-                            st['status'],
+                            st['methods'],
                             style: isChecked
                                 ? TextStyle(
                                     color: Colors.deepPurple,
@@ -119,14 +120,14 @@ class _StatusWidgetState extends State<StatusWidget> {
               onPressed: () async {
                 var nav = Navigator.of(context);
                 final isError = await budgetController.changeStatus(
-                    status, widget.budgetId);
+                    methods, widget.budgetId);
                 if (!isError) {
                   budgetController.filterData(widget.lastStatus);
                 }
-                nav.pop(!isError ? status : widget.lastStatus);
+                nav.pop(!isError ? methods : widget.lastStatus);
               },
               child: Text(
-                'Alterar Status',
+                'Alterar Meio de Pagamento',
                 style: TextStyle(
                     fontSize: textStyleSmallDefault.fontSize,
                     fontFamily: textStyleSmallDefault.fontFamily),

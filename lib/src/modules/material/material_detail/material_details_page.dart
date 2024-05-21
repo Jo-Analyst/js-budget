@@ -3,7 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
-import 'package:js_budget/src/pages/widgets/column_tile.dart';
+import 'package:js_budget/src/pages/widgets/listView_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -13,7 +13,8 @@ class MaterialDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Injector.get<MaterialController>();
-    final material = ModalRoute.of(context)!.settings.arguments as MaterialModel;
+    final material =
+        ModalRoute.of(context)!.settings.arguments as MaterialModel;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do material'),
@@ -71,7 +72,7 @@ class MaterialDetailsPage extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Card(
-                child: ColumnTile(
+                child: ListViewTile(
                   color: Colors.transparent,
                   textColor: Colors.black,
                   title: '+ detalhes',
