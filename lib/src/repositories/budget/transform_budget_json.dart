@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 
@@ -20,34 +21,6 @@ class TransformBudgetJson {
     );
   }
 
-//   static List<BudgetModel> fromJsonAfterDataSearch(
-//       List<Map<String, dynamic>> budgets) {
-//     List<BudgetModel> tempBudgets = [];
-
-//     for (var budget in budgets) {
-//       int id = budget['id'];
-
-//       if (tempBudgets.isEmpty ||
-//           !tempBudgets.any((budget) => budget.id == id)) {
-//         tempBudgets.add(
-//           BudgetModel(
-  // id: budget['id'] ?? 0,
-  // valueTotal: budget['value_total'],
-  // createdAt: budget['created_at'],
-  // orderId: budget['order_id'],
-  // status: budget['status'],
-  // client: ClientModel(
-  //   id: 0,
-  //   name: budget['client_name'],
-  // ),
-//           ),
-//         );
-//       }
-//     }
-
-//     return tempBudgets;
-//   }
-
   static List<BudgetModel> fromJsonAfterDataSearch(
       List<Map<String, dynamic>> budgets) {
     List<BudgetModel> tempBudgets = [];
@@ -60,16 +33,24 @@ class TransformBudgetJson {
           !tempBudgets.any((budget) => budget.id == id)) {
         tempBudgets.add(
           BudgetModel(
-            id: budget['id'] ?? 0,
-            valueTotal: budget['value_total'],
-            createdAt: budget['created_at'],
-            orderId: budget['order_id'],
-            status: budget['status'],
-            client: ClientModel(
-              id: 0,
-              name: budget['client_name'],
-            ),
-          ),
+              id: budget['id'] ?? 0,
+              valueTotal: budget['value_total'],
+              createdAt: budget['created_at'],
+              orderId: budget['order_id'],
+              status: budget['status'],
+              client: ClientModel(
+                id: 0,
+                name: budget['client_name'],
+              ),
+              payment: budget['specie'] != null
+                  ? PaymentModel.fromJson(
+                      {
+                        'specie': budget['specie'],
+                        'number_of_installments':
+                            budget['number_of_installments'] as int
+                      },
+                    )
+                  : null),
         );
         index = index != null ? index + 1 : 0;
         tempBudgets[index].itemsBudget = [];
@@ -111,6 +92,8 @@ class TransformBudgetJson {
         items.fixedExpenseItemsBudget = expense;
         tempBudgets[index].itemsBudget!.add(items);
       }
+      print(budget['specie']);
+      print(tempBudgets[index].payment?.toJson());
     }
 
     return tempBudgets;
