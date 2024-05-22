@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/item_budget/item_budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
@@ -59,11 +60,8 @@ class _BudgetPageState extends State<BudgetPage> {
         icons = Icons.payment;
         colorIcon = Colors.purple;
     }
-    return Icon(
-      icons,
-      color: colorIcon,
-      size: 30,
-    );
+
+    return Icon(icons, color: colorIcon, size: 30);
   }
 
   void changeValueServiceInItemsBudget() {
@@ -124,6 +122,13 @@ class _BudgetPageState extends State<BudgetPage> {
               if (isValid) {
                 budgetController.model.value.itemsBudget =
                     itemBudgetController.data;
+                budgetController.model.value.payment = methodPayment != 'Nenhum'
+                    ? PaymentModel(
+                        specie: methodPayment,
+                        amountPaid: valueTotalBudget,
+                        numberOfInstallments: 1,
+                      )
+                    : null;
 
                 final isError = await budgetController.save();
 

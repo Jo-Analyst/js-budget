@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/pages/home/widgets/filtering_options_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -195,6 +196,18 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.of(context).pushNamed(
                                         '/budge-details',
                                         arguments: budget);
+                                  },
+                                  onLongPress: () async {
+                                    final confirm = await showConfirmationDialog(
+                                            context,
+                                            'Deseja mesmo excluir o orçamento?',
+                                            buttonTitle: 'Sim') ??
+                                        false;
+
+                                    if (confirm) {
+                                      await budgetController.delete(
+                                          budget.id, budget.orderId!);
+                                    }
                                   },
                                   child: Card(
                                     child: Padding(

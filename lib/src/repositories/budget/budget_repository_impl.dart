@@ -8,6 +8,7 @@ import 'package:js_budget/src/repositories/budget_items/budget_item_repository_i
 import 'package:js_budget/src/repositories/fixed_expense_item_budget/fixed_expense_item_budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/material_item_budget/material_item_budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository_impl.dart';
+import 'package:js_budget/src/repositories/payment_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
 
 import './budget_repository.dart';
@@ -17,6 +18,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
   final _order = OrderRepositoryImpl();
   final _materialItemBudget = MaterialItemBudgetRepositoryImpl();
   final _expenseItemBudget = FixedExpenseItemBudgetRepositoryImpl();
+  final _payment = PaymentRepositoryImpl();
 
   @override
   Future<Either<RespositoryException, BudgetModel>> save(
@@ -35,6 +37,11 @@ class BudgetRepositoryImpl implements BudgetRepository {
           await _order.changeStatusOrder(txn, budget.orderId!);
           for (var item in budget.itemsBudget!) {
             await _budgetItem.saveItem(txn, item, budgetId);
+          }
+
+          if (budget.payment != null) {
+            budget.payment!.budgetId = budgetId;
+            await _payment.savePayment(txn, budget.payment!);
           }
 
           data['id'] = budgetId;
@@ -90,14 +97,17 @@ class BudgetRepositoryImpl implements BudgetRepository {
     await txn.delete('budgets', where: 'id = ?', whereArgs: [budgetId]);
     await _materialItemBudget.deleteMaterialItem(txn, budgetId);
     await _expenseItemBudget.deleteFixedExpenseItem(txn, budgetId);
+    await _payment.deletePayment(txn, budgetId);
     await _budgetItem.deleteItem(txn, budgetId);
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> changeStatus(String status, int budgetId) async {
+  Future<Either<RespositoryException, Unit>> changeStatus(
+      String status, int budgetId) async {
     try {
       final db = await DataBase.openDatabase();
-      await db.update('budgets', {'status': status}, where: 'id = ?', whereArgs: [budgetId]);
+      await db.update('budgets', {'status': status},
+          where: 'id = ?', whereArgs: [budgetId]);
       return Right(unit);
     } catch (_) {
       return Left(RespositoryException());
