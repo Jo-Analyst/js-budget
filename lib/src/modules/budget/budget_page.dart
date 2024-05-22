@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
@@ -20,11 +21,13 @@ class BudgetPage extends StatefulWidget {
 }
 
 class _BudgetPageState extends State<BudgetPage> {
+  final numberOfInstallmentsEC = TextEditingController();
   final orderController = Injector.get<OrderController>();
   final pricingController = Injector.get<PricingController>();
   final budgetController = Injector.get<BudgetController>();
   final itemBudgetController = Injector.get<ItemBudgetController>();
   double valueTotalProduct = 0, valueTotalBudget = 0;
+  int numberOfInstallments = 1;
   String methodPayment = 'Nenhum';
 
   void loadProductsAndServices() {
@@ -104,6 +107,7 @@ class _BudgetPageState extends State<BudgetPage> {
     loadProductsAndServices();
     changeValueServiceInItemsBudget();
     initializeBudget();
+    numberOfInstallmentsEC.text = numberOfInstallments.toString();
   }
 
   @override
@@ -126,7 +130,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     ? PaymentModel(
                         specie: methodPayment,
                         amountPaid: valueTotalBudget,
-                        numberOfInstallments: 1,
+                        numberOfInstallments: numberOfInstallments,
                       )
                     : null;
 
@@ -384,6 +388,45 @@ class _BudgetPageState extends State<BudgetPage> {
                                   },
                                 ))
                           ],
+                        ),
+                      ),
+                    ),
+                    // Número de parcelas
+                    Visibility(
+                      visible: methodPayment.toLowerCase() != 'nenhum',
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 15,
+                          ),
+                          child: Row(
+                            children: [
+                              const Text(
+                                'Número de Parcelas',
+                                style: textStyleSmallFontWeight,
+                              ),
+                              const SizedBox(
+                                width: 15,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  onTapOutside: (_) =>
+                                      FocusScope.of(context).unfocus(),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly
+                                  ],
+                                  textAlign: TextAlign.right,
+                                  controller: numberOfInstallmentsEC,
+                                  style: textStyleSmallDefault,
+                                  onChanged: (portion) => numberOfInstallments =
+                                      portion.isNotEmpty
+                                          ? int.parse(portion)
+                                          : 1,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     )
