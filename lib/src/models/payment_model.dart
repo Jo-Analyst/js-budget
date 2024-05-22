@@ -15,7 +15,7 @@ class PaymentModel {
 
   PaymentModel({
     required this.specie,
-    required this.amountPaid,
+    this.amountPaid = 0.0,
     this.datePayment,
     this.numberOfInstallments = 1,
     this.budgetId,

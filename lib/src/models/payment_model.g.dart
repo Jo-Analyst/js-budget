@@ -8,7 +8,7 @@ part of 'payment_model.dart';
 
 PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) => PaymentModel(
       specie: json['specie'] as String,
-      amountPaid: (json['amount_paid'] as num).toDouble(),
+      amountPaid: (json['amount_paid'] as num?)?.toDouble() ?? 0.0,
       datePayment: json['date_payment'] as String?,
       numberOfInstallments: json['number_of_installments'] as int? ?? 1,
       budgetId: json['budget_id'] as int?,

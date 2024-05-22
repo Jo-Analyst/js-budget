@@ -92,8 +92,6 @@ class TransformBudgetJson {
         items.fixedExpenseItemsBudget = expense;
         tempBudgets[index].itemsBudget!.add(items);
       }
-      print(budget['specie']);
-      print(tempBudgets[index].payment?.toJson());
     }
 
     return tempBudgets;
