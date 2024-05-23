@@ -109,7 +109,8 @@ class _BudgetPageState extends State<BudgetPage> {
                 budgetController.model.value.payment = methodPayment != 'Nenhum'
                     ? PaymentModel(
                         specie: methodPayment,
-                        amountPaid: valueTotalBudget,
+                        amountPaid: 0,
+                        amountToPay: valueTotalBudget,
                         numberOfInstallments: numberOfInstallments,
                       )
                     : null;

@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -7,6 +6,7 @@ import 'package:js_budget/src/utils/utils_service.dart';
 enum DetailType {
   productsAndService,
   materials,
+  payment,
 }
 
 class DetailWidget extends StatelessWidget {
@@ -21,6 +21,36 @@ class DetailWidget extends StatelessWidget {
     required this.detailType,
     this.iconPayment,
   }) : super(key: key);
+
+  (String title, String subtitle, double value, Icon icon) setValueInListTile(dt) {
+    String title = '';
+    String subTitle = '';
+    double value = 0;
+    Icon icon;
+
+    switch (detailType) {
+      case DetailType.productsAndService:
+        title = dt.product != null ? dt.product!.name : dt.service!.description;
+        subTitle =
+            '${dt.quantity}x ${UtilsService.moneyToCurrency(dt.unitaryValue)}';
+        value = value = dt.subValue;
+        icon = const Icon(Icons.local_offer);
+      case DetailType.materials:
+        title = dt.material.name;
+        subTitle =
+            '${dt.quantity}x ${UtilsService.moneyToCurrency(dt.value / dt.quantity)}';
+        value = dt.value;
+        icon = const Icon(Icons.build);
+      case DetailType.payment:
+        title = dt.specie;
+        subTitle =
+            '${dt.numberOfInstallments}x ${UtilsService.moneyToCurrency(dt.amountToPay / dt.numberOfInstallments)}';
+        value = value = dt.amountToPay;
+        icon = const Icon(Icons.payments);
+    }
+
+    return (title, subTitle, value, icon);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,31 +74,28 @@ class DetailWidget extends StatelessWidget {
           ),
           Column(
             children: data.map((dt) {
-              String title = detailType == DetailType.productsAndService
-                  ? dt.product != null
-                      ? dt.product!.name
-                      : dt.service!.description
-                  : dt.material.name;
+              final (title, subTitle, value, icon) = setValueInListTile(dt);
               return Column(
                 children: [
                   ListTile(
-                    leading: iconPayment,
-                    title: Text(
-                      title,
-                      style: textStyleSmallFontWeight,
+                    leading: icon,
+                    title: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        title,
+                        style: textStyleSmallFontWeight,
+                      ),
                     ),
                     subtitle: Text(
-                      '${dt.quantity}x ${UtilsService.moneyToCurrency(detailType == DetailType.productsAndService ? dt.unitaryValue : dt.value / dt.quantity)}',
+                      subTitle,
                       style: TextStyle(
                         fontSize: textStyleSmallDefault.fontSize,
                         fontFamily: 'Anta',
                       ),
                     ),
                     trailing: Text(
-                      UtilsService.moneyToCurrency(
-                          detailType == DetailType.productsAndService
-                              ? dt.subValue
-                              : dt.value),
+                      UtilsService.moneyToCurrency(value),
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,

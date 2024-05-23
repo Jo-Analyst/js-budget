@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
 part 'payment_model.g.dart';
@@ -6,20 +7,22 @@ part 'payment_model.g.dart';
 class PaymentModel {
   final String specie;
   final double amountPaid;
+  final double amountToPay;
   String? datePayment;
   final int numberOfInstallments;
   int? budgetId;
 
-  factory PaymentModel.fromJson(Map<String, dynamic> json) =>
-      _$PaymentModelFromJson(json);
-
   PaymentModel({
     required this.specie,
     this.amountPaid = 0.0,
+    required this.amountToPay,
     this.datePayment,
     this.numberOfInstallments = 1,
     this.budgetId,
   });
+
+  factory PaymentModel.fromJson(Map<String, dynamic> json) =>
+      _$PaymentModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PaymentModelToJson(this);
 }

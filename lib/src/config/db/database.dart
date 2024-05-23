@@ -70,7 +70,7 @@ class DataBase {
         );
 
         db.execute(
-            'CREATE TABLE IF NOT EXISTS payments (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, number_of_installments INTEGER, budget_id INTEGER, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE CASCADE)');
+            'CREATE TABLE IF NOT EXISTS payments (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, amount_to_pay REAL, date_payment TEXT, number_of_installments INTEGER, budget_id INTEGER, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE CASCADE)');
       },
       version: 1,
     );

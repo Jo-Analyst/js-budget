@@ -27,6 +27,9 @@ void main() async {
   );
 
   // final db = await DataBase.openDatabase();
+  // await db.execute('DROP TABLE payments');
+  // await db.execute(
+  //     'CREATE TABLE IF NOT EXISTS payments (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, amount_to_pay REAL, date_payment TEXT, number_of_installments INTEGER, budget_id INTEGER, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE CASCADE)');
 //   await db.delete('budgets');
 //   await db.delete('items_budget');
 //   await db.delete('material_items_budget');

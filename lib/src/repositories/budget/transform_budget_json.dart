@@ -46,6 +46,7 @@ class TransformBudgetJson {
                   ? PaymentModel.fromJson(
                       {
                         'specie': budget['specie'],
+                        'amount_to_pay': budget['amount_to_pay'],
                         'number_of_installments':
                             budget['number_of_installments'] as int
                       },
