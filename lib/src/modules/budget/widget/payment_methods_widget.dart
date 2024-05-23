@@ -34,7 +34,7 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
     });
   }
 
-  void selectLastStatus(String statuss) {
+  void selectLastStatus() {
     for (var paymentsMethod in paymentsMethods) {
       String methods = paymentsMethod['methods'];
       if (methods == widget.lastStatus) {
@@ -47,7 +47,7 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
   void initState() {
     super.initState();
     methods = widget.lastStatus;
-    selectLastStatus(widget.lastStatus);
+    selectLastStatus();
   }
 
   @override
