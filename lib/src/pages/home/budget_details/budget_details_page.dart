@@ -32,6 +32,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     super.initState();
 
     budget = budgetController.model.value;
+    // budgetController.model.value = BudgetModel();
     itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
     materials = budgetController.getMaterials(budget!);
   }
