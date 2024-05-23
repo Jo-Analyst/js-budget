@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/modules/widget/icon_payments_method.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -22,7 +23,8 @@ class DetailWidget extends StatelessWidget {
     this.iconPayment,
   }) : super(key: key);
 
-  (String title, String subtitle, double value, Icon icon) setValueInListTile(dt) {
+  (String title, String subtitle, double value, Icon icon) setValueInListTile(
+      dt) {
     String title = '';
     String subTitle = '';
     double value = 0;
@@ -46,7 +48,7 @@ class DetailWidget extends StatelessWidget {
         subTitle =
             '${dt.numberOfInstallments}x ${UtilsService.moneyToCurrency(dt.amountToPay / dt.numberOfInstallments)}';
         value = value = dt.amountToPay;
-        icon = const Icon(Icons.payments);
+        icon = iconPaymentsMethod(dt.specie)!;
     }
 
     return (title, subTitle, value, icon);
