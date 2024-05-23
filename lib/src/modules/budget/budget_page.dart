@@ -7,6 +7,7 @@ import 'package:js_budget/src/modules/budget/item_budget/item_budget_controller.
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/budget/widget/payment_methods_widget.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
+import 'package:js_budget/src/modules/widget/icon_payments_method.dart';
 import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
@@ -44,27 +45,6 @@ class _BudgetPageState extends State<BudgetPage> {
     }
 
     return priceTotal;
-  }
-
-  Icon? iconPaymentsMethod() {
-    IconData? icons;
-    Color colorIcon = Colors.black;
-
-    switch (methodPayment.toLowerCase()) {
-      case 'nenhum':
-        icons = Icons.money_off_csred_outlined;
-      case 'pix':
-        icons = Icons.pix;
-        colorIcon = const Color.fromARGB(255, 40, 97, 42);
-      case 'dinheiro':
-        icons = Icons.monetization_on_outlined;
-        colorIcon = Colors.blueGrey;
-      default:
-        icons = Icons.payment;
-        colorIcon = Colors.purple;
-    }
-
-    return Icon(icons, color: colorIcon, size: 30);
   }
 
   void changeValueServiceInItemsBudget() {
@@ -363,7 +343,7 @@ class _BudgetPageState extends State<BudgetPage> {
                           children: [
                             ListTile(
                                 contentPadding: EdgeInsets.zero,
-                                leading: iconPaymentsMethod(),
+                                leading: iconPaymentsMethod(methodPayment),
                                 title: Text(
                                   methodPayment,
                                   style: textStyleSmallDefault,
