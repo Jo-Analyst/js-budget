@@ -28,7 +28,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
         "value_total": budget.valueTotal,
         'created_at': DateTime.now().toIso8601String(),
         'order_id': budget.orderId,
-        'client_id': budget.client!.id
+        'client_id': budget.client!.id,
       };
       final db = await DataBase.openDatabase();
       await db.transaction(
@@ -48,7 +48,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
           data.remove('client_id');
           data['client'] = budget.client;
           data['items_budget'] = budget.itemsBudget;
-          data['paymente'] = budget.payment;
+          data['payment'] = budget.payment;
         },
       );
       return Right(TransformBudgetJson.fromJson(data));
@@ -65,6 +65,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
       final budgets = await db.rawQuery(
           'SELECT budgets.id, budgets.value_total, budgets.status, budgets.created_at, budgets.order_id, items_budget.id AS item_budget_id, items_budget.sub_value, items_budget.unitary_value, items_budget.quantity, products.name AS product_name, services.description, services.price, material_items_budget.quantity AS material_quantity, material_items_budget.value, fixed_expense_items_budget.accumulated_value, fixed_expense_items_budget.type, materials.name AS material_name, clients.name AS client_name, payments.specie, payments.number_of_installments FROM budgets LEFT JOIN clients ON clients.id = budgets.client_id LEFT JOIN items_budget ON items_budget.budget_id = budgets.id LEFT JOIN material_items_budget on material_items_budget.item_budget_id = items_budget.id LEFT JOIN materials ON materials.id = material_items_budget.material_id LEFT JOIN fixed_expense_items_budget ON fixed_expense_items_budget.item_budget_id = items_budget.id LEFT JOIN products ON products.id = items_budget.product_id LEFT JOIN services ON services.id = items_budget.service_id LEFT JOIN payments ON payments.budget_id = budgets.id');
 
+      print(await db.rawQuery('SELECT * FROM budgets'));
       return Right(budgets);
     } catch (_) {
       return Left(RespositoryException());

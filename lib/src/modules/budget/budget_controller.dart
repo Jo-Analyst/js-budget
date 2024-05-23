@@ -49,6 +49,7 @@ class BudgetController with Messages {
 
   Future<bool> save() async {
     bool? isError;
+
     final results = await _budgetRepository.save(model.value);
 
     switch (results) {

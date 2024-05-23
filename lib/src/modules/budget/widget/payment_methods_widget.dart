@@ -1,17 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:flutter_getit/flutter_getit.dart';
 
-import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class PaymentMethodsWidget extends StatefulWidget {
   final String lastStatus;
-  final int budgetId;
   const PaymentMethodsWidget({
     Key? key,
     required this.lastStatus,
-    required this.budgetId,
   }) : super(key: key);
 
   @override
@@ -19,7 +15,6 @@ class PaymentMethodsWidget extends StatefulWidget {
 }
 
 class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
-  final budgetController = Injector.get<BudgetController>();
   late String methods;
   List<Map<String, dynamic>> paymentsMethods = [
     {'methods': 'Nenhum', 'isChecked': false},
@@ -119,12 +114,8 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
               ),
               onPressed: () async {
                 var nav = Navigator.of(context);
-                final isError = await budgetController.changeStatus(
-                    methods, widget.budgetId);
-                if (!isError) {
-                  budgetController.filterData(widget.lastStatus);
-                }
-                nav.pop(!isError ? methods : widget.lastStatus);
+
+                nav.pop(methods);
               },
               child: Text(
                 'Alterar Meio de Pagamento',

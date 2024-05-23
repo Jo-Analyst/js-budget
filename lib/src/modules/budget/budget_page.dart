@@ -360,7 +360,6 @@ class _BudgetPageState extends State<BudgetPage> {
                                           context,
                                           PaymentMethodsWidget(
                                             lastStatus: methodPayment,
-                                            budgetId: 1,
                                           ),
                                         ) ??
                                         methodPayment;
