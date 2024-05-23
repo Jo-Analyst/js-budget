@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class BudgetSuccessPage extends StatelessWidget {
@@ -8,7 +7,7 @@ class BudgetSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final budgetController = context.get<BudgetController>();
+    final budget = ModalRoute.of(context)!.settings.arguments as BudgetModel;
     void closeScreen() {
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/my-app', (route) => false);
@@ -66,7 +65,7 @@ class BudgetSuccessPage extends StatelessWidget {
                 ),
                 child: ListTile(
                   title: Text(
-                    'Pedido ${budgetController.model.value.orderId!.toString().padLeft(5, '0')}',
+                    'Pedido ${budget.orderId!.toString().padLeft(5, '0')}',
                     style: TextStyle(
                       fontSize: textStyleSmallFontWeight.fontSize,
                       fontFamily: textStyleSmallFontWeight.fontFamily,
@@ -75,7 +74,7 @@ class BudgetSuccessPage extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(
-                    budgetController.model.value.client!.name,
+                    budget.client!.name,
                     style: TextStyle(
                       fontSize: textStyleSmallFontWeight.fontSize,
                       fontFamily: textStyleSmallFontWeight.fontFamily,

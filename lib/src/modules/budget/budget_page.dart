@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/item_budget/item_budget_controller.dart';
@@ -30,6 +31,7 @@ class _BudgetPageState extends State<BudgetPage> {
   double valueTotalProduct = 0, valueTotalBudget = 0;
   int numberOfInstallments = 1;
   String methodPayment = 'Nenhum';
+  BudgetModel budgetModel = BudgetModel();
 
   void loadProductsAndServices() {
     var items = orderController.model.value!.items;
@@ -57,14 +59,14 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
   void initializeBudget() {
-    budgetController.model.value.orderId = orderController.model.value!.id;
-    budgetController.model.value.client = orderController.model.value!.client;
+    budgetModel.orderId = orderController.model.value!.id;
+    budgetModel.client = orderController.model.value!.client;
     calculateBudget();
   }
 
   void calculateBudget() {
     valueTotalBudget = sumPriceService() + valueTotalProduct;
-    budgetController.model.value.valueTotal = valueTotalBudget;
+    budgetModel.valueTotal = valueTotalBudget;
   }
 
   void changeValuePricing(int index) {
@@ -104,9 +106,8 @@ class _BudgetPageState extends State<BudgetPage> {
               var nav = Navigator.of(context);
 
               if (isValid) {
-                budgetController.model.value.itemsBudget =
-                    itemBudgetController.data;
-                budgetController.model.value.payment = methodPayment != 'Nenhum'
+                budgetModel.itemsBudget = itemBudgetController.data;
+                budgetModel.payment = methodPayment != 'Nenhum'
                     ? PaymentModel(
                         specie: methodPayment,
                         amountPaid: 0,
@@ -115,10 +116,11 @@ class _BudgetPageState extends State<BudgetPage> {
                       )
                     : null;
 
-                final isError = await budgetController.save();
+                final isError = await budgetController.save(budgetModel);
 
                 if (!isError) {
-                  nav.pushNamed('/budget/screen-success');
+                  nav.pushNamed('/budget/screen-success',
+                      arguments: budgetModel);
                 }
               }
             },
