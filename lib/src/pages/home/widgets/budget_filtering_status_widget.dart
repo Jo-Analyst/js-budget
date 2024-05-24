@@ -1,13 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class FilteringOptionsWidget extends StatelessWidget {
+class BudgetFilteringStatusWidget extends StatelessWidget {
   final String title;
   final Color? backgroundColor;
   final Color? textColor;
   final FontWeight? fontWeight;
 
-  const FilteringOptionsWidget({
+  const BudgetFilteringStatusWidget({
     Key? key,
     required this.title,
     this.backgroundColor,

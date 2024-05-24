@@ -4,7 +4,7 @@ import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
-import 'package:js_budget/src/pages/home/widgets/filtering_options_widget.dart';
+import 'package:js_budget/src/pages/home/widgets/budget_filtering_status_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   final budgetController = Injector.get<BudgetController>();
   String search = '';
 
-  List<Map<String, dynamic>> filteringOptions = [
+  List<Map<String, dynamic>> budgetStatusFiltering = [
     {'type': 'Tudo', 'isSelected': true},
     {'type': 'Em aberto', 'isSelected': false},
     {'type': 'Aprovado', 'isSelected': false},
@@ -29,9 +29,9 @@ class _HomePageState extends State<HomePage> {
     {'type': 'Cancelado', 'isSelected': false},
   ];
 
-  void selectOptions(Map<String, dynamic> filter) {
-    for (var options in filteringOptions) {
-      options['isSelected'] = false;
+  void selectStatus(Map<String, dynamic> filter) {
+    for (var status in budgetStatusFiltering) {
+      status['isSelected'] = false;
     }
     setState(() {
       filter['isSelected'] = true;
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void updateStatus(String status) {
-    for (var options in filteringOptions) {
+    for (var options in budgetStatusFiltering) {
       options['isSelected'] = false;
 
       if (options['type'] == status) {
@@ -145,16 +145,16 @@ class _HomePageState extends State<HomePage> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: filteringOptions
+                children: budgetStatusFiltering
                     .map(
                       (filter) => GestureDetector(
                         onTap: () {
-                          selectOptions(filter);
+                          selectStatus(filter);
                           search =
                               filter['type'] == 'Tudo' ? '' : filter['type'];
                           budgetController.filterData(search);
                         },
-                        child: FilteringOptionsWidget(
+                        child: BudgetFilteringStatusWidget(
                           title: filter['type'],
                           backgroundColor: filter['isSelected']
                               ? Colors.deepPurple
