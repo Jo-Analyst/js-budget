@@ -24,6 +24,12 @@ class BudgetController with Messages {
       (a, b) => b.id.compareTo(a.id),
     );
 
+  final _dataFiltered = ListSignal<BudgetModel>([]);
+  ListSignal<BudgetModel> get dataFiltered => _dataFiltered
+    ..sort(
+      (a, b) => b.id.compareTo(a.id),
+    );
+
   final model = signal<BudgetModel>(BudgetModel());
 
   double sumValueProducts(ListSignal<ItemsBudgetModel> data) {
@@ -55,6 +61,7 @@ class BudgetController with Messages {
     switch (results) {
       case Right(value: BudgetModel budget):
         _data.add(budget);
+        _dataFiltered.add(budget);
         _sumBudgets(_data);
         isError = false;
       case Left():
@@ -80,6 +87,7 @@ class BudgetController with Messages {
     totalBudgets.value -=
         _data.value.where((data) => data.id == budgetId).first.valueTotal!;
     _data.removeWhere((data) => data.id == budgetId);
+    _dataFiltered.removeWhere((data) => data.id == budgetId);
   }
 
   Future<void> findBudgets() async {
@@ -88,6 +96,7 @@ class BudgetController with Messages {
     switch (results) {
       case Right(value: final List<Map<String, dynamic>> budgets):
         _data.addAll(TransformBudgetJson.fromJsonAfterDataSearch(budgets));
+        dataFiltered.value = _data;
         _sumBudgets(_data.value);
 
       case Left():
@@ -102,14 +111,13 @@ class BudgetController with Messages {
     }
   }
 
-  List<BudgetModel> filterData(String status) {
-    final budgets = _data
+  void filterData(String status) {
+    _dataFiltered.value = _data
         .where(
             (data) => data.status!.toLowerCase().contains(status.toLowerCase()))
         .toList();
 
-    _sumBudgets(budgets);
-    return budgets;
+    _sumBudgets(_dataFiltered);
   }
 
   List<MaterialItemsBudgetModel> getMaterials(BudgetModel budget) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
@@ -37,6 +38,16 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void updateStatus(String status) {
+    for (var options in filteringOptions) {
+      options['isSelected'] = false;
+
+      if (options['type'] == status) {
+        options['isSelected'] = true;
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -52,7 +63,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var budgets = budgetController.data
+    List<BudgetModel> budgets = budgetController.dataFiltered
         .watch(context)
         .where((budget) =>
             budget.status!.toLowerCase().contains(search.toLowerCase()))
@@ -191,11 +202,22 @@ class _HomePageState extends State<HomePage> {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 5),
                                 child: GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+                                    String statusClicked = budget.status!;
                                     budgetController.model.value = budget;
-                                    Navigator.of(context).pushNamed(
+                                    await Navigator.of(context).pushNamed(
                                         '/budge-details',
                                         arguments: budget);
+
+                                    if (statusClicked ==
+                                        budgetController.model.value.status) {
+                                      return;
+                                    }
+
+                                    search =
+                                        budgetController.model.value.status!;
+                                    budgetController.filterData(search);
+                                    updateStatus(search);
                                   },
                                   onLongPress: () async {
                                     final confirm = await showConfirmationDialog(

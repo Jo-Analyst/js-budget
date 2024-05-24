@@ -120,9 +120,7 @@ class _StatusWidgetState extends State<StatusWidget> {
                 var nav = Navigator.of(context);
                 final isError = await budgetController.changeStatus(
                     status, widget.budgetId);
-                if (!isError) {
-                  budgetController.filterData(widget.lastStatus);
-                }
+
                 nav.pop(!isError ? status : widget.lastStatus);
               },
               child: Text(
