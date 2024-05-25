@@ -3,7 +3,7 @@ import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/list_month.dart';
 
 class SlideDate extends StatefulWidget {
-  final Function(String month, int year) onGetDate;
+  final Function(String date) onGetDate;
   final int? year;
   final int? month;
   const SlideDate({
@@ -38,7 +38,7 @@ class _SlideDateState extends State<SlideDate> {
               _indexMonth--;
             });
 
-            widget.onGetDate(date[_indexMonth], _year);
+            widget.onGetDate('${date[_indexMonth]} de $_year');
           },
           icon: const Icon(
             Icons.arrow_circle_left_outlined,
@@ -65,7 +65,7 @@ class _SlideDateState extends State<SlideDate> {
               _indexMonth++;
             });
 
-            widget.onGetDate(date[_indexMonth], _year);
+            widget.onGetDate('${date[_indexMonth]} de $_year');
           },
           icon: const Icon(
             Icons.arrow_circle_right_outlined,

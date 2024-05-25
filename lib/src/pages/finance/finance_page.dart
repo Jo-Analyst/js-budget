@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
 import 'package:js_budget/src/modules/widget/slide_date.dart';
 import 'package:js_budget/src/pages/home/widgets/finacial_last.widget.dart';
@@ -17,6 +18,7 @@ class FinancePage extends StatefulWidget {
 
 class _FinancePageState extends State<FinancePage> {
   final personalExpenseController = Injector.get<PersonalExpenseController>();
+  List<ExpenseModel> expenses = [];
 
   @override
   void initState() {
@@ -28,8 +30,13 @@ class _FinancePageState extends State<FinancePage> {
     if (personalExpenseController.data.isEmpty) {
       await personalExpenseController.findExpense();
     }
-    personalExpenseController.findExpenseByDate(
+
+    expenses = getExpenseByDate(
         '${date[DateTime.now().month - 1]} de ${DateTime.now().year}');
+  }
+
+  List<ExpenseModel> getExpenseByDate(String date) {
+    return personalExpenseController.findExpenseByDate(date);
   }
 
   @override
@@ -61,9 +68,8 @@ class _FinancePageState extends State<FinancePage> {
                 ),
               ),
               child: SlideDate(
-                onGetDate: (month, year) {
-                  final expenses = personalExpenseController
-                      .findExpenseByDate('$month de $year');
+                onGetDate: (date) {
+                  expenses = getExpenseByDate(date);
                 },
               ),
             ),
