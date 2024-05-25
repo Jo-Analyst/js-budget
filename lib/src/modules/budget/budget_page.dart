@@ -78,8 +78,8 @@ class _BudgetPageState extends State<BudgetPage> {
           itemBudgetController.data[index].timeIncentive;
       pricingController.materialItemsBudget
           .addAll(itemBudgetController.data[index].materialItemsBudget);
-      pricingController.fixedExpenseItemsBudget
-          .addAll(itemBudgetController.data[index].fixedExpenseItemsBudget);
+      pricingController.workshopExpenseItemsBudget
+          .addAll(itemBudgetController.data[index].workshopExpenseItemsBudget);
     }
   }
 

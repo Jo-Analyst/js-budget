@@ -4,16 +4,16 @@ import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 
-import 'package:js_budget/src/repositories/expense/fixed_expense/fixed_repository.dart';
-import 'package:js_budget/src/repositories/expense/fixed_expense/transform_fixed_expense_json.dart';
+import 'package:js_budget/src/repositories/expense/workshop_expense/workshop_repository.dart';
+import 'package:js_budget/src/repositories/expense/transform_expense_json.dart';
 
-class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
+class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
   @override
   Future<Either<RespositoryException, List<Map<String, dynamic>>>>
       findAll() async {
     try {
       final db = await DataBase.openDatabase();
-      final expenses = await db.query('fixed_expenses');
+      final expenses = await db.query('workshop_expenses');
 
       return Right(expenses);
     } catch (_) {
@@ -27,14 +27,14 @@ class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
     try {
       int lastId = 0;
       final db = await DataBase.openDatabase();
-      final data = TransformFixedExpenseJson.toJson(expense);
+      final data = TransformExpenseJson.toJson(expense);
       data.remove('id');
       await db.transaction((txn) async {
-        lastId = await txn.insert('fixed_expenses', data);
+        lastId = await txn.insert('workshop_expenses', data);
       });
       data['id'] = lastId;
 
-      return Right(TransformFixedExpenseJson.fromJson(data));
+      return Right(TransformExpenseJson.fromJson(data));
     } catch (_) {
       return Left(RespositoryException());
     }
@@ -44,10 +44,10 @@ class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
   Future<Either<RespositoryException, Unit>> update(
       ExpenseModel expense) async {
     try {
-      final data = TransformFixedExpenseJson.toJson(expense);
+      final data = TransformExpenseJson.toJson(expense);
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
-        await txn.update('fixed_expenses', data,
+        await txn.update('workshop_expenses', data,
             where: 'id = ?', whereArgs: [expense.id]);
       });
 
@@ -62,7 +62,7 @@ class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
     try {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
-        await txn.delete('fixed_expenses', where: 'id = ?', whereArgs: [id]);
+        await txn.delete('workshop_expenses', where: 'id = ?', whereArgs: [id]);
       });
 
       return Right(unit);
@@ -77,7 +77,7 @@ class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
     try {
       final db = await DataBase.openDatabase();
       final expenses = await db
-          .query('fixed_expenses', where: 'type = ?', whereArgs: [type]);
+          .query('workshop_expenses', where: 'type = ?', whereArgs: [type]);
 
       return Right(expenses);
     } catch (_) {
@@ -91,7 +91,7 @@ class FixedExpenseRepositoryImpl implements FixedExpenseRepository {
     try {
       final db = await DataBase.openDatabase();
       final expenses = await db.rawQuery(
-          "SELECT * FROM fixed_expenses where type = '$type' ORDER BY id DESC LIMIT 1");
+          "SELECT * FROM workshop_expenses WHERE type = '$type' ORDER BY id DESC LIMIT 1");
 
       return Right(
         expenses.isNotEmpty

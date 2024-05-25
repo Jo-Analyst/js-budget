@@ -2,14 +2,14 @@ import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
-import 'package:js_budget/src/repositories/fixed_expense_item_budget/fixed_expense_item_budget_repository_impl.dart';
+import 'package:js_budget/src/repositories/workshop_expense_item_budget/workshop_expense_item_budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/material_item_budget/material_item_budget_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
 import './budget_item_repository.dart';
 
 class BudgetItemRepositoryImpl implements BudgetItemRepository {
   final _materialItemBudget = MaterialItemBudgetRepositoryImpl();
-  final _expenseItemBudget = FixedExpenseItemBudgetRepositoryImpl();
+  final _expenseItemBudget = WorkshopExpenseItemBudgetRepositoryImpl();
 
   @override
   Future<void> saveItem(
@@ -31,7 +31,7 @@ class BudgetItemRepositoryImpl implements BudgetItemRepository {
       _materialItemBudget.saveMaterialItemBudget(txn, materialItem, lastId);
     });
 
-    itemsBudget.fixedExpenseItemsBudget.asMap().forEach((key, expenseItem) {
+    itemsBudget.workshopExpenseItemsBudget.asMap().forEach((key, expenseItem) {
       _expenseItemBudget.saveExpenseItemBudget(txn, expenseItem, lastId);
     });
   }

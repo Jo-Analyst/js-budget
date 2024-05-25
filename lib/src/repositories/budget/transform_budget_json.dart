@@ -1,6 +1,6 @@
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
+import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
@@ -81,16 +81,16 @@ class TransformBudgetJson {
               })
             : null,
         materialItemsBudget: [],
-        fixedExpenseItemsBudget: [],
+        workshopExpenseItemsBudget: [],
       );
 
       if (tempBudgets[index!].itemsBudget!.isEmpty ||
           !tempBudgets[index]
               .itemsBudget!
               .any((item) => item.product?.name == budget['product_name'])) {
-        final (material, expense) = getMaterialAndFixed(items, budgets);
+        final (material, expense) = getMaterialAndExpense(items, budgets);
         items.materialItemsBudget = material;
-        items.fixedExpenseItemsBudget = expense;
+        items.workshopExpenseItemsBudget = expense;
         tempBudgets[index].itemsBudget!.add(items);
       }
     }
@@ -100,8 +100,8 @@ class TransformBudgetJson {
 
   static (
     List<MaterialItemsBudgetModel> material,
-    List<FixedExpenseItemsBudgetModel> expense
-  ) getMaterialAndFixed(
+    List<WorkshopExpenseItemsBudgetModel> expense
+  ) getMaterialAndExpense(
       ItemsBudgetModel itemBudget, List<Map<String, dynamic>> budgets) {
     for (var budget in budgets) {
       if (itemBudget.id == budget['item_budget_id'] &&
@@ -121,11 +121,11 @@ class TransformBudgetJson {
       }
 
       if (itemBudget.id == budget['item_budget_id'] &&
-          !itemBudget.fixedExpenseItemsBudget
+          !itemBudget.workshopExpenseItemsBudget
               .any((element) => element.type == budget['type']) &&
           budget['type'] != null) {
-        itemBudget.fixedExpenseItemsBudget.add(
-          FixedExpenseItemsBudgetModel(
+        itemBudget.workshopExpenseItemsBudget.add(
+          WorkshopExpenseItemsBudgetModel(
             accumulatedValue: budget['accumulated_value'],
             itemBudgetId: itemBudget.id,
             type: budget['type'],
@@ -133,6 +133,9 @@ class TransformBudgetJson {
         );
       }
     }
-    return (itemBudget.materialItemsBudget, itemBudget.fixedExpenseItemsBudget);
+    return (
+      itemBudget.materialItemsBudget,
+      itemBudget.workshopExpenseItemsBudget
+    );
   }
 }

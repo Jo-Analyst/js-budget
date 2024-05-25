@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
-import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
+import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/budget/pricing/preview_page_for_confirmation.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_form_controller.dart';
-import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
+import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
@@ -25,13 +25,13 @@ class PricingFormPage extends StatefulWidget {
 
 class _PricingFormPageState extends State<PricingFormPage>
     with PricingFormController, TickerProviderStateMixin {
-  final expenseController = Injector.get<FixedExpenseController>();
+  final expenseController = Injector.get<WorkShopExpenseController>();
   final profileController = Injector.get<ProfileController>();
   final pricingController = Injector.get<PricingController>();
   final formKey = GlobalKey<FormState>();
   double electricityBill = 0, waterBill = 0, rent = 0, das = 0, other = 0;
 
-  List<Map<String, dynamic>> fixedExpense = [
+  List<Map<String, dynamic>> workshopExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
     {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': true},
     {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': true},
@@ -40,19 +40,19 @@ class _PricingFormPageState extends State<PricingFormPage>
 
   void toggleExpenseCheckStatus(Map<String, dynamic> expense) {
     setState(() {
-      fixedExpense
-          .where((fixedExp) => fixedExp['type'] == expense['type'])
+      workshopExpense
+          .where((exp) => exp['type'] == expense['type'])
           .forEach((item) => item['isChecked'] = !item['isChecked']);
     });
   }
 
   Future<void> calculateAverageExpense() async {
-    pricingController.fixedExpenseItemsBudget.clear();
-    for (var expense in fixedExpense) {
+    pricingController.workshopExpenseItemsBudget.clear();
+    for (var expense in workshopExpense) {
       double valueExpense = await _calculateExpenseValue(expense['type']);
       expense['value-average'] = valueExpense;
-      pricingController.fixedExpenseItemsBudget.add(
-        FixedExpenseItemsBudgetModel(
+      pricingController.workshopExpenseItemsBudget.add(
+        WorkshopExpenseItemsBudgetModel(
             value: valueExpense,
             type: expense['type'],
             dividedValue: valueExpense / 30,
@@ -103,8 +103,8 @@ class _PricingFormPageState extends State<PricingFormPage>
         value = otherTaxesEC.numberValue;
       }
 
-      pricingController.fixedExpenseItemsBudget.add(
-        FixedExpenseItemsBudgetModel(
+      pricingController.workshopExpenseItemsBudget.add(
+        WorkshopExpenseItemsBudgetModel(
           value: value,
           type: item,
           dividedValue: dividedValue,
@@ -117,38 +117,38 @@ class _PricingFormPageState extends State<PricingFormPage>
   void setInFieldsAverageExpense(String type) {
     switch (type) {
       case 'Conta de luz':
-        electricityBillEC.updateValue(fixedExpense[0]['isChecked']
-            ? fixedExpense[0]['value-average']
+        electricityBillEC.updateValue(workshopExpense[0]['isChecked']
+            ? workshopExpense[0]['value-average']
             : electricityBill);
         calculateExpense(0, electricityBillEC.numberValue);
       case 'Conta de água':
-        waterBillEC.updateValue(fixedExpense[1]['isChecked']
-            ? fixedExpense[1]['value-average']
+        waterBillEC.updateValue(workshopExpense[1]['isChecked']
+            ? workshopExpense[1]['value-average']
             : waterBill);
         calculateExpense(1, waterBillEC.numberValue);
       case 'Aluguel':
-        rentEC.updateValue(fixedExpense[2]['isChecked']
-            ? fixedExpense[2]['value-average']
+        rentEC.updateValue(workshopExpense[2]['isChecked']
+            ? workshopExpense[2]['value-average']
             : rent);
         calculateExpense(2, rentEC.numberValue);
       case 'DAS/SIMEI':
-        dasEC.updateValue(fixedExpense[3]['isChecked']
-            ? fixedExpense[3]['value-average']
+        dasEC.updateValue(workshopExpense[3]['isChecked']
+            ? workshopExpense[3]['value-average']
             : das);
         calculateExpense(3, dasEC.numberValue);
     }
   }
 
   void initializeForm() {
-    if (pricingController.fixedExpenseItemsBudget.isNotEmpty) {
-      fixedExpense.asMap().forEach((key, expense) {
+    if (pricingController.workshopExpenseItemsBudget.isNotEmpty) {
+      workshopExpense.asMap().forEach((key, expense) {
         expense['isChecked'] = false;
       });
 
       termEC.text = pricingController.term.toString();
       calculateExpenseByCompleted();
 
-      for (var i in pricingController.fixedExpenseItemsBudget) {
+      for (var i in pricingController.workshopExpenseItemsBudget) {
         switch (i.type.toLowerCase()) {
           case 'conta de luz':
             electricityBill = i.value;
@@ -176,7 +176,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   }
 
   void calculateExpenseByCompleted() {
-    pricingController.fixedExpenseItemsBudget.asMap().forEach((i, item) {
+    pricingController.workshopExpenseItemsBudget.asMap().forEach((i, item) {
       calculateExpense(i, item.value);
     });
   }
@@ -340,7 +340,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                           initiallyExpanded: true,
                           addBorder: false,
                           title: 'Calcular média da despesa',
-                          children: fixedExpense
+                          children: workshopExpense
                               .map(
                                 (expense) => ListTile(
                                   contentPadding: EdgeInsets.zero,
@@ -382,14 +382,14 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   onTapOutside: (_) =>
                                       FocusScope.of(context).unfocus(),
                                   controller: electricityBillEC,
-                                  readOnly: fixedExpense[0]['isChecked'],
+                                  readOnly: workshopExpense[0]['isChecked'],
                                   decoration: const InputDecoration(
                                       labelText: 'Conta de luz',
                                       labelStyle: textStyleSmallDefault,
                                       suffix: Icon(Icons.lightbulb)),
                                   style: textStyleSmallDefault,
                                   keyboardType: TextInputType.number,
-                                  onChanged: !fixedExpense[0]['isChecked']
+                                  onChanged: !workshopExpense[0]['isChecked']
                                       ? (_) {
                                           calculateExpense(
                                               0, electricityBillEC.numberValue);
@@ -409,14 +409,14 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   onTapOutside: (_) =>
                                       FocusScope.of(context).unfocus(),
                                   controller: waterBillEC,
-                                  readOnly: fixedExpense[1]['isChecked'],
+                                  readOnly: workshopExpense[1]['isChecked'],
                                   decoration: const InputDecoration(
                                       labelText: 'Conta de água',
                                       labelStyle: textStyleSmallDefault,
                                       suffix: Icon(Icons.local_drink)),
                                   style: textStyleSmallDefault,
                                   keyboardType: TextInputType.number,
-                                  onChanged: !fixedExpense[1]['isChecked']
+                                  onChanged: !workshopExpense[1]['isChecked']
                                       ? (_) {
                                           calculateExpense(
                                               1, waterBillEC.numberValue);
@@ -434,14 +434,14 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   onTapOutside: (_) =>
                                       FocusScope.of(context).unfocus(),
                                   controller: rentEC,
-                                  readOnly: fixedExpense[2]['isChecked'],
+                                  readOnly: workshopExpense[2]['isChecked'],
                                   decoration: const InputDecoration(
                                       labelText: 'Aluguel',
                                       labelStyle: textStyleSmallDefault,
                                       suffix: Icon(Icons.home)),
                                   style: textStyleSmallDefault,
                                   keyboardType: TextInputType.number,
-                                  onChanged: !fixedExpense[2]['isChecked']
+                                  onChanged: !workshopExpense[2]['isChecked']
                                       ? (_) {
                                           calculateExpense(
                                               2, rentEC.numberValue);
@@ -460,14 +460,14 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   onTapOutside: (_) =>
                                       FocusScope.of(context).unfocus(),
                                   controller: dasEC,
-                                  readOnly: fixedExpense[3]['isChecked'],
+                                  readOnly: workshopExpense[3]['isChecked'],
                                   decoration: const InputDecoration(
                                       labelText: 'DAS/SIMEI',
                                       labelStyle: textStyleSmallDefault,
                                       suffix: Icon(Icons.money_off)),
                                   style: textStyleSmallDefault,
                                   keyboardType: TextInputType.number,
-                                  onChanged: !fixedExpense[3]['isChecked']
+                                  onChanged: !workshopExpense[3]['isChecked']
                                       ? (_) {
                                           calculateExpense(
                                               3, dasEC.numberValue);

@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
-import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
-import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_form/fixed_expense_form_controller.dart';
+import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
+import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_form/worshop_expense_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
-class FixedExpenseFormPage extends StatefulWidget {
-  const FixedExpenseFormPage({
+class WorkshopExpenseFormPage extends StatefulWidget {
+  const WorkshopExpenseFormPage({
     super.key,
   });
 
   @override
-  State<FixedExpenseFormPage> createState() => _FixedExpenseFormPageState();
+  State<WorkshopExpenseFormPage> createState() =>
+      _WorkshopExpenseFormPageState();
 }
 
-class _FixedExpenseFormPageState extends State<FixedExpenseFormPage>
-    with FixedExpenseFormController {
-  final controller = Injector.get<FixedExpenseController>();
+class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
+    with WorkshopExpenseFormController {
+  final controller = Injector.get<WorkShopExpenseController>();
   final formKey = GlobalKey<FormState>();
   String expenseValue = 'R\$ 0,00';
   DateTime expenseDate = DateTime.now();

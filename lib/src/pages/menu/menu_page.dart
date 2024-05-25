@@ -72,7 +72,7 @@ class MenuPage extends StatelessWidget {
                   title: 'Despesa da oficina',
                   icon: Icons.money_off_sharp,
                   onTap: () {
-                    nav.pushNamed('/expense/fixed');
+                    nav.pushNamed('/expense/workshop');
                   },
                 )
               ],

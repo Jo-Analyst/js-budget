@@ -61,7 +61,8 @@ class BudgetController with Messages {
     switch (results) {
       case Right(value: BudgetModel budget):
         _data.add(budget);
-        _dataFiltered.add(budget);
+        _dataFiltered.clear();
+        _dataFiltered.value = _data.value;
         _sumBudgets(_data);
         isError = false;
       case Left():

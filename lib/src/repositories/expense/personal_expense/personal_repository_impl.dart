@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
-import 'package:js_budget/src/repositories/expense/personal_expense/transform_personal_expense_json.dart';
 import 'package:js_budget/src/repositories/expense/personal_expense/personal_repository.dart';
+import 'package:js_budget/src/repositories/expense/transform_expense_json.dart';
 
 class PersonalExpenseRepositoryImpl implements PersonalExpenseRepository {
   @override
@@ -26,14 +28,14 @@ class PersonalExpenseRepositoryImpl implements PersonalExpenseRepository {
     try {
       int lastId = 0;
       final db = await DataBase.openDatabase();
-      final data = TransformPersonalExpenseJson.toJson(personalExpense);
+      final data = TransformExpenseJson.toJson(personalExpense);
       data.remove('id');
       await db.transaction((txn) async {
         lastId = await txn.insert('personal_expenses', data);
       });
       data['id'] = lastId;
 
-      return Right(TransformPersonalExpenseJson.fromJson(data));
+      return Right(TransformExpenseJson.fromJson(data));
     } catch (_) {
       return Left(RespositoryException());
     }
@@ -43,7 +45,7 @@ class PersonalExpenseRepositoryImpl implements PersonalExpenseRepository {
   Future<Either<RespositoryException, Unit>> update(
       ExpenseModel personalExpense) async {
     try {
-      final data = TransformPersonalExpenseJson.toJson(personalExpense);
+      final data = TransformExpenseJson.toJson(personalExpense);
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         await txn.update('personal_expenses', data,
@@ -69,4 +71,19 @@ class PersonalExpenseRepositoryImpl implements PersonalExpenseRepository {
       return Left(RespositoryException());
     }
   }
+
+  // @override
+  // Future<Either<RespositoryException, List<Map<String, dynamic>>>>
+  //     findAllByDate(String date) async {
+  //   try {
+  //     final db = await DataBase.openDatabase();
+  //     final expenses = await db.rawQuery("SELECT * FROM personal_expenses");
+
+  //     print(expenses);
+
+  //     return Right(expenses);
+  //   } catch (_) {
+  //     return Left(RespositoryException());
+  //   }
+  // }
 }

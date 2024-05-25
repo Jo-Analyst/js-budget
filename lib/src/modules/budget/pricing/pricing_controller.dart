@@ -1,5 +1,5 @@
 import 'package:js_budget/src/helpers/message.dart';
-import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
+import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:signals/signals.dart';
@@ -22,7 +22,8 @@ class PricingController with Messages {
               .compareTo(b.material.name.toLowerCase()),
         );
 
-  final fixedExpenseItemsBudget = ListSignal<FixedExpenseItemsBudgetModel>([]);
+  final workshopExpenseItemsBudget =
+      ListSignal<WorkshopExpenseItemsBudgetModel>([]);
 
   bool validate(List<MaterialItemsBudgetModel> materials) {
     if (materials.isEmpty) {
@@ -72,7 +73,7 @@ class PricingController with Messages {
 
   void calculateTotalExpenses() {
     totalExpenseValue = 0;
-    fixedExpenseItemsBudget.asMap().forEach((key, expenseItem) {
+    workshopExpenseItemsBudget.asMap().forEach((key, expenseItem) {
       totalExpenseValue += expenseItem.accumulatedValue;
     });
     totalExpenseValue = double.parse(totalExpenseValue.toStringAsFixed(2));
@@ -80,14 +81,14 @@ class PricingController with Messages {
 
   void calculateExpensesByPeriodForEachExpense(
       int index, String timeIncentive, double valueExpense, int termEC) {
-    fixedExpenseItemsBudget[index].value = valueExpense;
+    workshopExpenseItemsBudget[index].value = valueExpense;
 
     double dividedValue =
         timeIncentive == "Dia" ? valueExpense / 30 : (valueExpense / 30) / 8;
 
-    fixedExpenseItemsBudget[index].dividedValue =
+    workshopExpenseItemsBudget[index].dividedValue =
         double.parse(dividedValue.toStringAsFixed(2));
-    fixedExpenseItemsBudget[index].accumulatedValue =
+    workshopExpenseItemsBudget[index].accumulatedValue =
         double.parse((dividedValue * termEC).toStringAsFixed(2));
   }
 
@@ -119,6 +120,6 @@ class PricingController with Messages {
     term = 1;
     timeIncentive = 'Dia';
     materialItemsBudget.clear();
-    fixedExpenseItemsBudget.clear();
+    workshopExpenseItemsBudget.clear();
   }
 }

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
+import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
-class FixedExpensePage extends StatefulWidget {
-  const FixedExpensePage({super.key});
+class WorkshopExpensePage extends StatefulWidget {
+  const WorkshopExpensePage({super.key});
 
   @override
-  State<FixedExpensePage> createState() => _PersonalExpensePageState();
+  State<WorkshopExpensePage> createState() => _PersonalExpensePageState();
 }
 
-class _PersonalExpensePageState extends State<FixedExpensePage> {
+class _PersonalExpensePageState extends State<WorkshopExpensePage> {
   String search = '';
-  final controller = Injector.get<FixedExpenseController>();
+  final controller = Injector.get<WorkShopExpenseController>();
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _PersonalExpensePageState extends State<FixedExpensePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/expense/fixed/form');
+              Navigator.of(context).pushNamed('/expense/workshop/form');
             },
             tooltip: "Nova despesa",
             icon: const Icon(
@@ -93,7 +93,7 @@ class _PersonalExpensePageState extends State<FixedExpensePage> {
                             ),
                             onPressed: () {
                               Navigator.pushNamed(
-                                  context, '/expense/fixed/form');
+                                  context, '/expense/workshop/form');
                             },
                             icon: const Icon(
                               Icons.add,
@@ -116,7 +116,7 @@ class _PersonalExpensePageState extends State<FixedExpensePage> {
                                   splashColor: Colors.transparent,
                                   onTap: () async {
                                     await Navigator.of(context).pushNamed(
-                                        '/expense/fixed/details',
+                                        '/expense/workshop/details',
                                         arguments: expense);
                                     controller.model.value = null;
                                   },

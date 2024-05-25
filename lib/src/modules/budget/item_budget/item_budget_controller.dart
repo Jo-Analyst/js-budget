@@ -16,7 +16,7 @@ class ItemBudgetController {
             quantity: item.quantityProduct ?? 1,
             product: item.product,
             materialItemsBudget: [],
-            fixedExpenseItemsBudget: []));
+            workshopExpenseItemsBudget: []));
       }
 
       if (item.service != null) {
@@ -24,7 +24,7 @@ class ItemBudgetController {
             quantity: item.quantityService ?? 1,
             service: item.service,
             materialItemsBudget: [],
-            fixedExpenseItemsBudget: []));
+            workshopExpenseItemsBudget: []));
       }
     }
   }
@@ -32,15 +32,15 @@ class ItemBudgetController {
   void addMaterialsAndExpenses(int index, ProductModel product, int quantity,
       PricingController pricingController) {
     _data[index].materialItemsBudget.clear();
-    _data[index].fixedExpenseItemsBudget.clear();
+    _data[index].workshopExpenseItemsBudget.clear();
 
     _data[index]
         .materialItemsBudget
         .addAll(pricingController.materialItemsBudget);
     _data[index].quantity = quantity;
     _data[index]
-        .fixedExpenseItemsBudget
-        .addAll(pricingController.fixedExpenseItemsBudget);
+        .workshopExpenseItemsBudget
+        .addAll(pricingController.workshopExpenseItemsBudget);
 
     _data[index].term = pricingController.term;
     _data[index].timeIncentive = pricingController.timeIncentive;

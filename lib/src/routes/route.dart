@@ -10,9 +10,9 @@ class RouterPage {
   static const material = '/material';
   static const materialForm = '/material-form';
   static const materialDetail = '/material-detail';
-  static const fixedExpense = '/fixed-expense';
-  static const fixedExpenseForm = '/fixed-expense-form';
-  static const fixedExpenseDetail = '/fixed-expense-detail';
+  static const workshopExpense = '/workshop-expense';
+  static const workshopExpenseForm = '/workshop-expense-form';
+  static const workshopExpenseDetail = '/workshop-expense-detail';
   static const personalExpense = '/personal-expense';
   static const personalExpenseDetail = '/personal-expense-detail';
   static const personalExpenseForm = '/personal-expense-form';

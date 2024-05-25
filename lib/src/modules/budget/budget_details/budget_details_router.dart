@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/pages/home/budget_details/budget_details_page.dart';
+import 'package:js_budget/src/modules/budget/budget_details/budget_details_page.dart';
 
 class BudgetDetailsRouter extends FlutterGetItPageRouter {
   const BudgetDetailsRouter({super.key});

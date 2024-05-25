@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
-import 'package:js_budget/src/modules/expenses/fixed_expenses/fixed_expense_controller.dart';
+import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class FixedExpenseDetailsPage extends StatelessWidget {
-  const FixedExpenseDetailsPage({super.key});
+class WorkshopExpenseDetailsPage extends StatelessWidget {
+  const WorkshopExpenseDetailsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class FixedExpenseDetailsPage extends StatelessWidget {
     }
 
     final expense = ModalRoute.of(context)!.settings.arguments as ExpenseModel;
-    var controller = Injector.get<FixedExpenseController>();
+    var controller = Injector.get<WorkShopExpenseController>();
     var nav = Navigator.of(context);
 
     return Scaffold(
@@ -34,7 +34,7 @@ class FixedExpenseDetailsPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               controller.model.value = expense;
-              nav.pushNamed('/expense/fixed/form');
+              nav.pushNamed('/expense/workshop/form');
             },
             icon: const Icon(Icons.edit),
           ),

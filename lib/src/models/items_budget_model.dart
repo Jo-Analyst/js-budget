@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
+import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
@@ -19,7 +19,7 @@ class ItemsBudgetModel {
   double percentageProfitMargin;
   double profitMarginValue;
   List<MaterialItemsBudgetModel> materialItemsBudget;
-  List<FixedExpenseItemsBudgetModel> fixedExpenseItemsBudget;
+  List<WorkshopExpenseItemsBudgetModel> workshopExpenseItemsBudget;
   ProductModel? product;
   ServiceModel? service;
   int? budgetId;
@@ -33,7 +33,7 @@ class ItemsBudgetModel {
     this.percentageProfitMargin = 0.0,
     this.profitMarginValue = 0.0,
     required this.materialItemsBudget,
-    required this.fixedExpenseItemsBudget,
+    required this.workshopExpenseItemsBudget,
     this.product,
     this.service,
     this.budgetId,

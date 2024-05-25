@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/fixed_expense_items_budget_model.dart';
+import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -16,8 +16,8 @@ class PreviewPageForConfirmation extends StatelessWidget {
     final List<MaterialItemsBudgetModel> materialItems =
         controller.materialItemsBudget;
 
-    final List<FixedExpenseItemsBudgetModel> expenseItems =
-        controller.fixedExpenseItemsBudget;
+    final List<WorkshopExpenseItemsBudgetModel> expenseItems =
+        controller.workshopExpenseItemsBudget;
 
     return Scaffold(
       body: Column(

@@ -1,12 +1,12 @@
 import 'package:js_budget/src/models/expense_model.dart';
-import 'package:js_budget/src/repositories/expense/fixed_expense/fixed_repository.dart';
+import 'package:js_budget/src/repositories/expense/workshop_expense/workshop_repository.dart';
+import 'package:js_budget/src/repositories/expense/transform_expense_json.dart';
 import 'package:signals/signals.dart';
 
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
-import 'package:js_budget/src/repositories/expense/fixed_expense/transform_fixed_expense_json.dart';
 
-class FixedExpenseController with Messages {
+class WorkShopExpenseController with Messages {
   final _data = ListSignal<ExpenseModel>([]);
   ListSignal get data => _data
     ..sort(
@@ -18,9 +18,9 @@ class FixedExpenseController with Messages {
 
   final model = signal<ExpenseModel?>(null);
 
-  final FixedExpenseRepository _expenseRepository;
-  FixedExpenseController({
-    required FixedExpenseRepository expenseRepository,
+  final WorkshopExpenseRepository _expenseRepository;
+  WorkShopExpenseController({
+    required WorkshopExpenseRepository expenseRepository,
   }) : _expenseRepository = expenseRepository;
 
   Future<void> save(ExpenseModel expense) async {
@@ -65,7 +65,7 @@ class FixedExpenseController with Messages {
     switch (results) {
       case Right(value: List<Map<String, dynamic>> expenses):
         for (var expense in expenses) {
-          _data.add(TransformFixedExpenseJson.fromJson(expense));
+          _data.add(TransformExpenseJson.fromJson(expense));
         }
 
       case Left():
@@ -80,7 +80,7 @@ class FixedExpenseController with Messages {
     switch (results) {
       case Right(value: var expenses):
         for (var expense in expenses) {
-          expensesModel.add(TransformFixedExpenseJson.fromJson(expense));
+          expensesModel.add(TransformExpenseJson.fromJson(expense));
         }
       case Left():
         showError('Houver erro ao buscar a conta $type');

@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'fixed_expense_items_budget_model.dart';
+part of 'workshop_expense_items_budget_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-FixedExpenseItemsBudgetModel _$FixedExpenseItemsBudgetModelFromJson(
+WorkshopExpenseItemsBudgetModel _$WorkshopExpenseItemsBudgetModelFromJson(
         Map<String, dynamic> json) =>
-    FixedExpenseItemsBudgetModel(
+    WorkshopExpenseItemsBudgetModel(
       id: json['id'] as int? ?? 0,
       value: (json['value'] as num?)?.toDouble() ?? 0,
       dividedValue: (json['divided_value'] as num?)?.toDouble() ?? 0,
@@ -17,8 +17,8 @@ FixedExpenseItemsBudgetModel _$FixedExpenseItemsBudgetModelFromJson(
       itemBudgetId: json['item_budget_id'] as int?,
     );
 
-Map<String, dynamic> _$FixedExpenseItemsBudgetModelToJson(
-        FixedExpenseItemsBudgetModel instance) =>
+Map<String, dynamic> _$WorkshopExpenseItemsBudgetModelToJson(
+        WorkshopExpenseItemsBudgetModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'value': instance.value,

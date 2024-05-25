@@ -1,10 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
+import 'package:js_budget/src/modules/widget/slide_date.dart';
 import 'package:js_budget/src/pages/home/widgets/finacial_last.widget.dart';
 import 'package:js_budget/src/pages/widgets/more_details_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/list_month.dart';
+import 'package:signals/signals_flutter.dart';
 
-class FinancePage extends StatelessWidget {
+class FinancePage extends StatefulWidget {
   const FinancePage({super.key});
+
+  @override
+  State<FinancePage> createState() => _FinancePageState();
+}
+
+class _FinancePageState extends State<FinancePage> {
+  final personalExpenseController = Injector.get<PersonalExpenseController>();
+
+  @override
+  void initState() {
+    super.initState();
+    loadExpense();
+  }
+
+  Future<void> loadExpense() async {
+    if (personalExpenseController.data.isEmpty) {
+      await personalExpenseController.findExpense();
+    }
+    personalExpenseController.findExpenseByDate(
+        '${date[DateTime.now().month - 1]} de ${DateTime.now().year}');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,33 +60,11 @@ class FinancePage extends StatelessWidget {
                   horizontal: BorderSide(color: theme.primaryColor),
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_circle_left_outlined,
-                      size: 30,
-                    ),
-                  ),
-                  const Text.rich(
-                    TextSpan(children: [
-                      TextSpan(text: 'Janeiro de '),
-                      TextSpan(
-                        text: '2024',
-                        style: TextStyle(fontFamily: 'Anta'),
-                      ),
-                    ], style: textStyleLargeDefault),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_circle_right_outlined,
-                      size: 30,
-                    ),
-                  ),
-                ],
+              child: SlideDate(
+                onGetDate: (month, year) {
+                  final expenses = personalExpenseController
+                      .findExpenseByDate('$month de $year');
+                },
               ),
             ),
 
@@ -84,11 +88,13 @@ class FinancePage extends StatelessWidget {
                         ),
                       ),
                       const Divider(),
-                      const FinacialLastWidget(
-                        title: 'Despesas pessoais',
-                        value: 1500,
-                        textColor: Colors.red,
-                      ),
+                      Watch((_) {
+                        return FinacialLastWidget(
+                          title: 'Despesas pessoais',
+                          value: personalExpenseController.valueExpense.value,
+                          textColor: Colors.red,
+                        );
+                      }),
                       const Divider(),
                       Padding(
                         padding: const EdgeInsets.only(left: 15),

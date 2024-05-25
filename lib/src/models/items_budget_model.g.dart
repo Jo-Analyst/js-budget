@@ -22,11 +22,11 @@ ItemsBudgetModel _$ItemsBudgetModelFromJson(Map<String, dynamic> json) =>
           .map((e) =>
               MaterialItemsBudgetModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      fixedExpenseItemsBudget: (json['fixed_expense_items_budget']
-              as List<dynamic>)
-          .map((e) =>
-              FixedExpenseItemsBudgetModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      workshopExpenseItemsBudget:
+          (json['workshop_expense_items_budget'] as List<dynamic>)
+              .map((e) => WorkshopExpenseItemsBudgetModel.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       product: json['product'] == null
           ? null
           : ProductModel.fromJson(json['product'] as Map<String, dynamic>),
@@ -47,7 +47,7 @@ Map<String, dynamic> _$ItemsBudgetModelToJson(ItemsBudgetModel instance) =>
       'percentage_profit_margin': instance.percentageProfitMargin,
       'profit_margin_value': instance.profitMarginValue,
       'material_items_budget': instance.materialItemsBudget,
-      'fixed_expense_items_budget': instance.fixedExpenseItemsBudget,
+      'workshop_expense_items_budget': instance.workshopExpenseItemsBudget,
       'product': instance.product,
       'service': instance.service,
       'budget_id': instance.budgetId,

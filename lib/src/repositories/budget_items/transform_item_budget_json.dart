@@ -32,7 +32,7 @@ class TransformItemBudgetJson {
                       price: itemBudget['price'])
                   : null,
               materialItemsBudget: [],
-              fixedExpenseItemsBudget: []),
+              workshopExpenseItemsBudget: []),
         );
       }
     }
