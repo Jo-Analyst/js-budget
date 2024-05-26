@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+=======
+import 'package:flutter/widgets.dart';
+import 'package:js_budget/src/models/expense_model.dart';
+import 'package:js_budget/src/pages/finance/summary/widgets/summary_total_widget.dart';
+import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
+import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+>>>>>>> 87e50964fccf88a6e77901e616087d5c67e9702b
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class SummaryPage extends StatelessWidget {
@@ -60,7 +69,11 @@ class SummaryPage extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
+<<<<<<< HEAD
             color: theme.primaryColor.withOpacity(.3),
+=======
+            color: Theme.of(context).primaryColor.withOpacity(.3),
+>>>>>>> 87e50964fccf88a6e77901e616087d5c67e9702b
             padding: const EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
