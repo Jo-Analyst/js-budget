@@ -75,43 +75,49 @@ class _FinancePageState extends State<FinancePage> {
             ),
 
             // Finanças pessoais
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-              ),
-              width: double.infinity,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 20),
-                        child: Text(
-                          'Finanças pessoais',
-                          style: textStyleSmallFontWeight,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  '/finance/summary',
+                  arguments: (
+                    personalExpenseController.valueExpense.value,
+                    expenses
+                  ),
+                );
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                width: double.infinity,
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            'Finanças pessoais',
+                            style: textStyleSmallFontWeight,
+                          ),
                         ),
-                      ),
-                      const Divider(),
-                      Watch((_) {
-                        return FinacialLastWidget(
-                          title: 'Despesas pessoais',
-                          value: personalExpenseController.valueExpense.value,
-                          textColor: Colors.red,
-                        );
-                      }),
-                      const Divider(),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed('/summary');
-                          },
-                          child: const MoreDetailsWidget(),
+                        const Divider(),
+                        Watch((_) {
+                          return FinacialLastWidget(
+                            title: 'Despesas pessoais',
+                            value: personalExpenseController.valueExpense.value,
+                            textColor: Colors.red,
+                          );
+                        }),
+                        const Divider(),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 15),
+                          child: MoreDetailsWidget(),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
