@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/pages/finance/summary/summary_page.dart';
+import 'package:js_budget/src/pages/finance/summary/summary_personal_expense_page.dart';
 
 class FinanceRouter extends FlutterGetItPageRouter {
   const FinanceRouter({super.key});
@@ -12,5 +12,5 @@ class FinanceRouter extends FlutterGetItPageRouter {
   String get routeName => '/finance/summary';
 
   @override
-  WidgetBuilder get view => (_) => const SummaryPage();
+  WidgetBuilder get view => (_) => const SummaryPersonalExpensePage();
 }

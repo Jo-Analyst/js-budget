@@ -3,8 +3,8 @@ import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class SummaryPage extends StatelessWidget {
-  const SummaryPage({super.key});
+class SummaryPersonalExpensePage extends StatelessWidget {
+  const SummaryPersonalExpensePage({super.key});
 
   @override
   Widget build(BuildContext context) {
