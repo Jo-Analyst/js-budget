@@ -20,6 +20,13 @@ class SlideDate extends StatefulWidget {
 class _SlideDateState extends State<SlideDate> {
   int _indexMonth = DateTime.now().month - 1;
   int _year = DateTime.now().year;
+  bool isDateCurrency = false;
+
+  bool checIfTheDateIsCurrent() {
+    return (_indexMonth < DateTime.now().month - 1 &&
+            _year == DateTime.now().year) ||
+        _year < DateTime.now().year;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +43,7 @@ class _SlideDateState extends State<SlideDate> {
               }
 
               _indexMonth--;
+              isDateCurrency = checIfTheDateIsCurrent();
             });
 
             widget.onGetDate('${date[_indexMonth]} de $_year');
@@ -55,18 +63,21 @@ class _SlideDateState extends State<SlideDate> {
           ], style: textStyleLargeDefault),
         ),
         IconButton(
-          onPressed: () {
-            setState(() {
-              if (_indexMonth == 11) {
-                _indexMonth = 0;
-                _year++;
-                return;
-              }
-              _indexMonth++;
-            });
+          onPressed: isDateCurrency
+              ? () {
+                  setState(() {
+                    if (_indexMonth == 11) {
+                      _indexMonth = 0;
+                      _year++;
+                      return;
+                    }
+                    _indexMonth++;
+                    isDateCurrency = checIfTheDateIsCurrent();
+                  });
 
-            widget.onGetDate('${date[_indexMonth]} de $_year');
-          },
+                  widget.onGetDate('${date[_indexMonth]} de $_year');
+                }
+              : null,
           icon: const Icon(
             Icons.arrow_circle_right_outlined,
             size: 30,

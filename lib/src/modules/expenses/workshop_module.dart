@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_detail/workshop_expense_details_page.dart';
-import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_form/fixed_expense_form_page.dart';
+import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_form/workshop_expense_form_page.dart';
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_page.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_details/personal_expense_details_page.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_form/personal_expense_form_page.dart';
