@@ -13,15 +13,18 @@ class OrderRepositoryImpl implements OrderRepository {
   final _itemsOrderRepositoryImpl = ItemsOrderRepositoryImpl();
 
   @override
-  Future<Either<RespositoryException, OrderModel>> register(
+  Future<Either<RespositoryException, OrderModel>> save(
       OrderModel order) async {
     final List<ItemOrderModel> items = [];
     try {
       final db = await DataBase.openDatabase();
       int lastOrderId = 0;
       await db.transaction((txn) async {
-        lastOrderId = await txn.insert(
-            'orders', {'date': order.date, 'client_id': order.client.id});
+        lastOrderId = await txn.insert('orders', {
+          'date': order.date,
+          'client_id': order.client.id,
+          'observation': order.observation,
+        });
 
         for (var item in order.items) {
           int lastIdItemOrder = await _itemsOrderRepositoryImpl.save(
@@ -40,6 +43,7 @@ class OrderRepositoryImpl implements OrderRepository {
 
       return Right(TransformOrderJson.fromJson({
         'id': lastOrderId,
+        'observation': order.observation,
         'date': order.date,
         'client': {'id': order.client.id, 'name': order.client.name},
         'items': items
@@ -72,7 +76,7 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final db = await DataBase.openDatabase();
       final data = await db.rawQuery(
-          'SELECT orders.id AS order_id, orders.date, orders.status, orders.client_id, clients.name AS client_name, items_orders.id AS item_order_id, items_orders.quantity_product, items_orders.quantity_service, items_orders.product_id, products.name as name_product, products.description, products.unit, items_orders.service_id, services.description, services.price FROM orders INNER JOIN clients ON clients.id = orders.client_id INNER JOIN items_orders ON items_orders.order_id = orders.id LEFT JOIN products ON products.id = items_orders.product_id LEFT JOIN services on services.id = items_orders.service_id');
+          'SELECT orders.id AS order_id, orders.date, orders.observation, orders.status, orders.client_id, clients.name AS client_name, items_orders.id AS item_order_id, items_orders.quantity_product, items_orders.quantity_service, items_orders.product_id, products.name as name_product, products.description, products.unit, items_orders.service_id, services.description, services.price FROM orders INNER JOIN clients ON clients.id = orders.client_id INNER JOIN items_orders ON items_orders.order_id = orders.id LEFT JOIN products ON products.id = items_orders.product_id LEFT JOIN services on services.id = items_orders.service_id');
 
       return Right(data);
     } catch (_) {

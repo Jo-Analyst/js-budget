@@ -71,8 +71,6 @@ class OrderDetailPage extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
                     child: ListViewTile(
-                      color: Colors.transparent,
-                      textColor: Colors.black,
                       title: 'Produtos',
                       children: [
                         Column(
@@ -111,8 +109,6 @@ class OrderDetailPage extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
                     child: ListViewTile(
-                      color: Colors.transparent,
-                      textColor: Colors.black,
                       title: 'Serviços',
                       children: [
                         Column(
@@ -139,6 +135,25 @@ class OrderDetailPage extends StatelessWidget {
                               ),
                             );
                           }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+              if (order.observation != null)
+                Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  child: Card(
+                    child: ListViewTile(
+                      title: 'Observação',
+                      children: [
+                        ListTile(
+                          title: Text(
+                            order.observation!,
+                            style: textStyleSmallDefault,
+                          ),
+                          leading: const Icon(Icons.note_alt_outlined),
                         ),
                       ],
                     ),

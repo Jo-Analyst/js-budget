@@ -67,7 +67,7 @@ class _OrderFormPageState extends State<OrderFormPage>
               }
 
               final model = await controller
-                  .register(saveForm(order?.id ?? 0, client!, itemOrder));
+                  .save(saveForm(order?.id ?? 0, client!, itemOrder));
 
               nav.pop(model);
             },
@@ -372,6 +372,20 @@ class _OrderFormPageState extends State<OrderFormPage>
                       )
                       .toList(),
                 ),
+              ),
+
+              TextFormField(
+                maxLines: 5,
+                controller: observationEC,
+                textCapitalization: TextCapitalization.sentences,
+                onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(
+                  labelText: 'Observação',
+                  labelStyle: TextStyle(fontFamily: 'Poppins'),
+                  suffixIcon: Icon(Icons.description),
+                ),
+                style: textStyleSmallDefault,
               ),
             ],
           ),

@@ -34,8 +34,8 @@ class OrderController with Messages {
     return isValid;
   }
 
-  Future<OrderModel?> register(OrderModel orderModel) async {
-    final results = await _orderRepository.register(orderModel);
+  Future<OrderModel?> save(OrderModel orderModel) async {
+    final results = await _orderRepository.save(orderModel);
     OrderModel? model;
 
     switch (results) {
