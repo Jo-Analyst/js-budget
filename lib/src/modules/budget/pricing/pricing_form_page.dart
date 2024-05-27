@@ -25,7 +25,7 @@ class PricingFormPage extends StatefulWidget {
 
 class _PricingFormPageState extends State<PricingFormPage>
     with PricingFormController, TickerProviderStateMixin {
-  final expenseController = Injector.get<WorkShopExpenseController>();
+  final expenseController = Injector.get<WorkshopExpenseController>();
   final profileController = Injector.get<ProfileController>();
   final pricingController = Injector.get<PricingController>();
   final formKey = GlobalKey<FormState>();

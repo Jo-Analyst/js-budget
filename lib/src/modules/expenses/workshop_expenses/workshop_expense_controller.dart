@@ -6,7 +6,8 @@ import 'package:signals/signals.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 
-class WorkShopExpenseController with Messages {
+class WorkshopExpenseController with Messages {
+  final valueWorkshopExpense = signal(0.0);
   final _data = ListSignal<ExpenseModel>([]);
   ListSignal get data => _data
     ..sort(
@@ -19,7 +20,7 @@ class WorkShopExpenseController with Messages {
   final model = signal<ExpenseModel?>(null);
 
   final WorkshopExpenseRepository _expenseRepository;
-  WorkShopExpenseController({
+  WorkshopExpenseController({
     required WorkshopExpenseRepository expenseRepository,
   }) : _expenseRepository = expenseRepository;
 
@@ -101,5 +102,23 @@ class WorkShopExpenseController with Messages {
     }
 
     return expenseModel;
+  }
+
+  Future<List<ExpenseModel>> findExpenseDate(String date) async {
+    List<ExpenseModel> expenses = _data
+        .where((expense) =>
+            expense.date.toLowerCase().contains(date.toLowerCase()))
+        .toList();
+    valueWorkshopExpense.value = _sumValueExpense(expenses);
+    return expenses;
+  }
+
+  double _sumValueExpense(List<ExpenseModel> expenses) {
+    double valueExpense = 0;
+    for (var expense in expenses) {
+      valueExpense += expense.value;
+    }
+
+    return valueExpense;
   }
 }

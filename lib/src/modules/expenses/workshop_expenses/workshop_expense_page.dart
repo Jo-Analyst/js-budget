@@ -14,7 +14,7 @@ class WorkshopExpensePage extends StatefulWidget {
 
 class _PersonalExpensePageState extends State<WorkshopExpensePage> {
   String search = '';
-  final controller = Injector.get<WorkShopExpenseController>();
+  final controller = Injector.get<WorkshopExpenseController>();
 
   @override
   void initState() {

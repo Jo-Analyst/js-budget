@@ -3,7 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/bindings/binding_initial_application.dart';
-import 'package:js_budget/src/config/db/database.dart';
+// import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/modules/budget/budget_module.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/workshop_module.dart';
@@ -26,8 +26,9 @@ void main() async {
     ),
   );
 
-  final db = await DataBase.openDatabase();
-  await db.execute('ALTER TABLE orders ADD COLUMN observation TEXT');
+  // final db = await DataBase.openDatabase();
+  // await db
+  //     .execute('ALTER TABLE orders ADD COLUMN IF NOT EXISTS observation TEXT');
   // await db.execute(
   //     'CREATE TABLE IF NOT EXISTS payments (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, amount_to_pay REAL, date_payment TEXT, number_of_installments INTEGER, budget_id INTEGER, FOREIGN KEY (budget_id) REFERENCES budgets(id) ON DELETE CASCADE)');
 //   await db.delete('budgets');

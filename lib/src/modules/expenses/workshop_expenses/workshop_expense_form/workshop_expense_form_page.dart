@@ -20,7 +20,7 @@ class WorkshopExpenseFormPage extends StatefulWidget {
 
 class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
     with WorkshopExpenseFormController {
-  final controller = Injector.get<WorkShopExpenseController>();
+  final controller = Injector.get<WorkshopExpenseController>();
   final formKey = GlobalKey<FormState>();
   String expenseValue = 'R\$ 0,00';
   DateTime expenseDate = DateTime.now();

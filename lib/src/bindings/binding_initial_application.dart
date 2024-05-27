@@ -32,7 +32,7 @@ class BindingInitialApplication extends ApplicationBindings {
         Bind.lazySingleton<WorkshopExpenseRepository>(
             (i) => WorkshopExpenseRepositoryImpl()),
         Bind.lazySingleton(
-            (i) => WorkShopExpenseController(expenseRepository: i())),
+            (i) => WorkshopExpenseController(expenseRepository: i())),
         Bind.lazySingleton<BudgetRepository>((i) => BudgetRepositoryImpl()),
         Bind.lazySingleton((i) => BudgetController(budgetRepository: i())),
         Bind.lazySingleton<PersonalExpenseRepository>(

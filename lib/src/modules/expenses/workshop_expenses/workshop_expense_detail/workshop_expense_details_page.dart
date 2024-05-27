@@ -24,7 +24,7 @@ class WorkshopExpenseDetailsPage extends StatelessWidget {
     }
 
     final expense = ModalRoute.of(context)!.settings.arguments as ExpenseModel;
-    var controller = Injector.get<WorkShopExpenseController>();
+    var controller = Injector.get<WorkshopExpenseController>();
     var nav = Navigator.of(context);
 
     return Scaffold(
