@@ -79,7 +79,30 @@ class MenuPage extends StatelessWidget {
             ),
 
             //  Menu de pedidos
-
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                    width: .5,
+                  ),
+                ),
+              ),
+              child: ListTile(
+                onTap: () => Navigator.of(context).pushNamed('/payment'),
+                splashColor: Colors.transparent,
+                leading: const Icon(Icons.payments),
+                title: Text(
+                  'Pagamentos',
+                  style: TextStyle(
+                    fontFamily: textStyleSmallDefault.fontFamily,
+                    fontSize: textStyleSmallDefault.fontSize,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+            //  Menu de pedidos
             Container(
               decoration: BoxDecoration(
                 border: Border(

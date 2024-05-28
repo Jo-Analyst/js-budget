@@ -8,6 +8,7 @@ import 'package:js_budget/src/modules/budget/budget_module.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/workshop_module.dart';
 import 'package:js_budget/src/modules/material/material_module.dart';
+import 'package:js_budget/src/modules/payment/payment_module.dart';
 import 'package:js_budget/src/modules/product/product_module.dart';
 import 'package:js_budget/src/modules/order/order_module.dart';
 import 'package:js_budget/src/modules/service/service_module.dart';
@@ -57,14 +58,15 @@ class MyApp extends StatelessWidget {
         const FinanceRouter(),
       ],
       modules: [
+        BudgetModule(),
         ClientModule(),
-        ProductModule(),
-        ServiceModule(),
-        MaterialModule(),
         ExpenseModule(),
-        ProfileModule(),
+        MaterialModule(),
         OrderModule(),
-        BudgetModule()
+        PaymentModule(),
+        ProductModule(),
+        ProfileModule(),
+        ServiceModule(),
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp(
