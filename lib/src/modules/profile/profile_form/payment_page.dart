@@ -17,7 +17,6 @@ class _PaymentPageState extends State<PaymentPage> {
   final budgetController = Injector.get<BudgetController>();
   List<BudgetModel> budgets = [];
 
-
   @override
   void initState() {
     super.initState();
@@ -61,130 +60,152 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
             ),
             const SizedBox(height: 10),
-            Expanded(
-              child: ListView.builder(
-                itemCount: budgets.length,
-                itemBuilder: (_, index) {
-                  var budget = budgets[index];
-                  return GestureDetector(
-                    onTap: () => Navigator.of(context)
-                        .pushNamed('/payment/checkout-counter'),
-                    child: Card(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 10,
+            budgets.isEmpty
+                ? const Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.payments_sharp,
+                          size: 80,
                         ),
-                        child: Column(
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text.rich(
-                              TextSpan(
-                                children: [
-                                  const TextSpan(
-                                    text: 'Pedido: ',
-                                    style: textStyleSmallFontWeight,
-                                  ),
-                                  TextSpan(
-                                    text: budget.orderId!
-                                        .toString()
-                                        .padLeft(5, '0'),
-                                    style: textStyleSmallDefault,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Divider(),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(budget.client!.name.toUpperCase(),
-                                      style: textStyleSmallFontWeight),
-                                  Text(
-                                    budget.status!,
-                                    style: textStyleSmallDefault,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Quan. paga',
-                                    style: TextStyle(
-                                      fontFamily:
-                                          textStyleSmallFontWeight.fontFamily,
-                                      fontSize:
-                                          textStyleSmallFontWeight.fontSize,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  Text(
-                                    UtilsService.moneyToCurrency(
-                                        budget.payment!.amountPaid),
-                                    style: TextStyle(
-                                      fontFamily: 'Anta',
-                                      fontSize: textStyleSmallDefault.fontSize,
-                                      fontWeight:
-                                          textStyleSmallFontWeight.fontWeight,
-                                      color:
-                                          const Color.fromARGB(255, 33, 82, 35),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 15),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Quan. a pagar',
-                                    style: TextStyle(
-                                      fontFamily:
-                                          textStyleSmallFontWeight.fontFamily,
-                                      fontSize:
-                                          textStyleSmallFontWeight.fontSize,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  Text(
-                                    UtilsService.moneyToCurrency(
-                                        budget.payment!.amountToPay),
-                                    style: TextStyle(
-                                      fontFamily: 'Anta',
-                                      color: const Color.fromARGB(
-                                          255, 31, 71, 103),
-                                      fontSize: textStyleSmallDefault.fontSize,
-                                      fontWeight:
-                                          textStyleSmallFontWeight.fontWeight,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                        Text(
+                          'Não há pagamentos de pedidos orçados que foram aprovados ou concluidos',
+                          textAlign: TextAlign.center,
+                          style: textStyleSmallDefault,
+                        )
+                      ],
                     ),
-                  );
-                },
-              ),
-            )
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: budgets.length,
+                      itemBuilder: (_, index) {
+                        var budget = budgets[index];
+                        return GestureDetector(
+                          onTap: () {
+                            budgetController.model.value = budget;
+                            Navigator.of(context)
+                                .pushNamed('/payment/checkout-counter');
+                          },
+                          child: Card(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              child: Column(
+                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        const TextSpan(
+                                          text: 'Pedido: ',
+                                          style: textStyleSmallFontWeight,
+                                        ),
+                                        TextSpan(
+                                          text: budget.orderId!
+                                              .toString()
+                                              .padLeft(5, '0'),
+                                          style: textStyleSmallDefault,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const Divider(),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(budget.client!.name.toUpperCase(),
+                                            style: textStyleSmallFontWeight),
+                                        Text(
+                                          budget.status!,
+                                          style: textStyleSmallDefault,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Quan. paga',
+                                          style: TextStyle(
+                                            fontFamily: textStyleSmallFontWeight
+                                                .fontFamily,
+                                            fontSize: textStyleSmallFontWeight
+                                                .fontSize,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        Text(
+                                          UtilsService.moneyToCurrency(
+                                              budget.payment!.amountPaid),
+                                          style: TextStyle(
+                                            fontFamily: 'Anta',
+                                            fontSize:
+                                                textStyleSmallDefault.fontSize,
+                                            fontWeight: textStyleSmallFontWeight
+                                                .fontWeight,
+                                            color: const Color.fromARGB(
+                                                255, 33, 82, 35),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Quan. a pagar',
+                                          style: TextStyle(
+                                            fontFamily: textStyleSmallFontWeight
+                                                .fontFamily,
+                                            fontSize: textStyleSmallFontWeight
+                                                .fontSize,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        Text(
+                                          UtilsService.moneyToCurrency(
+                                              budget.payment!.amountToPay),
+                                          style: TextStyle(
+                                            fontFamily: 'Anta',
+                                            color: const Color.fromARGB(
+                                                255, 31, 71, 103),
+                                            fontSize:
+                                                textStyleSmallDefault.fontSize,
+                                            fontWeight: textStyleSmallFontWeight
+                                                .fontWeight,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
           ],
         ),
       ),

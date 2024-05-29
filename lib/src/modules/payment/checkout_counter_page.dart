@@ -1,15 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/payment/widget/personalized_payment_button.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-class CheckoutCounter extends StatelessWidget {
-  const CheckoutCounter({super.key});
+class CheckoutCounterPage extends StatefulWidget {
+  const CheckoutCounterPage({super.key});
+
+  @override
+  State<CheckoutCounterPage> createState() => _CheckoutCounterPageState();
+}
+
+class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
+  final budget = Injector.get<BudgetController>().model.value;
+  final amountReceivedEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  double result = 0, amountReceived = 0;
+  // late double amountPaid, amountToPay;
+
+  @override
+  void initState() {
+    super.initState();
+    // amountPaid = budget.payment!.amountPaid;
+    // amountToPay = budget.payment!.amountToPay;
+    amountReceivedEC
+        .updateValue(calculateOutstandingBalance(budget.payment!.amountPaid));
+    amountReceived = amountReceivedEC.numberValue;
+  }
+
+  double calculateOutstandingBalance(double amountPaid) {
+    return budget.payment!.amountToPay - amountPaid;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final amountReceivedEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pagamento'),
@@ -43,14 +68,14 @@ class CheckoutCounter extends StatelessWidget {
                             style: textStyleSmallFontWeight,
                           ),
                           TextSpan(
-                            text: 1.toString().padLeft(5, '0'),
+                            text: budget.orderId.toString().padLeft(5, '0'),
                             style: textStyleSmallDefault,
                           ),
                         ],
                       ),
                     ),
-                    const Text(
-                      'Joelmir Carvalho',
+                    Text(
+                      budget.client!.name,
                       style: textStyleSmallFontWeight,
                     ),
                   ],
@@ -76,7 +101,8 @@ class CheckoutCounter extends StatelessWidget {
                       style: textStyleSmallFontWeight,
                     ),
                     TextSpan(
-                      text: UtilsService.moneyToCurrency(2000),
+                      text: UtilsService.moneyToCurrency(
+                          budget.payment!.amountToPay),
                       style: TextStyle(
                         fontFamily: 'Anta',
                         fontSize: textStyleSmallDefault.fontSize,
@@ -94,14 +120,41 @@ class CheckoutCounter extends StatelessWidget {
                 controller: amountReceivedEC,
                 decoration: InputDecoration(
                   floatingLabelAlignment: FloatingLabelAlignment.center,
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.restore,
-                      size: 28,
-                    ),
-                  ),
+                  suffixIcon: amountReceivedEC.numberValue > 0
+                      ? IconButton(
+                          onPressed: () {
+                            setState(() {
+                              amountReceivedEC.updateValue(0);
+                              calculateOutstandingBalance(
+                                  budget.payment!.amountPaid);
+                              amountReceived = 0;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            size: 28,
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            amountReceivedEC.updateValue(
+                                calculateOutstandingBalance(
+                                    budget.payment!.amountPaid));
+                            amountReceived = amountReceivedEC.numberValue;
+                            setState(() {});
+                          },
+                          icon: const Icon(
+                            Icons.restore,
+                            size: 28,
+                          ),
+                        ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    amountReceived = amountReceivedEC.numberValue;
+                    calculateOutstandingBalance(amountReceived);
+                  });
+                },
               ),
             ),
             Container(
@@ -115,10 +168,15 @@ class CheckoutCounter extends StatelessWidget {
               child: Text.rich(
                 TextSpan(
                   children: [
-                    const TextSpan(
-                        text: 'Á receber: ', style: textStyleSmallFontWeight),
                     TextSpan(
-                      text: UtilsService.moneyToCurrency(2000),
+                        text: amountReceived < budget.payment!.amountToPay
+                            ? 'Á receber: '
+                            : 'Troco: ',
+                        style: textStyleSmallFontWeight),
+                    TextSpan(
+                      text: UtilsService.moneyToCurrency(
+                        calculateOutstandingBalance(amountReceived),
+                      ),
                       style: TextStyle(
                         fontFamily: 'Anta',
                         fontSize: textStyleSmallDefault.fontSize,

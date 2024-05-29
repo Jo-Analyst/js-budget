@@ -52,12 +52,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     loadBudgets();
+    search = '';
   }
 
   Future<void> loadBudgets() async {
     if (budgetController.data.isEmpty) {
       await budgetController.findBudgets();
     }
+
+    budgetController.filterData(search);
   }
 
   @override

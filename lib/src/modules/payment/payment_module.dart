@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/modules/payment/checkout_counter.dart';
+import 'package:js_budget/src/modules/payment/checkout_counter_page.dart';
 import 'package:js_budget/src/modules/profile/profile_form/payment_page.dart';
 
 class PaymentModule extends FlutterGetItModule {
@@ -10,6 +10,6 @@ class PaymentModule extends FlutterGetItModule {
   @override
   Map<String, WidgetBuilder> get pages => {
         '/': (_) => const PaymentPage(),
-        '/checkout-counter': (_) => const CheckoutCounter(),
+        '/checkout-counter': (_) => const CheckoutCounterPage(),
       };
 }
