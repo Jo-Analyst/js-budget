@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
-import 'package:js_budget/src/models/client_model.dart';
-import 'package:js_budget/src/models/payment_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -14,68 +14,21 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   String search = '';
-  List<BudgetModel> budgets = [
-    BudgetModel(
-      status: 'Aprovado',
-      orderId: 1,
-      client: ClientModel(name: 'Lorenzo'),
-      valueTotal: 3000.00,
-      payment: PaymentModel(
-        specie: 'PIX',
-        amountToPay: 3000,
-      ),
-    ),
-    BudgetModel(
-      status: 'Aprovado',
-      orderId: 2,
-      client: ClientModel(name: 'Carla'),
-      valueTotal: 4000.00,
-      payment: PaymentModel(
-        specie: 'PIX',
-        amountToPay: 3000,
-      ),
-    ),
-    BudgetModel(
-      status: 'Concluído',
-      orderId: 3,
-      client: ClientModel(name: 'Alberto'),
-      valueTotal: 3000.00,
-      payment: PaymentModel(
-        specie: 'PIX',
-        amountToPay: 3000,
-      ),
-    ),
-    BudgetModel(
-      status: 'Aprovado',
-      orderId: 1,
-      client: ClientModel(name: 'Lorenzo'),
-      valueTotal: 3000.00,
-      payment: PaymentModel(
-        specie: 'PIX',
-        amountToPay: 3000,
-      ),
-    ),
-    BudgetModel(
-      status: 'Aprovado',
-      orderId: 2,
-      client: ClientModel(name: 'Carla'),
-      valueTotal: 4000.00,
-      payment: PaymentModel(
-        specie: 'PIX',
-        amountToPay: 3000,
-      ),
-    ),
-    BudgetModel(
-      status: 'Concluído',
-      orderId: 3,
-      client: ClientModel(name: 'Alberto'),
-      valueTotal: 3000.00,
-      payment: PaymentModel(
-        specie: 'PIX',
-        amountToPay: 3000,
-      ),
-    ),
-  ];
+  final budgetController = Injector.get<BudgetController>();
+  List<BudgetModel> budgets = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    budgets = budgetController.data
+        .where((budget) =>
+            budget.status!.toString().toLowerCase() == 'aprovado' ||
+            budget.status!.toString().toLowerCase() == 'concluído')
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     var budgets = this
@@ -113,91 +66,119 @@ class _PaymentPageState extends State<PaymentPage> {
                 itemCount: budgets.length,
                 itemBuilder: (_, index) {
                   var budget = budgets[index];
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                      ),
-                      child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text.rich(
-                            TextSpan(
-                              children: [
-                                const TextSpan(
-                                  text: 'Pedido: ',
-                                  style: textStyleSmallFontWeight,
-                                ),
-                                TextSpan(
-                                  text: budget.orderId!
-                                      .toString()
-                                      .padLeft(5, '0'),
-                                  style: textStyleSmallDefault,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const Divider(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  budget.client!.name,
-                                  style: textStyleSmallDefault,
-                                ),
-                                Text(
-                                  budget.status!,
-                                  style: textStyleSmallDefault,
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Quan. paga',
-                                  style: textStyleSmallFontWeight,
-                                ),
-                                Text(
-                                  UtilsService.moneyToCurrency(
-                                      budget.payment!.amountPaid),
-                                  style: TextStyle(
-                                    fontFamily: 'Anta',
-                                    fontSize: textStyleSmallDefault.fontSize,
+                  return GestureDetector(
+                    onTap: () => Navigator.of(context)
+                        .pushNamed('/payment/checkout-counter'),
+                    child: Card(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        child: Column(
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text.rich(
+                              TextSpan(
+                                children: [
+                                  const TextSpan(
+                                    text: 'Pedido: ',
+                                    style: textStyleSmallFontWeight,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'Quan. a pagar',
-                                  style: textStyleSmallFontWeight,
-                                ),
-                                Text(
-                                  UtilsService.moneyToCurrency(
-                                      budget.payment!.amountToPay),
-                                  style: TextStyle(
-                                    fontFamily: 'Anta',
-                                    fontSize: textStyleSmallDefault.fontSize,
+                                  TextSpan(
+                                    text: budget.orderId!
+                                        .toString()
+                                        .padLeft(5, '0'),
+                                    style: textStyleSmallDefault,
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                            const Divider(),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(budget.client!.name.toUpperCase(),
+                                      style: textStyleSmallFontWeight),
+                                  Text(
+                                    budget.status!,
+                                    style: textStyleSmallDefault,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Quan. paga',
+                                    style: TextStyle(
+                                      fontFamily:
+                                          textStyleSmallFontWeight.fontFamily,
+                                      fontSize:
+                                          textStyleSmallFontWeight.fontSize,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    UtilsService.moneyToCurrency(
+                                        budget.payment!.amountPaid),
+                                    style: TextStyle(
+                                      fontFamily: 'Anta',
+                                      fontSize: textStyleSmallDefault.fontSize,
+                                      fontWeight:
+                                          textStyleSmallFontWeight.fontWeight,
+                                      color:
+                                          const Color.fromARGB(255, 33, 82, 35),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Quan. a pagar',
+                                    style: TextStyle(
+                                      fontFamily:
+                                          textStyleSmallFontWeight.fontFamily,
+                                      fontSize:
+                                          textStyleSmallFontWeight.fontSize,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    UtilsService.moneyToCurrency(
+                                        budget.payment!.amountToPay),
+                                    style: TextStyle(
+                                      fontFamily: 'Anta',
+                                      color: const Color.fromARGB(
+                                          255, 31, 71, 103),
+                                      fontSize: textStyleSmallDefault.fontSize,
+                                      fontWeight:
+                                          textStyleSmallFontWeight.fontWeight,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
