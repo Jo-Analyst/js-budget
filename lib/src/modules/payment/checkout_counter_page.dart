@@ -29,8 +29,10 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
     amountReceived = amountReceivedEC.numberValue;
   }
 
-  double calculateOutstandingBalance(double amountPaid) {
-    return budget.payment!.amountToPay - amountPaid;
+  double calculateOutstandingBalance(double amountReceived) {
+    return amountReceived >= budget.payment!.amountToPay
+        ? amountReceived - budget.payment!.amountToPay
+        : budget.payment!.amountToPay - amountReceived;
   }
 
   @override
