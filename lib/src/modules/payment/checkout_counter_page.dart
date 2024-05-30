@@ -17,13 +17,32 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
   final budget = Injector.get<BudgetController>().model.value;
   final amountReceivedEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   double result = 0, amountReceived = 0;
-  // late double amountPaid, amountToPay;
+  List<Map<String, dynamic>> paymentOptionList = [
+    {
+      'icon': Icons.monetization_on_outlined,
+      'label': 'Dinheiro',
+      'isSelected': false
+    },
+    {'icon': Icons.pix, 'label': 'Pix', 'isSelected': false},
+    {'icon': Icons.credit_card, 'label': 'Crédito', 'isSelected': false},
+    {'icon': Icons.credit_card, 'label': 'Débito', 'isSelected': false},
+  ];
+
+  void selectPaymentsButton(Map<String, dynamic> paymentOption) {
+    for (var list in paymentOptionList) {
+      list['isSelected'] = false;
+
+      if (list['label'] == paymentOption['label']) {
+        list['isSelected'] = true;
+      }
+    }
+
+    setState(() {});
+  }
 
   @override
   void initState() {
     super.initState();
-    // amountPaid = budget.payment!.amountPaid;
-    // amountToPay = budget.payment!.amountToPay;
     amountReceivedEC
         .updateValue(calculateOutstandingBalance(budget.payment!.amountPaid));
     amountReceived = amountReceivedEC.numberValue;
@@ -189,33 +208,30 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
               ),
             ),
             Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 3,
-                crossAxisSpacing: 15,
-                mainAxisSpacing: 20,
-                children: [
-                  PersonalizedPaymentButton(
-                    icon: Icons.monetization_on_outlined,
-                    label: 'Dinheiro',
-                    onTap: () {},
-                  ),
-                  PersonalizedPaymentButton(
-                    icon: Icons.pix,
-                    label: 'PIX',
-                    onTap: () {},
-                  ),
-                  PersonalizedPaymentButton(
-                    icon: Icons.credit_card,
-                    label: 'Crédito',
-                    onTap: () {},
-                  ),
-                  PersonalizedPaymentButton(
-                    icon: Icons.credit_card,
-                    label: 'Débito',
-                    onTap: () {},
-                  ),
-                ],
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3,
+                  crossAxisSpacing: 15,
+                  mainAxisSpacing: 20,
+                ),
+                itemCount: paymentOptionList.length,
+                itemBuilder: (context, index) {
+                  final paymentOption = paymentOptionList[index];
+                  return PersonalizedPaymentButton(
+                    icon: paymentOption['icon'],
+                    label: paymentOption['label'],
+                    backgroundColor: paymentOption['isSelected'] == true
+                        ? Colors.purple
+                        : null,
+                    color: paymentOption['isSelected'] == true
+                        ? Colors.white
+                        : null,
+                    onTap: () {
+                      selectPaymentsButton(paymentOption);
+                    },
+                  );
+                },
               ),
             ),
           ],
