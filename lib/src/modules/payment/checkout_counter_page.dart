@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/payment/payment_controller.dart';
 import 'package:js_budget/src/modules/payment/widget/personalized_payment_button.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -15,8 +16,10 @@ class CheckoutCounterPage extends StatefulWidget {
 
 class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
   final budget = Injector.get<BudgetController>().model.value;
+  final paymentController = Injector.get<PaymentController>();
   final amountReceivedEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
-  double result = 0, amountReceived = 0;
+  double result = 0, amountReceived = 0, amountToPay = 0;
+  Map<String, dynamic> selectedPaymentMethod = {};
   List<Map<String, dynamic>> paymentOptionList = [
     {
       'icon': Icons.monetization_on_outlined,
@@ -30,11 +33,8 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
 
   void selectPaymentsButton(Map<String, dynamic> paymentOption) {
     for (var list in paymentOptionList) {
-      list['isSelected'] = false;
-
-      if (list['label'] == paymentOption['label']) {
-        list['isSelected'] = true;
-      }
+      list['isSelected'] = list['label'] == paymentOption['label'] &&
+          !paymentOption['isSelected'];
     }
 
     setState(() {});
@@ -43,15 +43,15 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
   @override
   void initState() {
     super.initState();
-    amountReceivedEC
-        .updateValue(calculateOutstandingBalance(budget.payment!.amountPaid));
+    amountToPay = budget.payment!.amountToPay - budget.payment!.amountPaid;
+    amountReceivedEC.updateValue(amountToPay);
     amountReceived = amountReceivedEC.numberValue;
   }
 
   double calculateOutstandingBalance(double amountReceived) {
-    return amountReceived >= budget.payment!.amountToPay
-        ? amountReceived - budget.payment!.amountToPay
-        : budget.payment!.amountToPay - amountReceived;
+    return amountReceived >= amountToPay
+        ? amountReceived - amountToPay
+        : amountToPay - amountReceived;
   }
 
   @override
@@ -61,7 +61,16 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
         title: const Text('Pagamento'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              bool isvalid = paymentController.validade(
+                  selectedPaymentMethod, amountReceivedEC.numberValue);
+
+              if (isvalid) {
+                budget.payment!.amountPaid = amountReceivedEC.numberValue;
+                paymentController.addNewPayment(budget.payment!);
+                Navigator.of(context).pop();
+              }
+            },
             icon: const Icon(
               Icons.check,
               size: 30,
@@ -111,7 +120,9 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
               decoration: BoxDecoration(
                 border: Border.symmetric(
                   horizontal: BorderSide(
-                      color: Theme.of(context).primaryColor, width: 2),
+                    color: Theme.of(context).primaryColor,
+                    width: 2,
+                  ),
                 ),
               ),
               child: Text.rich(
@@ -122,8 +133,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                       style: textStyleSmallFontWeight,
                     ),
                     TextSpan(
-                      text: UtilsService.moneyToCurrency(
-                          budget.payment!.amountToPay),
+                      text: UtilsService.moneyToCurrency(amountToPay),
                       style: TextStyle(
                         fontFamily: 'Anta',
                         fontSize: textStyleSmallDefault.fontSize,
@@ -158,9 +168,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                         )
                       : IconButton(
                           onPressed: () {
-                            amountReceivedEC.updateValue(
-                                calculateOutstandingBalance(
-                                    budget.payment!.amountPaid));
+                            amountReceivedEC.updateValue(amountToPay);
                             amountReceived = amountReceivedEC.numberValue;
                             setState(() {});
                           },
@@ -190,7 +198,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                 TextSpan(
                   children: [
                     TextSpan(
-                        text: amountReceived < budget.payment!.amountToPay
+                        text: amountReceived < amountToPay
                             ? 'Á receber: '
                             : 'Troco: ',
                         style: textStyleSmallFontWeight),
@@ -229,6 +237,8 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                         : null,
                     onTap: () {
                       selectPaymentsButton(paymentOption);
+                      selectedPaymentMethod =
+                          paymentOption['isSelected'] ? paymentOption : {};
                     },
                   );
                 },

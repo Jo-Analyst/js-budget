@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
-import 'package:js_budget/src/models/budget_model.dart';
+
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
+import 'package:signals/signals_flutter.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -15,27 +16,18 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   String search = '';
   final budgetController = Injector.get<BudgetController>();
-  List<BudgetModel> budgets = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    budgets = budgetController.data
-        .where((budget) =>
-            budget.status!.toString().toLowerCase() == 'aprovado' ||
-            budget.status!.toString().toLowerCase() == 'concluído')
-        .toList();
-  }
 
   @override
   Widget build(BuildContext context) {
-    var budgets = this
-        .budgets
-        .where((budget) => (budget.client!.name
-                .toLowerCase()
-                .contains(search..toLowerCase()) ||
-            budget.orderId.toString().padLeft(5, '0').contains(search)))
+    var budgets = budgetController.data
+        .watch(context)
+        .where((budget) =>
+            (budget.client!.name
+                    .toLowerCase()
+                    .contains(search..toLowerCase()) ||
+                budget.orderId.toString().padLeft(5, '0').contains(search)) &&
+            (budget.status!.toString().toLowerCase() == 'aprovado' ||
+                budget.status!.toString().toLowerCase() == 'concluído'))
         .toList();
 
     return Scaffold(
