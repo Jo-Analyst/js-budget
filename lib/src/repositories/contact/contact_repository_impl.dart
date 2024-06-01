@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import './contact_repository.dart';
+import 'contact_repository.dart';
 
 class ContactRepositoryImpl implements ContactRepository {
   @override

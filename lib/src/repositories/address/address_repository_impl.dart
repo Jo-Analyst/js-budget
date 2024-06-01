@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 
-import './address_repository.dart';
+import 'address_repository.dart';
 
 class AddressRepositoryImpl implements AddressRepository {
   @override

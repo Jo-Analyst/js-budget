@@ -5,7 +5,7 @@ import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/repositories/workshop_expense_item_budget/workshop_expense_item_budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/material_item_budget/material_item_budget_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
-import './budget_item_repository.dart';
+import 'budget_item_repository.dart';
 
 class BudgetItemRepositoryImpl implements BudgetItemRepository {
   final _materialItemBudget = MaterialItemBudgetRepositoryImpl();

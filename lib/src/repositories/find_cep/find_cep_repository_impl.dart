@@ -5,7 +5,7 @@ import 'package:js_budget/src/models/address_model.dart';
 import 'package:search_cep/search_cep.dart';
 
 
-import './find_cep_repository.dart';
+import 'find_cep_repository.dart';
 
 class FindCepRepositoryImpl implements FindCepRepository {
   @override

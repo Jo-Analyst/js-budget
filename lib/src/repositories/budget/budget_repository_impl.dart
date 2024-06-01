@@ -8,10 +8,10 @@ import 'package:js_budget/src/repositories/budget_items/budget_item_repository_i
 import 'package:js_budget/src/repositories/workshop_expense_item_budget/workshop_expense_item_budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/material_item_budget/material_item_budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository_impl.dart';
-import 'package:js_budget/src/repositories/payment_repository_impl.dart';
+import 'package:js_budget/src/repositories/payment/payment_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
 
-import './budget_repository.dart';
+import 'budget_repository.dart';
 
 class BudgetRepositoryImpl implements BudgetRepository {
   final _budgetItem = BudgetItemRepositoryImpl();

@@ -4,7 +4,7 @@ import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
-import 'package:js_budget/src/repositories/payment_repository.dart';
+import 'package:js_budget/src/repositories/payment/payment_repository.dart';
 
 class PaymentController with Messages {
   final PaymentRepository _paymentRepository;
