@@ -10,14 +10,16 @@ import 'payment_repository.dart';
 
 class PaymentRepositoryImpl implements PaymentRepository {
   @override
-  Future<void> savePayment(Transaction txn, PaymentModel payment) async {
-    await txn.insert('payments', {
+  Future<int> savePayment(Transaction txn, PaymentModel payment) async {
+    final lastId = await txn.insert('payments', {
       'specie': payment.specie,
       'amount_paid': payment.amountPaid,
       'amount_to_pay': payment.amountToPay,
       'number_of_installments': payment.numberOfInstallments,
       'budget_id': payment.budgetId,
     });
+
+    return lastId;
   }
 
   @override
@@ -37,9 +39,16 @@ class PaymentRepositoryImpl implements PaymentRepository {
   Future<Either<RespositoryException, Unit>> updatePayment(
       PaymentModel payment) async {
     try {
+      print(payment.toJson());
       final db = await DataBase.openDatabase();
-      await db.update('payments', payment.toJson(),
-          where: 'id = ?', whereArgs: [payment.id]);
+      await db.update(
+          'payments',
+          {
+            'amount_paid': payment.amountPaid,
+          },
+          where: 'id = ?',
+          whereArgs: [payment.id]);
+
       return Right(unit);
     } catch (_) {
       return Left(RespositoryException());

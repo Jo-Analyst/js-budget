@@ -28,8 +28,9 @@ void main() async {
   );
 
   final db = await DataBase.openDatabase();
-  await db.execute(
-      'CREATE TABLE IF NOT EXISTS payment_history (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, payment_id INTEGER, FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE CASCADE)');
+  print(await db.query('payments'));
+  // await db.execute(
+  //     'CREATE TABLE IF NOT EXISTS payment_history (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, payment_id INTEGER, FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE CASCADE)');
 }
 
 class MyApp extends StatelessWidget {

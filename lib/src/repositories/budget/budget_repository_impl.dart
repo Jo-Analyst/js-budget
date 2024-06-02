@@ -41,7 +41,8 @@ class BudgetRepositoryImpl implements BudgetRepository {
 
           if (budget.payment != null) {
             budget.payment!.budgetId = budgetId;
-            await _payment.savePayment(txn, budget.payment!);
+            budget.payment!.id =
+                await _payment.savePayment(txn, budget.payment!);
           }
 
           data['id'] = budgetId;
@@ -63,7 +64,7 @@ class BudgetRepositoryImpl implements BudgetRepository {
     try {
       final db = await DataBase.openDatabase();
       final budgets = await db.rawQuery(
-          'SELECT budgets.id, budgets.value_total, budgets.status, budgets.created_at, budgets.order_id, items_budget.id AS item_budget_id, items_budget.sub_value, items_budget.unitary_value, items_budget.quantity, products.name AS product_name, services.description, services.price, material_items_budget.quantity AS material_quantity, material_items_budget.value, workshop_expense_items_budget.accumulated_value, workshop_expense_items_budget.type, materials.name AS material_name, clients.name AS client_name, payments.id AS payment_id, payments.specie, payments.number_of_installments, payments.amount_to_pay FROM budgets LEFT JOIN clients ON clients.id = budgets.client_id LEFT JOIN items_budget ON items_budget.budget_id = budgets.id LEFT JOIN material_items_budget on material_items_budget.item_budget_id = items_budget.id LEFT JOIN materials ON materials.id = material_items_budget.material_id LEFT JOIN workshop_expense_items_budget ON workshop_expense_items_budget.item_budget_id = items_budget.id LEFT JOIN products ON products.id = items_budget.product_id LEFT JOIN services ON services.id = items_budget.service_id LEFT JOIN payments ON payments.budget_id = budgets.id');
+          'SELECT budgets.id, budgets.value_total, budgets.status, budgets.created_at, budgets.order_id, items_budget.id AS item_budget_id, items_budget.sub_value, items_budget.unitary_value, items_budget.quantity, products.name AS product_name, services.description, services.price, material_items_budget.quantity AS material_quantity, material_items_budget.value, workshop_expense_items_budget.accumulated_value, workshop_expense_items_budget.type, materials.name AS material_name, clients.name AS client_name, payments.id AS payment_id, payments.specie, payments.number_of_installments, payments.amount_paid, payments.amount_to_pay FROM budgets LEFT JOIN clients ON clients.id = budgets.client_id LEFT JOIN items_budget ON items_budget.budget_id = budgets.id LEFT JOIN material_items_budget on material_items_budget.item_budget_id = items_budget.id LEFT JOIN materials ON materials.id = material_items_budget.material_id LEFT JOIN workshop_expense_items_budget ON workshop_expense_items_budget.item_budget_id = items_budget.id LEFT JOIN products ON products.id = items_budget.product_id LEFT JOIN services ON services.id = items_budget.service_id LEFT JOIN payments ON payments.budget_id = budgets.id');
 
       return Right(budgets);
     } catch (_) {

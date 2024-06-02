@@ -80,171 +80,175 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: 'Pedido: ',
-                            style: textStyleSmallFontWeight,
-                          ),
-                          TextSpan(
-                            text: budget.orderId.toString().padLeft(5, '0'),
-                            style: textStyleSmallDefault,
-                          ),
-                        ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            const TextSpan(
+                              text: 'Pedido: ',
+                              style: textStyleSmallFontWeight,
+                            ),
+                            TextSpan(
+                              text: budget.orderId.toString().padLeft(5, '0'),
+                              style: textStyleSmallDefault,
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Text(
-                      budget.client!.name,
-                      style: textStyleSmallFontWeight,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(
-                vertical: 10,
-              ),
-              decoration: BoxDecoration(
-                border: Border.symmetric(
-                  horizontal: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                    width: 2,
+                      Text(
+                        budget.client!.name,
+                        style: textStyleSmallFontWeight,
+                      ),
+                    ],
                   ),
                 ),
               ),
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    const TextSpan(
-                      text: 'Quantia a pagar: ',
-                      style: textStyleSmallFontWeight,
-                    ),
-                    TextSpan(
-                      text: UtilsService.moneyToCurrency(amountToPay),
-                      style: TextStyle(
-                        fontFamily: 'Anta',
-                        fontSize: textStyleSmallDefault.fontSize,
-                      ),
-                    ),
-                  ],
+              Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: TextFormField(
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontFamily: 'Anta', fontSize: 30),
-                controller: amountReceivedEC,
-                decoration: InputDecoration(
-                  floatingLabelAlignment: FloatingLabelAlignment.center,
-                  suffixIcon: amountReceivedEC.numberValue > 0
-                      ? IconButton(
-                          onPressed: () {
-                            setState(() {
-                              amountReceivedEC.updateValue(0);
-                              calculateOutstandingBalance(
-                                  budget.payment!.amountPaid);
-                              amountReceived = 0;
-                            });
-                          },
-                          icon: const Icon(
-                            Icons.close,
-                            size: 28,
-                          ),
-                        )
-                      : IconButton(
-                          onPressed: () {
-                            amountReceivedEC.updateValue(amountToPay);
-                            amountReceived = amountReceivedEC.numberValue;
-                            setState(() {});
-                          },
-                          icon: const Icon(
-                            Icons.restore,
-                            size: 28,
-                          ),
+                decoration: BoxDecoration(
+                  border: Border.symmetric(
+                    horizontal: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                      width: 2,
+                    ),
+                  ),
+                ),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: 'Quantia a pagar: ',
+                        style: textStyleSmallFontWeight,
+                      ),
+                      TextSpan(
+                        text: UtilsService.moneyToCurrency(amountToPay),
+                        style: TextStyle(
+                          fontFamily: 'Anta',
+                          fontSize: textStyleSmallDefault.fontSize,
                         ),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    amountReceived = amountReceivedEC.numberValue;
-                    calculateOutstandingBalance(amountReceived);
-                  });
-                },
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 5, bottom: 15),
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Theme.of(context).primaryColor.withOpacity(.5),
-              ),
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                        text: amountReceived < amountToPay
-                            ? 'Á receber: '
-                            : 'Troco: ',
-                        style: textStyleSmallFontWeight),
-                    TextSpan(
-                      text: UtilsService.moneyToCurrency(
-                        calculateOutstandingBalance(amountReceived),
                       ),
-                      style: TextStyle(
-                        fontFamily: 'Anta',
-                        fontSize: textStyleSmallDefault.fontSize,
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: TextFormField(
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontFamily: 'Anta', fontSize: 30),
+                  controller: amountReceivedEC,
+                  decoration: InputDecoration(
+                    floatingLabelAlignment: FloatingLabelAlignment.center,
+                    suffixIcon: amountReceivedEC.numberValue > 0
+                        ? IconButton(
+                            onPressed: () {
+                              setState(() {
+                                amountReceivedEC.updateValue(0);
+                                calculateOutstandingBalance(
+                                    budget.payment!.amountPaid);
+                                amountReceived = 0;
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                              size: 28,
+                            ),
+                          )
+                        : IconButton(
+                            onPressed: () {
+                              amountReceivedEC.updateValue(amountToPay);
+                              amountReceived = amountReceivedEC.numberValue;
+                              setState(() {});
+                            },
+                            icon: const Icon(
+                              Icons.restore,
+                              size: 28,
+                            ),
+                          ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      amountReceived = amountReceivedEC.numberValue;
+                      calculateOutstandingBalance(amountReceived);
+                    });
+                  },
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 5, bottom: 15),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Theme.of(context).primaryColor.withOpacity(.5),
+                ),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                          text: amountReceived < amountToPay
+                              ? 'Á receber: '
+                              : 'Troco: ',
+                          style: textStyleSmallFontWeight),
+                      TextSpan(
+                        text: UtilsService.moneyToCurrency(
+                          calculateOutstandingBalance(amountReceived),
+                        ),
+                        style: TextStyle(
+                          fontFamily: 'Anta',
+                          fontSize: textStyleSmallDefault.fontSize,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 3,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 20,
+              SizedBox(
+                height: 200,
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3,
+                    crossAxisSpacing: 15,
+                    mainAxisSpacing: 20,
+                  ),
+                  itemCount: paymentOptionList.length,
+                  itemBuilder: (context, index) {
+                    final paymentOption = paymentOptionList[index];
+                    return PersonalizedPaymentButton(
+                      icon: paymentOption['icon'],
+                      label: paymentOption['label'],
+                      backgroundColor: paymentOption['isSelected'] == true
+                          ? Colors.purple
+                          : null,
+                      color: paymentOption['isSelected'] == true
+                          ? Colors.white
+                          : null,
+                      onTap: () {
+                        selectPaymentsButton(paymentOption);
+                        selectedPaymentMethod =
+                            paymentOption['isSelected'] ? paymentOption : {};
+                      },
+                    );
+                  },
                 ),
-                itemCount: paymentOptionList.length,
-                itemBuilder: (context, index) {
-                  final paymentOption = paymentOptionList[index];
-                  return PersonalizedPaymentButton(
-                    icon: paymentOption['icon'],
-                    label: paymentOption['label'],
-                    backgroundColor: paymentOption['isSelected'] == true
-                        ? Colors.purple
-                        : null,
-                    color: paymentOption['isSelected'] == true
-                        ? Colors.white
-                        : null,
-                    onTap: () {
-                      selectPaymentsButton(paymentOption);
-                      selectedPaymentMethod =
-                          paymentOption['isSelected'] ? paymentOption : {};
-                    },
-                  );
-                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -4,7 +4,7 @@ part 'payment_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class PaymentModel {
-  final int id;
+  int id;
   final String specie;
   double amountPaid;
   final double amountToPay;
