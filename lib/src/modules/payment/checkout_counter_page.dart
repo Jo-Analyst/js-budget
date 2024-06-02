@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:js_budget/src/models/payment_history_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_controller.dart';
+import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/modules/payment/widget/personalized_payment_button.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -17,6 +19,7 @@ class CheckoutCounterPage extends StatefulWidget {
 class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
   final budget = Injector.get<BudgetController>().model.value;
   final paymentController = Injector.get<PaymentController>();
+  final paymentHistoryController = Injector.get<PaymentHistoryController>();
   final amountReceivedEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   double result = 0, amountReceived = 0, amountToPay = 0;
   Map<String, dynamic> selectedPaymentMethod = {};
@@ -61,14 +64,24 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
         title: const Text('Pagamento'),
         actions: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
+              var nav = Navigator.of(context);
               bool isvalid = paymentController.validade(
                   selectedPaymentMethod, amountReceivedEC.numberValue);
 
               if (isvalid) {
-                budget.payment!.amountPaid = amountReceivedEC.numberValue;
-                paymentController.addNewPayment(budget.payment!);
-                Navigator.of(context).pop();
+                // budget.payment!.amountPaid = amountReceivedEC.numberValue;
+                // paymentController.addNewPayment(budget.payment!);
+
+                await paymentHistoryController.save(
+                  PaymentHistoryModel(
+                      specie: selectedPaymentMethod['label'],
+                      amountPaid: amountReceivedEC.numberValue,
+                      datePayment: DateTime.now().toIso8601String(),
+                      paymentId: budget.payment!.id),
+                );
+
+                nav.pop();
               }
             },
             icon: const Icon(

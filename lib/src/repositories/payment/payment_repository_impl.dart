@@ -26,7 +26,8 @@ class PaymentRepositoryImpl implements PaymentRepository {
   Future<void> deletePayment(Transaction txn, int budgetId) async {
     int paymentId = await _findByBudgetId(txn, budgetId);
     await txn.delete('payments', where: 'budget_id = ?', whereArgs: [budgetId]);
-    await PaymentHistoryRepositoryImpl().deletePaymentHistory(txn, paymentId);
+    await PaymentHistoryRepositoryImpl()
+        .deletePaymentHistoryByPaymentId(txn, paymentId);
   }
 
   Future<int> _findByBudgetId(Transaction txn, int budgetId) async {
@@ -39,7 +40,6 @@ class PaymentRepositoryImpl implements PaymentRepository {
   Future<Either<RespositoryException, Unit>> updatePayment(
       PaymentModel payment) async {
     try {
-      print(payment.toJson());
       final db = await DataBase.openDatabase();
       await db.update(
           'payments',

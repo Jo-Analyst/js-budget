@@ -8,7 +8,7 @@ part of 'payment_history_model.dart';
 
 PaymentHistoryModel _$PaymentHistoryModelFromJson(Map<String, dynamic> json) =>
     PaymentHistoryModel(
-      id: json['id'] as int,
+      id: json['id'] as int? ?? 0,
       specie: json['specie'] as String,
       amountPaid: (json['amount_paid'] as num).toDouble(),
       datePayment: json['date_payment'] as String,

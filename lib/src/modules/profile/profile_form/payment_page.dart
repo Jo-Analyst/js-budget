@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
@@ -16,6 +17,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   String search = '';
   final budgetController = Injector.get<BudgetController>();
+  final paymentHitoryController = Injector.get<PaymentHistoryController>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +77,15 @@ class _PaymentPageState extends State<PaymentPage> {
                       itemBuilder: (_, index) {
                         var budget = budgets[index];
                         return GestureDetector(
-                          onTap: () {
+                          onTap: () async {
+                            var nav = Navigator.of(context);
                             budgetController.model.value = budget;
-                            Navigator.of(context)
-                                .pushNamed('/payment/checkout-counter');
+                            bool existPayments = await paymentHitoryController
+                                .existsPayment(budget.payment!.id);
+
+                            nav.pushNamed(existPayments
+                                ? '/payment/history-payment'
+                                : '/payment/checkout-counter');
                           },
                           child: Card(
                             margin: const EdgeInsets.only(bottom: 10),

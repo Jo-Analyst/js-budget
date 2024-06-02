@@ -11,7 +11,7 @@ class PaymentHistoryModel {
   final String datePayment;
   final int paymentId;
   PaymentHistoryModel({
-    required this.id,
+    this.id = 0,
     required this.specie,
     required this.amountPaid,
     required this.datePayment,
