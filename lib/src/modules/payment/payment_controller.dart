@@ -2,6 +2,7 @@
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
+import 'package:js_budget/src/models/payment_history_model.dart';
 import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/repositories/payment/payment_repository.dart';
@@ -26,15 +27,16 @@ class PaymentController with Messages {
     return isValid;
   }
 
-  Future<void> addNewPayment(PaymentModel payment) async {
+  Future<void> addNewPayment(
+      PaymentModel payment, PaymentHistoryModel paymentHistoryModel) async {
     final budgetController = Injector.get<BudgetController>();
-    final results = await _paymentRepository.updatePayment(payment);
+    final results = await _paymentRepository.save(payment, paymentHistoryModel);
 
     switch (results) {
       case Right():
         for (var budget in budgetController.data.value) {
           if (budget.payment!.budgetId == payment.budgetId) {
-            budget.payment = payment;
+            budget.payment!.amountPaid += paymentHistoryModel.amountPaid;
           }
         }
       case Left():

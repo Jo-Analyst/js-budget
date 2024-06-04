@@ -36,8 +36,8 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
 
   void selectPaymentsButton(Map<String, dynamic> paymentOption) {
     for (var list in paymentOptionList) {
-      list['isSelected'] = list['label'] == paymentOption['label'] &&
-          !paymentOption['isSelected'];
+      list['isSelected'] = list['label'].toString().toLowerCase() ==
+          paymentOption['label'].toString().toLowerCase();
     }
 
     setState(() {});
@@ -49,6 +49,17 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
     amountToPay = budget.payment!.amountToPay - budget.payment!.amountPaid;
     amountReceivedEC.updateValue(amountToPay);
     amountReceived = amountReceivedEC.numberValue;
+    selectedPaymentMethod = {
+      'label': budget.payment!.specie,
+      'isSelected': false
+    };
+    selectPaymentsButton(selectedPaymentMethod);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    amountReceivedEC.dispose();
   }
 
   double calculateOutstandingBalance(double amountReceived) {
@@ -70,15 +81,14 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                   selectedPaymentMethod, amountReceivedEC.numberValue);
 
               if (isvalid) {
-                // budget.payment!.amountPaid = amountReceivedEC.numberValue;
-                // paymentController.addNewPayment(budget.payment!);
-
-                await paymentHistoryController.save(
+                paymentController.addNewPayment(
+                  budget.payment!,
                   PaymentHistoryModel(
-                      specie: selectedPaymentMethod['label'],
-                      amountPaid: amountReceivedEC.numberValue,
-                      datePayment: DateTime.now().toIso8601String(),
-                      paymentId: budget.payment!.id),
+                    specie: selectedPaymentMethod['label'],
+                    amountPaid: amountReceivedEC.numberValue,
+                    datePayment: DateTime.now().toIso8601String(),
+                    paymentId: budget.payment!.id,
+                  ),
                 );
 
                 nav.pop();

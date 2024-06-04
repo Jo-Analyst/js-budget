@@ -19,8 +19,8 @@ class PaymentHistoryRepositoryImpl implements PaymentHistoryRepository {
       findByPaymentId(int paymentId) async {
     try {
       final db = await DataBase.openDatabase();
-      final payments = await db
-          .rawQuery('SELECT * FROM payment_history WHERE id = ?', [paymentId]);
+      final payments = await db.rawQuery(
+          'SELECT * FROM payment_history WHERE payment_id = ?', [paymentId]);
       return Right(payments);
     } catch (_) {
       return Left(RespositoryException());
@@ -28,20 +28,13 @@ class PaymentHistoryRepositoryImpl implements PaymentHistoryRepository {
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> save(
-      PaymentHistoryModel payment) async {
-    try {
-      final db = await DataBase.openDatabase();
-      await db.insert('payment_history', {
-        'specie': payment.specie,
-        'amount_paid': payment.amountPaid,
-        'date_payment': payment.datePayment,
-        'payment_id': payment.paymentId,
-      });
-      return Right(unit);
-    } catch (_) {
-      return Left(RespositoryException());
-    }
+  Future<int> save(Transaction txn, PaymentHistoryModel payment) async {
+    return await txn.insert('payment_history', {
+      'specie': payment.specie,
+      'amount_paid': payment.amountPaid,
+      'date_payment': payment.datePayment,
+      'payment_id': payment.paymentId,
+    });
   }
 
   @override

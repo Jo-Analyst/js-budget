@@ -5,11 +5,11 @@ part 'payment_history_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class PaymentHistoryModel {
-  final int id;
+  int id;
   final String specie;
   double amountPaid;
   final String datePayment;
-  final int paymentId;
+  int paymentId;
   PaymentHistoryModel({
     this.id = 0,
     required this.specie,

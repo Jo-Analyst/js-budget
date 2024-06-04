@@ -8,6 +8,6 @@ abstract interface class PaymentHistoryRepository {
   Future<void> deletePaymentHistoryByPaymentId(Transaction txn, int paymentId);
   Future<Either<RespositoryException, List<Map<String, dynamic>>>>
       findByPaymentId(int paymentId);
-  Future<Either<RespositoryException, Unit>> save(PaymentHistoryModel payment);
+  Future<int> save(Transaction txn, PaymentHistoryModel payment);
   Future<Either<RespositoryException, Unit>> delete(int id);
 }

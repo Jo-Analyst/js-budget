@@ -1,14 +1,19 @@
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
+import 'package:js_budget/src/models/payment_history_model.dart';
 import 'package:js_budget/src/models/payment_model.dart';
+import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/repositories/history_payment/payment_history_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'payment_repository.dart';
 
 class PaymentRepositoryImpl implements PaymentRepository {
+  final _paymentHistory = PaymentHistoryRepositoryImpl();
+
   @override
   Future<int> savePayment(Transaction txn, PaymentModel payment) async {
     final lastId = await txn.insert('payments', {
@@ -37,17 +42,33 @@ class PaymentRepositoryImpl implements PaymentRepository {
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> updatePayment(
-      PaymentModel payment) async {
+  Future<Either<RespositoryException, Unit>> save(
+      PaymentModel payment, PaymentHistoryModel paymentHistoryModel) async {
+    final paymentHistoryController = Injector.get<PaymentHistoryController>();
     try {
       final db = await DataBase.openDatabase();
-      await db.update(
-          'payments',
-          {
-            'amount_paid': payment.amountPaid,
-          },
-          where: 'id = ?',
-          whereArgs: [payment.id]);
+      await db.transaction(
+        (txn) async {
+          int paymentId = payment.id;
+          if (paymentId > 0) {
+            await txn.rawUpdate(
+                'UPDATE payments SET amount_paid = amount_paid + ?  WHERE id = ?',
+                [paymentHistoryModel.amountPaid, paymentId]);
+          } else {
+            paymentId = await txn.insert('payments', {
+              'specie': paymentHistoryModel.specie,
+              'amount_paid': paymentHistoryModel.amountPaid,
+              'amount_to_pay': payment.amountToPay,
+              'number_of_installments': payment.numberOfInstallments,
+              'budget_id': payment.budgetId,
+            });
+          }
+
+          paymentHistoryModel.paymentId = paymentId;
+          paymentHistoryModel.id =
+              await _paymentHistory.save(txn, paymentHistoryModel);
+        },
+      );
 
       return Right(unit);
     } catch (_) {

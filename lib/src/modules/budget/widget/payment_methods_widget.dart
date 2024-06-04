@@ -19,7 +19,7 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
   List<Map<String, dynamic>> paymentsMethods = [
     {'methods': 'Nenhum', 'isChecked': false},
     {'methods': 'Dinheiro', 'isChecked': false},
-    {'methods': 'PIX', 'isChecked': false},
+    {'methods': 'Pix', 'isChecked': false},
     {'methods': 'Crédito', 'isChecked': false},
     {'methods': 'Débito', 'isChecked': false},
   ];

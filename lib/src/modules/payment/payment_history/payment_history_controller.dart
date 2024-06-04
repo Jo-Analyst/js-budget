@@ -27,17 +27,6 @@ class PaymentHistoryController with Messages {
     return existsPayment;
   }
 
-  Future<void> save(PaymentHistoryModel payment) async {
-    final results = await _paymentHistoryRepository.save(payment);
-
-    switch (results) {
-      case Right():
-        showInfo('Pagamento realizado com sucesso');
-      case Left():
-        showError('Houve um erro ao fazer o pagamento');
-    }
-  }
-
   Future<void> findPaymentHistory(int paymentId) async {
     _data.clear();
     final results = await _paymentHistoryRepository.findByPaymentId(paymentId);

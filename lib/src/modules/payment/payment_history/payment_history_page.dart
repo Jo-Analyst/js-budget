@@ -35,10 +35,27 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    var nav = Navigator.of(context);
     payments = paymentHistoryController.data.watch(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Histórico de pagamentos'),
+        actions: [
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: IconButton(
+              tooltip: 'Adicionar novo pagamento',
+              icon: const Icon(
+                Icons.add_card_outlined,
+                size: 30,
+              ),
+              onPressed: () {
+                nav.pushNamed('/payment/checkout-counter');
+              },
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -87,7 +104,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
               Card(
                 margin: const EdgeInsets.only(top: 10),
                 child: ListViewTile(
-                  title: 'Histórico de pagamentos',
+                  title: 'Pagamentos',
                   children: payments.map((payment) {
                     final (year, month, day) =
                         UtilsService.extractDate(payment.datePayment);
@@ -123,6 +140,10 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                               if (confirm) {
                                 paymentHistoryController
                                     .deletePayment(payment.id);
+
+                                if (paymentHistoryController.data.length == 1) {
+                                  nav.pop();
+                                }
                               }
                             },
                           ),
