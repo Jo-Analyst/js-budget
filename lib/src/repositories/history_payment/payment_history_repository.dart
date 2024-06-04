@@ -9,5 +9,5 @@ abstract interface class PaymentHistoryRepository {
   Future<Either<RespositoryException, List<Map<String, dynamic>>>>
       findByPaymentId(int paymentId);
   Future<int> save(Transaction txn, PaymentHistoryModel payment);
-  Future<Either<RespositoryException, Unit>> delete(int id);
+  Future<Either<RespositoryException, Unit>> delete(int id, double amountPaid, int paymentId);
 }

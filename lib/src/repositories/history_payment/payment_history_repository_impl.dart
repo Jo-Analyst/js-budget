@@ -3,10 +3,12 @@ import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/payment_history_model.dart';
+import 'package:js_budget/src/repositories/payment/payment_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
 import './payment_history_repository.dart';
 
 class PaymentHistoryRepositoryImpl implements PaymentHistoryRepository {
+  final _paymentRepository = PaymentRepositoryImpl();
   @override
   Future<void> deletePaymentHistoryByPaymentId(
       Transaction txn, int paymentId) async {
@@ -38,10 +40,17 @@ class PaymentHistoryRepositoryImpl implements PaymentHistoryRepository {
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> delete(int id) async {
+  Future<Either<RespositoryException, Unit>> delete(
+      int id, double amountPaid, int paymentId) async {
     try {
       final db = await DataBase.openDatabase();
-      await db.delete('payment_history', where: 'id = ?', whereArgs: [id]);
+      await db.transaction(
+        (txn) async {
+          await txn.delete('payment_history', where: 'id = ?', whereArgs: [id]);
+          await _paymentRepository.updateAmountPaidByDecrement(
+              txn, amountPaid, paymentId);
+        },
+      );
       return Right(unit);
     } catch (_) {
       return Left(RespositoryException());

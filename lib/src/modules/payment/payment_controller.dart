@@ -37,7 +37,7 @@ class PaymentController with Messages {
     switch (results) {
       case Right():
         for (var budget in budgetController.data.value) {
-          if (budget.payment!.budgetId == payment.budgetId) {
+          if (budget.payment!.id == payment.id) {
             budget.payment!.amountPaid += paymentHistoryModel.amountPaid;
           }
         }

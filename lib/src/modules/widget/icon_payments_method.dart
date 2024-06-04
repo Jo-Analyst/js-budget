@@ -15,7 +15,9 @@ Icon? iconPaymentsMethod(String methodPayment) {
       colorIcon = Colors.blueGrey;
     default:
       icons = Icons.payment;
-      colorIcon = Colors.purple;
+      colorIcon = methodPayment.toLowerCase() == 'débito'
+          ? const Color.fromARGB(255, 45, 76, 102)
+          : Colors.red;
   }
 
   return Icon(icons, color: colorIcon, size: 30);

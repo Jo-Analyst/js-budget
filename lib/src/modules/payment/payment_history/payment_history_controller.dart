@@ -1,6 +1,8 @@
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/payment_history_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/repositories/history_payment/payment_history_repository.dart';
 import 'package:js_budget/src/repositories/history_payment/tranform_payment_history_json.dart';
 import 'package:signals/signals.dart';
@@ -39,12 +41,19 @@ class PaymentHistoryController with Messages {
     }
   }
 
-  Future<void> deletePayment(int id) async {
-    final results = await _paymentHistoryRepository.delete(id);
+  Future<void> deletePayment(int id, double amountPaid, int paymentId) async {
+    final budgetController = Injector.get<BudgetController>();
+    final results =
+        await _paymentHistoryRepository.delete(id, amountPaid, paymentId);
 
     switch (results) {
       case Right():
         _data.removeWhere((data) => data.id == id);
+        for (var budget in budgetController.data.value) {
+          if (budget.payment!.id == paymentId) {
+            budget.payment!.amountPaid -= amountPaid;
+          }
+        }
       case Left():
         showError('Houve um erro ao buscar o pagamento');
     }

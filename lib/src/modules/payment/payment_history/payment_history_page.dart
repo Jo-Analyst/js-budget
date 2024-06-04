@@ -20,7 +20,7 @@ class PaymentHistoryPage extends StatefulWidget {
 class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
   final budgetController = Injector.get<BudgetController>();
   final paymentHistoryController = Injector.get<PaymentHistoryController>();
-  List<PaymentHistoryModel> payments = [];
+  List<PaymentHistoryModel> paymentHistory = [];
   @override
   void initState() {
     super.initState();
@@ -36,7 +36,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
   @override
   Widget build(BuildContext context) {
     var nav = Navigator.of(context);
-    payments = paymentHistoryController.data.watch(context);
+    paymentHistory = paymentHistoryController.data.watch(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -105,7 +105,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                 margin: const EdgeInsets.only(top: 10),
                 child: ListViewTile(
                   title: 'Pagamentos',
-                  children: payments.map((payment) {
+                  children: paymentHistory.map((payment) {
                     final (year, month, day) =
                         UtilsService.extractDate(payment.datePayment);
                     return Column(
@@ -138,8 +138,10 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                                   false;
 
                               if (confirm) {
-                                paymentHistoryController
-                                    .deletePayment(payment.id);
+                                paymentHistoryController.deletePayment(
+                                    payment.id,
+                                    payment.amountPaid,
+                                    payment.paymentId);
 
                                 if (paymentHistoryController.data.length == 1) {
                                   nav.pop();

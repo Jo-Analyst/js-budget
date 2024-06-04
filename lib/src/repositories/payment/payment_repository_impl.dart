@@ -10,8 +10,6 @@ import 'package:sqflite/sqflite.dart';
 import 'payment_repository.dart';
 
 class PaymentRepositoryImpl implements PaymentRepository {
-  final _paymentHistory = PaymentHistoryRepositoryImpl();
-
   @override
   Future<int> savePayment(Transaction txn, PaymentModel payment) async {
     final lastId = await txn.insert('payments', {
@@ -62,8 +60,8 @@ class PaymentRepositoryImpl implements PaymentRepository {
           }
 
           paymentHistoryModel.paymentId = paymentId;
-          paymentHistoryModel.id =
-              await _paymentHistory.save(txn, paymentHistoryModel);
+          paymentHistoryModel.id = await PaymentHistoryRepositoryImpl()
+              .save(txn, paymentHistoryModel);
         },
       );
 
@@ -71,5 +69,13 @@ class PaymentRepositoryImpl implements PaymentRepository {
     } catch (_) {
       return Left(RespositoryException());
     }
+  }
+
+  @override
+  Future<void> updateAmountPaidByDecrement(
+      Transaction txn, double amountPaid, int paymentId) async {
+    await txn.rawUpdate(
+        'UPDATE payments SET amount_paid = amount_paid - ?  WHERE id = ?',
+        [amountPaid, paymentId]);
   }
 }

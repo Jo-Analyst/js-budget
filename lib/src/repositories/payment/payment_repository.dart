@@ -7,6 +7,9 @@ import 'package:sqflite/sqflite.dart';
 
 abstract interface class PaymentRepository {
   Future<void> savePayment(Transaction txn, PaymentModel payment);
-  Future<Either<RespositoryException, Unit>> save(PaymentModel payment, PaymentHistoryModel paymentHistoryModel);
+  Future<Either<RespositoryException, Unit>> save(
+      PaymentModel payment, PaymentHistoryModel paymentHistoryModel);
   Future<void> deletePayment(Transaction txn, int budgetId);
+  Future<void> updateAmountPaidByDecrement(
+      Transaction txn, double amountPaid, int paymentId);
 }
