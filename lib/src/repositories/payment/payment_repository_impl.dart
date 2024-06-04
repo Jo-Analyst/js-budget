@@ -1,11 +1,9 @@
-import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/payment_history_model.dart';
 import 'package:js_budget/src/models/payment_model.dart';
-import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/repositories/history_payment/payment_history_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -44,7 +42,6 @@ class PaymentRepositoryImpl implements PaymentRepository {
   @override
   Future<Either<RespositoryException, Unit>> save(
       PaymentModel payment, PaymentHistoryModel paymentHistoryModel) async {
-    final paymentHistoryController = Injector.get<PaymentHistoryController>();
     try {
       final db = await DataBase.openDatabase();
       await db.transaction(

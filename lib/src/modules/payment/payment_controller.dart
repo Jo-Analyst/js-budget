@@ -5,6 +5,7 @@ import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/payment_history_model.dart';
 import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/repositories/payment/payment_repository.dart';
 
 class PaymentController with Messages {
@@ -30,6 +31,7 @@ class PaymentController with Messages {
   Future<void> addNewPayment(
       PaymentModel payment, PaymentHistoryModel paymentHistoryModel) async {
     final budgetController = Injector.get<BudgetController>();
+    final paymentHistoryController = Injector.get<PaymentHistoryController>();
     final results = await _paymentRepository.save(payment, paymentHistoryModel);
 
     switch (results) {
@@ -39,6 +41,7 @@ class PaymentController with Messages {
             budget.payment!.amountPaid += paymentHistoryModel.amountPaid;
           }
         }
+        paymentHistoryController.addNewPaymentHistory(paymentHistoryModel);
       case Left():
         showError('Houve um erro ao gerar o pagamento');
     }

@@ -170,38 +170,33 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: TextFormField(
+                  onTapOutside: (_) => FocusScope.of(context).unfocus(),
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontFamily: 'Anta', fontSize: 30),
                   controller: amountReceivedEC,
                   decoration: InputDecoration(
-                    floatingLabelAlignment: FloatingLabelAlignment.center,
-                    suffixIcon: amountReceivedEC.numberValue > 0
-                        ? IconButton(
-                            onPressed: () {
-                              setState(() {
-                                amountReceivedEC.updateValue(0);
-                                calculateOutstandingBalance(
-                                    budget.payment!.amountPaid);
-                                amountReceived = 0;
-                              });
-                            },
-                            icon: const Icon(
-                              Icons.close,
-                              size: 28,
-                            ),
-                          )
-                        : IconButton(
-                            onPressed: () {
+                      floatingLabelAlignment: FloatingLabelAlignment.center,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            if (amountReceivedEC.numberValue > 0) {
+                              amountReceivedEC.updateValue(0);
+                              calculateOutstandingBalance(
+                                  budget.payment!.amountPaid);
+                              amountReceived = 0;
+                            } else {
                               amountReceivedEC.updateValue(amountToPay);
                               amountReceived = amountReceivedEC.numberValue;
-                              setState(() {});
-                            },
-                            icon: const Icon(
-                              Icons.restore,
-                              size: 28,
-                            ),
-                          ),
-                  ),
+                            }
+                          });
+                        },
+                        icon: Icon(
+                          amountReceivedEC.numberValue > 0
+                              ? Icons.close
+                              : Icons.restore,
+                          size: 28,
+                        ),
+                      )),
                   onChanged: (value) {
                     setState(() {
                       amountReceived = amountReceivedEC.numberValue;

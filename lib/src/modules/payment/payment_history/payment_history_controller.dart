@@ -49,4 +49,8 @@ class PaymentHistoryController with Messages {
         showError('Houve um erro ao buscar o pagamento');
     }
   }
+
+  void addNewPaymentHistory(PaymentHistoryModel paymentHistoryModel) {
+    _data.add(paymentHistoryModel);
+  }
 }
