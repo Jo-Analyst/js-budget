@@ -26,6 +26,10 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
     super.initState();
 
     loadPayments();
+    print(budgetController.model.value.payment!.amountToPay ==
+        paymentHistoryController.amountPaid.value);
+    print(paymentHistoryController.amountPaid.value);
+    print(budgetController.model.value.payment!.amountToPay);
   }
 
   Future<void> loadPayments() async {
@@ -42,17 +46,21 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
       appBar: AppBar(
         title: const Text('Histórico de pagamentos'),
         actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              tooltip: 'Adicionar novo pagamento',
-              icon: const Icon(
-                Icons.add_card_outlined,
-                size: 30,
+          Visibility(
+            visible: paymentHistoryController.amountPaid.value <
+                budgetController.model.value.payment!.amountToPay,
+            child: Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: IconButton(
+                tooltip: 'Adicionar novo pagamento',
+                icon: const Icon(
+                  Icons.add_card_outlined,
+                  size: 30,
+                ),
+                onPressed: () {
+                  nav.pushNamed('/payment/checkout-counter');
+                },
               ),
-              onPressed: () {
-                nav.pushNamed('/payment/checkout-counter');
-              },
             ),
           )
         ],

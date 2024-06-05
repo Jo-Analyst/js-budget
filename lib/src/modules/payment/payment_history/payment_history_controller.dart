@@ -16,6 +16,8 @@ class PaymentHistoryController with Messages {
   final _data = ListSignal<PaymentHistoryModel>([]);
   ListSignal<PaymentHistoryModel> get data => _data;
 
+  final amountPaid = signal<double>(0.0);
+
   Future<bool> existsPayment(int paymentId) async {
     bool existsPayment = false;
     final results = await _paymentHistoryRepository.findByPaymentId(paymentId);
@@ -36,6 +38,7 @@ class PaymentHistoryController with Messages {
     switch (results) {
       case Right(value: final payments):
         _data.addAll(TranformPaymentHistoryJson.fromJson(payments));
+        _sumAmountPaid();
       case Left():
         showError('Houve um erro ao buscar o pagamento');
     }
@@ -54,6 +57,8 @@ class PaymentHistoryController with Messages {
             budget.payment!.amountPaid -= amountPaid;
           }
         }
+        this.amountPaid.value -= amountPaid;
+
       case Left():
         showError('Houve um erro ao buscar o pagamento');
     }
@@ -61,5 +66,13 @@ class PaymentHistoryController with Messages {
 
   void addNewPaymentHistory(PaymentHistoryModel paymentHistoryModel) {
     _data.add(paymentHistoryModel);
+    amountPaid.value += paymentHistoryModel.amountPaid;
+  }
+
+  void _sumAmountPaid() {
+    amountPaid.value = 0;
+    for (var payment in _data) {
+      amountPaid.value += payment.amountPaid;
+    }
   }
 }

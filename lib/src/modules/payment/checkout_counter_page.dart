@@ -23,6 +23,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
   final amountReceivedEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   double result = 0, amountReceived = 0, amountToPay = 0;
   Map<String, dynamic> selectedPaymentMethod = {};
+  DateTime dateSelected = DateTime.now();
   List<Map<String, dynamic>> paymentOptionList = [
     {
       'icon': Icons.monetization_on_outlined,
@@ -88,7 +89,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                     amountPaid: amountReceived > amountToPay
                         ? amountToPay
                         : amountReceivedEC.numberValue,
-                    datePayment: DateTime.now().toIso8601String(),
+                    datePayment: dateSelected.toIso8601String(),
                     paymentId: budget.payment!.id,
                   ),
                 );
@@ -109,6 +110,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              // dettalhes iniciais
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Padding(
@@ -138,6 +140,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                   ),
                 ),
               ),
+              // Quantia a pagar
               Container(
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(
@@ -169,6 +172,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                   ),
                 ),
               ),
+              // TextFormField para valor pago
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: TextFormField(
@@ -207,6 +211,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                   },
                 ),
               ),
+              // Troco ou a receber
               Container(
                 margin: const EdgeInsets.only(top: 5, bottom: 15),
                 padding: const EdgeInsets.symmetric(vertical: 10),
@@ -236,15 +241,46 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                   ),
                 ),
               ),
+              // calendário do mês
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    UtilsService.dateFormat(dateSelected),
+                    style: textStyleSmallDefault,
+                  ),
+                  const SizedBox(width: 6),
+                  IconButton(
+                      onPressed: () {
+                        showDatePicker(
+                          firstDate: DateTime(2020),
+                          context: context,
+                          lastDate: DateTime.now(),
+                          initialDate: dateSelected,
+                        ).then((date) {
+                          if (date != null) {
+                            setState(() {
+                              dateSelected = date;
+                            });
+                          }
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.calendar_month_outlined,
+                        size: 30,
+                      ))
+                ],
+              ),
+              // Meios de pagamentos
               SizedBox(
-                height: 200,
+                height: 150,
                 child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 3,
                     crossAxisSpacing: 15,
-                    mainAxisSpacing: 20,
+                    mainAxisSpacing: 15,
                   ),
                   itemCount: paymentOptionList.length,
                   itemBuilder: (context, index) {
