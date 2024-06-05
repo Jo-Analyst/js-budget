@@ -85,7 +85,9 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                   budget.payment!,
                   PaymentHistoryModel(
                     specie: selectedPaymentMethod['label'],
-                    amountPaid: amountReceivedEC.numberValue,
+                    amountPaid: amountReceived > amountToPay
+                        ? amountToPay
+                        : amountReceivedEC.numberValue,
                     datePayment: DateTime.now().toIso8601String(),
                     paymentId: budget.payment!.id,
                   ),
