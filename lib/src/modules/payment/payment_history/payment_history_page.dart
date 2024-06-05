@@ -26,10 +26,6 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
     super.initState();
 
     loadPayments();
-    print(budgetController.model.value.payment!.amountToPay ==
-        paymentHistoryController.amountPaid.value);
-    print(paymentHistoryController.amountPaid.value);
-    print(budgetController.model.value.payment!.amountToPay);
   }
 
   Future<void> loadPayments() async {
