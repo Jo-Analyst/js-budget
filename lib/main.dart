@@ -3,7 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/bindings/binding_initial_application.dart';
-// import 'package:js_budget/src/config/db/database.dart';
+import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/modules/budget/budget_module.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/workshop_module.dart';
@@ -27,9 +27,11 @@ void main() async {
     ),
   );
 
-  // final db = await DataBase.openDatabase();
-  // await db.execute(
-  //     'CREATE TABLE IF NOT EXISTS payment_history (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, payment_id INTEGER, FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE CASCADE)');
+  final db = await DataBase.openDatabase();
+  await db.execute('DROP TABLE workshop_expenses');
+  await db.execute(
+    'CREATE TABLE IF NOT EXISTS workshop_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL, material_id INTEGER, FOREIGN KEY (material_id) REFERENCES materials(id))',
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -90,8 +90,6 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                           TextSpan(
                             text: budgetController.model.value.orderId
                                 .toString()
-                                .padLeft(5, '0')
-                                .toString()
                                 .padLeft(5, '0'),
                             style: textStyleSmallDefault,
                           ),

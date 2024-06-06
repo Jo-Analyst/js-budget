@@ -25,7 +25,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   final controller = Injector.get<MaterialController>();
   final _formKey = GlobalKey<FormState>();
   int quantityInStock = 0;
-  bool isCkecked = true;
+  bool isCkecked = false;
   DateTime dateOfPurchase = DateTime.now();
   MaterialModel? material;
   String unit = 'Unidade';
@@ -86,10 +86,6 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                 visible: material != null,
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text(
-                    'Adicionar as alterações no mês atual',
-                    style: TextStyle(fontFamily: 'Poppins'),
-                  ),
                   leading: Switch(
                     value: isCkecked,
                     onChanged: (value) {
@@ -97,6 +93,10 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         isCkecked = value;
                       });
                     },
+                  ),
+                  title: const Text(
+                    'Alterar somente o estoque',
+                    style: TextStyle(fontFamily: 'Poppins'),
                   ),
                 ),
               ),
@@ -109,6 +109,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                   child: Column(
                     children: [
                       TextFormField(
+                        readOnly: isCkecked,
                         controller: nameEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         decoration: InputDecoration(
@@ -124,6 +125,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                             'Nome do material obrigatório.'),
                       ),
                       TextFormField(
+                        readOnly: isCkecked,
                         controller: typeMaterialEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         decoration: InputDecoration(
@@ -245,32 +247,40 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                           labelText: 'Unidade de medida',
                           suffixIcon: Icon(Icons.square_foot_sharp),
                         ),
-                        items: <String>[
-                          'Caixa',
-                          'Centímetro (cm)',
-                          'Centímetro quadrado (cm²)',
-                          'Centímetro cúbico (cm³)',
-                          'Grama (g)',
-                          'Metro (m)',
-                          'Metro quadrado (m²)',
-                          'Metro cúbico (m³)',
-                          'Milímetro (mm)',
-                          'Milímetro quadrado (mm²)',
-                          'Milímetro cúbico (mm³)',
-                          'Pacote',
-                          'Quilograma (kg)',
-                          'Unidade',
-                        ].map((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                        items: !isCkecked
+                            ? <String>[
+                                'Caixa',
+                                'Centímetro (cm)',
+                                'Centímetro quadrado (cm²)',
+                                'Centímetro cúbico (cm³)',
+                                'Grama (g)',
+                                'Metro (m)',
+                                'Metro quadrado (m²)',
+                                'Metro cúbico (m³)',
+                                'Milímetro (mm)',
+                                'Milímetro quadrado (mm²)',
+                                'Milímetro cúbico (mm³)',
+                                'Pacote',
+                                'Quilograma (kg)',
+                                'Unidade',
+                              ].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList()
+                            : [unit].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                         onChanged: (value) {
                           unit = value!;
                         },
                       ),
                       TextFormField(
+                        readOnly: isCkecked,
                         controller: priceMaterialEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         keyboardType: const TextInputType.numberWithOptions(
@@ -288,21 +298,25 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                               : null;
                         },
                       ),
-                      FieldDatePicker(
-                        controller: dateOfLastPurchaseEC,
-                        initialDate: dateOfPurchase,
-                        labelText: material != null
-                            ? 'Última data da compra'
-                            : 'Data da compra',
-                        onSelected: (date) {
-                          setState(() {
-                            dateOfPurchase = date;
-                          });
-                          dateOfLastPurchaseEC.text =
-                              UtilsService.dateFormat(date);
-                        },
+                      Visibility(
+                        visible: !isCkecked,
+                        child: FieldDatePicker(
+                          controller: dateOfLastPurchaseEC,
+                          initialDate: dateOfPurchase,
+                          labelText: material != null
+                              ? 'Última data da compra'
+                              : 'Data da compra',
+                          onSelected: (date) {
+                            setState(() {
+                              dateOfPurchase = date;
+                            });
+                            dateOfLastPurchaseEC.text =
+                                UtilsService.dateFormat(date);
+                          },
+                        ),
                       ),
                       TextFormField(
+                        readOnly: isCkecked,
                         controller: supplierEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         decoration: const InputDecoration(
@@ -313,6 +327,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         style: textStyleSmallDefault,
                       ),
                       TextFormField(
+                        readOnly: isCkecked,
                         controller: observationEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         maxLines: 5,

@@ -32,7 +32,7 @@ class DataBase {
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS workshop_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)',
+          'CREATE TABLE IF NOT EXISTS workshop_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL, material_id INTEGER, FOREIGN KEY (material_id) REFERENCES materials(id))',
         );
 
         db.execute(
