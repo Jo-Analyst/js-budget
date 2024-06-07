@@ -50,10 +50,9 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
     amountToPay = budget.payment!.amountToPay - budget.payment!.amountPaid;
     amountReceivedEC.updateValue(amountToPay);
     amountReceived = amountReceivedEC.numberValue;
-    selectedPaymentMethod = {
-      'label': budget.payment!.specie,
-      'isSelected': false
-    };
+    selectedPaymentMethod = budget.payment!.specie != 'Não definido'
+        ? {'label': budget.payment!.specie, 'isSelected': false}
+        : {};
     selectPaymentsButton(selectedPaymentMethod);
   }
 

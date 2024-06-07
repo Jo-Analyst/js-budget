@@ -298,22 +298,19 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                               : null;
                         },
                       ),
-                      Visibility(
-                        visible: !isCkecked,
-                        child: FieldDatePicker(
-                          controller: dateOfLastPurchaseEC,
-                          initialDate: dateOfPurchase,
-                          labelText: material != null
-                              ? 'Última data da compra'
-                              : 'Data da compra',
-                          onSelected: (date) {
-                            setState(() {
-                              dateOfPurchase = date;
-                            });
-                            dateOfLastPurchaseEC.text =
-                                UtilsService.dateFormat(date);
-                          },
-                        ),
+                      FieldDatePicker(
+                        controller: dateOfLastPurchaseEC,
+                        initialDate: dateOfPurchase,
+                        labelText: material != null
+                            ? 'Última data da compra'
+                            : 'Data da compra',
+                        onSelected: (date) {
+                          setState(() {
+                            dateOfPurchase = date;
+                          });
+                          dateOfLastPurchaseEC.text =
+                              UtilsService.dateFormat(date);
+                        },
                       ),
                       TextFormField(
                         readOnly: isCkecked,

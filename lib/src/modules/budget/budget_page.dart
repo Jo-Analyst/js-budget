@@ -113,7 +113,10 @@ class _BudgetPageState extends State<BudgetPage> {
                         amountToPay: valueTotalBudget,
                         numberOfInstallments: numberOfInstallments,
                       )
-                    : null;
+                    : PaymentModel(
+                        specie: 'Não definido',
+                        amountToPay: valueTotalBudget,
+                      );
 
                 final isError = await budgetController.save(budgetModel);
 

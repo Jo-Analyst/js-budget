@@ -13,6 +13,8 @@ Icon? iconPaymentsMethod(String methodPayment) {
     case 'dinheiro':
       icons = Icons.monetization_on_outlined;
       colorIcon = Colors.blueGrey;
+    case 'não definido':
+      icons = Icons.attach_money;
     default:
       icons = Icons.payment;
       colorIcon = methodPayment.toLowerCase() == 'débito'
