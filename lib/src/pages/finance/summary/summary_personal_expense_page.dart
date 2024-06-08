@@ -43,7 +43,7 @@ class SummaryPersonalExpensePage extends StatelessWidget {
                                 ListTile(
                                   leading: const Icon(Icons.money),
                                   title: Text(
-                                    expense.type,
+                                    expense.description,
                                     style: textStyleSmallDefault,
                                   ),
                                   subtitle: Text(

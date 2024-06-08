@@ -74,8 +74,8 @@ class WorkshopExpenseController with Messages {
     }
   }
 
-  Future<List<ExpenseModel>> findExpenseType(String type) async {
-    final results = await _expenseRepository.findByType(type);
+  Future<List<ExpenseModel>> findExpenseDescription(String description) async {
+    final results = await _expenseRepository.findByDescription(description);
     List<ExpenseModel> expensesModel = [];
 
     switch (results) {
@@ -84,14 +84,14 @@ class WorkshopExpenseController with Messages {
           expensesModel.add(TransformExpenseJson.fromJson(expense));
         }
       case Left():
-        showError('Houver erro ao buscar a conta $type');
+        showError('Houver erro ao buscar a conta $description');
     }
 
     return expensesModel;
   }
 
   Future<ExpenseModel?> findLastExpenseType(String type) async {
-    final results = await _expenseRepository.findMaxByType(type);
+    final results = await _expenseRepository.findMaxByDescription(type);
     ExpenseModel? expenseModel;
 
     switch (results) {

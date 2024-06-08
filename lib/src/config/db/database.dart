@@ -32,7 +32,7 @@ class DataBase {
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS workshop_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL, material_id INTEGER, FOREIGN KEY (material_id) REFERENCES materials(id))',
+          'CREATE TABLE IF NOT EXISTS workshop_expenses (id INTEGER PRIMARY KEY, description TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL, material_id INTEGER, FOREIGN KEY (material_id) REFERENCES materials(id))',
         );
 
         db.execute(
@@ -58,7 +58,7 @@ class DataBase {
             'CREATE TABLE IF NOT EXISTS workshop_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, divided_value REAL NOT NULL, accumulated_value REAL NOT NULL, type TEXT, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL)');
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS personal_expenses (id INTEGER PRIMARY KEY, type TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)',
+          'CREATE TABLE IF NOT EXISTS personal_expenses (id INTEGER PRIMARY KEY, description TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)',
         );
 
         db.execute(

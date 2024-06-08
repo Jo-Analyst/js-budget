@@ -9,9 +9,8 @@ abstract interface class WorkshopExpenseRepository {
   Future<Either<RespositoryException, Unit>> update(ExpenseModel expenseModel);
   Future<Either<RespositoryException, Unit>> delete(int id);
   Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
-  Future<Either<RespositoryException, List<Map<String, dynamic>>>> findByType(
+  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
+      findByDescription(String description);
+  Future<Either<RespositoryException, ExpenseModel?>> findMaxByDescription(
       String type);
-  Future<Either<RespositoryException, ExpenseModel?>> findMaxByType(
-      String type);
- 
 }

@@ -17,7 +17,7 @@ mixin WorkshopExpenseFormController on State<WorkshopExpenseFormPage> {
   }
 
   initializeForm(ExpenseModel expense) {
-    otherEC.text = expense.type;
+    otherEC.text = expense.description;
     expenseValueEC.updateValue(expense.value);
     expenseDateEC.text = expense.date;
     observationEC.text = expense.observation ?? '';
@@ -26,7 +26,7 @@ mixin WorkshopExpenseFormController on State<WorkshopExpenseFormPage> {
   ExpenseModel saveExpense(int id, String methodPayment, String type) {
     return ExpenseModel(
       id: id,
-      type: type,
+      description: type,
       value: expenseValueEC.numberValue,
       date: expenseDateEC.text.trim(),
       methodPayment: methodPayment,

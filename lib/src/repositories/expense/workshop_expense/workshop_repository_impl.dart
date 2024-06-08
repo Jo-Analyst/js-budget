@@ -6,6 +6,7 @@ import 'package:js_budget/src/models/expense_model.dart';
 
 import 'package:js_budget/src/repositories/expense/workshop_expense/workshop_repository.dart';
 import 'package:js_budget/src/repositories/expense/transform_expense_json.dart';
+import 'package:sqflite/sqflite.dart';
 
 class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
   @override
@@ -13,12 +14,19 @@ class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
       findAll() async {
     try {
       final db = await DataBase.openDatabase();
-      final expenses = await db.query('workshop_expenses');
+      final expenses =
+          await db.query('workshop_expenses', where: 'material_id IS NULL');
 
       return Right(expenses);
     } catch (_) {
       return Left(RespositoryException());
     }
+  }
+
+  Future<void> save(Transaction txn, ExpenseModel expense) async {
+    final data = TransformExpenseJson.toJson(expense);
+    data.remove('id');
+    await txn.insert('workshop_expenses', data);
   }
 
   @override
@@ -29,6 +37,7 @@ class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
       final db = await DataBase.openDatabase();
       final data = TransformExpenseJson.toJson(expense);
       data.remove('id');
+      data.remove('material_id');
       await db.transaction((txn) async {
         lastId = await txn.insert('workshop_expenses', data);
       });
@@ -46,6 +55,7 @@ class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
     try {
       final data = TransformExpenseJson.toJson(expense);
       final db = await DataBase.openDatabase();
+      data.remove('material_id');
       await db.transaction((txn) async {
         await txn.update('workshop_expenses', data,
             where: 'id = ?', whereArgs: [expense.id]);
@@ -72,12 +82,12 @@ class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
   }
 
   @override
-  Future<Either<RespositoryException, List<Map<String, dynamic>>>> findByType(
-      String type) async {
+  Future<Either<RespositoryException, List<Map<String, dynamic>>>>
+      findByDescription(String description) async {
     try {
       final db = await DataBase.openDatabase();
-      final expenses = await db
-          .query('workshop_expenses', where: 'type = ?', whereArgs: [type]);
+      final expenses = await db.query('workshop_expenses',
+          where: 'description = ?', whereArgs: [description]);
 
       return Right(expenses);
     } catch (_) {
@@ -86,17 +96,17 @@ class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
   }
 
   @override
-  Future<Either<RespositoryException, ExpenseModel?>> findMaxByType(
-      String type) async {
+  Future<Either<RespositoryException, ExpenseModel?>> findMaxByDescription(
+      String description) async {
     try {
       final db = await DataBase.openDatabase();
       final expenses = await db.rawQuery(
-          "SELECT * FROM workshop_expenses WHERE type = '$type' ORDER BY id DESC LIMIT 1");
+          "SELECT * FROM workshop_expenses WHERE description = '$description' ORDER BY id DESC LIMIT 1");
 
       return Right(
         expenses.isNotEmpty
             ? ExpenseModel(
-                type: expenses[0]['type'] as String,
+                description: expenses[0]['description'] as String,
                 value: expenses[0]['value'] as double,
                 date: expenses[0]['date'] as String,
                 methodPayment: expenses[0]['method_payment'] as String,

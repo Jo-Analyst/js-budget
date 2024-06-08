@@ -4,7 +4,7 @@ part 'material_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class MaterialModel {
-  final int id;
+  int id;
   final String name;
   final String? type;
   final String unit;

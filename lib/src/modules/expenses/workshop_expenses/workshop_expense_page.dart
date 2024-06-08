@@ -27,7 +27,7 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
     var filteredClients = controller.data
         .watch(context)
         .where((expense) =>
-            expense.type.toLowerCase().contains(search.toLowerCase()))
+            expense.description.toLowerCase().contains(search.toLowerCase()))
         .toList();
 
     var theme = Theme.of(context);
@@ -123,7 +123,7 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
                                   leading: const Icon(
                                       Icons.monetization_on_outlined),
                                   title: Text(
-                                    expense.type,
+                                    expense.description,
                                     style: textStyleSmallDefault,
                                   ),
                                   subtitle: Text(

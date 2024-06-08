@@ -30,6 +30,7 @@ class PersonalExpenseRepositoryImpl implements PersonalExpenseRepository {
       final db = await DataBase.openDatabase();
       final data = TransformExpenseJson.toJson(personalExpense);
       data.remove('id');
+      data.remove('material_id');
       await db.transaction((txn) async {
         lastId = await txn.insert('personal_expenses', data);
       });
@@ -47,6 +48,7 @@ class PersonalExpenseRepositoryImpl implements PersonalExpenseRepository {
     try {
       final data = TransformExpenseJson.toJson(personalExpense);
       final db = await DataBase.openDatabase();
+      data.remove('material_id');
       await db.transaction((txn) async {
         await txn.update('personal_expenses', data,
             where: 'id = ?', whereArgs: [personalExpense.id]);
@@ -71,19 +73,4 @@ class PersonalExpenseRepositoryImpl implements PersonalExpenseRepository {
       return Left(RespositoryException());
     }
   }
-
-  // @override
-  // Future<Either<RespositoryException, List<Map<String, dynamic>>>>
-  //     findAllByDate(String date) async {
-  //   try {
-  //     final db = await DataBase.openDatabase();
-  //     final expenses = await db.rawQuery("SELECT * FROM personal_expenses");
-
-  //     print(expenses);
-
-  //     return Right(expenses);
-  //   } catch (_) {
-  //     return Left(RespositoryException());
-  //   }
-  // }
 }

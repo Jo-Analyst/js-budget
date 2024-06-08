@@ -67,7 +67,7 @@ class PersonalExpenseDetailsPage extends StatelessWidget {
                     CustomListTileIcon(
                       contentPadding:
                           const EdgeInsets.symmetric(horizontal: 15),
-                      title: expense.type,
+                      title: expense.description,
                       leading: const Icon(Icons.paid),
                     ),
                   ],

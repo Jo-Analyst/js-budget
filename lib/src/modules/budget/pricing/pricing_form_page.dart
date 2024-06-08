@@ -66,7 +66,8 @@ class _PricingFormPageState extends State<PricingFormPage>
   Future<double> _calculateExpenseValue(String type) async {
     double valueExpense = 0;
     if (type == 'Conta de luz' || type == 'Conta de água') {
-      List<ExpenseModel> model = await expenseController.findExpenseType(type);
+      List<ExpenseModel> model =
+          await expenseController.findExpenseDescription(type);
       valueExpense = model.fold(0, (prev, mdl) => prev + mdl.value);
       if (model.isNotEmpty) {
         valueExpense /= model.length;

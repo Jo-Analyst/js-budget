@@ -4,7 +4,6 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/modules/material/material_form/material_form_controller.dart';
-
 import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -62,8 +61,10 @@ class _MaterialFormPageState extends State<MaterialFormPage>
               var nav = Navigator.of(context);
               if (_formKey.currentState!.validate()) {
                 await controller.save(
-                  saveMaterial(material?.id ?? 0, unit),
-                );
+                    saveMaterial(material?.id ?? 0, unit),
+                    isCkecked,
+                    int.parse(quantityInStockEC.text) -
+                        controller.model.value!.quantity);
 
                 nav.pop();
                 if (material != null) {
@@ -163,7 +164,6 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly
                               ],
-                              readOnly: material != null,
                               decoration: const InputDecoration(
                                 labelText: 'Quantidade em Estoque*',
                                 labelStyle: TextStyle(fontFamily: 'Poppins'),
@@ -213,30 +213,6 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                                   ),
                                 ),
                               ),
-                              Visibility(
-                                visible: material != null,
-                                child: IconButton(
-                                  onPressed: () async {
-                                    final quantity = await showAlertDialog(
-                                      context,
-                                      'Diminua quantidade do estoque',
-                                      buttonTitle: 'Concluir',
-                                    );
-
-                                    if (quantity != null) {
-                                      final sum =
-                                          int.parse(quantityInStockEC.text) -
-                                              quantity;
-                                      quantityInStockEC.text = sum.toString();
-                                    }
-                                  },
-                                  tooltip: 'Diminuir quantidade',
-                                  icon: const Icon(
-                                    Icons.remove_circle_outline_outlined,
-                                    size: 30,
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                         ],
@@ -280,7 +256,6 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         },
                       ),
                       TextFormField(
-                        readOnly: isCkecked,
                         controller: priceMaterialEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         keyboardType: const TextInputType.numberWithOptions(

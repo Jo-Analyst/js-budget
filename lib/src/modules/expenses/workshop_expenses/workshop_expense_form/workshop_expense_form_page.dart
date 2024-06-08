@@ -48,11 +48,11 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
     if (expense != null) {
       initializeForm(expense!);
       methodPayment = expense!.methodPayment;
-      typeExpense = (expense!.type == 'Conta de luz' ||
-              expense!.type == 'Conta de água' ||
-              expense!.type == 'Aluguel' ||
-              expense!.type == 'DAS/SIMEI')
-          ? expense!.type
+      typeExpense = (expense!.description == 'Conta de luz' ||
+              expense!.description == 'Conta de água' ||
+              expense!.description == 'Aluguel' ||
+              expense!.description == 'DAS/SIMEI')
+          ? expense!.description
           : 'Outro';
     }
   }
