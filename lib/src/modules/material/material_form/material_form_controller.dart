@@ -32,7 +32,7 @@ mixin MaterialFormController on State<MaterialFormPage> {
     dateOfLastPurchaseEC.text = material.dateOfLastPurchase ?? '';
   }
 
-  MaterialModel saveMaterial(int id, String unit) {
+  MaterialModel saveMaterial(int id, String unit, String dateOfPurchase) {
     return MaterialModel(
       id: id,
       name: nameEC.text,
@@ -42,7 +42,7 @@ mixin MaterialFormController on State<MaterialFormPage> {
       price: priceMaterialEC.numberValue,
       supplier: supplierEC.text,
       observation: observationEC.text,
-      dateOfLastPurchase: dateOfLastPurchaseEC.text,
+      dateOfLastPurchase: dateOfPurchase,
     );
   }
 }

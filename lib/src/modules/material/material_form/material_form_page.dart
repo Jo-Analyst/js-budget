@@ -36,9 +36,13 @@ class _MaterialFormPageState extends State<MaterialFormPage>
     material = controller.model();
 
     if (material != null) {
+      final (year, month, day) =
+          UtilsService.extractDate(material!.dateOfLastPurchase!);
       initilizeForm(
         material!,
       );
+      dateOfLastPurchaseEC.text =
+          UtilsService.dateFormat(DateTime(year, month, day));
       quantityInStock = material!.quantity;
       unit = material!.unit;
     }
@@ -61,7 +65,8 @@ class _MaterialFormPageState extends State<MaterialFormPage>
               var nav = Navigator.of(context);
               if (_formKey.currentState!.validate()) {
                 await controller.save(
-                    saveMaterial(material?.id ?? 0, unit),
+                    saveMaterial(material?.id ?? 0, unit,
+                        dateOfPurchase.toIso8601String()),
                     isCkecked,
                     int.parse(quantityInStockEC.text) -
                         controller.model.value!.quantity);
@@ -92,6 +97,12 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                     onChanged: (value) {
                       setState(() {
                         isCkecked = value;
+                        final (year, month, day) = UtilsService.extractDate(
+                            material!.dateOfLastPurchase!);
+                        dateOfPurchase =
+                            value ? DateTime.now() : DateTime(year, month, day);
+                        dateOfLastPurchaseEC.text =
+                            UtilsService.dateFormat(dateOfPurchase);
                       });
                     },
                   ),
@@ -284,7 +295,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                             dateOfPurchase = date;
                           });
                           dateOfLastPurchaseEC.text =
-                              UtilsService.dateFormat(date);
+                              UtilsService.dateFormat(dateOfPurchase);
                         },
                       ),
                       TextFormField(
