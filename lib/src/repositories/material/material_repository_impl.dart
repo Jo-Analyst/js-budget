@@ -7,6 +7,7 @@ import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/repositories/expense/workshop_expense/workshop_repository_impl.dart';
 import 'package:js_budget/src/repositories/material/transform_material_json.dart';
 import 'package:js_budget/src/repositories/material/material_repository.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 class MaterialRepositoryImpl implements MaterialRepository {
@@ -83,12 +84,14 @@ class MaterialRepositoryImpl implements MaterialRepository {
     Transaction txn,
     MaterialModel material,
   ) async {
+    final (year, month, day) =
+        UtilsService.extractDate(material.dateOfLastPurchase!);
     await WorkshopExpenseRepositoryImpl().save(
       txn,
       ExpenseModel(
         description: material.name,
         value: material.lastQuantityAdded * material.price,
-        date: material.dateOfLastPurchase.toString(),
+        date: UtilsService.dateFormat(DateTime(year, month, day)),
         methodPayment: '',
         materialId: material.id,
       ),
