@@ -24,7 +24,8 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   final controller = Injector.get<MaterialController>();
   final _formKey = GlobalKey<FormState>();
   int quantityInStock = 0;
-  bool isCkecked = false;
+  int quantityAdd = 0;
+  bool isChecked = false;
   DateTime dateOfPurchase = DateTime.now();
   MaterialModel? material;
   String unit = 'Unidade';
@@ -65,11 +66,15 @@ class _MaterialFormPageState extends State<MaterialFormPage>
               var nav = Navigator.of(context);
               if (_formKey.currentState!.validate()) {
                 await controller.save(
-                    saveMaterial(material?.id ?? 0, unit,
-                        dateOfPurchase.toIso8601String()),
-                    isCkecked,
-                    int.parse(quantityInStockEC.text) -
-                        controller.model.value!.quantity);
+                  saveMaterial(
+                      material?.id ?? 0,
+                      unit,
+                      dateOfPurchase.toIso8601String(),
+                      isChecked,
+                      material?.quantity ?? 0,
+                      material?.lastQuantityAdded ?? 0),
+                  isChecked,
+                );
 
                 nav.pop();
                 if (material != null) {
@@ -93,10 +98,10 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                 child: ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Switch(
-                    value: isCkecked,
+                    value: isChecked,
                     onChanged: (value) {
                       setState(() {
-                        isCkecked = value;
+                        isChecked = value;
                         final (year, month, day) = UtilsService.extractDate(
                             material!.dateOfLastPurchase!);
                         dateOfPurchase =
@@ -121,7 +126,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                   child: Column(
                     children: [
                       TextFormField(
-                        readOnly: isCkecked,
+                        readOnly: isChecked,
                         controller: nameEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         decoration: InputDecoration(
@@ -137,7 +142,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                             'Nome do material obrigatório.'),
                       ),
                       TextFormField(
-                        readOnly: isCkecked,
+                        readOnly: isChecked,
                         controller: typeMaterialEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         decoration: InputDecoration(
@@ -187,6 +192,11 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                                     return 'Quantidade em estoque obrigatório';
                                   }
 
+                                  if (isChecked &&
+                                      int.parse(value) <= material!.quantity) {
+                                    return 'Informe um valor maior que a quantidade atual.';
+                                  }
+
                                   if (int.parse(value) == 0) {
                                     return 'Quantidade em estoque deve ser maior que zero';
                                   }
@@ -211,6 +221,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                                     );
 
                                     if (quantity != null) {
+                                      quantityAdd = quantity;
                                       final sum =
                                           int.parse(quantityInStockEC.text) +
                                               quantity;
@@ -234,7 +245,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                           labelText: 'Unidade de medida',
                           suffixIcon: Icon(Icons.square_foot_sharp),
                         ),
-                        items: !isCkecked
+                        items: !isChecked
                             ? <String>[
                                 'Caixa',
                                 'Centímetro (cm)',
@@ -299,7 +310,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         },
                       ),
                       TextFormField(
-                        readOnly: isCkecked,
+                        readOnly: isChecked,
                         controller: supplierEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         decoration: const InputDecoration(
@@ -310,7 +321,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         style: textStyleSmallDefault,
                       ),
                       TextFormField(
-                        readOnly: isCkecked,
+                        readOnly: isChecked,
                         controller: observationEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         maxLines: 5,

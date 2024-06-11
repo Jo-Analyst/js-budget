@@ -23,12 +23,14 @@ class MaterialController with Messages {
 
   final MaterialRepository _materialRepository;
 
-  Future<void> save(MaterialModel material, bool thereWillBeChangesOnlyInStock,
-      int remainingQuantity) async {
+  Future<void> save(
+    MaterialModel material,
+    bool thereWillBeChangesOnlyInStock,
+  ) async {
     final result = material.id == 0
         ? await _materialRepository.register(material)
         : await _materialRepository.update(
-            material, thereWillBeChangesOnlyInStock, remainingQuantity);
+            material, thereWillBeChangesOnlyInStock);
 
     switch (result) {
       case Right(value: MaterialModel model):

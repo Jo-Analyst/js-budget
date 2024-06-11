@@ -32,13 +32,26 @@ mixin MaterialFormController on State<MaterialFormPage> {
     dateOfLastPurchaseEC.text = material.dateOfLastPurchase ?? '';
   }
 
-  MaterialModel saveMaterial(int id, String unit, String dateOfPurchase) {
+  MaterialModel saveMaterial(int id, String unit, String dateOfPurchase,
+      bool isChecked, int quantity, int quantityAdd) {
+    int lastQuantity = quantityAdd;
+    if (isChecked) {
+      lastQuantity = int.parse(quantityInStockEC.text) - quantity;
+    } else {
+      int stockQuantity = int.parse(quantityInStockEC.text);
+      if (stockQuantity > quantity) {
+        lastQuantity += stockQuantity - quantity;
+      } else {
+        lastQuantity -= quantity - stockQuantity;
+      }
+    }
     return MaterialModel(
       id: id,
       name: nameEC.text,
       type: typeMaterialEC.text,
       unit: unit,
       quantity: int.parse(quantityInStockEC.text),
+      lastQuantityAdded: lastQuantity,
       price: priceMaterialEC.numberValue,
       supplier: supplierEC.text,
       observation: observationEC.text,

@@ -59,8 +59,8 @@ class MaterialRepositoryImpl implements MaterialRepository {
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> update(MaterialModel material,
-      bool thereWillBeChangesOnlyInStock, int remainingQuantity) async {
+  Future<Either<RespositoryException, Unit>> update(
+      MaterialModel material, bool thereWillBeChangesOnlyInStock) async {
     try {
       final data = TransformMaterialJson.toJson(material);
       final db = await DataBase.openDatabase();
@@ -69,8 +69,7 @@ class MaterialRepositoryImpl implements MaterialRepository {
             where: 'id = ?', whereArgs: [material.id]);
 
         if (thereWillBeChangesOnlyInStock) {
-          await _saveDataMaterialInExpense(txn, material,
-              remainingQuantity: remainingQuantity);
+          await _saveDataMaterialInExpense(txn, material);
         }
       });
 
@@ -81,15 +80,14 @@ class MaterialRepositoryImpl implements MaterialRepository {
   }
 
   Future<void> _saveDataMaterialInExpense(
-      Transaction txn, MaterialModel material,
-      {int? remainingQuantity}) async {
+    Transaction txn,
+    MaterialModel material,
+  ) async {
     await WorkshopExpenseRepositoryImpl().save(
       txn,
       ExpenseModel(
         description: material.name,
-        value: remainingQuantity == null
-            ? material.quantity * material.price
-            : remainingQuantity * material.price,
+        value: material.lastQuantityAdded * material.price,
         date: material.dateOfLastPurchase.toString(),
         methodPayment: '',
         materialId: material.id,
