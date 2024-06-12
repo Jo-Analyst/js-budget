@@ -14,8 +14,7 @@ class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
       findAll() async {
     try {
       final db = await DataBase.openDatabase();
-      final expenses =
-          await db.query('workshop_expenses', where: 'material_id IS NULL');
+      final expenses = await db.query('workshop_expenses');
 
       return Right(expenses);
     } catch (_) {
@@ -71,6 +70,7 @@ class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
   Future<void> updateByMaterialIdAndDate(
       Transaction txn, ExpenseModel expense) async {
     final data = TransformExpenseJson.toJson(expense);
+    data.remove('id');
     await txn.update('workshop_expenses', data,
         where: 'material_id = ? AND date = ?',
         whereArgs: [expense.materialId, expense.date]);

@@ -107,7 +107,7 @@ class WorkshopExpenseController with Messages {
   Future<List<ExpenseModel>> findExpenseDate(String date) async {
     List<ExpenseModel> expenses = _data
         .where((expense) =>
-            expense.date.toLowerCase().contains(date.toLowerCase()))
+            (expense.date.toLowerCase().contains(date.toLowerCase())))
         .toList();
     valueWorkshopExpense.value = _sumValueExpense(expenses);
     return expenses;
@@ -120,5 +120,16 @@ class WorkshopExpenseController with Messages {
     }
 
     return valueExpense;
+  }
+
+  void addData(ExpenseModel expense) {
+    _data.add(expense);
+  }
+
+  void updateData(ExpenseModel expense) {
+    _data.removeWhere((data) =>
+        data.materialId == expense.materialId && data.date == expense.date);
+
+    _data.add(expense);
   }
 }

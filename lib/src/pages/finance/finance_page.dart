@@ -30,7 +30,7 @@ class _FinancePageState extends State<FinancePage> {
 
   Future<void> loadExpense() async {
     if (workshopExpenseController.data.isEmpty) {
-      await workshopExpenseController.findExpense();
+    await workshopExpenseController.findExpense();
     }
 
     if (personalExpenseController.data.isEmpty) {

@@ -24,10 +24,11 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
 
   @override
   Widget build(BuildContext context) {
-    var filteredClients = controller.data
+    var filteredExpense = controller.data
         .watch(context)
         .where((expense) =>
-            expense.description.toLowerCase().contains(search.toLowerCase()))
+            (expense.description.toLowerCase().contains(search.toLowerCase()) &&
+                expense.materialId == null))
         .toList();
 
     var theme = Theme.of(context);
@@ -67,7 +68,7 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
             ),
           ),
           Expanded(
-            child: filteredClients.isEmpty
+            child: filteredExpense.isEmpty
                 ? Center(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -109,7 +110,7 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
                     ),
                   )
                 : ListView(
-                    children: filteredClients
+                    children: filteredExpense
                         .map((expense) => Column(
                               children: [
                                 ListTile(

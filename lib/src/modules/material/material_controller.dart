@@ -1,8 +1,12 @@
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
+import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
 import 'package:js_budget/src/repositories/material/transform_material_json.dart';
 import 'package:js_budget/src/repositories/material/material_repository.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals.dart';
 
 class MaterialController with Messages {
@@ -25,26 +29,41 @@ class MaterialController with Messages {
 
   Future<void> save(
     MaterialModel material,
-    bool thereWillBeChangesOnlyInStock,
+    bool addMaterialValuesToStock,
   ) async {
+    final worshopController = Injector.get<WorkshopExpenseController>();
     final result = material.id == 0
         ? await _materialRepository.register(material)
-        : await _materialRepository.update(
-            material, thereWillBeChangesOnlyInStock);
+        : await _materialRepository.update(material, addMaterialValuesToStock);
 
     switch (result) {
       case Right(value: MaterialModel model):
         _data.add(model);
+        worshopController.addData(_setDataMaterialInExpense(model));
         showSuccess('Material cadastrado com sucesso');
       case Right():
         if (material.id > 0) {
           _deleteItem(material.id);
         }
         _data.add(material);
+        worshopController.updateData(_setDataMaterialInExpense(material));
         showSuccess('Material alterado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o material');
     }
+  }
+
+  ExpenseModel _setDataMaterialInExpense(MaterialModel material) {
+    final (year, month, day) =
+        UtilsService.extractDate(material.dateOfLastPurchase!);
+    return ExpenseModel(
+      description: material.name,
+      value: material.lastQuantityAdded * material.price,
+      date: UtilsService.dateFormat(DateTime(year, month, day)),
+      methodPayment: '',
+      materialId: material.id,
+      observation: 'Materiais para a produção',
+    );
   }
 
   Future<void> deleteMaterial(int id) async {

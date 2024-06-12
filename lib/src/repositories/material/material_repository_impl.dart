@@ -76,6 +76,7 @@ class MaterialRepositoryImpl implements MaterialRepository {
 
       return Right(unit);
     } catch (_) {
+      print(_.toString());
       return Left(RespositoryException());
     }
   }
@@ -91,6 +92,7 @@ class MaterialRepositoryImpl implements MaterialRepository {
       date: UtilsService.dateFormat(DateTime(year, month, day)),
       methodPayment: '',
       materialId: material.id,
+      observation: 'Materiais para a produção',
     );
 
     if (addMaterialValuesToStock) {
