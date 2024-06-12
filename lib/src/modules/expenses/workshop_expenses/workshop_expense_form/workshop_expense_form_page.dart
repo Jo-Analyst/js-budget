@@ -143,6 +143,8 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                         Visibility(
                           visible: typeExpense == 'Outro',
                           child: TextFormField(
+                            onTapOutside: (_) =>
+                                FocusScope.of(context).unfocus(),
                             controller: otherEC,
                             decoration: const InputDecoration(
                               labelText: 'Descrição*',
@@ -159,6 +161,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                           ),
                         ),
                         TextFormField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           controller: expenseValueEC,
                           decoration: const InputDecoration(
                             labelText: 'Valor da Despesa*',
@@ -213,6 +216,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                           },
                         ),
                         TextFormField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           controller: observationEC,
                           decoration: const InputDecoration(
                             labelText: 'Notas/Observações',

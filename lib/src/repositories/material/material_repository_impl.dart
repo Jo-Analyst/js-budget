@@ -49,7 +49,8 @@ class MaterialRepositoryImpl implements MaterialRepository {
       await db.transaction((txn) async {
         lastId = await txn.insert('materials', data);
         material.id = lastId;
-        await _saveDataMaterialInExpense(txn, material);
+        await _saveDataMaterialInExpense(txn, material,
+            addMaterialValuesToStock: true);
       });
       data['id'] = lastId;
 
@@ -61,7 +62,7 @@ class MaterialRepositoryImpl implements MaterialRepository {
 
   @override
   Future<Either<RespositoryException, Unit>> update(
-      MaterialModel material, bool thereWillBeChangesOnlyInStock) async {
+      MaterialModel material, bool addMaterialValuesToStock) async {
     try {
       final data = TransformMaterialJson.toJson(material);
       final db = await DataBase.openDatabase();
@@ -69,9 +70,8 @@ class MaterialRepositoryImpl implements MaterialRepository {
         await txn.update('materials', data,
             where: 'id = ?', whereArgs: [material.id]);
 
-        if (thereWillBeChangesOnlyInStock) {
-          await _saveDataMaterialInExpense(txn, material);
-        }
+        await _saveDataMaterialInExpense(txn, material,
+            addMaterialValuesToStock: addMaterialValuesToStock);
       });
 
       return Right(unit);
@@ -81,20 +81,28 @@ class MaterialRepositoryImpl implements MaterialRepository {
   }
 
   Future<void> _saveDataMaterialInExpense(
-    Transaction txn,
-    MaterialModel material,
-  ) async {
+      Transaction txn, MaterialModel material,
+      {bool addMaterialValuesToStock = false}) async {
     final (year, month, day) =
         UtilsService.extractDate(material.dateOfLastPurchase!);
-    await WorkshopExpenseRepositoryImpl().save(
-      txn,
-      ExpenseModel(
-        description: material.name,
-        value: material.lastQuantityAdded * material.price,
-        date: UtilsService.dateFormat(DateTime(year, month, day)),
-        methodPayment: '',
-        materialId: material.id,
-      ),
+    final expense = ExpenseModel(
+      description: material.name,
+      value: material.lastQuantityAdded * material.price,
+      date: UtilsService.dateFormat(DateTime(year, month, day)),
+      methodPayment: '',
+      materialId: material.id,
     );
+
+    if (addMaterialValuesToStock) {
+      await WorkshopExpenseRepositoryImpl().save(
+        txn,
+        expense,
+      );
+    } else {
+      await WorkshopExpenseRepositoryImpl().updateByMaterialIdAndDate(
+        txn,
+        expense,
+      );
+    }
   }
 }

@@ -29,12 +29,12 @@ class _FinancePageState extends State<FinancePage> {
   }
 
   Future<void> loadExpense() async {
-    if (personalExpenseController.data.isEmpty) {
-      await personalExpenseController.findExpense();
-    }
-
     if (workshopExpenseController.data.isEmpty) {
       await workshopExpenseController.findExpense();
+    }
+
+    if (personalExpenseController.data.isEmpty) {
+      await personalExpenseController.findExpense();
     }
 
     distributeExpensesIntoTheirRespectiveVariables(

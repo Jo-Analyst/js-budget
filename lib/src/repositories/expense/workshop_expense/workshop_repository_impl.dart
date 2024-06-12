@@ -68,6 +68,15 @@ class WorkshopExpenseRepositoryImpl implements WorkshopExpenseRepository {
   }
 
   @override
+  Future<void> updateByMaterialIdAndDate(
+      Transaction txn, ExpenseModel expense) async {
+    final data = TransformExpenseJson.toJson(expense);
+    await txn.update('workshop_expenses', data,
+        where: 'material_id = ? AND date = ?',
+        whereArgs: [expense.materialId, expense.date]);
+  }
+
+  @override
   Future<Either<RespositoryException, Unit>> delete(int id) async {
     try {
       final db = await DataBase.openDatabase();

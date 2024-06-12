@@ -7,7 +7,7 @@ abstract interface class MaterialRepository {
   Future<Either<RespositoryException, MaterialModel>> register(
       MaterialModel material);
   Future<Either<RespositoryException, Unit>> update(
-      MaterialModel material, bool thereWillBeChangesOnlyInStock);
+      MaterialModel material, bool addMaterialValuesToStock);
   Future<Either<RespositoryException, Unit>> delete(int id);
   Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
 }

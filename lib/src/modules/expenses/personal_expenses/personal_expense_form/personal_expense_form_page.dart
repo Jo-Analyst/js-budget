@@ -91,6 +91,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                       vertical: 10,
                     ),
                     child: TextFormField(
+                      onTapOutside: (_) => FocusScope.of(context).unfocus(),
                       controller: typeOfExpenseEC,
                       decoration: const InputDecoration(
                         labelText: 'Tipo da Despesa*',
@@ -114,6 +115,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                     child: Column(
                       children: [
                         TextFormField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           controller: expenseValueEC,
                           decoration: const InputDecoration(
                             labelText: 'Valor da Despesa*',
@@ -168,6 +170,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                           },
                         ),
                         TextFormField(
+                          onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           controller: observationEC,
                           decoration: const InputDecoration(
                             labelText: 'Notas/Observações',
