@@ -24,7 +24,7 @@ class TransformMaterialJson {
       unit: material['unit'],
       price: material['price'] as double,
       quantity: (material['quantity'] as num).toInt(),
-      lastQuantityAdded: (material['quantity'] as num).toInt(),
+      lastQuantityAdded: (material['last_quantity_added'] as num).toInt(),
       dateOfLastPurchase: material['date_of_last_purchase'],
       observation: material['observation'],
       supplier: material['supplier'],
