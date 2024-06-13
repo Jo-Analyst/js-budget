@@ -3,6 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
+import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/modules/widget/slide_date.dart';
 import 'package:js_budget/src/pages/home/widgets/finacial_last.widget.dart';
 import 'package:js_budget/src/pages/widgets/more_details_widget.dart';
@@ -20,6 +21,7 @@ class FinancePage extends StatefulWidget {
 class _FinancePageState extends State<FinancePage> {
   final personalExpenseController = Injector.get<PersonalExpenseController>();
   final workshopExpenseController = Injector.get<WorkshopExpenseController>();
+  final paymentHistoryController = Injector.get<PaymentHistoryController>();
   List<ExpenseModel> personalExpenses = [], workshopExpenses = [];
 
   @override
@@ -30,14 +32,14 @@ class _FinancePageState extends State<FinancePage> {
 
   Future<void> loadExpense() async {
     if (workshopExpenseController.data.isEmpty) {
-    await workshopExpenseController.findExpense();
+      await workshopExpenseController.findExpense();
     }
 
     if (personalExpenseController.data.isEmpty) {
       await personalExpenseController.findExpense();
     }
 
-    distributeExpensesIntoTheirRespectiveVariables(
+    distributeFinancesIntoTheirRespectiveVariables(
         '${date[DateTime.now().month - 1]} de ${DateTime.now().year}');
   }
 
@@ -50,9 +52,11 @@ class _FinancePageState extends State<FinancePage> {
     return (personalExpenses, workshopExpenses);
   }
 
-  Future<void> distributeExpensesIntoTheirRespectiveVariables(
+  Future<void> distributeFinancesIntoTheirRespectiveVariables(
       String date) async {
     final (personalExpenses, workshopExpenses) = await getExpenseByDate(date);
+
+    paymentHistoryController.sumAmountPaidByDate(date);
 
     this.personalExpenses = personalExpenses;
     this.workshopExpenses = workshopExpenses;
@@ -93,7 +97,7 @@ class _FinancePageState extends State<FinancePage> {
                 ),
                 child: SlideDate(
                   onGetDate: (date) =>
-                      distributeExpensesIntoTheirRespectiveVariables(date),
+                      distributeFinancesIntoTheirRespectiveVariables(date),
                 ),
               ),
 
@@ -161,9 +165,9 @@ class _FinancePageState extends State<FinancePage> {
                           ),
                         ),
                         const Divider(),
-                        const FinacialLastWidget(
+                        FinacialLastWidget(
                           title: 'Receita',
-                          value: 3000,
+                          value: paymentHistoryController.sumAmountPaid.value,
                           textColor: Colors.green,
                         ),
                         const Divider(),

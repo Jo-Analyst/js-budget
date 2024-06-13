@@ -88,7 +88,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                     amountPaid: amountReceived > amountToPay
                         ? amountToPay
                         : amountReceivedEC.numberValue,
-                    datePayment: dateSelected.toIso8601String(),
+                    datePayment: UtilsService.dateFormat(dateSelected),
                     paymentId: budget.payment!.id,
                   ),
                 );

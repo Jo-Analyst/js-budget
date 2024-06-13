@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/payment/checkout_counter_page.dart';
 import 'package:js_budget/src/modules/payment/payment_controller.dart';
-import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_page.dart';
 import 'package:js_budget/src/modules/profile/profile_form/payment_page.dart';
-import 'package:js_budget/src/repositories/history_payment/payment_history_repository.dart';
-import 'package:js_budget/src/repositories/history_payment/payment_history_repository_impl.dart';
 import 'package:js_budget/src/repositories/payment/payment_repository.dart';
 import 'package:js_budget/src/repositories/payment/payment_repository_impl.dart';
 
@@ -14,11 +11,7 @@ class PaymentModule extends FlutterGetItModule {
   @override
   List<Bind<Object>> get bindings => [
         Bind.lazySingleton<PaymentRepository>((i) => PaymentRepositoryImpl()),
-        Bind.lazySingleton<PaymentHistoryRepository>(
-            (i) => PaymentHistoryRepositoryImpl()),
         Bind.lazySingleton((i) => PaymentController(paymentRepository: i())),
-        Bind.lazySingleton(
-            (i) => PaymentHistoryController(paymentHistoryRepository: i())),
       ];
   @override
   String get moduleRouteName => '/payment';

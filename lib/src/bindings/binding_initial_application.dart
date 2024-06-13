@@ -4,6 +4,7 @@ import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
+import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/repositories/budget/budget_repository.dart';
 import 'package:js_budget/src/repositories/budget/budget_repository_impl.dart';
@@ -13,6 +14,8 @@ import 'package:js_budget/src/repositories/expense/workshop_expense/workshop_rep
 import 'package:js_budget/src/repositories/expense/workshop_expense/workshop_repository_impl.dart';
 import 'package:js_budget/src/repositories/find_cep/find_cep_repository.dart';
 import 'package:js_budget/src/repositories/find_cep/find_cep_repository_impl.dart';
+import 'package:js_budget/src/repositories/history_payment/payment_history_repository.dart';
+import 'package:js_budget/src/repositories/history_payment/payment_history_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository.dart';
 import 'package:js_budget/src/repositories/order/order_repository_impl.dart';
 import 'package:js_budget/src/repositories/profile/profile_repository.dart';
@@ -39,5 +42,9 @@ class BindingInitialApplication extends ApplicationBindings {
             (i) => PersonalExpenseRepositoryImpl()),
         Bind.lazySingleton(
             (i) => PersonalExpenseController(expenseRepository: i())),
+        Bind.lazySingleton<PaymentHistoryRepository>(
+            (i) => PaymentHistoryRepositoryImpl()),
+        Bind.lazySingleton(
+            (i) => PaymentHistoryController(paymentHistoryRepository: i())),
       ];
 }

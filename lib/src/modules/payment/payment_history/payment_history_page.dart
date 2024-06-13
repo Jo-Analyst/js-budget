@@ -108,8 +108,6 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                 child: ListViewTile(
                   title: 'Pagamentos',
                   children: paymentHistory.map((payment) {
-                    final (year, month, day) =
-                        UtilsService.extractDate(payment.datePayment);
                     return Column(
                       children: [
                         ListTile(
@@ -123,7 +121,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                             ),
                           ),
                           subtitle: Text(
-                            UtilsService.dateFormat(DateTime(year, month, day)),
+                            payment.datePayment,
                             style: textStyleSmallDefault,
                           ),
                           trailing: IconButton(

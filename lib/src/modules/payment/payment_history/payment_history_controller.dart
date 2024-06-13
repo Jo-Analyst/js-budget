@@ -17,6 +17,7 @@ class PaymentHistoryController with Messages {
   ListSignal<PaymentHistoryModel> get data => _data;
 
   final amountPaid = signal<double>(0.0);
+  final sumAmountPaid = signal<double>(0.0);
 
   Future<bool> existsPayment(int paymentId) async {
     bool existsPayment = false;
@@ -59,6 +60,17 @@ class PaymentHistoryController with Messages {
         }
         this.amountPaid.value -= amountPaid;
 
+      case Left():
+        showError('Houve um erro ao buscar o pagamento');
+    }
+  }
+
+  Future<void> sumAmountPaidByDate(String date) async {
+    final results = await _paymentHistoryRepository.findPaymentByDate(date);
+
+    switch (results) {
+      case Right(value: final amountPaid):
+        sumAmountPaid.value = amountPaid;
       case Left():
         showError('Houve um erro ao buscar o pagamento');
     }

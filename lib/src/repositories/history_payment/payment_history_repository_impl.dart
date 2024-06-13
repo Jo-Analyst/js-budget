@@ -56,4 +56,19 @@ class PaymentHistoryRepositoryImpl implements PaymentHistoryRepository {
       return Left(RespositoryException());
     }
   }
+
+  @override
+  Future<Either<RespositoryException, double>> findPaymentByDate(
+      String date) async {
+    try {
+      final db = await DataBase.openDatabase();
+      final paymentHistory = await db.rawQuery(
+          "SELECT SUM(amount_paid) AS  amount_paid FROM payment_history WHERE date_payment LIKE '%$date%'");
+      double amountPaid = paymentHistory[0]['amount_paid'] as double? ?? 0;
+      return Right(amountPaid);
+    } catch (_) {
+      print(_.toString());
+      return Left(RespositoryException());
+    }
+  }
 }
