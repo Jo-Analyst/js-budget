@@ -126,9 +126,10 @@ class WorkshopExpenseController with Messages {
     _data.add(expense);
   }
 
-  void updateData(ExpenseModel expense) {
+  void updateData(ExpenseModel expense, String? dateOfLastPurchase) {
     _data.removeWhere((data) =>
-        data.materialId == expense.materialId && data.date == expense.date);
+        data.materialId == expense.materialId &&
+        data.date == dateOfLastPurchase);
 
     _data.add(expense);
   }

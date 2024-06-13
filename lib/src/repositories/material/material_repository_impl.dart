@@ -61,8 +61,8 @@ class MaterialRepositoryImpl implements MaterialRepository {
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> update(
-      MaterialModel material, bool addMaterialValuesToStock) async {
+  Future<Either<RespositoryException, Unit>> update(MaterialModel material,
+      bool addMaterialValuesToStock, String? dateOfLastPurchase) async {
     try {
       final data = TransformMaterialJson.toJson(material);
       final db = await DataBase.openDatabase();
@@ -71,6 +71,7 @@ class MaterialRepositoryImpl implements MaterialRepository {
             where: 'id = ?', whereArgs: [material.id]);
 
         await _saveDataMaterialInExpense(txn, material,
+            dateOfLastPurchase: dateOfLastPurchase,
             addMaterialValuesToStock: addMaterialValuesToStock);
       });
 
@@ -83,7 +84,8 @@ class MaterialRepositoryImpl implements MaterialRepository {
 
   Future<void> _saveDataMaterialInExpense(
       Transaction txn, MaterialModel material,
-      {bool addMaterialValuesToStock = false}) async {
+      {bool addMaterialValuesToStock = false,
+      String? dateOfLastPurchase}) async {
     final (year, month, day) =
         UtilsService.extractDate(material.dateOfLastPurchase!);
     final expense = ExpenseModel(
@@ -101,10 +103,8 @@ class MaterialRepositoryImpl implements MaterialRepository {
         expense,
       );
     } else {
-      await WorkshopExpenseRepositoryImpl().updateByMaterialIdAndDate(
-        txn,
-        expense,
-      );
+      await WorkshopExpenseRepositoryImpl()
+          .updateByMaterialIdAndDate(txn, expense, dateOfLastPurchase!);
     }
   }
 }

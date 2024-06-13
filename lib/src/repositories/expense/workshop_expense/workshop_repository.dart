@@ -8,7 +8,7 @@ abstract interface class WorkshopExpenseRepository {
   Future<Either<RespositoryException, ExpenseModel>> register(
       ExpenseModel expenseModel);
   Future<Either<RespositoryException, Unit>> update(ExpenseModel expenseModel);
-  Future<void> updateByMaterialIdAndDate(Transaction txn, ExpenseModel expense);
+  Future<void> updateByMaterialIdAndDate(Transaction txn, ExpenseModel expense, String dateOfLastPurchase);
   Future<Either<RespositoryException, Unit>> delete(int id);
   Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
   Future<Either<RespositoryException, List<Map<String, dynamic>>>>

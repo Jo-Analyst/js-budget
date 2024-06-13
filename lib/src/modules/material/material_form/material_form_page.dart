@@ -39,11 +39,11 @@ class _MaterialFormPageState extends State<MaterialFormPage>
     if (material != null) {
       final (year, month, day) =
           UtilsService.extractDate(material!.dateOfLastPurchase!);
+      dateOfPurchase = DateTime(year, month, day);
       initilizeForm(
         material!,
       );
-      dateOfLastPurchaseEC.text =
-          UtilsService.dateFormat(DateTime(year, month, day));
+      dateOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
       quantityInStock = material!.quantity;
       unit = material!.unit;
     }
@@ -66,15 +66,15 @@ class _MaterialFormPageState extends State<MaterialFormPage>
               var nav = Navigator.of(context);
               if (_formKey.currentState!.validate()) {
                 await controller.save(
-                  saveMaterial(
-                      material?.id ?? 0,
-                      unit,
-                      dateOfPurchase.toIso8601String(),
-                      isChecked,
-                      material?.quantity ?? 0,
-                      material?.lastQuantityAdded ?? 0),
-                  isChecked,
-                );
+                    saveMaterial(
+                        material?.id ?? 0,
+                        unit,
+                        dateOfPurchase.toIso8601String(),
+                        isChecked,
+                        material?.quantity ?? 0,
+                        material?.lastQuantityAdded ?? 0),
+                    isChecked,
+                    material?.dateOfLastPurchase);
 
                 nav.pop();
                 if (material != null) {

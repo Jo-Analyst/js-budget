@@ -30,11 +30,18 @@ class MaterialController with Messages {
   Future<void> save(
     MaterialModel material,
     bool addMaterialValuesToStock,
+    String? dateOfLastPurchase,
   ) async {
     final worshopController = Injector.get<WorkshopExpenseController>();
+    if (dateOfLastPurchase != null) {
+      final (year, month, day) = UtilsService.extractDate(dateOfLastPurchase);
+
+      dateOfLastPurchase = UtilsService.dateFormat(DateTime(year, month, day));
+    }
     final result = material.id == 0
         ? await _materialRepository.register(material)
-        : await _materialRepository.update(material, addMaterialValuesToStock);
+        : await _materialRepository.update(
+            material, addMaterialValuesToStock, dateOfLastPurchase);
 
     switch (result) {
       case Right(value: MaterialModel model):
@@ -46,7 +53,11 @@ class MaterialController with Messages {
           _deleteItem(material.id);
         }
         _data.add(material);
-        worshopController.updateData(_setDataMaterialInExpense(material));
+        if (!addMaterialValuesToStock) {
+          worshopController.updateData(_setDataMaterialInExpense(material), dateOfLastPurchase);
+        } else {
+          worshopController.addData(_setDataMaterialInExpense(material));
+        }
         showSuccess('Material alterado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o material');
