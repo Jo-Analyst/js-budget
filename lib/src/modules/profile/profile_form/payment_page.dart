@@ -123,8 +123,11 @@ class _PaymentPageState extends State<PaymentPage> {
                                         Text(budget.client!.name.toUpperCase(),
                                             style: textStyleSmallFontWeight),
                                         Text(
-                                          budget.status!,
-                                          style: textStyleSmallDefault,
+                                          budget.payment!.amountPaid <
+                                                  budget.payment!.amountToPay
+                                              ? 'À receber'
+                                              : 'Pago',
+                                          style: textStyleSmallFontWeight,
                                         ),
                                       ],
                                     ),
