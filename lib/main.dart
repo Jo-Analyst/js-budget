@@ -13,7 +13,7 @@ import 'package:js_budget/src/modules/product/product_module.dart';
 import 'package:js_budget/src/modules/order/order_module.dart';
 import 'package:js_budget/src/modules/service/service_module.dart';
 import 'package:js_budget/src/pages/splash/splash_page.dart';
-import 'package:js_budget/src/pages/finance/finance_router.dart';
+import 'package:js_budget/src/modules/finance/finance_module.dart';
 import 'package:js_budget/src/modules/budget/budget_details/budget_details_router.dart';
 import 'package:js_budget/src/modules/profile/profile_module.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -49,12 +49,12 @@ class MyApp extends StatelessWidget {
           path: '/my-app',
         ),
         const BudgetDetailsRouter(),
-        const FinanceRouter(),
       ],
       modules: [
         BudgetModule(),
         ClientModule(),
         ExpenseModule(),
+        FinanceModule(),
         MaterialModule(),
         OrderModule(),
         PaymentModule(),

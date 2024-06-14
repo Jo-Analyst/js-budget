@@ -3,6 +3,7 @@ import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
+import 'package:js_budget/src/modules/finance/finance_controller.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
@@ -46,5 +47,6 @@ class BindingInitialApplication extends ApplicationBindings {
             (i) => PaymentHistoryRepositoryImpl()),
         Bind.lazySingleton(
             (i) => PaymentHistoryController(paymentHistoryRepository: i())),
+        Bind.lazySingleton((i) => FinanceController()),
       ];
 }
