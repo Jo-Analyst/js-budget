@@ -67,7 +67,6 @@ class PaymentHistoryRepositoryImpl implements PaymentHistoryRepository {
       double amountPaid = paymentHistory[0]['amount_paid'] as double? ?? 0;
       return Right(amountPaid);
     } catch (_) {
-      print(_.toString());
       return Left(RespositoryException());
     }
   }

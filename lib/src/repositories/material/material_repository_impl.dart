@@ -77,7 +77,6 @@ class MaterialRepositoryImpl implements MaterialRepository {
 
       return Right(unit);
     } catch (_) {
-      print(_.toString());
       return Left(RespositoryException());
     }
   }
