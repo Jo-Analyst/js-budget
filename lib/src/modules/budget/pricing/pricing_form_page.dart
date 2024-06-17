@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
@@ -30,6 +32,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   final pricingController = Injector.get<PricingController>();
   final formKey = GlobalKey<FormState>();
   double electricityBill = 0, waterBill = 0, rent = 0, das = 0, other = 0;
+  bool isEditEmployeeSalary = false;
 
   List<Map<String, dynamic>> workshopExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
@@ -520,17 +523,50 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   keyboardType: TextInputType.number,
                                   style: textStyleSmallDefault,
                                 ),
-                                TextFormField(
-                                  readOnly: true,
-                                  onTapOutside: (_) =>
-                                      FocusScope.of(context).unfocus(),
-                                  controller: employeeSalaryEC,
-                                  decoration: const InputDecoration(
-                                      labelText: 'Salário do funcionário',
-                                      labelStyle: textStyleSmallDefault,
-                                      suffix: Icon(Icons.price_change)),
-                                  keyboardType: TextInputType.number,
-                                  style: textStyleSmallDefault,
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          readOnly: !isEditEmployeeSalary,
+                                          onTapOutside: (_) =>
+                                              FocusScope.of(context).unfocus(),
+                                          controller: employeeSalaryEC,
+                                          decoration: const InputDecoration(
+                                            labelText: 'Salário do funcionário',
+                                            labelStyle: textStyleSmallDefault,
+                                          ),
+                                          keyboardType: TextInputType.number,
+                                          style: textStyleSmallDefault,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 15),
+                                      GestureDetector(
+                                        onTap: () => setState(() {
+                                          isEditEmployeeSalary =
+                                              !isEditEmployeeSalary;
+                                        }),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(8),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .primaryColor
+                                                .withOpacity(.5),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Icon(
+                                            isEditEmployeeSalary
+                                                ? Icons.check
+                                                : Icons.edit,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),

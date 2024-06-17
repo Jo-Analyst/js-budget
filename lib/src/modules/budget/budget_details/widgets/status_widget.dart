@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 
@@ -32,6 +31,7 @@ class _StatusWidgetState extends State<StatusWidget> {
     for (var st in situations) {
       st['isChecked'] = false;
     }
+
     setState(() {
       situation['isChecked'] = true;
       status = situation['status'];
@@ -116,18 +116,15 @@ class _StatusWidgetState extends State<StatusWidget> {
                 backgroundColor: Colors.deepPurple,
                 foregroundColor: Colors.white,
               ),
-              onPressed: () async {
-                var nav = Navigator.of(context);
-                final isError = await budgetController.changeStatus(
-                    status, widget.budgetId);
-
-                nav.pop(!isError ? status : widget.lastStatus);
+              onPressed: () {
+                Navigator.of(context).pop(status);
               },
               child: Text(
                 'Alterar Status',
                 style: TextStyle(
-                    fontSize: textStyleSmallDefault.fontSize,
-                    fontFamily: textStyleSmallDefault.fontFamily),
+                  fontSize: textStyleSmallDefault.fontSize,
+                  fontFamily: textStyleSmallDefault.fontFamily,
+                ),
               ),
             ),
           ),

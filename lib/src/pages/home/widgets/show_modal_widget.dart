@@ -8,7 +8,6 @@ class Modal {
       builder: (context) {
         return SizedBox(
           width: double.infinity,
-          // height: MediaQuery.sizeOf(context).height * .5,
           child: Column(
             children: [
               Container(

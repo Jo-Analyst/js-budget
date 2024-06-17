@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
-import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/detail_widget.dart';
+import 'package:js_budget/src/modules/budget/budget_details/widgets/show_dialog_status.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/status_widget.dart';
 import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
@@ -20,18 +21,16 @@ class BudgetDetailsPage extends StatefulWidget {
 
 class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   BudgetModel? budget;
-
   final budgetController = Injector.get<BudgetController>();
-
   List<ItemsBudgetModel> itemsBudget = [];
-
   List<MaterialItemsBudgetModel> materials = [];
-
+  String status = '';
   @override
   void initState() {
     super.initState();
 
     budget = budgetController.model.value;
+    status = budget!.status!;
     itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
     materials = budgetController.getMaterials(budget!);
   }
@@ -46,28 +45,26 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
         ),
         actions: [
           IconButton(
-            onPressed: () async {
-              var nav = Navigator.of(context);
-              final confirm = await showConfirmationDialog(
-                      context, 'Deseja mesmo excluir o orçamento?',
-                      buttonTitle: 'Sim') ??
-                  false;
-
-              if (confirm) {
-                await budgetController.delete(budget!.id, budget!.orderId!);
-                nav.pop();
-              }
-            },
-            icon: const Icon(Icons.delete),
-            tooltip: 'Excluir',
-            iconSize: 25,
-          ),
-          IconButton(
             onPressed: () {},
             icon: const Icon(Icons.share_outlined),
             tooltip: 'Compartilhar',
-            iconSize: 25,
+            iconSize: 30,
           ),
+          Visibility(
+            visible: status != budget!.status,
+            child: IconButton(
+              onPressed: () async {
+                budget!.status = status;
+                var nav = Navigator.of(context);
+                await budgetController.changeStatus(
+                    budget!.status!, budget!.id);
+                nav.pop();
+              },
+              icon: const Icon(Icons.check),
+              tooltip: 'Confirmar',
+              iconSize: 30,
+            ),
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -102,21 +99,24 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            budget!.status = await Modal.showModal(
-                                  context,
-                                  StatusWidget(
-                                    lastStatus: budget!.status!,
-                                    budgetId: budget!.id,
-                                  ),
-                                ) ??
-                                budget!.status;
+                            // status = await Modal.showModal(
+                            //       context,
+                            //       StatusWidget(
+                            //         lastStatus: status,
+                            //         budgetId: budget!.id,
+                            //       ),
+                            //     ) ??
+                            //     budget!.status;
+
+                            showDialogStatus(context);
+
                             setState(() {});
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                budget!.status!,
+                                status,
                                 style: TextStyle(
                                   fontSize: textStyleSmallDefault.fontSize,
                                   fontFamily: textStyleSmallDefault.fontFamily,
