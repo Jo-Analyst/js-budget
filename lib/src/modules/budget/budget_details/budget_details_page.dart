@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
@@ -7,8 +6,6 @@ import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/show_dialog_status.dart';
-import 'package:js_budget/src/modules/budget/budget_details/widgets/status_widget.dart';
-import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -33,6 +30,17 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     status = budget!.status!;
     itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
     materials = budgetController.getMaterials(budget!);
+  }
+
+  Future<String?> showDialogStatus(BuildContext context,
+      {required String status}) {
+    return showDialog<String>(
+      context: context,
+      builder: (_) => ShowDialogStatus(
+        statusCurrent: budget!.status!,
+        statusSelected: status,
+      ),
+    );
   }
 
   @override
@@ -108,7 +116,12 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                             //     ) ??
                             //     budget!.status;
 
-                            showDialogStatus(context);
+                            final result = await showDialogStatus(
+                              context,
+                              status: status,
+                            );
+
+                            status = result ?? status;
 
                             setState(() {});
                           },
