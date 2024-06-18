@@ -23,23 +23,27 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
 
   late int indexStatusCurrent;
   late String statusCurrent;
-  late Map<String, dynamic> statusSelected;
+  Map<String, dynamic> statusSelected = {};
   bool nextKeyIsActivated = false;
 
-  int selectStatus(String status) {
-    int index = 0;
+  void selectStatus(String status) {
     for (var situation in situations) {
       situation['isChecked'] = situation['status'] == status;
+
+      statusSelected =
+          situation['status'] == status ? situation : statusSelected;
+    }
+
+    setState(() {});
+  }
+
+  int getIndexStatusCurrent(String status) {
+    int index = 0;
+    for (var situation in situations) {
       if (situation['status'] == statusCurrent) {
         index = situation['index'];
       }
     }
-    statusSelected = {
-      'index': index,
-      'status': status,
-      'isChecked': true,
-    };
-    setState(() {});
 
     return index;
   }
@@ -72,7 +76,8 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
   void initState() {
     super.initState();
     statusCurrent = widget.statusCurrent;
-    indexStatusCurrent = selectStatus(widget.statusSelected);
+    indexStatusCurrent = getIndexStatusCurrent(statusCurrent);
+    selectStatus(widget.statusSelected);
     statusSelected['index'] > indexStatusCurrent ||
         statusSelected['status'] == widget.statusCurrent;
   }
@@ -152,7 +157,8 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
               backgroundColor: Colors.purple,
               foregroundColor: Colors.white,
               textStyle: textStyleSmallDefault),
-          onPressed: !nextKeyIsActivated
+          onPressed: !nextKeyIsActivated &&
+                  statusSelected['status'].toLowerCase() != 'concluído'
               ? () {
                   goToNextStatus(statusSelected['status']);
 
