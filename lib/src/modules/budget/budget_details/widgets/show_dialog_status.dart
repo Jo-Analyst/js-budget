@@ -30,7 +30,7 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
     int index = 0;
     for (var situation in situations) {
       situation['isChecked'] = situation['status'] == status;
-      if (situation['status'] == status) {
+      if (situation['status'] == statusCurrent) {
         index = situation['index'];
       }
     }
@@ -73,14 +73,31 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
     super.initState();
     statusCurrent = widget.statusCurrent;
     indexStatusCurrent = selectStatus(widget.statusSelected);
-    // nextKeyIsActivated = statusSelected['index'] > indexStatusCurrent;
+    statusSelected['index'] > indexStatusCurrent ||
+        statusSelected['status'] == widget.statusCurrent;
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Column(
+      title: Text.rich(
+        TextSpan(
+          children: [
+            const TextSpan(
+              text: 'Status atual: ',
+              style: textStyleSmallFontWeight,
+            ),
+            TextSpan(
+              text: widget.statusCurrent,
+              style: textStyleSmallDefault,
+            ),
+          ],
+        ),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
+          const Divider(),
           Column(
             children: situations.map((st) {
               bool isChecked = st['isChecked'];
