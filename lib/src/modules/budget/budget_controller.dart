@@ -133,6 +133,7 @@ class BudgetController with Messages {
               value: materialItem.value,
               quantity: materialItem.quantity,
               material: MaterialModel(
+                id: materialItem.material.id,
                 name: materialItem.material.name,
               ),
             ),
@@ -151,9 +152,16 @@ class BudgetController with Messages {
     return materialItemBudget;
   }
 
-  Future<bool> changeStatus(String status, int budgetId) async {
+  Future<bool> changeStatusAndStockMaterial(String status, int budgetId,
+      {required List<MaterialItemsBudgetModel> materials,
+      bool? isDecrementation}) async {
     bool isError = false;
-    final results = await _budgetRepository.changeStatus(status, budgetId);
+    final results = await _budgetRepository.changeStatusAndMaterial(
+      status,
+      budgetId,
+      materials: materials,
+      isDecrementation: isDecrementation,
+    );
 
     switch (results) {
       case Right():

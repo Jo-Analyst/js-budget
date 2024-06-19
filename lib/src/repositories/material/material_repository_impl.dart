@@ -3,6 +3,7 @@ import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
+import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/repositories/expense/workshop_expense/workshop_repository_impl.dart';
 import 'package:js_budget/src/repositories/material/transform_material_json.dart';
@@ -104,6 +105,31 @@ class MaterialRepositoryImpl implements MaterialRepository {
     } else {
       await WorkshopExpenseRepositoryImpl()
           .updateByMaterialIdAndDate(txn, expense, dateOfLastPurchase!);
+    }
+  }
+
+  @override
+  Future<void> changeStockQuantity(
+      Transaction txn, List<MaterialItemsBudgetModel> materialItems,
+      {required bool isDecrementation}) async {
+    for (var materialItem in materialItems) {
+      isDecrementation
+          ? txn.rawUpdate(
+              'UPDATE materials SET quantity = quantity - ?, last_quantity_added = last_quantity_added - ? WHERE id = ?',
+              [
+                materialItem.quantity,
+                materialItem.quantity,
+                materialItem.material.id
+              ],
+            )
+          : txn.rawUpdate(
+              'UPDATE materials SET quantity = quantity + ?, last_quantity_added = last_quantity_added + ? WHERE id = ?',
+              [
+                materialItem.quantity,
+                materialItem.quantity,
+                materialItem.material.id
+              ],
+            );
     }
   }
 }

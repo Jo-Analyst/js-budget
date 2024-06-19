@@ -22,6 +22,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   List<ItemsBudgetModel> itemsBudget = [];
   List<MaterialItemsBudgetModel> materials = [];
   String status = '';
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +44,20 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     );
   }
 
+  bool? willDecrease() {
+    final budgetStatus = budget!.status!.toLowerCase();
+    final selectedStatus = status.toLowerCase();
+
+    if (budgetStatus == 'aprovado' && selectedStatus == 'concluído') {
+      return true;
+    } else if (budgetStatus == 'concluído' &&
+        (selectedStatus == 'aprovado' || selectedStatus == 'em aberto')) {
+      return false;
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,10 +77,12 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
             visible: status != budget!.status,
             child: IconButton(
               onPressed: () async {
-                budget!.status = status;
                 var nav = Navigator.of(context);
-                await budgetController.changeStatus(
-                    budget!.status!, budget!.id);
+
+                await budgetController.changeStatusAndStockMaterial(
+                    budget!.status!, budget!.id,
+                    materials: materials, isDecrementation: willDecrease());
+                budget!.status = status;
                 nav.pop();
               },
               icon: const Icon(Icons.check),
@@ -107,15 +124,6 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                         ),
                         GestureDetector(
                           onTap: () async {
-                            // status = await Modal.showModal(
-                            //       context,
-                            //       StatusWidget(
-                            //         lastStatus: status,
-                            //         budgetId: budget!.id,
-                            //       ),
-                            //     ) ??
-                            //     budget!.status;
-
                             final result = await showDialogStatus(
                               context,
                               status: status,

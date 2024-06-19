@@ -26,7 +26,6 @@ class _HomePageState extends State<HomePage> {
     {'type': 'Em aberto', 'isSelected': false},
     {'type': 'Aprovado', 'isSelected': false},
     {'type': 'Concluído', 'isSelected': false},
-    {'type': 'Cancelado', 'isSelected': false},
   ];
 
   void selectStatus(Map<String, dynamic> filter) {
