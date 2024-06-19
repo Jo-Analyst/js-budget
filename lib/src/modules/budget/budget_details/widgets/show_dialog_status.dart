@@ -78,8 +78,7 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
     statusCurrent = widget.statusCurrent;
     indexStatusCurrent = getIndexStatusCurrent(statusCurrent);
     selectStatus(widget.statusSelected);
-    statusSelected['index'] > indexStatusCurrent ||
-        statusSelected['status'] == widget.statusCurrent;
+    nextKeyIsActivated = statusSelected['index'] > indexStatusCurrent;
   }
 
   @override
@@ -154,9 +153,10 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.purple,
-              foregroundColor: Colors.white,
-              textStyle: textStyleSmallDefault),
+            backgroundColor: Colors.purple,
+            foregroundColor: Colors.white,
+            textStyle: textStyleSmallDefault,
+          ),
           onPressed: !nextKeyIsActivated &&
                   statusSelected['status'].toLowerCase() != 'concluído'
               ? () {
