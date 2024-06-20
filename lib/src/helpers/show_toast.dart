@@ -4,7 +4,11 @@ import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 showToast(
-    {required String message, Color? color, Icon? icon, required Position position}) {
+    {required String message,
+    Color? color,
+    Icon? icon,
+    required Position position,
+   required int timeSeconds}) {
   showSimpleNotification(
     Padding(
       padding: const EdgeInsets.all(8.0),
@@ -22,6 +26,6 @@ showToast(
     position: position == Position.bottom
         ? NotificationPosition.bottom
         : NotificationPosition.top,
-    duration: const Duration(seconds: 3),
+    duration: Duration(seconds: timeSeconds),
   );
 }

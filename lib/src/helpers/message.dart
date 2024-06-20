@@ -4,8 +4,10 @@ import 'package:js_budget/src/helpers/show_toast.dart';
 enum Position { top, bottom }
 
 mixin class Messages {
-  void showError(String message, {Position position = Position.bottom}) {
+  void showError(String message,
+      {Position position = Position.bottom, int timeSeconds = 3}) {
     showToast(
+      timeSeconds: timeSeconds,
       message: message,
       color: Colors.red,
       position: position,
@@ -16,8 +18,10 @@ mixin class Messages {
     );
   }
 
-  void showInfo(String message, {Position position = Position.bottom}) {
+  void showInfo(String message,
+      {Position position = Position.bottom, int timeSeconds = 3}) {
     showToast(
+      timeSeconds: timeSeconds,
       position: position,
       message: message,
       color: const Color.fromARGB(255, 20, 87, 143),
@@ -28,8 +32,10 @@ mixin class Messages {
     );
   }
 
-  void showSuccess(String message, {Position position = Position.bottom}) {
+  void showSuccess(String message,
+      {Position position = Position.bottom, int timeSeconds = 3}) {
     showToast(
+      timeSeconds: timeSeconds,
       position: position,
       message: message,
       color: Colors.green,
@@ -37,56 +43,3 @@ mixin class Messages {
     );
   }
 }
-
-// mixin MessageStateMixin {
-//   final Signal<String?> _errorMessage = signal(null);
-//   String? get errorMessage => _errorMessage();
-
-//   final Signal<String?> _infoMessage = signal(null);
-//   String? get infoMessage => _infoMessage();
-
-//   final Signal<String?> _successMessage = signal(null);
-//   String? get successMessage => _successMessage();
-
-//   void clearError() => _errorMessage.value = null;
-//   void clearInfo() => _infoMessage.value = null;
-//   void clearSuccess() => _successMessage.value = null;
-
-//   void showError(String message) {
-//     untracked(() => clearError());
-//     _errorMessage.value = message;
-//   }
-
-//   void showInfo(String message) {
-//     untracked(() => clearInfo());
-//     _infoMessage.value = message;
-//   }
-
-//   void showSuccess(String message) {
-//     untracked(() => clearSuccess());
-//     _successMessage.value = message;
-//   }
-
-//   void clearAllMessages() {
-//     untracked(() {
-//       clearError();
-//       clearInfo();
-//       clearSuccess();
-//     });
-//   }
-// }
-
-// mixin MessageViewMixin<T extends StatefulWidget> on State<T> {
-//   void messageListener(MessageStateMixin state) {
-//     effect(() {
-//       switch (state) {
-//         case MessageStateMixin(:final errorMessage?):
-//           Messages.showError(errorMessage, context);
-//         case MessageStateMixin(:final infoMessage?):
-//           Messages.showInfo(infoMessage, context);
-//         case MessageStateMixin(:final successMessage?):
-//           Messages.showSuccess(successMessage, context);
-//       }
-//     });
-//   }
-// }

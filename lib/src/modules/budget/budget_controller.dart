@@ -1,7 +1,9 @@
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/repositories/budget/transform_budget_json.dart';
 import 'package:signals/signals.dart';
 
@@ -177,5 +179,25 @@ class BudgetController with Messages {
     }
 
     return isError;
+  }
+
+  Future<bool> thereIsPaymentMade(
+      // Há pagamento feito
+
+      int paymentId,
+      bool checkStatus) async {
+    final paymentHistoryController = Injector.get<PaymentHistoryController>();
+
+    if (!checkStatus) return false;
+
+    await paymentHistoryController.findPaymentHistory(paymentId);
+    if (paymentHistoryController.data.isNotEmpty) {
+      showInfo(
+          'Não é possível reverter o pedido para o status ‘Em aberto’ devido a um pagamento já realizado.',
+          timeSeconds: 5);
+      return true;
+    }
+
+    return false;
   }
 }

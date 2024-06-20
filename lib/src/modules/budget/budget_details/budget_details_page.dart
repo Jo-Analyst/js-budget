@@ -58,6 +58,12 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     return null;
   }
 
+  bool checkStatus(String statusCurrent, String selectedStatus) {
+    return (statusCurrent.toLowerCase() == 'concluído' ||
+            statusCurrent.toLowerCase() == 'aprovado') &&
+        selectedStatus.toLowerCase() == 'em aberto';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,6 +84,13 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
             child: IconButton(
               onPressed: () async {
                 var nav = Navigator.of(context);
+
+                bool thereIsPaymentMade =
+                    await budgetController.thereIsPaymentMade(
+                        budget!.payment!.id,
+                        checkStatus(budget!.status!, status));
+
+                if (thereIsPaymentMade) return;
 
                 await budgetController.changeStatusAndStockMaterial(
                     budget!.status!, budget!.id,
