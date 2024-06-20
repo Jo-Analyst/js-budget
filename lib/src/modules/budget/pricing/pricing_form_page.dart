@@ -14,6 +14,7 @@ import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validatorless/validatorless.dart';
 
 class PricingFormPage extends StatefulWidget {
@@ -31,6 +32,7 @@ class _PricingFormPageState extends State<PricingFormPage>
   final formKey = GlobalKey<FormState>();
   double electricityBill = 0, waterBill = 0, rent = 0, das = 0, other = 0;
   bool isEditEmployeeSalary = false;
+  late SharedPreferences prefs;
 
   List<Map<String, dynamic>> workshopExpense = [
     {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
@@ -186,12 +188,19 @@ class _PricingFormPageState extends State<PricingFormPage>
   @override
   void initState() {
     super.initState();
+    load();
+  }
+
+  Future<void> load() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.getDouble('employeeSalary') == null) {
+      await prefs.setDouble('employeeSalary', 0.0);
+    }
     termEC.text = pricingController.term.toString();
     preworkEC.updateValue(profileController.model.value!.salaryExpectation);
-    employeeSalaryEC.updateValue(1412);
+    employeeSalaryEC.updateValue(prefs.getDouble('employeeSalary') as double);
 
     initializeForm();
-
     calculateAverageExpense();
   }
 
