@@ -93,7 +93,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                 if (thereIsPaymentMade) return;
 
                 await budgetController.changeStatusAndStockMaterial(
-                    budget!.status!, budget!.id,
+                    status, budget!.id,
                     materialItems: materials, isDecrementation: willDecrease());
                 budget!.status = status;
                 nav.pop();
