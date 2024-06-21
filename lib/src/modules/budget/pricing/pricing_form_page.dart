@@ -551,10 +551,18 @@ class _PricingFormPageState extends State<PricingFormPage>
                                       ),
                                       const SizedBox(width: 15),
                                       GestureDetector(
-                                        onTap: () => setState(() {
-                                          isEditEmployeeSalary =
-                                              !isEditEmployeeSalary;
-                                        }),
+                                        onTap: () async {
+                                          if (isEditEmployeeSalary) {
+                                            await prefs.setDouble(
+                                                'employeeSalary',
+                                                employeeSalaryEC.numberValue);
+                                          }
+
+                                          setState(() {
+                                            isEditEmployeeSalary =
+                                                !isEditEmployeeSalary;
+                                          });
+                                        },
                                         child: Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
@@ -687,8 +695,9 @@ class _PricingFormPageState extends State<PricingFormPage>
               ),
               onPressed: () async {
                 if (formKey.currentState!.validate() &&
-                    pricingController
-                        .validate(pricingController.materialItemsBudget)) {
+                    pricingController.validate(
+                        pricingController.materialItemsBudget,
+                        isEditEmployeeSalary)) {
                   pricingController.calculateTotalMaterial();
                   pricingController.calculateTotalExpenses();
                   pricingController.calculateProfitMargin();

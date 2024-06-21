@@ -47,7 +47,6 @@ class _OrderPageState extends State<OrderPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pedidos'),
-        actions: const [],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15),

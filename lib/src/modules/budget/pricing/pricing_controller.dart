@@ -25,12 +25,17 @@ class PricingController with Messages {
   final workshopExpenseItemsBudget =
       ListSignal<WorkshopExpenseItemsBudgetModel>([]);
 
-  bool validate(List<MaterialItemsBudgetModel> materials) {
-    if (materials.isEmpty) {
+  bool validate(
+      List<MaterialItemsBudgetModel> materials, bool isEditEmployeeSalary) {
+    bool isValid = materials.isNotEmpty && !isEditEmployeeSalary;
+
+    if (isEditEmployeeSalary) {
+      showInfo('Confirme o salário do funcionário');
+    } else if (materials.isEmpty) {
       showInfo('Informe os materiais que será adicionado no orçamento');
     }
 
-    return materials.isNotEmpty;
+    return isValid;
   }
 
   void addMaterialInListMaterial(List<MaterialModel> materials) {

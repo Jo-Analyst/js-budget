@@ -141,8 +141,9 @@ class OrderDetailPage extends StatelessWidget {
                   ),
                 ),
 
-              if (order.observation != null)
-                Container(
+              Visibility(
+                visible: order.observation!.isNotEmpty,
+                child: Container(
                   margin: const EdgeInsets.only(top: 5),
                   child: Card(
                     child: ListViewTile(
@@ -159,6 +160,7 @@ class OrderDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
             ],
           ),
         ),
