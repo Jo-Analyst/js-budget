@@ -63,7 +63,9 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
   }
 
   Future<void> loadMaterial() async {
-    await controller.findMaterials();
+    if (controller.data.isEmpty) {
+      await controller.findMaterials();
+    }
   }
 
   @override

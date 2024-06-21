@@ -94,7 +94,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
 
                 await budgetController.changeStatusAndStockMaterial(
                     budget!.status!, budget!.id,
-                    materials: materials, isDecrementation: willDecrease());
+                    materialItems: materials, isDecrementation: willDecrease());
                 budget!.status = status;
                 nav.pop();
               },

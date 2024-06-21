@@ -3,6 +3,7 @@ import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/repositories/budget/transform_budget_json.dart';
 import 'package:signals/signals.dart';
@@ -155,13 +156,15 @@ class BudgetController with Messages {
   }
 
   Future<bool> changeStatusAndStockMaterial(String status, int budgetId,
-      {required List<MaterialItemsBudgetModel> materials,
+      {required List<MaterialItemsBudgetModel> materialItems,
       bool? isDecrementation}) async {
     bool isError = false;
+    final materialController = Injector.get<MaterialController>();
+
     final results = await _budgetRepository.changeStatusAndMaterial(
       status,
       budgetId,
-      materials: materials,
+      materials: materialItems,
       isDecrementation: isDecrementation,
     );
 
@@ -173,6 +176,19 @@ class BudgetController with Messages {
             break;
           }
         }
+
+        if (isDecrementation != null && materialItems.isNotEmpty) {
+          for (var item in materialItems) {
+            if (isDecrementation) {
+              materialController.decreaseQuantity(
+                  item.material.quantity, item.material.id);
+            } else {
+              materialController.increaseQuantity(
+                  item.material.quantity, item.material.id);
+            }
+          }
+        }
+
       case Left():
         showError('Houve um erro ao atualizar o status');
         isError = true;

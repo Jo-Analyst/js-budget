@@ -54,7 +54,8 @@ class MaterialController with Messages {
         }
         _data.add(material);
         if (!addMaterialValuesToStock) {
-          worshopController.updateData(_setDataMaterialInExpense(material), dateOfLastPurchase);
+          worshopController.updateData(
+              _setDataMaterialInExpense(material), dateOfLastPurchase);
         } else {
           worshopController.addData(_setDataMaterialInExpense(material));
         }
@@ -104,6 +105,24 @@ class MaterialController with Messages {
 
       case Left():
         showError('Houver erro ao buscar os materiais');
+    }
+  }
+
+  void decreaseQuantity(int quantity, int materiaId) {
+    for (var data in _data) {
+      if (data.id == materiaId) {
+        data.quantity -= quantity;
+        data.lastQuantityAdded -= quantity;
+      }
+    }
+  }
+
+  void increaseQuantity(int quantity, int materiaId) {
+    for (var data in _data) {
+      if (data.id == materiaId) {
+        data.quantity += quantity;
+        data.lastQuantityAdded += quantity;
+      }
     }
   }
 }
