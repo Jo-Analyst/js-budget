@@ -7,7 +7,6 @@ import 'package:js_budget/src/modules/finance/finance_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/modules/widget/slide_date.dart';
 import 'package:js_budget/src/pages/home/widgets/finacial_last.widget.dart';
-import 'package:js_budget/src/pages/widgets/more_details_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/list_month.dart';
 import 'package:signals/signals_flutter.dart';
@@ -145,11 +144,6 @@ class _FinancePageState extends State<FinancePage> {
                             value: valueExpense,
                             textColor: Colors.red,
                           ),
-                          const Divider(),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15),
-                            child: MoreDetailsWidget(),
-                          ),
                         ],
                       ),
                     ),
@@ -157,6 +151,7 @@ class _FinancePageState extends State<FinancePage> {
                 ),
               ),
 
+              const SizedBox(height: 10),
               // Finanças da oficina
               Container(
                 padding: const EdgeInsets.symmetric(
@@ -213,11 +208,6 @@ class _FinancePageState extends State<FinancePage> {
                                 : netValue == 0
                                     ? Colors.purple
                                     : Colors.green,
-                          ),
-                          const Divider(),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 15),
-                            child: MoreDetailsWidget(),
                           ),
                         ],
                       ),
