@@ -366,6 +366,8 @@ class _BudgetPageState extends State<BudgetPage> {
                             ),
                             TextFormField(
                               controller: freightEC,
+                              onTapOutside: (_) =>
+                                  FocusScope.of(context).unfocus(),
                               decoration: const InputDecoration(
                                 label: Text(
                                   'Valor do frete',

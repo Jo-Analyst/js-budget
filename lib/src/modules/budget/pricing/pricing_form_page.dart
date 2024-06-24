@@ -174,6 +174,19 @@ class _PricingFormPageState extends State<PricingFormPage>
         .updateValue(pricingController.percentageProfitMargin);
   }
 
+  void changeEmployeeSalary() {
+    for (var workShop in pricingController.workshopExpenseItemsBudget) {
+      if (workShop.type == 'Salário do funcionário') {
+        workShop.dividedValue = pricingController.timeIncentive == 'Dia'
+            ? employeeSalaryEC.numberValue / 30
+            : (employeeSalaryEC.numberValue / 30) / 8;
+        workShop.accumulatedValue =
+            workShop.dividedValue * int.parse(termEC.text);
+        workShop.value = employeeSalaryEC.numberValue;
+      }
+    }
+  }
+
   void calculateExpense(int index, double value) {
     pricingController.calculateExpensesByPeriodForEachExpense(
         index, pricingController.timeIncentive, value, pricingController.term);
@@ -556,6 +569,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                             await prefs.setDouble(
                                                 'employeeSalary',
                                                 employeeSalaryEC.numberValue);
+                                            changeEmployeeSalary();
                                           }
 
                                           setState(() {
