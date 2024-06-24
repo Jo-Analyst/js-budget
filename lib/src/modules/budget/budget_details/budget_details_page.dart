@@ -3,6 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
+import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/show_dialog_status.dart';
@@ -21,7 +22,9 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   final budgetController = Injector.get<BudgetController>();
   List<ItemsBudgetModel> itemsBudget = [];
   List<MaterialItemsBudgetModel> materials = [];
+  List<WorkshopExpenseItemsBudgetModel> workshopExpense = [];
   String status = '';
+  int term = 0;
 
   @override
   void initState() {
@@ -31,9 +34,10 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     status = budget!.status!;
     itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
     materials = budgetController.getMaterials(budget!);
-    for (var budget in budgetController.getWorkshopExpense(budget!)) {
-      print(budget.toJson());
-    }
+    final (workshopExpense, term) =
+        budgetController.getWorkshopExpense(budget!);
+    this.workshopExpense = workshopExpense;
+    this.term = term;
   }
 
   Future<String?> showDialogStatus(BuildContext context,
@@ -200,6 +204,15 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   title: 'Meio de Pagamento',
                   detailType: DetailType.payment,
                 ),
+              Visibility(
+                visible: workshopExpense.isNotEmpty,
+                child: DetailWidget(
+                  data: workshopExpense,
+                  title: 'Custos Fixos',
+                  detailType: DetailType.expense,
+                  term: term,
+                ),
+              ),
             ],
           ),
         ),

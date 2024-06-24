@@ -9,6 +9,7 @@ import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_form_controller.dart';
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
+import 'package:js_budget/src/modules/widget/custom_icons.dart';
 import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
@@ -35,10 +36,10 @@ class _PricingFormPageState extends State<PricingFormPage>
   late SharedPreferences prefs;
 
   List<Map<String, dynamic>> workshopExpense = [
-    {'icon': Icons.lightbulb, 'type': 'Conta de luz', 'isChecked': true},
-    {'icon': Icons.local_drink, 'type': 'Conta de água', 'isChecked': true},
-    {'icon': Icons.home, 'type': 'Aluguel', 'isChecked': true},
-    {'icon': Icons.money_off, 'type': 'DAS/SIMEI', 'isChecked': true},
+    {'type': 'Conta de luz', 'isChecked': true},
+    {'type': 'Conta de água', 'isChecked': true},
+    {'type': 'Aluguel', 'isChecked': true},
+    {'type': 'DAS/SIMEI', 'isChecked': true},
   ];
 
   void toggleExpenseCheckStatus(Map<String, dynamic> expense) {
@@ -373,7 +374,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     toggleExpenseCheckStatus(expense);
                                     setInFieldsAverageExpense(expense['type']);
                                   },
-                                  leading: Icon(expense['icon']),
+                                  leading: CustomIcons.workShopExpense(
+                                      expense['type']),
                                   title: Text(
                                     expense['type'],
                                     style: textStyleSmallDefault,

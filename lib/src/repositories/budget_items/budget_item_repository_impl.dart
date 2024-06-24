@@ -31,9 +31,11 @@ class BudgetItemRepositoryImpl implements BudgetItemRepository {
       _materialItemBudget.saveMaterialItemBudget(txn, materialItem, lastId);
     });
 
-    itemsBudget.workshopExpenseItemsBudget.asMap().forEach((key, expenseItem) {
-      _expenseItemBudget.saveExpenseItemBudget(txn, expenseItem, lastId);
-    });
+    for (var expenseItem in itemsBudget.workshopExpenseItemsBudget) {
+      if (expenseItem.accumulatedValue > 0) {
+        _expenseItemBudget.saveExpenseItemBudget(txn, expenseItem, lastId);
+      }
+    }
   }
 
   @override

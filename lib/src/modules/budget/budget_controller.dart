@@ -156,15 +156,18 @@ class BudgetController with Messages {
     return materialItemBudget;
   }
 
-  List<WorkshopExpenseItemsBudgetModel> getWorkshopExpense(BudgetModel budget) {
+  (List<WorkshopExpenseItemsBudgetModel>, int) getWorkshopExpense(
+      BudgetModel budget) {
     List<WorkshopExpenseItemsBudgetModel> workShopExpenseItemBudget = [];
+    int term = 0;
     budget.itemsBudget!.asMap().forEach((key, itemBudget) {
       itemBudget.workshopExpenseItemsBudget
           .asMap()
           .forEach((index, workshopExpenseItem) {
         if (workShopExpenseItemBudget.isEmpty ||
-            !workShopExpenseItemBudget
-                .any((mt) => mt.type == workshopExpenseItem.type)) {
+            (!workShopExpenseItemBudget
+                    .any((mt) => mt.type == workshopExpenseItem.type) &&
+                workshopExpenseItem.accumulatedValue > 0)) {
           workShopExpenseItemBudget.add(
             WorkshopExpenseItemsBudgetModel(
               value: workshopExpenseItem.value,
@@ -176,15 +179,18 @@ class BudgetController with Messages {
         } else {
           for (var itemWorkShop in workShopExpenseItemBudget) {
             if (itemWorkShop.type == workshopExpenseItem.type) {
+              itemWorkShop.dividedValue = workshopExpenseItem.dividedValue;
               itemWorkShop.accumulatedValue +=
                   workshopExpenseItem.accumulatedValue;
             }
           }
         }
       });
+
+      term += itemBudget.term;
     });
 
-    return workShopExpenseItemBudget;
+    return (workShopExpenseItemBudget, term);
   }
 
   Future<bool> changeStatusAndStockMaterial(String status, int budgetId,

@@ -1,23 +1,26 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/modules/widget/icon_payments_method.dart';
 
+import 'package:js_budget/src/modules/widget/custom_icons.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-enum DetailType { productsAndService, materials, payment, freight }
+enum DetailType { productsAndService, materials, payment, freight, expense }
 
 class DetailWidget extends StatelessWidget {
   final List<dynamic> data;
   final String title;
   final DetailType detailType;
   final Icon? iconPayment;
+  final int? term;
   const DetailWidget({
-    Key? key,
+    super.key,
     required this.data,
     required this.title,
     required this.detailType,
     this.iconPayment,
-  }) : super(key: key);
+    this.term,
+  });
 
   (String title, String subtitle, double value, Icon icon) setValueInListTile(
       dynamic dt) {
@@ -44,12 +47,17 @@ class DetailWidget extends StatelessWidget {
         subTitle =
             '${dt.numberOfInstallments}x ${UtilsService.moneyToCurrency(dt.amountToPay / dt.numberOfInstallments)}';
         value = value = dt.amountToPay;
-        icon = iconPaymentsMethod(dt.specie)!;
+        icon = CustomIcons.paymentsMethod(dt.specie)!;
       case DetailType.freight:
         title = 'Frete';
         subTitle = '1x ${UtilsService.moneyToCurrency(data.first)}';
         value = data.first;
         icon = const Icon(Icons.local_shipping);
+      case DetailType.expense:
+        title = dt.type;
+        subTitle = '${term}x ${UtilsService.moneyToCurrency(dt.dividedValue)}';
+        value = term! * dt.dividedValue as double;
+        icon = CustomIcons.workShopExpense(dt.type)!;
     }
 
     return (title, subTitle, value, icon);

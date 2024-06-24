@@ -9,7 +9,7 @@ import 'package:js_budget/src/modules/budget/item_budget/item_budget_controller.
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/budget/widget/payment_methods_widget.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
-import 'package:js_budget/src/modules/widget/icon_payments_method.dart';
+import 'package:js_budget/src/modules/widget/custom_icons.dart';
 import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
@@ -396,7 +396,8 @@ class _BudgetPageState extends State<BudgetPage> {
                           children: [
                             ListTile(
                                 contentPadding: EdgeInsets.zero,
-                                leading: iconPaymentsMethod(methodPayment),
+                                leading:
+                                    CustomIcons.paymentsMethod(methodPayment),
                                 title: Text(
                                   methodPayment,
                                   style: textStyleSmallDefault,

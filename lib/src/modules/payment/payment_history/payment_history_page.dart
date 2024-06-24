@@ -4,7 +4,7 @@ import 'package:js_budget/src/models/payment_history_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
-import 'package:js_budget/src/modules/widget/icon_payments_method.dart';
+import 'package:js_budget/src/modules/widget/custom_icons.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -112,7 +112,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                       children: [
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          leading: iconPaymentsMethod(payment.specie),
+                          leading: CustomIcons.paymentsMethod(payment.specie),
                           title: Text(
                             UtilsService.moneyToCurrency(payment.amountPaid),
                             style: const TextStyle(

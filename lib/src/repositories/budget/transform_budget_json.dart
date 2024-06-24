@@ -68,6 +68,7 @@ class TransformBudgetJson {
         subValue: budget['sub_value'],
         unitaryValue: budget['unitary_value'],
         quantity: budget['quantity'] ?? 1,
+        term: budget['term'],
         product: budget['product_name'] != null
             ? ProductModel.fromJson({
                 'id': 0,
@@ -133,6 +134,7 @@ class TransformBudgetJson {
         itemBudget.workshopExpenseItemsBudget.add(
           WorkshopExpenseItemsBudgetModel(
             accumulatedValue: budget['accumulated_value'],
+            dividedValue: budget['divided_value'],
             itemBudgetId: itemBudget.id,
             type: budget['type'],
           ),
