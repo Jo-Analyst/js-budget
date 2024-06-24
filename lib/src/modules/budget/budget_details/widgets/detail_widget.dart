@@ -47,7 +47,7 @@ class DetailWidget extends StatelessWidget {
         icon = iconPaymentsMethod(dt.specie)!;
       case DetailType.freight:
         title = 'Frete';
-        subTitle = UtilsService.moneyToCurrency(data.first);
+        subTitle = '1x ${UtilsService.moneyToCurrency(data.first)}';
         value = data.first;
         icon = const Icon(Icons.local_shipping);
     }

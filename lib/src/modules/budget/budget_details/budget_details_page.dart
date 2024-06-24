@@ -186,17 +186,17 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   detailType: DetailType.materials,
                 ),
               ),
+              DetailWidget(
+                data: [budget!.freight],
+                title: 'Frete',
+                detailType: DetailType.freight,
+              ),
               if (budget!.payment != null)
                 DetailWidget(
                   data: [budget!.payment!],
                   title: 'Meio de Pagamento',
                   detailType: DetailType.payment,
                 ),
-              DetailWidget(
-                data: [budget!.freight],
-                title: 'Frete',
-                detailType: DetailType.freight,
-              ),
             ],
           ),
         ),
