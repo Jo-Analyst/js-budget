@@ -3,6 +3,7 @@ import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/repositories/budget/transform_budget_json.dart';
@@ -153,6 +154,37 @@ class BudgetController with Messages {
     });
 
     return materialItemBudget;
+  }
+
+  List<WorkshopExpenseItemsBudgetModel> getWorkshopExpense(BudgetModel budget) {
+    List<WorkshopExpenseItemsBudgetModel> workShopExpenseItemBudget = [];
+    budget.itemsBudget!.asMap().forEach((key, itemBudget) {
+      itemBudget.workshopExpenseItemsBudget
+          .asMap()
+          .forEach((index, workshopExpenseItem) {
+        if (workShopExpenseItemBudget.isEmpty ||
+            !workShopExpenseItemBudget
+                .any((mt) => mt.type == workshopExpenseItem.type)) {
+          workShopExpenseItemBudget.add(
+            WorkshopExpenseItemsBudgetModel(
+              value: workshopExpenseItem.value,
+              type: workshopExpenseItem.type,
+              accumulatedValue: workshopExpenseItem.accumulatedValue,
+              dividedValue: workshopExpenseItem.dividedValue,
+            ),
+          );
+        } else {
+          for (var itemWorkShop in workShopExpenseItemBudget) {
+            if (itemWorkShop.type == workshopExpenseItem.type) {
+              itemWorkShop.accumulatedValue +=
+                  workshopExpenseItem.accumulatedValue;
+            }
+          }
+        }
+      });
+    });
+
+    return workShopExpenseItemBudget;
   }
 
   Future<bool> changeStatusAndStockMaterial(String status, int budgetId,

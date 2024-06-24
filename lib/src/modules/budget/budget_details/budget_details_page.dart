@@ -31,6 +31,9 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     status = budget!.status!;
     itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
     materials = budgetController.getMaterials(budget!);
+    for (var budget in budgetController.getWorkshopExpense(budget!)) {
+      print(budget.toJson());
+    }
   }
 
   Future<String?> showDialogStatus(BuildContext context,
