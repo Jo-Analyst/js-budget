@@ -192,6 +192,11 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   title: 'Meio de Pagamento',
                   detailType: DetailType.payment,
                 ),
+              DetailWidget(
+                data: [budget!.freight],
+                title: 'Frete',
+                detailType: DetailType.freight,
+              ),
             ],
           ),
         ),

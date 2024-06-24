@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
@@ -24,10 +25,12 @@ class BudgetPage extends StatefulWidget {
 
 class _BudgetPageState extends State<BudgetPage> {
   final numberOfInstallmentsEC = TextEditingController();
+  final freightEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final orderController = Injector.get<OrderController>();
   final pricingController = Injector.get<PricingController>();
   final budgetController = Injector.get<BudgetController>();
   final itemBudgetController = Injector.get<ItemBudgetController>();
+
   double valueTotalProduct = 0, valueTotalBudget = 0;
   int numberOfInstallments = 1;
   String methodPayment = 'Nenhum';
@@ -65,8 +68,10 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
   void calculateBudget() {
-    valueTotalBudget = sumPriceService() + valueTotalProduct;
+    valueTotalBudget =
+        sumPriceService() + valueTotalProduct + freightEC.numberValue;
     budgetModel.valueTotal = valueTotalBudget;
+    setState(() {});
   }
 
   void changeValuePricing(int index) {
@@ -93,6 +98,13 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    numberOfInstallmentsEC.dispose();
+    freightEC.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -107,6 +119,7 @@ class _BudgetPageState extends State<BudgetPage> {
 
               if (isValid) {
                 budgetModel.itemsBudget = itemBudgetController.data;
+                budgetModel.freight = freightEC.numberValue;
                 budgetModel.payment = methodPayment != 'Nenhum'
                     ? PaymentModel(
                         specie: methodPayment,
@@ -142,6 +155,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                 child: Column(
                   children: [
+                    // Dados do pedido
                     Card(
                       child: ListViewTile(
                         title: 'Dados do Pedido',
@@ -335,6 +349,38 @@ class _BudgetPageState extends State<BudgetPage> {
                                 ),
                               )
                               .toList(),
+                        ),
+                      ),
+                    ),
+                    // Frete
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const Text(
+                              'Frete',
+                              style: textStyleSmallFontWeight,
+                            ),
+                            TextFormField(
+                              controller: freightEC,
+                              decoration: const InputDecoration(
+                                label: Text(
+                                  'Valor do frete',
+                                  style: textStyleSmallDefault,
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontFamily: 'Anta',
+                                fontSize: textStyleSmallDefault.fontSize,
+                              ),
+                              onChanged: (value) {
+                                calculateBudget();
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),

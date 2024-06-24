@@ -4,11 +4,7 @@ import 'package:js_budget/src/modules/widget/icon_payments_method.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-enum DetailType {
-  productsAndService,
-  materials,
-  payment,
-}
+enum DetailType { productsAndService, materials, payment, freight }
 
 class DetailWidget extends StatelessWidget {
   final List<dynamic> data;
@@ -49,6 +45,11 @@ class DetailWidget extends StatelessWidget {
             '${dt.numberOfInstallments}x ${UtilsService.moneyToCurrency(dt.amountToPay / dt.numberOfInstallments)}';
         value = value = dt.amountToPay;
         icon = iconPaymentsMethod(dt.specie)!;
+      case DetailType.freight:
+        title = 'Frete';
+        subTitle = UtilsService.moneyToCurrency(data.first);
+        value = data.first;
+        icon = const Icon(Icons.local_shipping);
     }
 
     return (title, subTitle, value, icon);

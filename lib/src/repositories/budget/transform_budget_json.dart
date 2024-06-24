@@ -17,6 +17,7 @@ class TransformBudgetJson {
         itemsBudget: budget['items_budget'],
         createdAt: budget['created_at'],
         client: budget['client'],
+        freight: budget['freight'],
         orderId: budget['order_id'],
         payment: budget['payment']);
   }
@@ -33,27 +34,29 @@ class TransformBudgetJson {
           !tempBudgets.any((budget) => budget.id == id)) {
         tempBudgets.add(
           BudgetModel(
-              id: budget['id'] ?? 0,
-              valueTotal: budget['value_total'],
-              createdAt: budget['created_at'],
-              orderId: budget['order_id'],
-              status: budget['status'],
-              client: ClientModel(
-                id: 0,
-                name: budget['client_name'],
-              ),
-              payment: budget['specie'] != null
-                  ? PaymentModel.fromJson(
-                      {
-                        'id': budget['payment_id'],
-                        'specie': budget['specie'],
-                        'amount_to_pay': budget['amount_to_pay'],
-                        'amount_paid': budget['amount_paid'],
-                        'number_of_installments':
-                            budget['number_of_installments'] as int
-                      },
-                    )
-                  : null),
+            id: budget['id'] ?? 0,
+            valueTotal: budget['value_total'],
+            createdAt: budget['created_at'],
+            orderId: budget['order_id'],
+            freight: budget['freight'],
+            status: budget['status'],
+            client: ClientModel(
+              id: 0,
+              name: budget['client_name'],
+            ),
+            payment: budget['specie'] != null
+                ? PaymentModel.fromJson(
+                    {
+                      'id': budget['payment_id'],
+                      'specie': budget['specie'],
+                      'amount_to_pay': budget['amount_to_pay'],
+                      'amount_paid': budget['amount_paid'],
+                      'number_of_installments':
+                          budget['number_of_installments'] as int
+                    },
+                  )
+                : null,
+          ),
         );
         index = index != null ? index + 1 : 0;
         tempBudgets[index].itemsBudget = [];
