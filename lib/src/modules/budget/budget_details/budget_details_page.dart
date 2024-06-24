@@ -193,6 +193,15 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   detailType: DetailType.materials,
                 ),
               ),
+              Visibility(
+                visible: workshopExpense.isNotEmpty,
+                child: DetailWidget(
+                  data: workshopExpense,
+                  title: 'Custos Fixos',
+                  detailType: DetailType.expense,
+                  term: term,
+                ),
+              ),
               DetailWidget(
                 data: [budget!.freight],
                 title: 'Frete',
@@ -204,15 +213,6 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   title: 'Meio de Pagamento',
                   detailType: DetailType.payment,
                 ),
-              Visibility(
-                visible: workshopExpense.isNotEmpty,
-                child: DetailWidget(
-                  data: workshopExpense,
-                  title: 'Custos Fixos',
-                  detailType: DetailType.expense,
-                  term: term,
-                ),
-              ),
             ],
           ),
         ),

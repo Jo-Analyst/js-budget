@@ -38,7 +38,7 @@ class TransformBudgetJson {
             valueTotal: budget['value_total'],
             createdAt: budget['created_at'],
             orderId: budget['order_id'],
-            freight: budget['freight'],
+            freight: budget['freight'] ?? 0,
             status: budget['status'],
             client: ClientModel(
               id: 0,
@@ -120,7 +120,7 @@ class TransformBudgetJson {
             value: budget['value'],
             itemBudgetId: itemBudget.id,
             material: MaterialModel(
-              id: budget['material_id'],
+              id: budget['material_id'] ?? 1,
               name: budget['material_name'],
             ),
           ),
