@@ -20,7 +20,7 @@ class DetailWidget extends StatelessWidget {
   }) : super(key: key);
 
   (String title, String subtitle, double value, Icon icon) setValueInListTile(
-      dt) {
+      dynamic dt) {
     String title = '';
     String subTitle = '';
     double value = 0;
