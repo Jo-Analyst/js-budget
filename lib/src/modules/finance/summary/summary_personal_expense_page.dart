@@ -16,7 +16,7 @@ class SummaryPersonalExpensePage extends StatelessWidget {
         title: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(
-              'Resumo - Mês de ${expenses.first.date.toString().substring(6)}'),
+              'Gastos pessoais - Mês de ${expenses.first.date.toString().substring(6)}'),
         ),
       ),
       body: Column(

@@ -199,8 +199,7 @@ class _HomePageState extends State<HomePage> {
                             itemCount: budgets.length,
                             itemBuilder: (context, index) {
                               final budget = budgets[index];
-                              final (year, month, day) =
-                                  UtilsService.extractDate(budget.createdAt!);
+
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 5),
                                 child: GestureDetector(
@@ -289,27 +288,33 @@ class _HomePageState extends State<HomePage> {
                                             ],
                                           ),
                                           const SizedBox(height: 10),
-                                          Text.rich(
-                                            TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: UtilsService
-                                                      .moneyToCurrency(
-                                                          budget.valueTotal!),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                budget.createdAt!,
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      textStyleSmallDefault
+                                                          .fontSize,
+                                                  fontFamily: 'Anta',
+                                                  color: const Color.fromARGB(
+                                                      255, 20, 87, 143),
                                                 ),
-                                                TextSpan(
-                                                  text:
-                                                      ' - ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year',
-                                                ),
-                                              ],
-                                              style: TextStyle(
-                                                fontSize: textStyleSmallDefault
-                                                    .fontSize,
-                                                fontFamily: 'Anta',
-                                                color: const Color.fromARGB(
-                                                    255, 20, 87, 143),
                                               ),
-                                            ),
+                                              Text(
+                                                UtilsService.moneyToCurrency(
+                                                    budget.valueTotal!),
+                                                style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontFamily: 'Anta',
+                                                  color: Color.fromARGB(
+                                                      255, 20, 87, 143),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),

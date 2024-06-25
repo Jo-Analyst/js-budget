@@ -22,6 +22,9 @@ class BudgetController with Messages {
   final _totalBudgets = signal<double>(0.0);
   Signal<double> get totalBudgets => _totalBudgets;
 
+  final _totalWorshopExpense = signal<double>(0.0);
+  Signal<double> get totalWorshopExpense => _totalWorshopExpense;
+
   final _data = ListSignal<BudgetModel>([]);
   ListSignal<BudgetModel> get data => _data
     ..sort(
@@ -44,6 +47,29 @@ class BudgetController with Messages {
       }
     });
     return double.parse(value.toStringAsFixed(2));
+  }
+
+  List<WorkshopExpenseItemsBudgetModel> findWorkshopExpenseByDate(String date) {
+    List<WorkshopExpenseItemsBudgetModel> workshopExpense = [];
+
+    for (var data in _data) {
+      if (data.createdAt!.toLowerCase().contains(date.toLowerCase())) {
+        for (var item in data.itemsBudget!) {
+          for (var workshop in item.workshopExpenseItemsBudget) {
+            workshopExpense.add(workshop);
+          }
+        }
+      }
+    }
+
+    _totalWorshopExpense.value = _sumWorkshopExpenseByDate(workshopExpense);
+    return workshopExpense;
+  }
+
+  double _sumWorkshopExpenseByDate(
+      List<WorkshopExpenseItemsBudgetModel> workshopExpense) {
+    return workshopExpense.fold<double>(
+        0, (total, workshop) => total + workshop.accumulatedValue);
   }
 
   bool validateFields(ListSignal<ItemsBudgetModel> data) {

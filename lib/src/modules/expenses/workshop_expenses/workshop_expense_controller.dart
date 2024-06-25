@@ -104,7 +104,7 @@ class WorkshopExpenseController with Messages {
     return expenseModel;
   }
 
-  Future<List<ExpenseModel>> findExpenseDate(String date) async {
+  List<ExpenseModel> findExpenseDate(String date) {
     List<ExpenseModel> expenses = _data
         .where((expense) =>
             (expense.date.toLowerCase().contains(date.toLowerCase())))
