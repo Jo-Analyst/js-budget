@@ -12,7 +12,7 @@ class BudgetModel {
   int id;
   double? valueTotal;
   String? status;
-  double freight;
+  double? freight;
   PaymentModel? payment;
   List<ItemsBudgetModel>? itemsBudget;
 
@@ -24,7 +24,7 @@ class BudgetModel {
     this.id = 0,
     this.valueTotal,
     this.status,
-    this.freight = 0.0,
+    this.freight,
     this.payment,
     this.itemsBudget,
     this.createdAt,

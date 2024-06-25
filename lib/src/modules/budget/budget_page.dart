@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:js_budget/src/models/budget_model.dart';
@@ -119,7 +120,10 @@ class _BudgetPageState extends State<BudgetPage> {
 
               if (isValid) {
                 budgetModel.itemsBudget = itemBudgetController.data;
-                budgetModel.freight = freightEC.numberValue;
+                budgetModel.freight = itemBudgetController.data
+                        .any((itemBudget) => itemBudget.product != null)
+                    ? freightEC.numberValue
+                    : null;
                 budgetModel.payment = methodPayment != 'Nenhum'
                     ? PaymentModel(
                         specie: methodPayment,
@@ -353,36 +357,40 @@ class _BudgetPageState extends State<BudgetPage> {
                       ),
                     ),
                     // Frete
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const Text(
-                              'Frete',
-                              style: textStyleSmallFontWeight,
-                            ),
-                            TextFormField(
-                              controller: freightEC,
-                              onTapOutside: (_) =>
-                                  FocusScope.of(context).unfocus(),
-                              decoration: const InputDecoration(
-                                label: Text(
-                                  'Valor do frete',
-                                  style: textStyleSmallDefault,
+                    Visibility(
+                      visible: itemBudgetController.data
+                          .any((itemBudget) => itemBudget.product != null),
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const Text(
+                                'Frete',
+                                style: textStyleSmallFontWeight,
+                              ),
+                              TextFormField(
+                                controller: freightEC,
+                                onTapOutside: (_) =>
+                                    FocusScope.of(context).unfocus(),
+                                decoration: const InputDecoration(
+                                  label: Text(
+                                    'Valor do frete',
+                                    style: textStyleSmallDefault,
+                                  ),
                                 ),
+                                style: TextStyle(
+                                  fontFamily: 'Anta',
+                                  fontSize: textStyleSmallDefault.fontSize,
+                                ),
+                                onChanged: (value) {
+                                  calculateBudget();
+                                },
                               ),
-                              style: TextStyle(
-                                fontFamily: 'Anta',
-                                fontSize: textStyleSmallDefault.fontSize,
-                              ),
-                              onChanged: (value) {
-                                calculateBudget();
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

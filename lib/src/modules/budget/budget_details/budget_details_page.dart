@@ -202,10 +202,13 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   term: term,
                 ),
               ),
-              DetailWidget(
-                data: [budget!.freight],
-                title: 'Frete',
-                detailType: DetailType.freight,
+              Visibility(
+                visible: budget!.freight != null,
+                child: DetailWidget(
+                  data: [budget!.freight],
+                  title: 'Frete',
+                  detailType: DetailType.freight,
+                ),
               ),
               if (budget!.payment != null)
                 DetailWidget(

@@ -10,7 +10,7 @@ BudgetModel _$BudgetModelFromJson(Map<String, dynamic> json) => BudgetModel(
       id: json['id'] as int? ?? 0,
       valueTotal: (json['value_total'] as num?)?.toDouble(),
       status: json['status'] as String?,
-      freight: (json['freight'] as num?)?.toDouble() ?? 0.0,
+      freight: (json['freight'] as num?)?.toDouble(),
       payment: json['payment'] == null
           ? null
           : PaymentModel.fromJson(json['payment'] as Map<String, dynamic>),
