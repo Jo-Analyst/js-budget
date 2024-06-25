@@ -25,6 +25,12 @@ class BudgetController with Messages {
   final _totalWorshopExpense = signal<double>(0.0);
   Signal<double> get totalWorshopExpense => _totalWorshopExpense;
 
+  final _totalMaterial = signal<double>(0.0);
+  Signal<double> get totalMaterial => _totalMaterial;
+
+  final _totalTerm = signal<int>(0);
+  Signal<int> get totalTerm => _totalTerm;
+
   final _data = ListSignal<BudgetModel>([]);
   ListSignal<BudgetModel> get data => _data
     ..sort(
@@ -49,27 +55,74 @@ class BudgetController with Messages {
     return double.parse(value.toStringAsFixed(2));
   }
 
-  List<WorkshopExpenseItemsBudgetModel> findWorkshopExpenseByDate(String date) {
+  (List<WorkshopExpenseItemsBudgetModel>, List<MaterialItemsBudgetModel>)
+      findBudgetByDate(String date) {
     List<WorkshopExpenseItemsBudgetModel> workshopExpense = [];
+    List<MaterialItemsBudgetModel> materialItem = [];
+    int term = 0;
 
-    for (var data in _data) {
-      if (data.createdAt!.toLowerCase().contains(date.toLowerCase())) {
-        for (var item in data.itemsBudget!) {
+    for (var dt in data) {
+      if (dt.createdAt!.toLowerCase().contains(date.toLowerCase())) {
+        for (var item in dt.itemsBudget!) {
           for (var workshop in item.workshopExpenseItemsBudget) {
-            workshopExpense.add(workshop);
+            if (workshopExpense.isEmpty ||
+                (!workshopExpense
+                        .any((expense) => expense.type == workshop.type) &&
+                    workshop.accumulatedValue > 0)) {
+              workshopExpense.add(
+                WorkshopExpenseItemsBudgetModel(
+                  type: workshop.type,
+                  accumulatedValue: workshop.accumulatedValue,
+                  dividedValue: workshop.dividedValue,
+                ),
+              );
+            } else {
+              for (var existingWorkshop in workshopExpense) {
+                if (existingWorkshop.type == workshop.type) {
+                  existingWorkshop.accumulatedValue +=
+                      workshop.accumulatedValue;
+                  break; // Encerra o loop após encontrar o tipo correspondente
+                }
+              }
+            }
           }
+
+          for (var item in item.materialItemsBudget) {
+            if (materialItem.isEmpty ||
+                !materialItem
+                    .any((mt) => mt.material.name == item.material.name)) {
+              materialItem
+                  .add(MaterialItemsBudgetModel(material: item.material));
+            } else {
+              for (var existingMaterial in materialItem) {
+                if (existingMaterial.material.name == item.material.name) {
+                  existingMaterial.value += item.value;
+                  break; // Encerra o loop após encontrar o tipo correspondente
+                }
+              }
+            }
+          }
+
+          term += item.term;
         }
       }
     }
+    _totalTerm.value = term;
 
-    _totalWorshopExpense.value = _sumWorkshopExpenseByDate(workshopExpense);
-    return workshopExpense;
+    _totalWorshopExpense.value = _sumWorkshopExpense(workshopExpense);
+    _totalMaterial.value = _sumMaterial(materialItem);
+    return (workshopExpense, materialItem);
   }
 
-  double _sumWorkshopExpenseByDate(
+  double _sumWorkshopExpense(
       List<WorkshopExpenseItemsBudgetModel> workshopExpense) {
     return workshopExpense.fold<double>(
         0, (total, workshop) => total + workshop.accumulatedValue);
+  }
+
+  double _sumMaterial(List<MaterialItemsBudgetModel> itemMaterial) {
+    return itemMaterial.fold<double>(
+        0, (total, material) => total + material.value);
   }
 
   bool validateFields(ListSignal<ItemsBudgetModel> data) {

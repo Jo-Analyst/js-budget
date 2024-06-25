@@ -28,7 +28,7 @@ class ItemsBudgetModel {
     this.subValue = 0,
     this.unitaryValue = 0,
     required this.quantity,
-    this.term = 1,
+    this.term = 0,
     this.timeIncentive = 'Dia',
     this.percentageProfitMargin = 0.0,
     this.profitMarginValue = 0.0,

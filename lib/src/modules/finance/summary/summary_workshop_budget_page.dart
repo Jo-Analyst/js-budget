@@ -8,15 +8,14 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments
-        as List<WorkshopExpenseItemsBudgetModel>;
+    final (workShopExpense, totalTerm) = ModalRoute.of(context)!
+        .settings
+        .arguments as (List<WorkshopExpenseItemsBudgetModel>, int);
 
-    print(arguments);
     return Scaffold(
       appBar: AppBar(
         title: const FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text('Gastos incluídos no orçamento')),
+            fit: BoxFit.scaleDown, child: Text('Balanço Geral')),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,18 +23,30 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.only(left: 15, top: 10),
             child: Text(
-              'Despesas',
+              'Matérias primas',
+              style: textStyleSmallFontWeight,
+            ),
+          ),
+          Expanded(
+              child: Container(
+            color: Theme.of(context).primaryColor,
+          )),
+
+          const Padding(
+            padding: EdgeInsets.only(left: 15, top: 10),
+            child: Text(
+              'Custos Indiretos',
               style: textStyleSmallFontWeight,
             ),
           ),
 
-          // Despesas
+          // Custos Indiretos
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
-                  children: arguments
+                  children: workShopExpense
                       .map(
                         (expense) => Column(
                           children: [
@@ -49,13 +60,13 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                                 expense.type,
                                 style: textStyleSmallDefault,
                               ),
-                              // subtitle: Text(
-                              //   expense.date,
-                              //   style: textStyleSmallDefault,
-                              // ),
+                              subtitle: Text(
+                                '${totalTerm}x ${UtilsService.moneyToCurrency(expense.dividedValue)}',
+                                style: textStyleSmallDefault,
+                              ),
                               trailing: Text(
                                 UtilsService.moneyToCurrency(
-                                    expense.accumulatedValue),
+                                    (totalTerm * expense.dividedValue)),
                                 style: TextStyle(
                                   fontFamily: 'Anta',
                                   fontSize: textStyleSmallDefault.fontSize,

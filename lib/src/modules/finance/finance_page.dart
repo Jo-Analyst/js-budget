@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/expense_model.dart';
+import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
@@ -28,10 +29,13 @@ class _FinancePageState extends State<FinancePage> {
   final budgetController = Injector.get<BudgetController>();
   List<ExpenseModel> personalExpenses = [], workshopExpenses = [];
   List<WorkshopExpenseItemsBudgetModel> workShopExpenseItem = [];
+  List<MaterialItemsBudgetModel> materialItem = [];
   double valueExpense = 0.0,
       valueWorshopExpense = 0.0,
       revenue = 0.0,
-      totalWorshopExpense = 0;
+      totalWorshopExpense = 0,
+      totalMaterial = 0;
+  int totalTerm = 0;
 
   @override
   void initState() {
@@ -56,25 +60,37 @@ class _FinancePageState extends State<FinancePage> {
       (
         List<ExpenseModel>,
         List<ExpenseModel>,
-        List<WorkshopExpenseItemsBudgetModel>
+        List<WorkshopExpenseItemsBudgetModel>,
+        List<MaterialItemsBudgetModel>
       )> getExpenseByDate(String date) async {
     final personalExpenses = personalExpenseController.findExpenseByDate(date);
     final workshopExpenses = workshopExpenseController.findExpenseDate(date);
-    final worshopExpenseItem = budgetController.findWorkshopExpenseByDate(date);
+    final (workShopExpenseItem, materialItem) =
+        budgetController.findBudgetByDate(date);
 
-    return (personalExpenses, workshopExpenses, worshopExpenseItem);
+    return (
+      personalExpenses,
+      workshopExpenses,
+      workShopExpenseItem,
+      materialItem
+    );
   }
 
   Future<void> distributeFinancesIntoTheirRespectiveVariables(
       String date) async {
-    final (personalExpenses, workshopExpenses, worshopExpenseItem) =
-        await getExpenseByDate(date);
+    final (
+      personalExpenses,
+      workshopExpenses,
+      workShopExpenseItem,
+      materialItem
+    ) = await getExpenseByDate(date);
 
     paymentHistoryController.sumAmountPaidByDate(date);
 
     this.personalExpenses = personalExpenses;
     this.workshopExpenses = workshopExpenses;
-    workShopExpenseItem = worshopExpenseItem;
+    this.workShopExpenseItem = workShopExpenseItem;
+    this.materialItem = materialItem;
   }
 
   double calculateNerValue() {
@@ -103,6 +119,8 @@ class _FinancePageState extends State<FinancePage> {
               workshopExpenseController.valueWorkshopExpense.value;
           revenue = paymentHistoryController.sumAmountPaid.value;
           totalWorshopExpense = budgetController.totalWorshopExpense.value;
+          totalMaterial = budgetController.totalMaterial.value;
+          totalTerm = budgetController.totalTerm.value;
 
           double netValue = calculateNerValue();
           return Column(
@@ -208,7 +226,7 @@ class _FinancePageState extends State<FinancePage> {
                           FinacialLastWidget(
                             title: 'Despesa',
                             value: valueWorshopExpense,
-                            textColor: Colors.orangeAccent,
+                            textColor: Colors.orange,
                           ),
                           const Divider(),
                           FinacialLastWidget(
@@ -226,13 +244,14 @@ class _FinancePageState extends State<FinancePage> {
                   ),
                 ),
               ),
+
               // Balanço geral
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).pushNamed('/finance/workshop/budget',
-                        arguments: workShopExpenseItem);
+                        arguments: (workShopExpenseItem, totalTerm));
                   },
                   child: Card(
                     child: Padding(
@@ -249,7 +268,22 @@ class _FinancePageState extends State<FinancePage> {
                           ),
                           const Divider(),
                           FinacialLastWidget(
-                              title: 'Total', value: totalWorshopExpense)
+                            title: 'Matérias-primas',
+                            value: totalMaterial,
+                            textColor: const Color.fromARGB(255, 20, 87, 143),
+                          ),
+                          const Divider(),
+                          FinacialLastWidget(
+                            title: 'Custos indiretos',
+                            value: totalWorshopExpense,
+                            textColor: const Color.fromARGB(255, 20, 87, 143),
+                          ),
+                          const Divider(),
+                          FinacialLastWidget(
+                            title: 'Margens de lucros',
+                            value: totalWorshopExpense,
+                            textColor: Colors.green,
+                          ),
                         ],
                       ),
                     ),
