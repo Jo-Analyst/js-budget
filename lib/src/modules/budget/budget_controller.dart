@@ -25,6 +25,9 @@ class BudgetController with Messages {
   final _totalWorshopExpense = signal<double>(0.0);
   Signal<double> get totalWorshopExpense => _totalWorshopExpense;
 
+  final _totalFreight = signal<double>(0.0);
+  Signal<double> get totalFreight => _totalFreight;
+
   final _totalMaterial = signal<double>(0.0);
   Signal<double> get totalMaterial => _totalMaterial;
 
@@ -82,41 +85,41 @@ class BudgetController with Messages {
 
   List<WorkshopExpenseItemsBudgetModel> _mergeWorkshopExpenseItems(
       List<WorkshopExpenseItemsBudgetModel> workshopExpenseItems) {
-    List<WorkshopExpenseItemsBudgetModel> workShopExpenseItem = [];
+    List<WorkshopExpenseItemsBudgetModel> workshopExpenseItem = [];
 
-    for (var workshopExpenseItem in workshopExpenseItems) {
-      if (workShopExpenseItem.isEmpty ||
-          (!workShopExpenseItem
-                  .any((mt) => mt.type == workshopExpenseItem.type) &&
-              workshopExpenseItem.accumulatedValue > 0)) {
-        workShopExpenseItem.add(
+    for (var workshopExpense in workshopExpenseItems) {
+      if (workshopExpenseItem.isEmpty ||
+          (!workshopExpenseItem.any((mt) => mt.type == workshopExpense.type) &&
+              workshopExpense.accumulatedValue > 0)) {
+        workshopExpenseItem.add(
           WorkshopExpenseItemsBudgetModel(
-            value: workshopExpenseItem.value,
-            type: workshopExpenseItem.type,
-            accumulatedValue: workshopExpenseItem.accumulatedValue,
-            dividedValue: workshopExpenseItem.dividedValue,
+            value: workshopExpense.value,
+            type: workshopExpense.type,
+            accumulatedValue: workshopExpense.dividedValue * _totalTerm.value,
+            dividedValue: workshopExpense.dividedValue,
           ),
         );
       } else {
-        for (var itemWorkShop in workShopExpenseItem) {
-          if (itemWorkShop.type == workshopExpenseItem.type) {
-            itemWorkShop.dividedValue = workshopExpenseItem.dividedValue;
-            itemWorkShop.accumulatedValue +=
-                workshopExpenseItem.accumulatedValue;
+        for (var itemWorkShop in workshopExpenseItem) {
+          if (itemWorkShop.type == workshopExpense.type) {
+            itemWorkShop.dividedValue = workshopExpense.dividedValue;
+            itemWorkShop.accumulatedValue =
+                itemWorkShop.dividedValue * _totalTerm.value;
+            break;
           }
         }
       }
     }
 
-    return workShopExpenseItem
+    return workshopExpenseItem
       ..sort((a, b) => a.type.toLowerCase().compareTo(b.type.toLowerCase()));
   }
 
   List<MaterialItemsBudgetModel> _mergeMaterialItems(
-      List<MaterialItemsBudgetModel> materialsItems) {
+      List<MaterialItemsBudgetModel> allMaterialsItems) {
     List<MaterialItemsBudgetModel> materialItem = [];
 
-    materialsItems.asMap().forEach((index, material) {
+    allMaterialsItems.asMap().forEach((index, material) {
       if (materialItem.isEmpty ||
           !materialItem.any((mt) =>
               mt.material.name.toLowerCase() ==
@@ -137,6 +140,7 @@ class BudgetController with Messages {
               material.material.name.toLowerCase()) {
             item.quantity += material.quantity;
             item.value += material.value;
+            break;
           }
         }
       }
@@ -155,6 +159,7 @@ class BudgetController with Messages {
 
     totalTerm.value = 0;
     _profitMargin.value = 0;
+    _totalFreight.value = 0;
     for (var budget in budgets) {
       budget.itemsBudget?.forEach((item) {
         allWorkshopExpenseItems.addAll(item.workshopExpenseItemsBudget);
@@ -162,6 +167,8 @@ class BudgetController with Messages {
         totalTerm.value += item.term;
         _profitMargin.value += item.profitMarginValue;
       });
+
+      _totalFreight.value += budget.freight ?? 0;
     }
 
     return (
@@ -272,23 +279,25 @@ class BudgetController with Messages {
   List<MaterialItemsBudgetModel> getMaterials(BudgetModel budget) {
     List<MaterialItemsBudgetModel> materialItemBudget = [];
     budget.itemsBudget!.asMap().forEach((key, itemBudget) {
-      materialItemBudget.addAll(_getMaterialsItems(itemBudget));
+      itemBudget.materialItemsBudget;
+      materialItemBudget.addAll(itemBudget.materialItemsBudget);
     });
 
-    return materialItemBudget;
+    return _mergeMaterialItems(materialItemBudget);
   }
 
   (List<WorkshopExpenseItemsBudgetModel>, int) getWorkshopExpense(
       BudgetModel budget) {
     List<WorkshopExpenseItemsBudgetModel> workShopExpenseItemBudget = [];
     int term = 0;
+
     budget.itemsBudget!.asMap().forEach((key, itemBudget) {
-      workShopExpenseItemBudget.addAll(_getWorkshopExpenseItems(itemBudget));
+      workShopExpenseItemBudget.addAll(itemBudget.workshopExpenseItemsBudget);
 
       term += itemBudget.term;
     });
 
-    return (workShopExpenseItemBudget, term);
+    return (_mergeWorkshopExpenseItems(workShopExpenseItemBudget), term);
   }
 
   Future<bool> changeStatusAndStockMaterial(String status, int budgetId,

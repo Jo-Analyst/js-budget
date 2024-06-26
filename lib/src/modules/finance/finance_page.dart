@@ -35,7 +35,8 @@ class _FinancePageState extends State<FinancePage> {
       revenue = 0.0,
       totalWorshopExpense = 0,
       totalMaterial = 0,
-      profitMargin = 0;
+      profitMargin = 0,
+      freight = 0;
   int totalTerm = 0;
 
   @override
@@ -67,10 +68,6 @@ class _FinancePageState extends State<FinancePage> {
     final workshopExpenses = workshopExpenseController.findExpenseDate(date);
     final (workShopExpenseItem, materialItem) =
         budgetController.findBudgetByDate(date);
-
-    materialItem.asMap().forEach((key, item) {
-      print(item.toJson());
-    });
 
     return (
       personalExpenses,
@@ -125,6 +122,7 @@ class _FinancePageState extends State<FinancePage> {
           totalMaterial = budgetController.totalMaterial.value;
           totalTerm = budgetController.totalTerm.value;
           profitMargin = budgetController.profitMargin.value;
+          freight = budgetController.totalFreight.value;
 
           double netValue = calculateNerValue();
           return Column(
@@ -290,6 +288,12 @@ class _FinancePageState extends State<FinancePage> {
                           FinacialLastWidget(
                             title: 'Margens de lucros',
                             value: profitMargin,
+                            textColor: Colors.green,
+                          ),
+                          const Divider(),
+                          FinacialLastWidget(
+                            title: 'Fretes',
+                            value: freight,
                             textColor: Colors.green,
                           ),
                         ],
