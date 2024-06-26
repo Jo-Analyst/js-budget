@@ -34,7 +34,8 @@ class _FinancePageState extends State<FinancePage> {
       valueWorshopExpense = 0.0,
       revenue = 0.0,
       totalWorshopExpense = 0,
-      totalMaterial = 0;
+      totalMaterial = 0,
+      profitMargin = 0;
   int totalTerm = 0;
 
   @override
@@ -56,17 +57,20 @@ class _FinancePageState extends State<FinancePage> {
         '${date[DateTime.now().month - 1]} de ${DateTime.now().year}');
   }
 
-  Future<
-      (
-        List<ExpenseModel>,
-        List<ExpenseModel>,
-        List<WorkshopExpenseItemsBudgetModel>,
-        List<MaterialItemsBudgetModel>
-      )> getExpenseByDate(String date) async {
+  (
+    List<ExpenseModel>,
+    List<ExpenseModel>,
+    List<WorkshopExpenseItemsBudgetModel>,
+    List<MaterialItemsBudgetModel>
+  ) getExpenseByDate(String date) {
     final personalExpenses = personalExpenseController.findExpenseByDate(date);
     final workshopExpenses = workshopExpenseController.findExpenseDate(date);
     final (workShopExpenseItem, materialItem) =
         budgetController.findBudgetByDate(date);
+
+    materialItem.asMap().forEach((key, item) {
+      print(item.toJson());
+    });
 
     return (
       personalExpenses,
@@ -76,14 +80,13 @@ class _FinancePageState extends State<FinancePage> {
     );
   }
 
-  Future<void> distributeFinancesIntoTheirRespectiveVariables(
-      String date) async {
+  void distributeFinancesIntoTheirRespectiveVariables(String date) {
     final (
       personalExpenses,
       workshopExpenses,
       workShopExpenseItem,
       materialItem
-    ) = await getExpenseByDate(date);
+    ) = getExpenseByDate(date);
 
     paymentHistoryController.sumAmountPaidByDate(date);
 
@@ -121,6 +124,7 @@ class _FinancePageState extends State<FinancePage> {
           totalWorshopExpense = budgetController.totalWorshopExpense.value;
           totalMaterial = budgetController.totalMaterial.value;
           totalTerm = budgetController.totalTerm.value;
+          profitMargin = budgetController.profitMargin.value;
 
           double netValue = calculateNerValue();
           return Column(
@@ -251,7 +255,11 @@ class _FinancePageState extends State<FinancePage> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).pushNamed('/finance/workshop/budget',
-                        arguments: (workShopExpenseItem, totalTerm));
+                        arguments: (
+                          workShopExpenseItem,
+                          totalTerm,
+                          materialItem
+                        ));
                   },
                   child: Card(
                     child: Padding(
@@ -281,7 +289,7 @@ class _FinancePageState extends State<FinancePage> {
                           const Divider(),
                           FinacialLastWidget(
                             title: 'Margens de lucros',
-                            value: totalWorshopExpense,
+                            value: profitMargin,
                             textColor: Colors.green,
                           ),
                         ],

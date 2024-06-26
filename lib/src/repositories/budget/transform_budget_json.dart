@@ -77,6 +77,7 @@ class TransformBudgetJson {
         unitaryValue: budget['unitary_value'],
         quantity: budget['quantity'] ?? 1,
         term: budget['term'],
+        profitMarginValue: budget['profit_margin_value'],
         product: budget['product_name'] != null
             ? ProductModel.fromJson({
                 'id': 0,

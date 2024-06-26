@@ -31,6 +31,9 @@ class BudgetController with Messages {
   final _totalTerm = signal<int>(0);
   Signal<int> get totalTerm => _totalTerm;
 
+  final _profitMargin = signal<double>(0.0);
+  Signal<double> get profitMargin => _profitMargin;
+
   final _data = ListSignal<BudgetModel>([]);
   ListSignal<BudgetModel> get data => _data
     ..sort(
@@ -59,67 +62,121 @@ class BudgetController with Messages {
       findBudgetByDate(String date) {
     List<WorkshopExpenseItemsBudgetModel> workshopExpense = [];
     List<MaterialItemsBudgetModel> materialItem = [];
-    int term = 0;
+    List<BudgetModel> budgets = [];
 
     for (var dt in data) {
       if (dt.createdAt!.toLowerCase().contains(date.toLowerCase())) {
-        for (var item in dt.itemsBudget!) {
-          for (var workshop in item.workshopExpenseItemsBudget) {
-            if (workshopExpense.isEmpty ||
-                (!workshopExpense
-                        .any((expense) => expense.type == workshop.type) &&
-                    workshop.accumulatedValue > 0)) {
-              workshopExpense.add(
-                WorkshopExpenseItemsBudgetModel(
-                  type: workshop.type,
-                  accumulatedValue: workshop.accumulatedValue,
-                  dividedValue: workshop.dividedValue,
-                ),
-              );
-            } else {
-              for (var existingWorkshop in workshopExpense) {
-                if (existingWorkshop.type == workshop.type) {
-                  existingWorkshop.accumulatedValue +=
-                      workshop.accumulatedValue;
-                  break; // Encerra o loop após encontrar o tipo correspondente
-                }
-              }
-            }
-          }
-
-          for (var itemMaterial in item.materialItemsBudget) {
-            if (materialItem.isEmpty ||
-                !materialItem.any(
-                    (mt) => mt.material.name == itemMaterial.material.name)) {
-              materialItem.add(
-                MaterialItemsBudgetModel(
-                  material: itemMaterial.material,
-                  quantity: itemMaterial.quantity,
-                  value: itemMaterial.value,
-                ),
-              );
-            } else {
-              for (var existingMaterial in materialItem) {
-                if (existingMaterial.material.name ==
-                    itemMaterial.material.name) {
-                  existingMaterial.value +=
-                      itemMaterial.value * itemMaterial.quantity;
-                  print(existingMaterial.value);
-                  break; // Encerra o loop após encontrar o tipo correspondente
-                }
-              }
-            }
-          }
-
-          term += item.term;
-        }
+        budgets.add(dt);
       }
     }
-    _totalTerm.value = term;
+
+    final (workshopExpenseItems, materialItems) =
+        _getItemsExpenseWorkshopMaterial(budgets);
+    workshopExpense.addAll(workshopExpenseItems);
+    materialItem.addAll(materialItems);
 
     _totalWorshopExpense.value = _sumWorkshopExpense(workshopExpense);
     _totalMaterial.value = _sumMaterial(materialItem);
     return (workshopExpense, materialItem);
+  }
+
+  List<WorkshopExpenseItemsBudgetModel> _mergeWorkshopExpenseItems(
+      List<WorkshopExpenseItemsBudgetModel> workshopExpenseItems) {
+    List<WorkshopExpenseItemsBudgetModel> workShopExpenseItem = [];
+
+    for (var workshopExpenseItem in workshopExpenseItems) {
+      if (workShopExpenseItem.isEmpty ||
+          (!workShopExpenseItem
+                  .any((mt) => mt.type == workshopExpenseItem.type) &&
+              workshopExpenseItem.accumulatedValue > 0)) {
+        workShopExpenseItem.add(
+          WorkshopExpenseItemsBudgetModel(
+            value: workshopExpenseItem.value,
+            type: workshopExpenseItem.type,
+            accumulatedValue: workshopExpenseItem.accumulatedValue,
+            dividedValue: workshopExpenseItem.dividedValue,
+          ),
+        );
+      } else {
+        for (var itemWorkShop in workShopExpenseItem) {
+          if (itemWorkShop.type == workshopExpenseItem.type) {
+            itemWorkShop.dividedValue = workshopExpenseItem.dividedValue;
+            itemWorkShop.accumulatedValue +=
+                workshopExpenseItem.accumulatedValue;
+          }
+        }
+      }
+    }
+
+    return workShopExpenseItem
+      ..sort((a, b) => a.type.toLowerCase().compareTo(b.type.toLowerCase()));
+  }
+
+  List<MaterialItemsBudgetModel> _mergeMaterialItems(
+      List<MaterialItemsBudgetModel> materialsItems) {
+    List<MaterialItemsBudgetModel> materialItem = [];
+
+    materialsItems.asMap().forEach((index, material) {
+      if (materialItem.isEmpty ||
+          !materialItem.any((mt) =>
+              mt.material.name.toLowerCase() ==
+              material.material.name.toLowerCase())) {
+        materialItem.add(
+          MaterialItemsBudgetModel(
+            value: material.value,
+            quantity: material.quantity,
+            material: MaterialModel(
+              id: material.material.id,
+              name: material.material.name,
+            ),
+          ),
+        );
+      } else {
+        for (var item in materialItem) {
+          if (item.material.name.toLowerCase() ==
+              material.material.name.toLowerCase()) {
+            item.quantity += material.quantity;
+            item.value += material.value;
+          }
+        }
+      }
+    });
+
+    return materialItem
+      ..sort((a, b) => a.material.name
+          .toLowerCase()
+          .compareTo(b.material.name.toLowerCase()));
+  }
+
+  (List<WorkshopExpenseItemsBudgetModel>, List<MaterialItemsBudgetModel>)
+      _getItemsExpenseWorkshopMaterial(List<BudgetModel> budgets) {
+    List<WorkshopExpenseItemsBudgetModel> allWorkshopExpenseItems = [];
+    List<MaterialItemsBudgetModel> allMaterialItems = [];
+
+    totalTerm.value = 0;
+    _profitMargin.value = 0;
+    for (var budget in budgets) {
+      budget.itemsBudget?.forEach((item) {
+        allWorkshopExpenseItems.addAll(item.workshopExpenseItemsBudget);
+        allMaterialItems.addAll(item.materialItemsBudget);
+        totalTerm.value += item.term;
+        _profitMargin.value += item.profitMarginValue;
+      });
+    }
+
+    return (
+      _mergeWorkshopExpenseItems(allWorkshopExpenseItems),
+      _mergeMaterialItems(allMaterialItems)
+    );
+  }
+
+  List<WorkshopExpenseItemsBudgetModel> _getWorkshopExpenseItems(
+      ItemsBudgetModel item) {
+    return _mergeWorkshopExpenseItems(item.workshopExpenseItemsBudget);
+  }
+
+  List<MaterialItemsBudgetModel> _getMaterialsItems(ItemsBudgetModel item) {
+    return _mergeMaterialItems(item.materialItemsBudget);
   }
 
   double _sumWorkshopExpense(
@@ -215,29 +272,7 @@ class BudgetController with Messages {
   List<MaterialItemsBudgetModel> getMaterials(BudgetModel budget) {
     List<MaterialItemsBudgetModel> materialItemBudget = [];
     budget.itemsBudget!.asMap().forEach((key, itemBudget) {
-      itemBudget.materialItemsBudget.asMap().forEach((index, materialItem) {
-        if (materialItemBudget.isEmpty ||
-            !materialItemBudget
-                .any((mt) => mt.material.name == materialItem.material.name)) {
-          materialItemBudget.add(
-            MaterialItemsBudgetModel(
-              value: materialItem.value,
-              quantity: materialItem.quantity,
-              material: MaterialModel(
-                id: materialItem.material.id,
-                name: materialItem.material.name,
-              ),
-            ),
-          );
-        } else {
-          for (var itemMaterial in materialItemBudget) {
-            if (itemMaterial.material.name == materialItem.material.name) {
-              itemMaterial.quantity += materialItem.quantity;
-              itemMaterial.value += materialItem.value;
-            }
-          }
-        }
-      });
+      materialItemBudget.addAll(_getMaterialsItems(itemBudget));
     });
 
     return materialItemBudget;
@@ -248,31 +283,7 @@ class BudgetController with Messages {
     List<WorkshopExpenseItemsBudgetModel> workShopExpenseItemBudget = [];
     int term = 0;
     budget.itemsBudget!.asMap().forEach((key, itemBudget) {
-      itemBudget.workshopExpenseItemsBudget
-          .asMap()
-          .forEach((index, workshopExpenseItem) {
-        if (workShopExpenseItemBudget.isEmpty ||
-            (!workShopExpenseItemBudget
-                    .any((mt) => mt.type == workshopExpenseItem.type) &&
-                workshopExpenseItem.accumulatedValue > 0)) {
-          workShopExpenseItemBudget.add(
-            WorkshopExpenseItemsBudgetModel(
-              value: workshopExpenseItem.value,
-              type: workshopExpenseItem.type,
-              accumulatedValue: workshopExpenseItem.accumulatedValue,
-              dividedValue: workshopExpenseItem.dividedValue,
-            ),
-          );
-        } else {
-          for (var itemWorkShop in workShopExpenseItemBudget) {
-            if (itemWorkShop.type == workshopExpenseItem.type) {
-              itemWorkShop.dividedValue = workshopExpenseItem.dividedValue;
-              itemWorkShop.accumulatedValue +=
-                  workshopExpenseItem.accumulatedValue;
-            }
-          }
-        }
-      });
+      workShopExpenseItemBudget.addAll(_getWorkshopExpenseItems(itemBudget));
 
       term += itemBudget.term;
     });

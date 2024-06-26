@@ -1,5 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -8,9 +13,13 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (workShopExpense, totalTerm) = ModalRoute.of(context)!
-        .settings
-        .arguments as (List<WorkshopExpenseItemsBudgetModel>, int);
+    final budgetController = context.get<BudgetController>();
+    final (workShopExpense, totalTerm, materialItem) =
+        ModalRoute.of(context)!.settings.arguments as (
+      List<WorkshopExpenseItemsBudgetModel>,
+      int,
+      List<MaterialItemsBudgetModel>
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -27,11 +36,50 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
               style: textStyleSmallFontWeight,
             ),
           ),
-          Expanded(
-              child: Container(
-            color: Theme.of(context).primaryColor,
-          )),
+          Flexible(
+            flex: 6,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  children: materialItem
+                      .map((item) => Column(
+                            children: [
+                              ListTile(
+                                contentPadding: EdgeInsets.zero,
+                                leading: const Icon(
+                                  Icons.build,
+                                  size: 25,
+                                ),
+                                title: Text(
+                                  item.material.name,
+                                  style: textStyleSmallDefault,
+                                ),
+                                subtitle: Text(
+                                  '${item.quantity}x ${UtilsService.moneyToCurrency((item.value / item.quantity))}',
+                                  style: TextStyle(
+                                    fontFamily: 'Anta',
+                                    fontSize: textStyleSmallDefault.fontSize,
+                                  ),
+                                ),
+                                trailing: Text(
+                                  UtilsService.moneyToCurrency(item.value),
+                                  style: TextStyle(
+                                    fontFamily: 'Anta',
+                                    fontSize: textStyleSmallDefault.fontSize,
+                                  ),
+                                ),
+                              ),
+                              const Divider(height: 0)
+                            ],
+                          ))
+                      .toList(),
+                ),
+              ),
+            ),
+          ),
 
+          Divider(thickness: 16, color: Theme.of(context).primaryColor),
           const Padding(
             padding: EdgeInsets.only(left: 15, top: 10),
             child: Text(
@@ -41,7 +89,8 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
           ),
 
           // Custos Indiretos
-          Expanded(
+          Flexible(
+            flex: 6,
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -62,7 +111,10 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                               ),
                               subtitle: Text(
                                 '${totalTerm}x ${UtilsService.moneyToCurrency(expense.dividedValue)}',
-                                style: textStyleSmallDefault,
+                                style: TextStyle(
+                                  fontFamily: 'Anta',
+                                  fontSize: textStyleSmallDefault.fontSize,
+                                ),
                               ),
                               trailing: Text(
                                 UtilsService.moneyToCurrency(
@@ -73,7 +125,7 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Divider()
+                            const Divider(height: 0)
                           ],
                         ),
                       )
@@ -83,36 +135,29 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
             ),
           ),
 
-          // Resumo das finanças
-          Container(
-            color: const Color.fromRGBO(248, 242, 242, 1),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-              child: Column(
-                children: [
-                  // FinancialSummaryWidget(
-                  //   title: 'Receita',
-                  //   value: sumAmountPaid,
-                  //   color: const Color.fromARGB(255, 20, 87, 143),
-                  // ),
-                  // const Divider(),
-                  // FinancialSummaryWidget(
-                  //   title: 'Despesa',
-                  //   value: valueWorshopExpense,
-                  //   color: Colors.orangeAccent,
-                  // ),
-                  // const Divider(),
-                  // FinancialSummaryWidget(
-                  //   title: 'Valor líquido',
-                  //   value: netValue,
-                  //   color: netValue < 0
-                  //       ? Colors.red
-                  //       : netValue == 0
-                  //           ? Colors.purple
-                  //           : Colors.green,
-                  // ),
-                ],
-              ),
+          Divider(thickness: 16, color: Theme.of(context).primaryColor),
+
+          // Margem de Lucros
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Margem de Lucros',
+                  style: textStyleSmallFontWeight,
+                ),
+                Text(
+                  UtilsService.moneyToCurrency(
+                      budgetController.profitMargin.value),
+                  style: TextStyle(
+                    fontFamily: 'Anta',
+                    fontWeight: textStyleSmallFontWeight.fontWeight,
+                    fontSize: 23,
+                    color: Colors.green,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
