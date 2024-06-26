@@ -87,16 +87,24 @@ class BudgetController with Messages {
             }
           }
 
-          for (var item in item.materialItemsBudget) {
+          for (var itemMaterial in item.materialItemsBudget) {
             if (materialItem.isEmpty ||
-                !materialItem
-                    .any((mt) => mt.material.name == item.material.name)) {
-              materialItem
-                  .add(MaterialItemsBudgetModel(material: item.material));
+                !materialItem.any(
+                    (mt) => mt.material.name == itemMaterial.material.name)) {
+              materialItem.add(
+                MaterialItemsBudgetModel(
+                  material: itemMaterial.material,
+                  quantity: itemMaterial.quantity,
+                  value: itemMaterial.value,
+                ),
+              );
             } else {
               for (var existingMaterial in materialItem) {
-                if (existingMaterial.material.name == item.material.name) {
-                  existingMaterial.value += item.value;
+                if (existingMaterial.material.name ==
+                    itemMaterial.material.name) {
+                  existingMaterial.value +=
+                      itemMaterial.value * itemMaterial.quantity;
+                  print(existingMaterial.value);
                   break; // Encerra o loop após encontrar o tipo correspondente
                 }
               }
