@@ -34,6 +34,9 @@ class BudgetController with Messages {
   final _totalTerm = signal<int>(0);
   Signal<int> get totalTerm => _totalTerm;
 
+  final _totalGrossValue = signal<double>(0.0);
+  Signal<double> get totalGrossValue => _totalGrossValue;
+
   final _profitMargin = signal<double>(0.0);
   Signal<double> get profitMargin => _profitMargin;
 
@@ -80,7 +83,16 @@ class BudgetController with Messages {
 
     _totalWorshopExpense.value = _sumWorkshopExpense(workshopExpense);
     _totalMaterial.value = _sumMaterial(materialItem);
+
+    _totalGrossValue.value = _calculateGrossValue();
     return (workshopExpense, materialItem);
+  }
+
+  double _calculateGrossValue() {
+    return _totalWorshopExpense.value +
+        _totalMaterial.value +
+        profitMargin.value +
+        _totalFreight.value;
   }
 
   List<WorkshopExpenseItemsBudgetModel> _mergeWorkshopExpenseItems(

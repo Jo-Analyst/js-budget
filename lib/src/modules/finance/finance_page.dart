@@ -33,10 +33,11 @@ class _FinancePageState extends State<FinancePage> {
   double valueExpense = 0.0,
       valueWorshopExpense = 0.0,
       revenue = 0.0,
-      totalWorshopExpense = 0,
-      totalMaterial = 0,
-      profitMargin = 0,
-      freight = 0;
+      totalWorshopExpense = 0.0,
+      totalGrossValue = 0.0,
+      totalMaterial = 0.0,
+      profitMargin = 0.0,
+      freight = 0.0;
   int totalTerm = 0;
 
   @override
@@ -123,6 +124,7 @@ class _FinancePageState extends State<FinancePage> {
           totalTerm = budgetController.totalTerm.value;
           profitMargin = budgetController.profitMargin.value;
           freight = budgetController.totalFreight.value;
+          totalGrossValue = budgetController.totalGrossValue.value;
 
           double netValue = calculateNerValue();
           return Column(
@@ -276,13 +278,13 @@ class _FinancePageState extends State<FinancePage> {
                           FinacialLastWidget(
                             title: 'Matérias-primas',
                             value: totalMaterial,
-                            textColor: const Color.fromARGB(255, 20, 87, 143),
+                            textColor: Colors.orange,
                           ),
                           const Divider(),
                           FinacialLastWidget(
                             title: 'Custos indiretos',
                             value: totalWorshopExpense,
-                            textColor: const Color.fromARGB(255, 20, 87, 143),
+                            textColor: Colors.orange,
                           ),
                           const Divider(),
                           FinacialLastWidget(
@@ -294,7 +296,14 @@ class _FinancePageState extends State<FinancePage> {
                           FinacialLastWidget(
                             title: 'Fretes',
                             value: freight,
+                            textColor: const Color.fromARGB(255, 20, 87, 143),
+                          ),
+                          const Divider(),
+                          FinacialLastWidget(
+                            title: 'Valor Bruto',
+                            value: totalGrossValue,
                             textColor: Colors.green,
+                            textFontWeight: FontWeight.w700,
                           ),
                         ],
                       ),

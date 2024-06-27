@@ -8,12 +8,14 @@ class FinacialLastWidget extends StatelessWidget {
   final String title;
   final double value;
   final Color? textColor;
+  final FontWeight? textFontWeight;
 
   const FinacialLastWidget({
     super.key,
     required this.title,
     required this.value,
     this.textColor,
+    this.textFontWeight,
   });
 
   @override
@@ -26,8 +28,12 @@ class FinacialLastWidget extends StatelessWidget {
           Text(title, style: textStyleSmallDefault),
           Text(
             UtilsService.moneyToCurrency(value),
-            style:
-                TextStyle(color: textColor, fontSize: 19, fontFamily: 'Anta'),
+            style: TextStyle(
+              color: textColor,
+              fontSize: 19,
+              fontFamily: 'Anta',
+              fontWeight: textFontWeight,
+            ),
           ),
         ],
       ),
