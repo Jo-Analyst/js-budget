@@ -5,7 +5,7 @@ import 'package:js_budget/src/modules/widget/custom_icons.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-enum DetailType { productsAndService, materials, payment, freight, expense }
+enum DetailType { productsAndService, materials, payment, expense, outher }
 
 class DetailWidget extends StatelessWidget {
   final List<dynamic> data;
@@ -48,11 +48,14 @@ class DetailWidget extends StatelessWidget {
             '${dt.numberOfInstallments}x ${UtilsService.moneyToCurrency(dt.amountToPay / dt.numberOfInstallments)}';
         value = value = dt.amountToPay;
         icon = CustomIcons.paymentsMethod(dt.specie)!;
-      case DetailType.freight:
-        title = 'Frete';
-        subTitle = '1x ${UtilsService.moneyToCurrency(data.first)}';
-        value = data.first;
-        icon = const Icon(Icons.local_shipping);
+
+      case DetailType.outher:
+        title = dt['type'];
+        subTitle = '';
+        value = dt['value'];
+        icon = Icon(dt['type'].toLowerCase() == 'frete'
+            ? Icons.monetization_on
+            : Icons.local_shipping);
       case DetailType.expense:
         title = dt.type;
         subTitle = '${term}x ${UtilsService.moneyToCurrency(dt.dividedValue)}';
@@ -98,13 +101,15 @@ class DetailWidget extends StatelessWidget {
                         style: textStyleSmallFontWeight,
                       ),
                     ),
-                    subtitle: Text(
-                      subTitle,
-                      style: TextStyle(
-                        fontSize: textStyleSmallDefault.fontSize,
-                        fontFamily: 'Anta',
-                      ),
-                    ),
+                    subtitle: subTitle.isEmpty
+                        ? null
+                        : Text(
+                            subTitle,
+                            style: TextStyle(
+                              fontSize: textStyleSmallDefault.fontSize,
+                              fontFamily: 'Anta',
+                            ),
+                          ),
                     trailing: Text(
                       UtilsService.moneyToCurrency(value),
                       style: const TextStyle(

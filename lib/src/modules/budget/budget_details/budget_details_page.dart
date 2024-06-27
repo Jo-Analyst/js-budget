@@ -24,7 +24,6 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   List<MaterialItemsBudgetModel> materials = [];
   List<WorkshopExpenseItemsBudgetModel> workshopExpense = [];
   String status = '';
-  int term = 0;
 
   @override
   void initState() {
@@ -34,10 +33,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     status = budget!.status!;
     itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
     materials = budgetController.getMaterials(budget!);
-    final (workshopExpense, term) =
-        budgetController.getWorkshopExpense(budget!);
-    this.workshopExpense = workshopExpense;
-    this.term = term;
+    workshopExpense = budgetController.getWorkshopExpense(budget!);
   }
 
   Future<String?> showDialogStatus(BuildContext context,
@@ -199,15 +195,21 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                   data: workshopExpense,
                   title: 'Custos Fixos',
                   detailType: DetailType.expense,
-                  term: term,
+                  term: budgetController.totalTerm.value,
                 ),
               ),
               Visibility(
                 visible: budget!.freight != null,
                 child: DetailWidget(
-                  data: [budget!.freight],
-                  title: 'Frete',
-                  detailType: DetailType.freight,
+                  data: [
+                    {'type': 'Frete', 'value': budget!.freight},
+                    {
+                      'type': 'Margem de Lucro',
+                      'value': budgetController.profitMargin.value
+                    }
+                  ],
+                  title: 'Outro detalhes',
+                  detailType: DetailType.outher,
                 ),
               ),
               if (budget!.payment != null)

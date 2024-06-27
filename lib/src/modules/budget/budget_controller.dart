@@ -298,18 +298,19 @@ class BudgetController with Messages {
     return _mergeMaterialItems(materialItemBudget);
   }
 
-  (List<WorkshopExpenseItemsBudgetModel>, int) getWorkshopExpense(
-      BudgetModel budget) {
+  List<WorkshopExpenseItemsBudgetModel> getWorkshopExpense(BudgetModel budget) {
     List<WorkshopExpenseItemsBudgetModel> workShopExpenseItemBudget = [];
-    int term = 0;
+    _totalTerm.value = 0;
+    _profitMargin.value = 0;
 
     budget.itemsBudget!.asMap().forEach((key, itemBudget) {
       workShopExpenseItemBudget.addAll(itemBudget.workshopExpenseItemsBudget);
 
-      term += itemBudget.term;
+      _profitMargin.value += itemBudget.profitMarginValue;
+      _totalTerm.value += itemBudget.term;
     });
 
-    return (_mergeWorkshopExpenseItems(workShopExpenseItemBudget), term);
+    return _mergeWorkshopExpenseItems(workShopExpenseItemBudget);
   }
 
   Future<bool> changeStatusAndStockMaterial(String status, int budgetId,
