@@ -37,6 +37,9 @@ class BudgetController with Messages {
   final _totalGrossValue = signal<double>(0.0);
   Signal<double> get totalGrossValue => _totalGrossValue;
 
+  final _totalService = signal<double>(0.0);
+  Signal<double> get totalService => _totalService;
+
   final _profitMargin = signal<double>(0.0);
   Signal<double> get profitMargin => _profitMargin;
 
@@ -83,16 +86,27 @@ class BudgetController with Messages {
 
     _totalWorshopExpense.value = _sumWorkshopExpense(workshopExpense);
     _totalMaterial.value = _sumMaterial(materialItem);
+    _totalService.value = _calculateServiceValue();
 
     _totalGrossValue.value = _calculateGrossValue();
     return (workshopExpense, materialItem);
   }
 
   double _calculateGrossValue() {
-    return _totalWorshopExpense.value +
-        _totalMaterial.value +
-        profitMargin.value +
-        _totalFreight.value;
+    double totalGrossValue = 0;
+    _data.asMap().forEach((_, budget) {
+      totalGrossValue += budget.valueTotal ?? 0;
+    });
+
+    return totalGrossValue;
+  }
+
+  double _calculateServiceValue() {
+    return _calculateGrossValue() -
+        (_totalWorshopExpense.value +
+            _totalMaterial.value +
+            profitMargin.value +
+            _totalFreight.value);
   }
 
   List<WorkshopExpenseItemsBudgetModel> _mergeWorkshopExpenseItems(

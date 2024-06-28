@@ -36,6 +36,7 @@ class _FinancePageState extends State<FinancePage> {
       totalWorshopExpense = 0.0,
       totalGrossValue = 0.0,
       totalMaterial = 0.0,
+      totalService = 0.0,
       profitMargin = 0.0,
       freight = 0.0;
   int totalTerm = 0;
@@ -125,6 +126,7 @@ class _FinancePageState extends State<FinancePage> {
           profitMargin = budgetController.profitMargin.value;
           freight = budgetController.totalFreight.value;
           totalGrossValue = budgetController.totalGrossValue.value;
+          totalService = budgetController.totalService.value;
 
           double netValue = calculateNerValue();
           return Column(
@@ -296,6 +298,12 @@ class _FinancePageState extends State<FinancePage> {
                           FinacialLastWidget(
                             title: 'Fretes',
                             value: freight,
+                            textColor: const Color.fromARGB(255, 20, 87, 143),
+                          ),
+                          const Divider(),
+                          FinacialLastWidget(
+                            title: 'Serviços',
+                            value: totalService,
                             textColor: const Color.fromARGB(255, 20, 87, 143),
                           ),
                           const Divider(),
