@@ -86,27 +86,27 @@ class BudgetController with Messages {
 
     _totalWorshopExpense.value = _sumWorkshopExpense(workshopExpense);
     _totalMaterial.value = _sumMaterial(materialItem);
-    _totalService.value = _calculateServiceValue();
 
-    _totalGrossValue.value = _calculateGrossValue();
+    final (totalGrossValue, totalService) = _calculateServiceAndGrossValue();
+    _totalService.value = totalService;
+    _totalGrossValue.value = totalGrossValue;
     return (workshopExpense, materialItem);
   }
 
-  double _calculateGrossValue() {
+  (double, double) _calculateServiceAndGrossValue() {
     double totalGrossValue = 0;
+    double totalService = 0;
     _data.asMap().forEach((_, budget) {
+      budget.itemsBudget!.asMap().forEach((_, item) {
+        if (item.product == null && item.service != null) {
+          totalService += item.subValue;
+        }
+      });
+
       totalGrossValue += budget.valueTotal ?? 0;
     });
 
-    return totalGrossValue;
-  }
-
-  double _calculateServiceValue() {
-    return _calculateGrossValue() -
-        (_totalWorshopExpense.value +
-            _totalMaterial.value +
-            profitMargin.value +
-            _totalFreight.value);
+    return (totalGrossValue, totalService);
   }
 
   List<WorkshopExpenseItemsBudgetModel> _mergeWorkshopExpenseItems(
