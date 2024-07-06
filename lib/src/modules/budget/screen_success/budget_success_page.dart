@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/budget_model.dart';
+import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
+import 'package:js_budget/src/modules/share/widget/option_share.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class BudgetSuccessPage extends StatelessWidget {
@@ -83,7 +85,10 @@ class BudgetSuccessPage extends StatelessWidget {
                     ),
                   ),
                   trailing: IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Modal.showModal(context, const OptionShare(),
+                          scrollControlDisabledMaxHeightRatio: .2);
+                    },
                     icon: const Icon(
                       Icons.share,
                       color: Colors.white,

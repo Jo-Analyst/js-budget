@@ -7,6 +7,8 @@ import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/show_dialog_status.dart';
+import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
+import 'package:js_budget/src/modules/share/widget/option_share.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -76,11 +78,17 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
           style: const TextStyle(fontFamily: 'Anta'),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.share_outlined),
-            tooltip: 'Compartilhar',
-            iconSize: 30,
+          Visibility(
+            visible: workshopExpense.isNotEmpty,
+            child: IconButton(
+              onPressed: () async {
+                await Modal.showModal(context, const OptionShare(),
+                    scrollControlDisabledMaxHeightRatio: .2);
+              },
+              icon: const Icon(Icons.share_outlined),
+              tooltip: 'Compartilhar',
+              iconSize: 30,
+            ),
           ),
           Visibility(
             visible: status != budget!.status,
@@ -199,7 +207,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                 ),
               ),
               Visibility(
-                visible: budget!.freight != null,
+                visible: workshopExpense.isNotEmpty,
                 child: DetailWidget(
                   data: [
                     {'type': 'Frete', 'value': budget!.freight},

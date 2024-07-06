@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class Modal {
-  static Future<dynamic> showModal(BuildContext context, Widget widget) async {
+  static Future<dynamic> showModal(BuildContext context, Widget content,
+      {double scrollControlDisabledMaxHeightRatio = .8}) async {
     return showModalBottomSheet<dynamic>(
-      scrollControlDisabledMaxHeightRatio: .8,
+      scrollControlDisabledMaxHeightRatio: scrollControlDisabledMaxHeightRatio,
       context: context,
       builder: (context) {
         return SizedBox(
@@ -19,7 +20,7 @@ class Modal {
                 width: 50,
                 height: 3,
               ),
-              widget
+              content
             ],
           ),
         );

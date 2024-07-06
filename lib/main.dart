@@ -11,6 +11,7 @@ import 'package:js_budget/src/modules/payment/payment_module.dart';
 import 'package:js_budget/src/modules/product/product_module.dart';
 import 'package:js_budget/src/modules/order/order_module.dart';
 import 'package:js_budget/src/modules/service/service_module.dart';
+import 'package:js_budget/src/modules/share/share_module.dart';
 import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/modules/finance/finance_module.dart';
 import 'package:js_budget/src/modules/budget/budget_details/budget_details_router.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         ProductModule(),
         ProfileModule(),
         ServiceModule(),
+        ShareModule()
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp(
