@@ -203,15 +203,6 @@ class BudgetController with Messages {
     );
   }
 
-  List<WorkshopExpenseItemsBudgetModel> _getWorkshopExpenseItems(
-      ItemsBudgetModel item) {
-    return _mergeWorkshopExpenseItems(item.workshopExpenseItemsBudget);
-  }
-
-  List<MaterialItemsBudgetModel> _getMaterialsItems(ItemsBudgetModel item) {
-    return _mergeMaterialItems(item.materialItemsBudget);
-  }
-
   double _sumWorkshopExpense(
       List<WorkshopExpenseItemsBudgetModel> workshopExpense) {
     return workshopExpense.fold<double>(
