@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/permission_use_app.dart';
 
 class OptionShare extends StatelessWidget {
   const OptionShare({super.key});
 
+  Future<void> _openScreenShare(BuildContext context,
+      {bool isPdf = false}) async {
+    var nav = Navigator.of(context);
+    final isGranted = await isGrantedRequestPermissionStorage();
+    if (isGranted) {
+      nav.pop();
+      nav.pushNamed('/share', arguments: isPdf);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var nav = Navigator.of(context);
-    bool? isPdf;
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            isPdf = false;
-            nav.pop();
-            nav.pushNamed('/share', arguments: isPdf);
-          },
+          onTap: () => _openScreenShare(context),
           child: const ListTile(
             leading: Icon(
               Icons.image,
@@ -33,11 +38,7 @@ class OptionShare extends StatelessWidget {
         ),
         const Divider(),
         GestureDetector(
-          onTap: () {
-            isPdf = true;
-            nav.pop();
-            nav.pushNamed('/share', arguments: isPdf);
-          },
+          onTap: () => _openScreenShare(context, isPdf: true),
           child: const ListTile(
             leading: Icon(
               Icons.picture_as_pdf,

@@ -51,7 +51,6 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
 
   void importContacts() async {
     final controller = Injector.get<ClientController>();
-    // final clientProvider = Provider.of<ClientProvider>(context, listen: false);
 
     int index = 0;
     for (var phone in phones) {
@@ -66,13 +65,6 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
       index++;
     }
   }
-
-  // await Backup.toGenerate();
-
-  // showToast(
-  //   message: 'Cliente importado com sucesso.',
-  // );
-  // }
 
   void selectContact(Map<String, dynamic> contact) {
     setState(() {
