@@ -22,13 +22,14 @@ Future<File?> generatePdf() async {
     pdf.Column(
       children: [
         pdf.Row(
-          mainAxisAlignment: pdf.MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: pdf.MainAxisAlignment.center,
           children: [
             pdf.Container(
               child: pdf.Image(pdf.MemoryImage(imageData)),
             ),
+            pdf.SizedBox(width: 25),
             pdf.Column(
-              crossAxisAlignment: pdf.CrossAxisAlignment.center,
+              crossAxisAlignment: pdf.CrossAxisAlignment.start,
               children: [
                 pdf.Text(
                   profile!.corporateReason.toUpperCase(),
@@ -56,7 +57,7 @@ Future<File?> generatePdf() async {
               ],
             )
           ],
-        ),
+        )
       ],
     ),
   ];
