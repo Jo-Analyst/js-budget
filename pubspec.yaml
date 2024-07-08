@@ -102,7 +102,7 @@ flutter:
   fonts:
     - family: Anta
       fonts:
-        - asset: assets\fonts\Anta-Regular.ttf
+        - asset: assets/fonts/Anta-Regular.ttf
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Thin.ttf

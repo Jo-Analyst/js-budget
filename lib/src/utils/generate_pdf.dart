@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pdf;
 
@@ -11,6 +13,7 @@ Future<Uint8List> _getImage() async {
 }
 
 Future<File?> generatePdf() async {
+  final profile = Injector.get<ProfileController>().model.value;
   final doc = pdf.Document();
 
   Uint8List imageData = await _getImage();
@@ -28,24 +31,27 @@ Future<File?> generatePdf() async {
               crossAxisAlignment: pdf.CrossAxisAlignment.center,
               children: [
                 pdf.Text(
-                  'LAS Technology',
-                  style: const pdf.TextStyle(fontSize: 25),
+                  profile!.corporateReason.toUpperCase(),
+                  style: pdf.TextStyle(
+                    fontSize: 20,
+                    fontWeight: pdf.FontWeight.bold,
+                  ),
                 ),
                 pdf.Text(
-                  'Rua Zé da Manga, 124, Centro',
-                  style: const pdf.TextStyle(fontSize: 25),
+                  '${profile.address.streetAddress}, ${profile.address.numberAddress}, ${profile.address.district}',
+                  style: const pdf.TextStyle(fontSize: 20),
                 ),
                 pdf.Text(
-                  'Felício dos Santos-MG',
-                  style: const pdf.TextStyle(fontSize: 25),
+                  '${profile.address.city}-${profile.address.state}',
+                  style: const pdf.TextStyle(fontSize: 20),
                 ),
                 pdf.Text(
-                  'contato@lastechnology.com',
-                  style: const pdf.TextStyle(fontSize: 25),
+                  profile.contact.email,
+                  style: const pdf.TextStyle(fontSize: 20),
                 ),
                 pdf.Text(
-                  '(88) 8 8888-8888',
-                  style: const pdf.TextStyle(fontSize: 25),
+                  profile.contact.cellPhone,
+                  style: const pdf.TextStyle(fontSize: 20),
                 ),
               ],
             )
