@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:js_budget/src/utils/permission_use_app.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pdf;
 
@@ -20,10 +19,36 @@ Future<File?> generatePdf() async {
     pdf.Column(
       children: [
         pdf.Row(
+          mainAxisAlignment: pdf.MainAxisAlignment.spaceBetween,
           children: [
             pdf.Container(
               child: pdf.Image(pdf.MemoryImage(imageData)),
             ),
+            pdf.Column(
+              crossAxisAlignment: pdf.CrossAxisAlignment.center,
+              children: [
+                pdf.Text(
+                  'LAS Technology',
+                  style: const pdf.TextStyle(fontSize: 25),
+                ),
+                pdf.Text(
+                  'Rua Zé da Manga, 124, Centro',
+                  style: const pdf.TextStyle(fontSize: 25),
+                ),
+                pdf.Text(
+                  'Felício dos Santos-MG',
+                  style: const pdf.TextStyle(fontSize: 25),
+                ),
+                pdf.Text(
+                  'contato@lastechnology.com',
+                  style: const pdf.TextStyle(fontSize: 25),
+                ),
+                pdf.Text(
+                  '(88) 8 8888-8888',
+                  style: const pdf.TextStyle(fontSize: 25),
+                ),
+              ],
+            )
           ],
         ),
       ],
