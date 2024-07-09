@@ -252,6 +252,7 @@ class _PricingFormPageState extends State<PricingFormPage>
 
                               pricingController
                                   .addMaterialInListMaterial(materials);
+                              setState(() {});
                             },
                             icon: const Icon(
                               Icons.add,
@@ -312,6 +313,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                                             index],
                                                         materialItem
                                                             .material.price);
+                                                setState(() {});
                                               }
                                             },
                                             child: const Icon(
