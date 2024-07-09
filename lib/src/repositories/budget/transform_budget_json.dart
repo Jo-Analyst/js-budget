@@ -1,5 +1,7 @@
+import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
@@ -51,6 +53,25 @@ class TransformBudgetJson {
             client: ClientModel(
               id: 0,
               name: budget['client_name'],
+              address: budget['city'] != null
+                  ? AddressModel(
+                      cep: budget['cep'],
+                      district: budget['district'],
+                      streetAddress: budget['street_address'],
+                      numberAddress: budget['number_address'],
+                      city: budget['city'],
+                      state: budget['state'],
+                    )
+                  : null,
+              contact: budget['tele_phone'] != null &&
+                      budget['cell_phone'] != null &&
+                      budget['email'] != null
+                  ? ContactModel(
+                      telePhone: budget['tele_phone'],
+                      cellPhone: budget['cell_phone'],
+                      email: budget['email'],
+                    )
+                  : null,
             ),
             payment: budget['specie'] != null
                 ? PaymentModel.fromJson(

@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/widgets.dart' as pdf;
+import 'package:pdf/widgets.dart' as pw;
 
 Future<Uint8List> _getImage() async {
   final ByteData image =
@@ -14,50 +15,176 @@ Future<Uint8List> _getImage() async {
 
 Future<File?> generatePdf() async {
   final profile = Injector.get<ProfileController>().model.value;
-  final doc = pdf.Document();
+  final budget = Injector.get<BudgetController>().model.value;
+  final doc = pw.Document();
 
   Uint8List imageData = await _getImage();
 
-  final dataPDF = [
-    pdf.Column(
+  final pdf = [
+    pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.stretch,
       children: [
-        pdf.Row(
-          mainAxisAlignment: pdf.MainAxisAlignment.center,
+        pw.Row(
+          mainAxisAlignment: pw.MainAxisAlignment.center,
           children: [
-            pdf.Container(
-              child: pdf.Image(pdf.MemoryImage(imageData)),
+            pw.Container(
+              child: pw.Image(pw.MemoryImage(imageData)),
             ),
-            pdf.SizedBox(width: 25),
-            pdf.Column(
-              crossAxisAlignment: pdf.CrossAxisAlignment.start,
+            pw.SizedBox(width: 25),
+            pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
-                pdf.Text(
+                pw.Text(
                   profile!.corporateReason.toUpperCase(),
-                  style: pdf.TextStyle(
+                  style: pw.TextStyle(
                     fontSize: 20,
-                    fontWeight: pdf.FontWeight.bold,
+                    fontWeight: pw.FontWeight.bold,
                   ),
                 ),
-                pdf.Text(
+                pw.Text(
                   '${profile.address.streetAddress}, ${profile.address.numberAddress}, ${profile.address.district}',
-                  style: const pdf.TextStyle(fontSize: 20),
+                  style: const pw.TextStyle(fontSize: 20),
                 ),
-                pdf.Text(
-                  '${profile.address.city}-${profile.address.state}',
-                  style: const pdf.TextStyle(fontSize: 20),
+                pw.Text(
+                  '${profile.address.city} - ${profile.address.state}',
+                  style: const pw.TextStyle(fontSize: 20),
                 ),
-                pdf.Text(
+                pw.Text(
                   profile.contact.email,
-                  style: const pdf.TextStyle(fontSize: 20),
+                  style: const pw.TextStyle(fontSize: 20),
                 ),
-                pdf.Text(
+                pw.Text(
                   profile.contact.cellPhone,
-                  style: const pdf.TextStyle(fontSize: 20),
+                  style: const pw.TextStyle(fontSize: 20),
                 ),
               ],
-            )
+            ),
           ],
-        )
+        ),
+        pw.Padding(
+          padding: const pw.EdgeInsets.symmetric(vertical: 10),
+          child: pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Text(
+                'Ordem de Serviço 00001',
+                style: pw.TextStyle(
+                  fontSize: 20,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+              pw.Text(
+                'Data: 09/07/2024, 09:29Hs',
+                style: const pw.TextStyle(fontSize: 20),
+              )
+            ],
+          ),
+        ),
+        pw.Container(
+            margin: const pw.EdgeInsets.symmetric(vertical: 10),
+            padding: const pw.EdgeInsets.symmetric(vertical: 20),
+            decoration: const pw.BoxDecoration(
+              border: pw.Border.symmetric(
+                horizontal: pw.BorderSide(style: pw.BorderStyle.dashed),
+              ),
+            ),
+            child: pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                  children: [
+                    pw.Text(
+                      'Cliente: ${budget.client!.name}',
+                      style: const pw.TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+
+                // contatos do cliente
+                if (budget.client?.contact != null)
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                    child: pw.Column(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.Text(
+                          'Contatos:',
+                          style: pw.TextStyle(
+                            fontSize: 20,
+                            fontWeight: pw.FontWeight.bold,
+                          ),
+                        ),
+                        pw.Padding(
+                          padding: const pw.EdgeInsets.symmetric(vertical: 5),
+                          child: pw.Row(
+                            mainAxisAlignment:
+                                pw.MainAxisAlignment.spaceBetween,
+                            children: [
+                              pw.Text(
+                                'Cel: ${budget.client?.contact?.cellPhone ?? ''}',
+                                style: const pw.TextStyle(fontSize: 18),
+                              ),
+                              pw.Text(
+                                'Tel: ${budget.client?.contact?.telePhone ?? ''}',
+                                style: const pw.TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                        ),
+                        pw.Text(
+                          'E-mail: ${budget.client?.contact?.email ?? ''}',
+                          style: const pw.TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                // Endereço do cliente
+                if (budget.client?.address != null)
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text(
+                        'Endereço: ',
+                        style: pw.TextStyle(
+                          fontSize: 20,
+                          fontWeight: pw.FontWeight.bold,
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.symmetric(vertical: 5),
+                        child: pw.Row(
+                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                          children: [
+                            pw.Text(
+                              'Endereço: ${budget.client?.address?.streetAddress}, ${budget.client?.address?.numberAddress}',
+                              style: const pw.TextStyle(fontSize: 18),
+                            ),
+                            pw.Text(
+                              'Bairro: ${budget.client?.address?.district}',
+                              style: const pw.TextStyle(fontSize: 18),
+                            ),
+                          ],
+                        ),
+                      ),
+                      pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text(
+                            'Localidade: ${budget.client?.address?.city} - ${budget.client?.address?.state}',
+                            style: const pw.TextStyle(fontSize: 18),
+                          ),
+                          pw.Text(
+                            'CEP: ${budget.client?.address?.cep}',
+                            style: const pw.TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+              ],
+            )),
       ],
     ),
   ];
@@ -65,15 +192,15 @@ Future<File?> generatePdf() async {
   const maxElementsPerPage =
       20; // Defina o número máximo de elementos por página
 
-  for (var i = 0; i < dataPDF.length; i += maxElementsPerPage) {
-    final endIndex = (i + maxElementsPerPage < dataPDF.length)
+  for (var i = 0; i < pdf.length; i += maxElementsPerPage) {
+    final endIndex = (i + maxElementsPerPage < pdf.length)
         ? i + maxElementsPerPage
-        : dataPDF.length;
+        : pdf.length;
 
-    final sublist = dataPDF.sublist(i, endIndex);
+    final sublist = pdf.sublist(i, endIndex);
     doc.addPage(
-      pdf.MultiPage(
-        build: (pdf.Context context) => sublist,
+      pw.MultiPage(
+        build: (pw.Context context) => sublist,
       ),
     );
   }

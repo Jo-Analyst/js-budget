@@ -1,4 +1,6 @@
+import 'package:js_budget/src/models/address_model.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/models/contact_model.dart';
 import 'package:js_budget/src/models/item_order_model.dart';
 import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
@@ -12,6 +14,25 @@ class TransformOrderJson {
       client: ClientModel(
         id: order['client']['id'],
         name: order['client']['name'],
+        // address: order['city'] != null
+        //     ? AddressModel(
+        //         cep: order['cep'],
+        //         district: order['district'],
+        //         streetAddress: order['street_address'],
+        //         numberAddress: order['number_address'],
+        //         city: order['city'],
+        //         state: order['state'],
+        //       )
+        //     : null,
+        // contact: order['tele_phone'] != null &&
+        //         order['cell_phone'] != null &&
+        //         order['email'] != null
+        //     ? ContactModel(
+        //         telePhone: order['tele_phone'],
+        //         cellPhone: order['cell_phone'],
+        //         email: order['email'],
+        //       )
+        //     : null,
       ),
       date: order['date'],
       items: order["items"],
@@ -30,11 +51,32 @@ class TransformOrderJson {
         tempOrders.add(
           OrderModel(
             id: order['order_id'],
-             observation: order['observation'],
+            observation: order['observation'],
             date: order['date'],
             status: order['status'],
-            client:
-                ClientModel(id: order['client_id'], name: order['client_name']),
+            client: ClientModel(
+              id: order['client_id'],
+              name: order['client_name'],
+              address: order['city'] != null
+                  ? AddressModel(
+                      cep: order['cep'],
+                      district: order['district'],
+                      streetAddress: order['street_address'],
+                      numberAddress: order['number_address'],
+                      city: order['city'],
+                      state: order['state'],
+                    )
+                  : null,
+              contact: order['tele_phone'] != null &&
+                      order['cell_phone'] != null &&
+                      order['email'] != null
+                  ? ContactModel(
+                      telePhone: order['tele_phone'],
+                      cellPhone: order['cell_phone'],
+                      email: order['email'],
+                    )
+                  : null,
+            ),
             items: [],
           ),
         );
