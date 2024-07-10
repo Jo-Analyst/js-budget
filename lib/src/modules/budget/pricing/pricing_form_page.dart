@@ -225,7 +225,6 @@ class _PricingFormPageState extends State<PricingFormPage>
     return Scaffold(
       appBar: AppBar(
         title: Text(description),
-        actions: const [],
       ),
       body: Column(
         children: [
@@ -252,7 +251,6 @@ class _PricingFormPageState extends State<PricingFormPage>
 
                               pricingController
                                   .addMaterialInListMaterial(materials);
-                              setState(() {});
                             },
                             icon: const Icon(
                               Icons.add,
@@ -313,7 +311,6 @@ class _PricingFormPageState extends State<PricingFormPage>
                                                             index],
                                                         materialItem
                                                             .material.price);
-                                                setState(() {});
                                               }
                                             },
                                             child: const Icon(

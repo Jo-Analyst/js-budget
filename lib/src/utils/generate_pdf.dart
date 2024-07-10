@@ -81,72 +81,35 @@ Future<File?> generatePdf() async {
           ),
         ),
         pw.Container(
-            margin: const pw.EdgeInsets.symmetric(vertical: 10),
-            padding: const pw.EdgeInsets.symmetric(vertical: 20),
-            decoration: const pw.BoxDecoration(
-              border: pw.Border.symmetric(
-                horizontal: pw.BorderSide(style: pw.BorderStyle.dashed),
-              ),
+          margin: const pw.EdgeInsets.symmetric(vertical: 10),
+          padding: const pw.EdgeInsets.symmetric(vertical: 20),
+          decoration: const pw.BoxDecoration(
+            border: pw.Border.symmetric(
+              horizontal: pw.BorderSide(style: pw.BorderStyle.dashed),
             ),
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                  children: [
-                    pw.Text(
-                      'Cliente: ${budget.client!.name}',
-                      style: const pw.TextStyle(fontSize: 18),
-                    ),
-                  ],
-                ),
-
-                // contatos do cliente
-                if (budget.client?.contact != null)
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.symmetric(vertical: 10),
-                    child: pw.Column(
-                      crossAxisAlignment: pw.CrossAxisAlignment.start,
-                      children: [
-                        pw.Text(
-                          'Contatos:',
-                          style: pw.TextStyle(
-                            fontSize: 20,
-                            fontWeight: pw.FontWeight.bold,
-                          ),
-                        ),
-                        pw.Padding(
-                          padding: const pw.EdgeInsets.symmetric(vertical: 5),
-                          child: pw.Row(
-                            mainAxisAlignment:
-                                pw.MainAxisAlignment.spaceBetween,
-                            children: [
-                              pw.Text(
-                                'Cel: ${budget.client?.contact?.cellPhone ?? ''}',
-                                style: const pw.TextStyle(fontSize: 18),
-                              ),
-                              pw.Text(
-                                'Tel: ${budget.client?.contact?.telePhone ?? ''}',
-                                style: const pw.TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                        ),
-                        pw.Text(
-                          'E-mail: ${budget.client?.contact?.email ?? ''}',
-                          style: const pw.TextStyle(fontSize: 18),
-                        ),
-                      ],
-                    ),
+          ),
+          child: pw.Column(
+            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            children: [
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text(
+                    'Cliente: ${budget.client!.name}',
+                    style: const pw.TextStyle(fontSize: 18),
                   ),
+                ],
+              ),
 
-                // Endereço do cliente
-                if (budget.client?.address != null)
-                  pw.Column(
+              // contatos do cliente
+              if (budget.client?.contact != null)
+                pw.Padding(
+                  padding: const pw.EdgeInsets.symmetric(vertical: 10),
+                  child: pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Text(
-                        'Endereço: ',
+                        'Contatos:',
                         style: pw.TextStyle(
                           fontSize: 20,
                           fontWeight: pw.FontWeight.bold,
@@ -158,33 +121,84 @@ Future<File?> generatePdf() async {
                           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                           children: [
                             pw.Text(
-                              'Endereço: ${budget.client?.address?.streetAddress}, ${budget.client?.address?.numberAddress}',
+                              'Cel: ${budget.client?.contact?.cellPhone ?? ''}',
                               style: const pw.TextStyle(fontSize: 18),
                             ),
                             pw.Text(
-                              'Bairro: ${budget.client?.address?.district}',
+                              'Tel: ${budget.client?.contact?.telePhone ?? ''}',
                               style: const pw.TextStyle(fontSize: 18),
                             ),
                           ],
                         ),
                       ),
-                      pw.Row(
+                      pw.Text(
+                        'E-mail: ${budget.client?.contact?.email ?? ''}',
+                        style: const pw.TextStyle(fontSize: 18),
+                      ),
+                    ],
+                  ),
+                ),
+
+              // Endereço do cliente
+              if (budget.client?.address != null)
+                pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(
+                      'Endereço: ',
+                      style: pw.TextStyle(
+                        fontSize: 20,
+                        fontWeight: pw.FontWeight.bold,
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.symmetric(vertical: 5),
+                      child: pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text(
-                            'Localidade: ${budget.client?.address?.city} - ${budget.client?.address?.state}',
+                            'Endereço: ${budget.client?.address?.streetAddress}, ${budget.client?.address?.numberAddress}',
                             style: const pw.TextStyle(fontSize: 18),
                           ),
                           pw.Text(
-                            'CEP: ${budget.client?.address?.cep}',
+                            'Bairro: ${budget.client?.address?.district}',
                             style: const pw.TextStyle(fontSize: 18),
                           ),
                         ],
                       ),
-                    ],
-                  ),
-              ],
-            )),
+                    ),
+                    pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                      children: [
+                        pw.Text(
+                          'Localidade: ${budget.client?.address?.city} - ${budget.client?.address?.state}',
+                          style: const pw.TextStyle(fontSize: 18),
+                        ),
+                        pw.Text(
+                          'CEP: ${budget.client?.address?.cep}',
+                          style: const pw.TextStyle(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+            ],
+          ),
+        ),
+        pw.TableHelper.fromTextArray(
+          headerStyle: const pw.TextStyle(fontSize: 18),
+          border: const pw.TableBorder(
+            bottom: pw.BorderSide(style: pw.BorderStyle.dashed),
+          ),
+          data: <List<String>>[
+            <String>[
+              'Descrição',
+              'Quantidade',
+              'VL Unitário',
+              'VL Total',
+            ],
+          ],
+        ),
       ],
     ),
   ];

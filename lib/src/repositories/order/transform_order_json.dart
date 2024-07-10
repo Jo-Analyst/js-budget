@@ -7,39 +7,6 @@ import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 
 class TransformOrderJson {
-  static OrderModel fromJson(Map<String, dynamic> order) {
-    print(order['client']['address'].city);
-    return OrderModel(
-      id: order['id'] as int,
-      observation: order['observation'],
-      client: ClientModel(
-        id: order['client']['id'],
-        name: order['client']['name'],
-        address: order['address'] != null
-            ? AddressModel(
-                cep: order['client']['address'].cep,
-                district: order['client']['address'].district,
-                streetAddress: order['client']['address'].streetAddress,
-                numberAddress: order['client']['address'].numberAddress,
-                city: order['client']['address'].city,
-                state: order['client']['address'].state,
-              )
-            : null,
-        // contact: order['tele_phone'] != null &&
-        //         order['cell_phone'] != null &&
-        //         order['email'] != null
-        //     ? ContactModel(
-        //         telePhone: order['tele_phone'],
-        //         cellPhone: order['cell_phone'],
-        //         email: order['email'],
-        //       )
-        //     : null,
-      ),
-      date: order['date'],
-      items: order["items"],
-    );
-  }
-
   static List<OrderModel> fromJsonAfterDataSearch(
       List<Map<String, dynamic>> orders) {
     List<OrderModel> tempOrders = [];
