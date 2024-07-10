@@ -82,7 +82,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
             visible: workshopExpense.isNotEmpty,
             child: IconButton(
               onPressed: () async {
-                await Modal.showModal(context, const OptionShare(),
+                await Modal.showModal(context, const OptionShare(materials: materials,),
                     scrollControlDisabledMaxHeightRatio: .2);
               },
               icon: const Icon(Icons.share_outlined),

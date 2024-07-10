@@ -20,6 +20,10 @@ Future<File?> generatePdf() async {
 
   Uint8List imageData = await _getImage();
 
+  for (var item in budget.itemsBudget!) {
+    print(item.toJson());
+  }
+
   final pdf = [
     pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.stretch,
@@ -197,6 +201,7 @@ Future<File?> generatePdf() async {
               'VL Unitário',
               'VL Total',
             ],
+            // ...budget.itemsBudget!.map((item) => [item.])
           ],
         ),
       ],

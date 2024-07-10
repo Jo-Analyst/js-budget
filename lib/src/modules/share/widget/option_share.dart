@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/permission_use_app.dart';
 
 class OptionShare extends StatelessWidget {
-  const OptionShare({super.key});
+  final List<MaterialItemsBudgetModel> materials;
+  const OptionShare({super.key, required this.materials});
 
   Future<void> _openScreenShare(BuildContext context,
       {bool isPdf = false}) async {
