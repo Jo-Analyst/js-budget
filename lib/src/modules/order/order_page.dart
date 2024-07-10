@@ -27,7 +27,6 @@ class _OrderPageState extends State<OrderPage> {
     await controller.findOrders();
     setState(() {
       _orders = controller.data.value;
-      print(_orders.first.client.toJson());
     });
   }
 
