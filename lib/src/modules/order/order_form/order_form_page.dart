@@ -131,6 +131,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                             onPressed: () async {
                               client = await nav.pushNamed('/client',
                                   arguments: true) as ClientModel;
+                                 
                               setState(() {});
                             },
                             icon: const Icon(

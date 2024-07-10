@@ -6,7 +6,6 @@ import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/repositories/budget/budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/item_order/items_order_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository.dart';
-import 'package:js_budget/src/repositories/order/transform_order_json.dart';
 import 'package:sqflite/sqflite.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
@@ -41,13 +40,8 @@ class OrderRepositoryImpl implements OrderRepository {
         }
       });
 
-      return Right(TransformOrderJson.fromJson({
-        'id': lastOrderId,
-        'observation': order.observation,
-        'date': order.date,
-        'client': {'id': order.client.id, 'name': order.client.name},
-        'items': items
-      }));
+      order.id = lastOrderId;
+      return Right(order);
     } catch (_) {
       return Left(RespositoryException());
     }

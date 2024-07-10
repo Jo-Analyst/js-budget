@@ -8,22 +8,23 @@ import 'package:js_budget/src/models/service_model.dart';
 
 class TransformOrderJson {
   static OrderModel fromJson(Map<String, dynamic> order) {
+    print(order['client']['address'].city);
     return OrderModel(
       id: order['id'] as int,
       observation: order['observation'],
       client: ClientModel(
         id: order['client']['id'],
         name: order['client']['name'],
-        // address: order['city'] != null
-        //     ? AddressModel(
-        //         cep: order['cep'],
-        //         district: order['district'],
-        //         streetAddress: order['street_address'],
-        //         numberAddress: order['number_address'],
-        //         city: order['city'],
-        //         state: order['state'],
-        //       )
-        //     : null,
+        address: order['address'] != null
+            ? AddressModel(
+                cep: order['client']['address'].cep,
+                district: order['client']['address'].district,
+                streetAddress: order['client']['address'].streetAddress,
+                numberAddress: order['client']['address'].numberAddress,
+                city: order['client']['address'].city,
+                state: order['client']['address'].state,
+              )
+            : null,
         // contact: order['tele_phone'] != null &&
         //         order['cell_phone'] != null &&
         //         order['email'] != null

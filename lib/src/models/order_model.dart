@@ -8,7 +8,7 @@ part 'order_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class OrderModel {
-  final int id;
+  int id;
   final String date;
   final ClientModel client;
   final List<ItemOrderModel> items;
