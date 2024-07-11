@@ -9,13 +9,12 @@ import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/models/payment_model.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
-import 'package:js_budget/src/utils/utils_service.dart';
 
 class TransformBudgetJson {
-  static DateTime _getExtractedDate(String date) {
-    final (year, month, day) = UtilsService.extractDate(date);
-    return DateTime(year, month, day);
-  }
+  // static DateTime _getExtractedDate(String date) {
+  //   final (year, month, day) = UtilsService.extractDate(date);
+  //   return DateTime(year, month, day);
+  // }
 
   static BudgetModel fromJson(Map<String, dynamic> budget) {
     return BudgetModel(
@@ -23,8 +22,7 @@ class TransformBudgetJson {
         valueTotal: budget['value_total'],
         status: 'Em aberto',
         itemsBudget: budget['items_budget'],
-        createdAt:
-            UtilsService.dateFormat(_getExtractedDate(budget['created_at'])),
+        createdAt: budget['created_at'],
         client: budget['client'],
         freight: budget['freight'],
         orderId: budget['order_id'],
@@ -45,8 +43,7 @@ class TransformBudgetJson {
           BudgetModel(
             id: budget['id'] ?? 0,
             valueTotal: budget['value_total'],
-            createdAt: UtilsService.dateFormat(
-                _getExtractedDate(budget['created_at'])),
+            createdAt: budget['created_at'],
             orderId: budget['order_id'],
             freight: budget['freight'] ?? 0,
             status: budget['status'],

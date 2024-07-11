@@ -199,6 +199,8 @@ class _HomePageState extends State<HomePage> {
                             itemCount: budgets.length,
                             itemBuilder: (context, index) {
                               final budget = budgets[index];
+                              final (year, month, day) =
+                                  UtilsService.extractDate(budget.createdAt!);
 
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 5),
@@ -293,7 +295,8 @@ class _HomePageState extends State<HomePage> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                budget.createdAt!,
+                                                UtilsService.dateFormat(
+                                                    DateTime(year, month, day)),
                                                 style: TextStyle(
                                                   fontSize:
                                                       textStyleSmallDefault

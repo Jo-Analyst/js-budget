@@ -21,9 +21,7 @@ Future<File?> generatePdf() async {
 
   Uint8List imageData = await _getImage();
 
-  // for (var item in budget.itemsBudget!) {
-  //   print(item.toJson());
-  // }
+  // print(budget.toJson());
 
   final pdf = [
     pw.Column(
@@ -193,7 +191,7 @@ Future<File?> generatePdf() async {
         ),
 
         pw.SizedBox(height: 16),
-        
+
         pw.TableHelper.fromTextArray(
           headerStyle: const pw.TextStyle(fontSize: 18),
           cellStyle: const pw.TextStyle(fontSize: 18),
