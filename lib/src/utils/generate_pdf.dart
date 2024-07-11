@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -20,9 +21,9 @@ Future<File?> generatePdf() async {
 
   Uint8List imageData = await _getImage();
 
-  for (var item in budget.itemsBudget!) {
-    print(item.toJson());
-  }
+  // for (var item in budget.itemsBudget!) {
+  //   print(item.toJson());
+  // }
 
   final pdf = [
     pw.Column(
@@ -84,6 +85,7 @@ Future<File?> generatePdf() async {
             ],
           ),
         ),
+        // Dados do cliente
         pw.Container(
           margin: const pw.EdgeInsets.symmetric(vertical: 10),
           padding: const pw.EdgeInsets.symmetric(vertical: 20),
@@ -189,11 +191,19 @@ Future<File?> generatePdf() async {
             ],
           ),
         ),
+
+        pw.SizedBox(height: 16),
+        
         pw.TableHelper.fromTextArray(
           headerStyle: const pw.TextStyle(fontSize: 18),
+          cellStyle: const pw.TextStyle(fontSize: 18),
+          // border: const pw.TableBorder(
+          //   bottom: pw.BorderSide(style: pw.BorderStyle.dashed),
+          // ),
           border: const pw.TableBorder(
-            bottom: pw.BorderSide(style: pw.BorderStyle.dashed),
+            horizontalInside: pw.BorderSide(style: pw.BorderStyle.dashed),
           ),
+          cellAlignment: pw.Alignment.center,
           data: <List<String>>[
             <String>[
               'Descrição',
@@ -201,7 +211,19 @@ Future<File?> generatePdf() async {
               'VL Unitário',
               'VL Total',
             ],
-            // ...budget.itemsBudget!.map((item) => [item.])
+            ...budget.itemsBudget!.map(
+              (item) {
+                double unitaryValue =
+                    double.parse(item.unitaryValue.toStringAsFixed(2));
+                double total = unitaryValue * item.quantity;
+                return [
+                  item.product?.name ?? item.service!.description,
+                  item.quantity.toString(),
+                  UtilsService.moneyToCurrency(unitaryValue),
+                  UtilsService.moneyToCurrency(total)
+                ];
+              },
+            )
           ],
         ),
       ],
