@@ -6,6 +6,7 @@ import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 Future<Uint8List> _getImage() async {
@@ -18,10 +19,13 @@ Future<File?> generatePdf() async {
   final profile = Injector.get<ProfileController>().model.value;
   final budget = Injector.get<BudgetController>().model.value;
   final doc = pw.Document();
+  double totalService = 0, totalProduct = 0;
 
   Uint8List imageData = await _getImage();
   final (year, month, day, hours, minutes) =
       UtilsService.extractDate(budget.createdAt!);
+
+  print(budget.toJson());
 
   final pdf = [
     pw.Column(
@@ -77,7 +81,7 @@ Future<File?> generatePdf() async {
                 ),
               ),
               pw.Text(
-                'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, $hours:${minutes}Hrs',
+                'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, ${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}Hrs',
                 style: const pw.TextStyle(fontSize: 20),
               )
             ],
@@ -195,9 +199,6 @@ Future<File?> generatePdf() async {
         pw.TableHelper.fromTextArray(
           headerStyle: const pw.TextStyle(fontSize: 18),
           cellStyle: const pw.TextStyle(fontSize: 18),
-          // border: const pw.TableBorder(
-          //   bottom: pw.BorderSide(style: pw.BorderStyle.dashed),
-          // ),
           border: const pw.TableBorder(
             horizontalInside: pw.BorderSide(style: pw.BorderStyle.dashed),
           ),
@@ -214,6 +215,13 @@ Future<File?> generatePdf() async {
                 double unitaryValue =
                     double.parse(item.unitaryValue.toStringAsFixed(2));
                 double total = unitaryValue * item.quantity;
+
+                if (item.product != null) {
+                  totalProduct += total;
+                } else {
+                  totalService += total;
+                }
+
                 return [
                   item.product?.name ?? item.service!.description,
                   item.quantity.toString(),
@@ -223,6 +231,99 @@ Future<File?> generatePdf() async {
               },
             )
           ],
+        ),
+        pw.Container(
+          decoration: const pw.BoxDecoration(
+            border: pw.Border(
+              top: pw.BorderSide(style: pw.BorderStyle.solid, width: 2),
+            ),
+          ),
+          padding: const pw.EdgeInsets.symmetric(vertical: 10),
+          child: pw.Column(
+            children: [
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text(
+                    'Total de Produtos: ',
+                    style: pw.TextStyle(
+                      fontSize: 18,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    UtilsService.moneyToCurrency(totalProduct),
+                    style: const pw.TextStyle(fontSize: 18),
+                  )
+                ],
+              ),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text(
+                    'Total de Serviços: ',
+                    style: pw.TextStyle(
+                      fontSize: 18,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    UtilsService.moneyToCurrency(totalService),
+                    style: const pw.TextStyle(fontSize: 18),
+                  )
+                ],
+              ),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text(
+                    'Frete: ',
+                    style: pw.TextStyle(
+                      fontSize: 18,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    UtilsService.moneyToCurrency(budget.freight ?? 0),
+                    style: const pw.TextStyle(fontSize: 18),
+                  )
+                ],
+              ),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text(
+                    'Desconto: ',
+                    style: pw.TextStyle(
+                      fontSize: 18,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    UtilsService.moneyToCurrency(0),
+                    style: const pw.TextStyle(fontSize: 18),
+                  )
+                ],
+              ),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Text(
+                    'Valor Total: ',
+                    style: pw.TextStyle(
+                      fontSize: 18,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    UtilsService.moneyToCurrency(budget.valueTotal!),
+                    style: const pw.TextStyle(
+                        fontSize: 18, color: PdfColors.green),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     ),
