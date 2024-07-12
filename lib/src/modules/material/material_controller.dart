@@ -34,10 +34,11 @@ class MaterialController with Messages {
   ) async {
     final worshopController = Injector.get<WorkshopExpenseController>();
     if (dateOfLastPurchase != null) {
-      final (year, month, day) = UtilsService.extractDate(dateOfLastPurchase);
+      final date = UtilsService.getExtractedDate(dateOfLastPurchase);
 
-      dateOfLastPurchase = UtilsService.dateFormat(DateTime(year, month, day));
+      dateOfLastPurchase = UtilsService.dateFormat(date);
     }
+
     final result = material.id == 0
         ? await _materialRepository.register(material)
         : await _materialRepository.update(
@@ -66,12 +67,12 @@ class MaterialController with Messages {
   }
 
   ExpenseModel _setDataMaterialInExpense(MaterialModel material) {
-    final (year, month, day) =
-        UtilsService.extractDate(material.dateOfLastPurchase!);
+   final date =
+        UtilsService.getExtractedDate(material.dateOfLastPurchase!);
     return ExpenseModel(
       description: material.name,
       value: material.lastQuantityAdded * material.price,
-      date: UtilsService.dateFormat(DateTime(year, month, day)),
+      date: UtilsService.dateFormat(date),
       methodPayment: '',
       materialId: material.id,
       observation: 'Materiais para a produção',

@@ -15,11 +15,28 @@ class UtilsService {
     return firstLetterCapitalized;
   }
 
-  static (int year, int month, int day) extractDate(String date) {
+  static (int year, int month, int day, int hours, int minutes) extractDate(
+      String date) {
+    print(date);
     final dt = date.split('T')[0].split('-');
+    final time = date.split('T')[1].split(':');
     int year = int.parse(dt[0]),
         month = int.parse(dt[1]),
-        day = int.parse(dt[2]);
-    return (year, month, day);
+        day = int.parse(dt[2]),
+        hours = int.parse(time[0]),
+        minutes = int.parse(time[1]);
+
+    return (
+      year,
+      month,
+      day,
+      hours,
+      minutes,
+    );
+  }
+
+  static DateTime getExtractedDate(String date) {
+    final (year, month, day, hours, minutes) = extractDate(date);
+    return DateTime(year, month, day, hours, minutes);
   }
 }

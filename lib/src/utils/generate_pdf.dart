@@ -20,8 +20,8 @@ Future<File?> generatePdf() async {
   final doc = pw.Document();
 
   Uint8List imageData = await _getImage();
-
-  // print(budget.toJson());
+  final (year, month, day, hours, minutes) =
+      UtilsService.extractDate(budget.createdAt!);
 
   final pdf = [
     pw.Column(
@@ -77,7 +77,7 @@ Future<File?> generatePdf() async {
                 ),
               ),
               pw.Text(
-                'Data: 09/07/2024, 09:29Hs',
+                'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, $hours:${minutes}Hrs',
                 style: const pw.TextStyle(fontSize: 20),
               )
             ],

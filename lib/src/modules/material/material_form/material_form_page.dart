@@ -37,9 +37,8 @@ class _MaterialFormPageState extends State<MaterialFormPage>
     material = controller.model();
 
     if (material != null) {
-      final (year, month, day) =
-          UtilsService.extractDate(material!.dateOfLastPurchase!);
-      dateOfPurchase = DateTime(year, month, day);
+      dateOfPurchase =
+          UtilsService.getExtractedDate(material!.dateOfLastPurchase!);
       initilizeForm(
         material!,
       );
@@ -102,10 +101,9 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                     onChanged: (value) {
                       setState(() {
                         isChecked = value;
-                        final (year, month, day) = UtilsService.extractDate(
+                        final dateExtracted = UtilsService.getExtractedDate(
                             material!.dateOfLastPurchase!);
-                        dateOfPurchase =
-                            value ? DateTime.now() : DateTime(year, month, day);
+                        dateOfPurchase = value ? DateTime.now() : dateExtracted;
                         dateOfLastPurchaseEC.text =
                             UtilsService.dateFormat(dateOfPurchase);
                       });

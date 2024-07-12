@@ -11,11 +11,6 @@ import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/models/service_model.dart';
 
 class TransformBudgetJson {
-  // static DateTime _getExtractedDate(String date) {
-  //   final (year, month, day) = UtilsService.extractDate(date);
-  //   return DateTime(year, month, day);
-  // }
-
   static BudgetModel fromJson(Map<String, dynamic> budget) {
     return BudgetModel(
         id: budget['id'],

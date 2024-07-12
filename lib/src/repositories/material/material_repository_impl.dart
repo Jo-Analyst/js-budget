@@ -86,7 +86,7 @@ class MaterialRepositoryImpl implements MaterialRepository {
       Transaction txn, MaterialModel material,
       {bool addMaterialValuesToStock = false,
       String? dateOfLastPurchase}) async {
-    final (year, month, day) =
+    final (year, month, day, _, _) =
         UtilsService.extractDate(material.dateOfLastPurchase!);
     final expense = ExpenseModel(
       description: material.name,
