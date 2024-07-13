@@ -25,8 +25,6 @@ Future<File?> generatePdf() async {
   final (year, month, day, hours, minutes) =
       UtilsService.extractDate(budget.createdAt!);
 
-  print(budget.toJson());
-
   final pdf = [
     pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.stretch,
@@ -89,11 +87,11 @@ Future<File?> generatePdf() async {
         ),
         // Dados do cliente
         pw.Container(
-          margin: const pw.EdgeInsets.symmetric(vertical: 10),
+          margin: const pw.EdgeInsets.symmetric(vertical: 25),
           padding: const pw.EdgeInsets.symmetric(vertical: 20),
           decoration: const pw.BoxDecoration(
             border: pw.Border.symmetric(
-              horizontal: pw.BorderSide(style: pw.BorderStyle.dashed),
+              horizontal: pw.BorderSide(style: pw.BorderStyle.dashed, width: 2),
             ),
           ),
           child: pw.Column(
@@ -235,9 +233,10 @@ Future<File?> generatePdf() async {
         pw.Container(
           decoration: const pw.BoxDecoration(
             border: pw.Border(
-              top: pw.BorderSide(style: pw.BorderStyle.solid, width: 2),
+              top: pw.BorderSide(style: pw.BorderStyle.solid, width: 1),
             ),
           ),
+          margin: const pw.EdgeInsets.only(top: 10),
           padding: const pw.EdgeInsets.symmetric(vertical: 10),
           child: pw.Column(
             children: [
@@ -317,8 +316,8 @@ Future<File?> generatePdf() async {
                   ),
                   pw.Text(
                     UtilsService.moneyToCurrency(budget.valueTotal!),
-                    style: const pw.TextStyle(
-                        fontSize: 18, color: PdfColors.green),
+                    style: pw.TextStyle(
+                        fontSize: 18, fontWeight: pw.FontWeight.bold),
                   )
                 ],
               ),

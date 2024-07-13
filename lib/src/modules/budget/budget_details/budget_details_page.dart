@@ -79,18 +79,6 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
         ),
         actions: [
           Visibility(
-            visible: workshopExpense.isNotEmpty,
-            child: IconButton(
-              onPressed: () async {
-                await Modal.showModal(context, const OptionShare(),
-                    scrollControlDisabledMaxHeightRatio: .2);
-              },
-              icon: const Icon(Icons.share_outlined),
-              tooltip: 'Compartilhar',
-              iconSize: 30,
-            ),
-          ),
-          Visibility(
             visible: status != budget!.status,
             child: IconButton(
               onPressed: () async {
@@ -116,119 +104,154 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 20),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15,
-                  vertical: 30,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Column(
                   children: [
-                    Text(
-                      UtilsService.moneyToCurrency(
-                        budget!.valueTotal!,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 30,
                       ),
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Anta',
-                      ),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          budget!.client!.name,
-                          style: textStyleSmallDefault,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            final result = await showDialogStatus(
-                              context,
-                              status: status,
-                            );
-
-                            status = result ?? status;
-
-                            setState(() {});
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            UtilsService.moneyToCurrency(
+                              budget!.valueTotal!,
+                            ),
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              fontFamily: 'Anta',
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                status,
-                                style: TextStyle(
-                                  fontSize: textStyleSmallDefault.fontSize,
-                                  fontFamily: textStyleSmallDefault.fontFamily,
-                                  fontWeight: FontWeight.w700,
-                                  color: const Color.fromARGB(255, 20, 87, 143),
+                                budget!.client!.name,
+                                style: textStyleSmallDefault,
+                              ),
+                              GestureDetector(
+                                onTap: () async {
+                                  final result = await showDialogStatus(
+                                    context,
+                                    status: status,
+                                  );
+
+                                  status = result ?? status;
+
+                                  setState(() {});
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      status,
+                                      style: TextStyle(
+                                        fontSize:
+                                            textStyleSmallDefault.fontSize,
+                                        fontFamily:
+                                            textStyleSmallDefault.fontFamily,
+                                        fontWeight: FontWeight.w700,
+                                        color: const Color.fromARGB(
+                                            255, 20, 87, 143),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    const Icon(
+                                      Icons.edit,
+                                      size: 18,
+                                    )
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              const Icon(
-                                Icons.edit,
-                                size: 18,
                               )
                             ],
                           ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
+                    DetailWidget(
+                      data: itemsBudget,
+                      title: 'Produtos e serviços',
+                      detailType: DetailType.productsAndService,
+                    ),
+                    Visibility(
+                      visible: materials.isNotEmpty,
+                      child: DetailWidget(
+                        data: materials,
+                        title: 'Peças e materiais',
+                        detailType: DetailType.materials,
+                      ),
+                    ),
+                    Visibility(
+                      visible: workshopExpense.isNotEmpty,
+                      child: DetailWidget(
+                        data: workshopExpense,
+                        title: 'Custos Fixos',
+                        detailType: DetailType.expense,
+                        term: budgetController.totalTerm.value,
+                      ),
+                    ),
+                    Visibility(
+                      visible: workshopExpense.isNotEmpty,
+                      child: DetailWidget(
+                        data: [
+                          {'type': 'Frete', 'value': budget!.freight},
+                          {
+                            'type': 'Margem de Lucro',
+                            'value': budgetController.profitMargin.value
+                          }
+                        ],
+                        title: 'Outro detalhes',
+                        detailType: DetailType.outher,
+                      ),
+                    ),
+                    if (budget!.payment != null)
+                      DetailWidget(
+                        data: [budget!.payment!],
+                        title: 'Meio de Pagamento',
+                        detailType: DetailType.payment,
+                      ),
                   ],
                 ),
               ),
-              DetailWidget(
-                data: itemsBudget,
-                title: 'Produtos e serviços',
-                detailType: DetailType.productsAndService,
-              ),
-              Visibility(
-                visible: materials.isNotEmpty,
-                child: DetailWidget(
-                  data: materials,
-                  title: 'Peças e materiais',
-                  detailType: DetailType.materials,
-                ),
-              ),
-              Visibility(
-                visible: workshopExpense.isNotEmpty,
-                child: DetailWidget(
-                  data: workshopExpense,
-                  title: 'Custos Fixos',
-                  detailType: DetailType.expense,
-                  term: budgetController.totalTerm.value,
-                ),
-              ),
-              Visibility(
-                visible: workshopExpense.isNotEmpty,
-                child: DetailWidget(
-                  data: [
-                    {'type': 'Frete', 'value': budget!.freight},
-                    {
-                      'type': 'Margem de Lucro',
-                      'value': budgetController.profitMargin.value
-                    }
-                  ],
-                  title: 'Outro detalhes',
-                  detailType: DetailType.outher,
-                ),
-              ),
-              if (budget!.payment != null)
-                DetailWidget(
-                  data: [budget!.payment!],
-                  title: 'Meio de Pagamento',
-                  detailType: DetailType.payment,
-                ),
-            ],
+            ),
           ),
-        ),
+          Container(
+            color: Theme.of(context).primaryColor.withOpacity(.5),
+            padding: const EdgeInsets.all(15),
+            height: 80,
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+              onPressed: () async {
+                await Modal.showModal(context, const OptionShare(),
+                    scrollControlDisabledMaxHeightRatio: .2);
+              },
+              label: Text(
+                'Compartilhar orçamento',
+                style: TextStyle(
+                  fontFamily: textStyleSmallDefault.fontFamily,
+                  color: Colors.white,
+                  fontSize: textStyleSmallDefault.fontSize,
+                ),
+              ),
+              icon: const Icon(
+                Icons.share,
+                size: 25,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
