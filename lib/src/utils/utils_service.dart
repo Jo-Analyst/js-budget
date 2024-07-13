@@ -17,7 +17,6 @@ class UtilsService {
 
   static (int year, int month, int day, int hours, int minutes) extractDate(
       String date) {
-    print(date);
     final dt = date.split('T')[0].split('-');
     final time = date.split('T')[1].split(':');
     int year = int.parse(dt[0]),

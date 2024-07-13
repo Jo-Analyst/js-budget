@@ -6,7 +6,6 @@ import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 Future<Uint8List> _getImage() async {
