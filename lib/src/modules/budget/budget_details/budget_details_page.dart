@@ -7,8 +7,6 @@ import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/show_dialog_status.dart';
-import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
-import 'package:js_budget/src/modules/share/widget/option_share.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
@@ -233,11 +231,10 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
               onPressed: () async {
-                await Modal.showModal(context, const OptionShare(),
-                    scrollControlDisabledMaxHeightRatio: .2);
+                Navigator.of(context).pushNamed('/share');
               },
               label: Text(
-                'Compartilhar orçamento',
+                'Gerar comprovante',
                 style: TextStyle(
                   fontFamily: textStyleSmallDefault.fontFamily,
                   color: Colors.white,
@@ -245,7 +242,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                 ),
               ),
               icon: const Icon(
-                Icons.share,
+                Icons.receipt_long_outlined,
                 size: 25,
                 color: Colors.white,
               ),

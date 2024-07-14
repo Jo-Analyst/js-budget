@@ -86,8 +86,8 @@ class BudgetSuccessPage extends StatelessWidget {
                   ),
                   trailing: IconButton(
                     onPressed: () async {
-                      await Modal.showModal(context, const OptionShare(),
-                          scrollControlDisabledMaxHeightRatio: .2);
+                      // await Modal.showModal(context, const OptionShare(),
+                      //     scrollControlDisabledMaxHeightRatio: .2);
                     },
                     icon: const Icon(
                       Icons.share,
