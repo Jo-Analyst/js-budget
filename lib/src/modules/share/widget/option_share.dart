@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/modules/share/widget/image_generate.dart';
-import 'package:js_budget/src/modules/share/widget/pdf_generate.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
-import 'package:js_budget/src/utils/permission_use_app.dart';
 
 class OptionShare extends StatelessWidget {
   const OptionShare({super.key});

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/budget_model.dart';
-import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
-import 'package:js_budget/src/modules/share/widget/option_share.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class BudgetSuccessPage extends StatelessWidget {

@@ -24,13 +24,18 @@ class CustomDataTable extends StatelessWidget {
                   child: Align(
                     child: Text(
                       header,
-                      style: textStyleSmallFontWeight,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: textStyleSmallFontWeight.fontWeight,
+                        fontFamily: textStyleSmallDefault.fontFamily,
+                      ),
                     ),
                   ),
                 ),
               )
               .toList(),
         ),
+        const Divider(),
         ListView.separated(
           separatorBuilder: (_, __) => const Divider(),
           physics: const NeverScrollableScrollPhysics(),
