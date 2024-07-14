@@ -84,7 +84,8 @@ class _ShareDocState extends State<ShareDoc> {
       body: SingleChildScrollView(
         child: WidgetToImage(builder: (key) {
           globalKey = key;
-          return Padding(
+          return Container(
+            color: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
