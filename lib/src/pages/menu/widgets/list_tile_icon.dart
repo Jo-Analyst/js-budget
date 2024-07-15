@@ -18,7 +18,7 @@ class ListTileIcon extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       leading: Icon(icon),
-      title: Text(title, style: textStyleSmallDefault),
+      title: Text(title, style: textStyleMediumDefault),
     );
   }
 }

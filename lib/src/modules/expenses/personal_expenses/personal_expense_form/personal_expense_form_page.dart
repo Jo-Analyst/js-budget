@@ -98,7 +98,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                         labelStyle: TextStyle(fontFamily: 'Poppins'),
                         suffixIcon: Icon(Icons.paid),
                       ),
-                      style: textStyleSmallDefault,
+                      style: textStyleMediumDefault,
                       keyboardType: TextInputType.text,
                       validator:
                           Validatorless.required('Tipo de despesa obrigatório'),
@@ -122,7 +122,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                             suffixIcon: Icon(Icons.attach_money),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (expenseValueEC.numberValue == 0) {
@@ -177,7 +177,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                             suffixIcon: Icon(Icons.note_alt_outlined),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           maxLines: 5,
                         ),
                       ],

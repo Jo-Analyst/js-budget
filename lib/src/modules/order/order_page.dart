@@ -84,7 +84,7 @@ class _OrderPageState extends State<OrderPage> {
                             ),
                             const Text(
                               'Não há nenhum pedido.',
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                             ),
                           ],
                         ),
@@ -140,11 +140,11 @@ class _OrderPageState extends State<OrderPage> {
                                       ListTile(
                                         leading: Text(
                                           order.id.toString().padLeft(5, '0'),
-                                          style: textStyleSmallFontWeight,
+                                          style: textStyleMediumFontWeight,
                                         ),
                                         title: Text(
                                           '-   ${order.client.name.split(' ').first}${order.client.name.split(' ').length > 1 ? ' ${order.client.name.split(' ').last}' : ''}',
-                                          style: textStyleSmallFontWeight,
+                                          style: textStyleMediumFontWeight,
                                         ),
                                       ),
                                       Divider(
@@ -159,7 +159,7 @@ class _OrderPageState extends State<OrderPage> {
                                                 horizontal: 15),
                                         title: Text(
                                           '${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year',
-                                          style: textStyleSmallDefault,
+                                          style: textStyleMediumDefault,
                                         ),
                                         subtitle: Column(
                                           crossAxisAlignment:
@@ -192,7 +192,7 @@ class _OrderPageState extends State<OrderPage> {
                                                       )
                                                     ],
                                                   ),
-                                                  style: textStyleSmallDefault,
+                                                  style: textStyleMediumDefault,
                                                 ),
                                                 child: Text(
                                                   order.items
@@ -200,7 +200,7 @@ class _OrderPageState extends State<OrderPage> {
                                                           item.product != null)
                                                       .product!
                                                       .name,
-                                                  style: textStyleSmallDefault,
+                                                  style: textStyleMediumDefault,
                                                 ),
                                               ),
 
@@ -236,7 +236,7 @@ class _OrderPageState extends State<OrderPage> {
                                                       )
                                                     ],
                                                   ),
-                                                  style: textStyleSmallDefault,
+                                                  style: textStyleMediumDefault,
                                                 ),
                                                 child: Text(
                                                   order.items
@@ -244,7 +244,7 @@ class _OrderPageState extends State<OrderPage> {
                                                           item.service != null)
                                                       .service!
                                                       .description,
-                                                  style: textStyleSmallDefault,
+                                                  style: textStyleMediumDefault,
                                                 ),
                                               ),
                                           ],

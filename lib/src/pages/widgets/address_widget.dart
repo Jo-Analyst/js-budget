@@ -75,7 +75,7 @@ class AddressWidget extends StatelessWidget {
                   leading: Icon(Icons.info),
                   title: Text(
                     'Não há endereço cadastrado.',
-                    style: textStyleSmallDefault,
+                    style: textStyleMediumDefault,
                   ),
                 )
               ],

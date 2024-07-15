@@ -146,7 +146,7 @@ class _ProductPageState extends State<ProductPage> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhum produto encontrado',
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
                         SizedBox(
@@ -166,7 +166,7 @@ class _ProductPageState extends State<ProductPage> {
                             ),
                             label: const Text(
                               'Adicionar produto',
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                             ),
                           ),
                         ),
@@ -211,11 +211,11 @@ class _ProductPageState extends State<ProductPage> {
                                     leading: const Icon(Icons.local_offer),
                                     title: Text(
                                       product.name,
-                                      style: textStyleSmallDefault,
+                                      style: textStyleMediumDefault,
                                     ),
                                     subtitle: Text(
                                       product.unit,
-                                      style: textStyleSmallDefault,
+                                      style: textStyleMediumDefault,
                                     ),
                                   ),
                                   const Divider(),

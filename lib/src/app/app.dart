@@ -47,8 +47,8 @@ class _AppState extends State<App> {
         unselectedItemColor: Colors.black87,
         iconSize: 30,
         type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: textStyleSmallDefault,
-        unselectedLabelStyle: textStyleSmallDefault,
+        selectedLabelStyle: textStyleMediumDefault,
+        unselectedLabelStyle: textStyleMediumDefault,
         fixedColor: Colors.deepPurple,
         currentIndex: _currentIndex,
         onTap: (page) => _pageController.animateToPage(

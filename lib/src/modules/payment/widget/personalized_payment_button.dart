@@ -37,8 +37,8 @@ class PersonalizedPaymentButton extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontSize: textStyleSmallDefault.fontSize,
-                fontFamily: textStyleSmallDefault.fontFamily,
+                fontSize: textStyleMediumDefault.fontSize,
+                fontFamily: textStyleMediumDefault.fontFamily,
                 color: color,
               ),
             )

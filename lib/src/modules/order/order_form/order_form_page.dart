@@ -112,7 +112,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                     ),
                     title: Text(
                       client?.name ?? 'Cliente',
-                      style: textStyleSmallDefault,
+                      style: textStyleMediumDefault,
                     ),
                     trailing: client != null
                         ? IconButton(
@@ -131,7 +131,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                             onPressed: () async {
                               client = await nav.pushNamed('/client',
                                   arguments: true) as ClientModel;
-                                 
+
                               setState(() {});
                             },
                             icon: const Icon(
@@ -191,7 +191,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                                           fontFamily: 'Anta',
                                           color: Colors.black,
                                           fontSize:
-                                              textStyleSmallDefault.fontSize,
+                                              textStyleMediumDefault.fontSize,
                                         ),
                                       ),
                                     ),
@@ -239,7 +239,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                               ),
                               title: Text(
                                 product.name,
-                                style: textStyleSmallDefault,
+                                style: textStyleMediumDefault,
                               ),
                               trailing: IconButton(
                                 onPressed: () {
@@ -307,7 +307,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                                         fontFamily: 'Anta',
                                         color: Colors.black,
                                         fontSize:
-                                            textStyleSmallDefault.fontSize,
+                                            textStyleMediumDefault.fontSize,
                                       ),
                                     ),
                                   ),
@@ -354,7 +354,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                             ),
                             title: Text(
                               service.description,
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                             ),
                             trailing: IconButton(
                               onPressed: () {
@@ -386,7 +386,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                   labelStyle: TextStyle(fontFamily: 'Poppins'),
                   suffixIcon: Icon(Icons.description),
                 ),
-                style: textStyleSmallDefault,
+                style: textStyleMediumDefault,
               ),
             ],
           ),

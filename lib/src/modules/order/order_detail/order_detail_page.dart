@@ -30,7 +30,7 @@ class OrderDetailPage extends StatelessWidget {
                 },
                 child: const Text(
                   'Fazer orçamento',
-                  style: textStyleSmallDefault,
+                  style: textStyleMediumDefault,
                 ),
               ),
             ),
@@ -88,7 +88,7 @@ class OrderDetailPage extends StatelessWidget {
                                       '${items.product?.quantity}x',
                                       style: TextStyle(
                                           fontSize:
-                                              textStyleSmallDefault.fontSize,
+                                              textStyleMediumDefault.fontSize,
                                           fontFamily: 'Anta'),
                                     ),
                                   ),
@@ -126,7 +126,7 @@ class OrderDetailPage extends StatelessWidget {
                                       '${items.service?.quantity}x',
                                       style: TextStyle(
                                           fontSize:
-                                              textStyleSmallDefault.fontSize,
+                                              textStyleMediumDefault.fontSize,
                                           fontFamily: 'Anta'),
                                     ),
                                   ),
@@ -152,7 +152,7 @@ class OrderDetailPage extends StatelessWidget {
                         ListTile(
                           title: Text(
                             order.observation!,
-                            style: textStyleSmallDefault,
+                            style: textStyleMediumDefault,
                           ),
                           leading: const Icon(Icons.note_alt_outlined),
                         ),

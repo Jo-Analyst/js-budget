@@ -28,8 +28,8 @@ class CustomListTileIcon extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
-            fontSize: textStyleSmallDefault.fontSize,
-            fontFamily: titleFontFamily ?? textStyleSmallDefault.fontFamily,
+            fontSize: textStyleMediumDefault.fontSize,
+            fontFamily: titleFontFamily ?? textStyleMediumDefault.fontFamily,
             fontWeight: titleFontWeight),
       ),
       subtitle: subtitle != null
@@ -37,7 +37,7 @@ class CustomListTileIcon extends StatelessWidget {
               subtitle!,
               style: TextStyle(
                 fontSize: 17.5,
-                fontFamily: textStyleSmallDefault.fontFamily,
+                fontFamily: textStyleMediumDefault.fontFamily,
               ),
             )
           : null,

@@ -125,7 +125,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                               RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
                             ),
                           ],
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator: Validatorless.required(
                               'Nome fantasia obrigátório'),
                         ),
@@ -144,7 +144,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                               RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
                             ),
                           ],
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator: Validatorless.required(
                               'Razão social obrigátório'),
                         ),
@@ -160,7 +160,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             suffixIcon: Icon(Icons.description),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator: Validatorless.multiple(
                             [
                               Validatorless.required('CNPJ é obrigatório'),
@@ -185,10 +185,10 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                         controller: salaryExpectationEC,
                         decoration: const InputDecoration(
                             labelText: 'Pretensão Salarial',
-                            labelStyle: textStyleSmallDefault,
+                            labelStyle: textStyleMediumDefault,
                             suffix: Icon(Icons.price_change)),
                         keyboardType: TextInputType.number,
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                         validator: (value) {
                           if (salaryExpectationEC.numberValue == 0) {
                             return 'Informe a sua pretensão salarial';
@@ -232,7 +232,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             }
                             return null;
                           },
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         TextFormField(
                           controller: telePhoneEC,
@@ -252,7 +252,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             }
                             return null;
                           },
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         TextFormField(
                           controller: mailEC,
@@ -266,7 +266,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                           validator: mailEC.text.trim().isNotEmpty
                               ? Validatorless.email('Email inválido')
                               : null,
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                       ],
                     ),
@@ -295,7 +295,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                           inputFormatters: [
                             MaskTextInputFormatter(mask: '##.###-###'),
                           ],
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           onChanged: findCep,
                         ),
                         TextFormField(
@@ -311,7 +311,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             ),
                             labelStyle: const TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator:
                               Validatorless.required('Bairro obrigatório'),
                         ),
@@ -325,7 +325,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             suffixIcon: Icon(Icons.location_on_outlined),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator:
                               Validatorless.required('Logradouro obrigatório'),
                         ),
@@ -341,7 +341,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             suffixIcon: Icon(Icons.numbers),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator: Validatorless.required('Nº obrigatório'),
                         ),
                         TextFormField(
@@ -353,7 +353,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             suffixIcon: Icon(Icons.location_city_rounded),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator:
                               Validatorless.required('Cidade obrigatório'),
                         ),
@@ -366,7 +366,7 @@ class _ProfileFormPageState extends State<ProfileFormPage>
                             suffixIcon: Icon(Icons.business),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator:
                               Validatorless.required('Estado obrigatório'),
                         ),

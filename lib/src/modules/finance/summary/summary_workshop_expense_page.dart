@@ -31,7 +31,7 @@ class SummaryWorkshopExpensePage extends StatelessWidget {
             padding: EdgeInsets.only(left: 15, top: 10),
             child: Text(
               'Despesas',
-              style: textStyleSmallFontWeight,
+              style: textStyleMediumFontWeight,
             ),
           ),
 
@@ -53,17 +53,17 @@ class SummaryWorkshopExpensePage extends StatelessWidget {
                               ),
                               title: Text(
                                 expense.description,
-                                style: textStyleSmallDefault,
+                                style: textStyleMediumDefault,
                               ),
                               subtitle: Text(
                                 expense.date,
-                                style: textStyleSmallDefault,
+                                style: textStyleMediumDefault,
                               ),
                               trailing: Text(
                                 UtilsService.moneyToCurrency(expense.value),
                                 style: TextStyle(
                                   fontFamily: 'Anta',
-                                  fontSize: textStyleSmallDefault.fontSize,
+                                  fontSize: textStyleMediumDefault.fontSize,
                                 ),
                               ),
                             ),

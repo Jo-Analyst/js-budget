@@ -24,11 +24,7 @@ class CustomDataTable extends StatelessWidget {
                   child: Align(
                     child: Text(
                       header,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: textStyleSmallFontWeight.fontWeight,
-                        fontFamily: textStyleSmallDefault.fontFamily,
-                      ),
+                      style: textStyleSmallFontWeight,
                     ),
                   ),
                 ),
@@ -58,10 +54,7 @@ class CustomDataTable extends StatelessWidget {
                   child: Align(
                     child: Text(
                       row.quantity.toString(),
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Anta',
-                      ),
+                      style: textStyleSmallDefault,
                     ),
                   ),
                 ),

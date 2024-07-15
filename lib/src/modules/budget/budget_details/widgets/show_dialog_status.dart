@@ -89,11 +89,11 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
           children: [
             const TextSpan(
               text: 'Status atual: ',
-              style: textStyleSmallFontWeight,
+              style: textStyleMediumFontWeight,
             ),
             TextSpan(
               text: widget.statusCurrent,
-              style: textStyleSmallDefault,
+              style: textStyleMediumDefault,
             ),
           ],
         ),
@@ -118,10 +118,10 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
                       style: isChecked
                           ? TextStyle(
                               color: Colors.deepPurple,
-                              fontWeight: textStyleSmallFontWeight.fontWeight,
-                              fontSize: textStyleSmallFontWeight.fontSize,
+                              fontWeight: textStyleMediumFontWeight.fontWeight,
+                              fontSize: textStyleMediumFontWeight.fontSize,
                             )
-                          : textStyleSmallDefault,
+                          : textStyleMediumDefault,
                     ),
                   ),
                   const Divider()
@@ -137,7 +137,7 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
           style: ElevatedButton.styleFrom(
               backgroundColor: Colors.purple,
               foregroundColor: Colors.white,
-              textStyle: textStyleSmallDefault),
+              textStyle: textStyleMediumDefault),
           onPressed: statusSelected['status'].toLowerCase() != 'em aberto'
               ? () {
                   returnToPreviousStatus(statusSelected['status']);
@@ -155,7 +155,7 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.purple,
             foregroundColor: Colors.white,
-            textStyle: textStyleSmallDefault,
+            textStyle: textStyleMediumDefault,
           ),
           onPressed: !nextKeyIsActivated &&
                   statusSelected['status'].toLowerCase() != 'concluído'
@@ -177,7 +177,7 @@ class _ShowDialogStatusState extends State<ShowDialogStatus> {
           style: ElevatedButton.styleFrom(
               backgroundColor: Colors.purple,
               foregroundColor: Colors.white,
-              textStyle: textStyleSmallDefault),
+              textStyle: textStyleMediumDefault),
           onPressed: statusSelected['status'] != statusCurrent
               ? () {
                   Navigator.of(context).pop(statusSelected['status']);

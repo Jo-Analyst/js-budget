@@ -95,8 +95,8 @@ class MenuPage extends StatelessWidget {
                 title: Text(
                   'Pagamentos',
                   style: TextStyle(
-                    fontFamily: textStyleSmallDefault.fontFamily,
-                    fontSize: textStyleSmallDefault.fontSize,
+                    fontFamily: textStyleMediumDefault.fontFamily,
+                    fontSize: textStyleMediumDefault.fontSize,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -119,8 +119,8 @@ class MenuPage extends StatelessWidget {
                 title: Text(
                   'Pedidos',
                   style: TextStyle(
-                    fontFamily: textStyleSmallDefault.fontFamily,
-                    fontSize: textStyleSmallDefault.fontSize,
+                    fontFamily: textStyleMediumDefault.fontFamily,
+                    fontSize: textStyleMediumDefault.fontSize,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -166,7 +166,7 @@ class MenuPage extends StatelessWidget {
                   const Text(
                     'Aplicativo JS Planejar',
                     textAlign: TextAlign.center,
-                    style: textStyleSmallDefault,
+                    style: textStyleMediumDefault,
                   )
                 ],
               ),

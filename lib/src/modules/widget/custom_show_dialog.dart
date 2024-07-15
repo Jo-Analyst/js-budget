@@ -26,7 +26,7 @@ Future<int?> showAlertDialog(BuildContext context, String content,
               ),
               Text(
                 content,
-                style: textStyleSmallDefault,
+                style: textStyleMediumDefault,
               ),
               TextFormField(
                 maxLength: 5,
@@ -39,7 +39,7 @@ Future<int?> showAlertDialog(BuildContext context, String content,
                 onChanged: (value) {
                   quantity = value.isNotEmpty ? int.parse(value) : 1;
                 },
-                style: textStyleSmallDefault,
+                style: textStyleMediumDefault,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Digite a quantidade';
@@ -66,7 +66,7 @@ Future<int?> showAlertDialog(BuildContext context, String content,
             },
             child: Text(
               buttonTitle,
-              style: textStyleSmallDefault,
+              style: textStyleMediumDefault,
             ),
           ),
         ],

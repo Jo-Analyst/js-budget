@@ -101,7 +101,7 @@ class _ClientPageState extends State<ClientPage> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhum cliente encontrado',
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
                         SizedBox(
@@ -124,7 +124,7 @@ class _ClientPageState extends State<ClientPage> {
                             ),
                             label: const Text(
                               'Adicionar cliente',
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                             ),
                           ),
                         ),
@@ -152,7 +152,7 @@ class _ClientPageState extends State<ClientPage> {
                                   leading: const Icon(Icons.person),
                                   title: Text(
                                     client.name,
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                   subtitle: client.contact?.cellPhone != null &&
                                           client.contact!.cellPhone
@@ -162,7 +162,7 @@ class _ClientPageState extends State<ClientPage> {
                                           client.contact!.cellPhone,
                                           style: TextStyle(
                                             fontSize:
-                                                textStyleSmallDefault.fontSize,
+                                                textStyleMediumDefault.fontSize,
                                           ),
                                         )
                                       : null,

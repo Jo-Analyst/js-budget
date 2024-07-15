@@ -24,8 +24,8 @@ class FinancialSummaryWidget extends StatelessWidget {
         Text(
           title,
           style: TextStyle(
-            fontFamily: textStyleSmallDefault.fontFamily,
-            fontSize: textStyleSmallDefault.fontSize,
+            fontFamily: textStyleMediumDefault.fontFamily,
+            fontSize: textStyleMediumDefault.fontSize,
             fontWeight: FontWeight.w600,
           ),
         ),

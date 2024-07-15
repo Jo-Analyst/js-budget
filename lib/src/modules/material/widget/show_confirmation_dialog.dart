@@ -9,7 +9,7 @@ Future<bool?> showConfirmationDialog(BuildContext context, String content,
       return AlertDialog(
         title: Text(
           content,
-          style: textStyleSmallDefault,
+          style: textStyleMediumDefault,
         ),
         actions: [
           TextButton(
@@ -19,8 +19,8 @@ Future<bool?> showConfirmationDialog(BuildContext context, String content,
             child: Text(
               buttonCancel,
               style: TextStyle(
-                fontSize: textStyleSmallDefault.fontSize,
-                fontFamily: textStyleSmallDefault.fontFamily,
+                fontSize: textStyleMediumDefault.fontSize,
+                fontFamily: textStyleMediumDefault.fontFamily,
                 color: Colors.black,
               ),
             ),
@@ -34,8 +34,8 @@ Future<bool?> showConfirmationDialog(BuildContext context, String content,
             label: Text(
               buttonTitle,
               style: TextStyle(
-                fontSize: textStyleSmallDefault.fontSize,
-                fontFamily: textStyleSmallDefault.fontFamily,
+                fontSize: textStyleMediumDefault.fontSize,
+                fontFamily: textStyleMediumDefault.fontFamily,
                 color: Colors.white,
               ),
             ),

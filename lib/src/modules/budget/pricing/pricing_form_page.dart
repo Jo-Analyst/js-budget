@@ -279,7 +279,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                             style: TextStyle(
                                               fontFamily: 'Anta',
                                               color: Colors.black,
-                                              fontSize: textStyleSmallDefault
+                                              fontSize: textStyleMediumDefault
                                                   .fontSize,
                                             ),
                                           ),
@@ -324,7 +324,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   ),
                                   title: Text(
                                     materialItem.material.name,
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                   subtitle: Text(
                                     UtilsService.moneyToCurrency(
@@ -333,7 +333,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     style: TextStyle(
                                         fontFamily: 'Anta',
                                         fontSize:
-                                            textStyleSmallDefault.fontSize),
+                                            textStyleMediumDefault.fontSize),
                                   ),
                                   trailing: IconButton(
                                     onPressed: () {
@@ -377,7 +377,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                       expense['type']),
                                   title: Text(
                                     expense['type'],
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                   trailing: Icon(
                                     expense['isChecked']
@@ -410,9 +410,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   readOnly: workshopExpense[0]['isChecked'],
                                   decoration: const InputDecoration(
                                       labelText: 'Conta de luz',
-                                      labelStyle: textStyleSmallDefault,
+                                      labelStyle: textStyleMediumDefault,
                                       suffix: Icon(Icons.lightbulb)),
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                   keyboardType: TextInputType.number,
                                   onChanged: !workshopExpense[0]['isChecked']
                                       ? (_) {
@@ -437,9 +437,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   readOnly: workshopExpense[1]['isChecked'],
                                   decoration: const InputDecoration(
                                       labelText: 'Conta de água',
-                                      labelStyle: textStyleSmallDefault,
+                                      labelStyle: textStyleMediumDefault,
                                       suffix: Icon(Icons.local_drink)),
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                   keyboardType: TextInputType.number,
                                   onChanged: !workshopExpense[1]['isChecked']
                                       ? (_) {
@@ -462,9 +462,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   readOnly: workshopExpense[2]['isChecked'],
                                   decoration: const InputDecoration(
                                       labelText: 'Aluguel',
-                                      labelStyle: textStyleSmallDefault,
+                                      labelStyle: textStyleMediumDefault,
                                       suffix: Icon(Icons.home)),
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                   keyboardType: TextInputType.number,
                                   onChanged: !workshopExpense[2]['isChecked']
                                       ? (_) {
@@ -488,9 +488,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   readOnly: workshopExpense[3]['isChecked'],
                                   decoration: const InputDecoration(
                                       labelText: 'DAS/SIMEI',
-                                      labelStyle: textStyleSmallDefault,
+                                      labelStyle: textStyleMediumDefault,
                                       suffix: Icon(Icons.money_off)),
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                   keyboardType: TextInputType.number,
                                   onChanged: !workshopExpense[3]['isChecked']
                                       ? (_) {
@@ -513,9 +513,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   controller: otherTaxesEC,
                                   decoration: const InputDecoration(
                                       labelText: 'Outros',
-                                      labelStyle: textStyleSmallDefault,
+                                      labelStyle: textStyleMediumDefault,
                                       suffix: Icon(Icons.money_off)),
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                   keyboardType: TextInputType.number,
                                   onChanged: (value) {
                                     calculateExpense(
@@ -539,10 +539,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   controller: preworkEC,
                                   decoration: const InputDecoration(
                                       labelText: 'Pretensão Salarial',
-                                      labelStyle: textStyleSmallDefault,
+                                      labelStyle: textStyleMediumDefault,
                                       suffix: Icon(Icons.price_change)),
                                   keyboardType: TextInputType.number,
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
@@ -557,10 +557,10 @@ class _PricingFormPageState extends State<PricingFormPage>
                                           controller: employeeSalaryEC,
                                           decoration: const InputDecoration(
                                             labelText: 'Salário do funcionário',
-                                            labelStyle: textStyleSmallDefault,
+                                            labelStyle: textStyleMediumDefault,
                                           ),
                                           keyboardType: TextInputType.number,
-                                          style: textStyleSmallDefault,
+                                          style: textStyleMediumDefault,
                                         ),
                                       ),
                                       const SizedBox(width: 15),
@@ -617,10 +617,11 @@ class _PricingFormPageState extends State<PricingFormPage>
                                           controller: termEC,
                                           decoration: InputDecoration(
                                               labelText: 'Prazo*',
-                                              labelStyle: textStyleSmallDefault,
+                                              labelStyle:
+                                                  textStyleMediumDefault,
                                               suffix: Text(
                                                   '${pricingController.timeIncentive}(s)')),
-                                          style: textStyleSmallDefault,
+                                          style: textStyleMediumDefault,
                                           keyboardType: TextInputType.number,
                                           inputFormatters: [
                                             FilteringTextInputFormatter
@@ -661,7 +662,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                           },
                                           validator: Validatorless.required(
                                               'Tipo de despesa obrigatório'),
-                                          style: textStyleSmallDefault,
+                                          style: textStyleMediumDefault,
                                         ),
                                       ),
                                     ],
@@ -672,9 +673,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     controller: percentageProfitMarginEC,
                                     decoration: const InputDecoration(
                                         labelText: 'Margem de lucro',
-                                        labelStyle: textStyleSmallDefault,
+                                        labelStyle: textStyleMediumDefault,
                                         suffixText: '%'),
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) => pricingController
                                             .percentageProfitMargin =

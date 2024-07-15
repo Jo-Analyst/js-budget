@@ -122,18 +122,18 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                           children: [
                             const TextSpan(
                               text: 'Pedido: ',
-                              style: textStyleSmallFontWeight,
+                              style: textStyleMediumFontWeight,
                             ),
                             TextSpan(
                               text: budget.orderId.toString().padLeft(5, '0'),
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                             ),
                           ],
                         ),
                       ),
                       Text(
                         budget.client!.name,
-                        style: textStyleSmallFontWeight,
+                        style: textStyleMediumFontWeight,
                       ),
                     ],
                   ),
@@ -158,13 +158,13 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                     children: [
                       const TextSpan(
                         text: 'Quantia a pagar: ',
-                        style: textStyleSmallFontWeight,
+                        style: textStyleMediumFontWeight,
                       ),
                       TextSpan(
                         text: UtilsService.moneyToCurrency(amountToPay),
                         style: TextStyle(
                           fontFamily: 'Anta',
-                          fontSize: textStyleSmallDefault.fontSize,
+                          fontSize: textStyleMediumDefault.fontSize,
                         ),
                       ),
                     ],
@@ -226,14 +226,14 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                           text: amountReceived < amountToPay
                               ? 'Á receber: '
                               : 'Troco: ',
-                          style: textStyleSmallFontWeight),
+                          style: textStyleMediumFontWeight),
                       TextSpan(
                         text: UtilsService.moneyToCurrency(
                           calculateOutstandingBalance(amountReceived),
                         ),
                         style: TextStyle(
                           fontFamily: 'Anta',
-                          fontSize: textStyleSmallDefault.fontSize,
+                          fontSize: textStyleMediumDefault.fontSize,
                         ),
                       ),
                     ],
@@ -246,7 +246,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                 children: [
                   Text(
                     UtilsService.dateFormat(dateSelected),
-                    style: textStyleSmallDefault,
+                    style: textStyleMediumDefault,
                   ),
                   const SizedBox(width: 6),
                   IconButton(

@@ -51,9 +51,9 @@ class ListViewTile extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                        fontFamily: textStyleSmallDefault.fontFamily,
-                        fontSize: textStyleSmallDefault.fontSize,
-                        fontWeight: textStyleSmallFontWeight.fontWeight,
+                        fontFamily: textStyleMediumDefault.fontFamily,
+                        fontSize: textStyleMediumDefault.fontSize,
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
                         color: textColor,
                       ),
                     ),

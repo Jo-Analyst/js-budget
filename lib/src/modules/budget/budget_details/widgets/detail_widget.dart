@@ -82,7 +82,7 @@ class DetailWidget extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 19,
-                fontFamily: textStyleSmallDefault.fontFamily,
+                fontFamily: textStyleMediumDefault.fontFamily,
               ),
             ),
           ),
@@ -98,7 +98,7 @@ class DetailWidget extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         title,
-                        style: textStyleSmallFontWeight,
+                        style: textStyleMediumFontWeight,
                       ),
                     ),
                     subtitle: subTitle.isEmpty
@@ -106,7 +106,7 @@ class DetailWidget extends StatelessWidget {
                         : Text(
                             subTitle,
                             style: TextStyle(
-                              fontSize: textStyleSmallDefault.fontSize,
+                              fontSize: textStyleMediumDefault.fontSize,
                               fontFamily: 'Anta',
                             ),
                           ),

@@ -204,7 +204,7 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
                               const SizedBox(height: 5),
                               const Text(
                                 'Nenhum contato encontrado',
-                                style: textStyleSmallDefault,
+                                style: textStyleMediumDefault,
                               ),
                             ],
                           ),

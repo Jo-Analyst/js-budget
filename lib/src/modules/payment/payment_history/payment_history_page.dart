@@ -85,20 +85,20 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                         children: [
                           const TextSpan(
                             text: 'Pedido: ',
-                            style: textStyleSmallFontWeight,
+                            style: textStyleMediumFontWeight,
                           ),
                           TextSpan(
                             text: budgetController.model.value.orderId
                                 .toString()
                                 .padLeft(5, '0'),
-                            style: textStyleSmallDefault,
+                            style: textStyleMediumDefault,
                           ),
                         ],
                       ),
                     ),
                     Text(
                       budgetController.model.value.client!.name,
-                      style: textStyleSmallFontWeight,
+                      style: textStyleMediumFontWeight,
                     ),
                   ],
                 ),
@@ -122,7 +122,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                           ),
                           subtitle: Text(
                             payment.datePayment,
-                            style: textStyleSmallDefault,
+                            style: textStyleMediumDefault,
                           ),
                           trailing: IconButton(
                             icon: const Icon(

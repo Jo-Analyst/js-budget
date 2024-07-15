@@ -44,7 +44,7 @@ class BudgetSuccessPage extends StatelessWidget {
                 child: Text(
                   'Orçamento  criado com sucesso',
                   textAlign: TextAlign.center,
-                  style: textStyleSmallFontWeight,
+                  style: textStyleMediumFontWeight,
                 ),
               ),
               const SizedBox(height: 20),
@@ -67,18 +67,18 @@ class BudgetSuccessPage extends StatelessWidget {
                   title: Text(
                     'Pedido ${budget.orderId!.toString().padLeft(5, '0')}',
                     style: TextStyle(
-                      fontSize: textStyleSmallFontWeight.fontSize,
-                      fontFamily: textStyleSmallFontWeight.fontFamily,
-                      fontWeight: textStyleSmallFontWeight.fontWeight,
+                      fontSize: textStyleMediumFontWeight.fontSize,
+                      fontFamily: textStyleMediumFontWeight.fontFamily,
+                      fontWeight: textStyleMediumFontWeight.fontWeight,
                       color: Colors.white,
                     ),
                   ),
                   subtitle: Text(
                     budget.client!.name,
                     style: TextStyle(
-                      fontSize: textStyleSmallFontWeight.fontSize,
-                      fontFamily: textStyleSmallFontWeight.fontFamily,
-                      fontWeight: textStyleSmallFontWeight.fontWeight,
+                      fontSize: textStyleMediumFontWeight.fontSize,
+                      fontFamily: textStyleMediumFontWeight.fontFamily,
+                      fontWeight: textStyleMediumFontWeight.fontWeight,
                       color: const Color.fromARGB(255, 175, 172, 172),
                     ),
                   ),

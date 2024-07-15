@@ -66,7 +66,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         Text(
                           'Não há pagamentos de pedidos orçados que foram aprovados ou concluidos',
                           textAlign: TextAlign.center,
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         )
                       ],
                     ),
@@ -101,13 +101,13 @@ class _PaymentPageState extends State<PaymentPage> {
                                       children: [
                                         const TextSpan(
                                           text: 'Pedido: ',
-                                          style: textStyleSmallFontWeight,
+                                          style: textStyleMediumFontWeight,
                                         ),
                                         TextSpan(
                                           text: budget.orderId!
                                               .toString()
                                               .padLeft(5, '0'),
-                                          style: textStyleSmallDefault,
+                                          style: textStyleMediumDefault,
                                         ),
                                       ],
                                     ),
@@ -121,13 +121,13 @@ class _PaymentPageState extends State<PaymentPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(budget.client!.name.toUpperCase(),
-                                            style: textStyleSmallFontWeight),
+                                            style: textStyleMediumFontWeight),
                                         Text(
                                           budget.payment!.amountPaid <
                                                   budget.payment!.amountToPay
                                               ? 'À receber'
                                               : 'Pago',
-                                          style: textStyleSmallFontWeight,
+                                          style: textStyleMediumFontWeight,
                                         ),
                                       ],
                                     ),
@@ -143,9 +143,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                         Text(
                                           'Quan. paga',
                                           style: TextStyle(
-                                            fontFamily: textStyleSmallFontWeight
-                                                .fontFamily,
-                                            fontSize: textStyleSmallFontWeight
+                                            fontFamily:
+                                                textStyleMediumFontWeight
+                                                    .fontFamily,
+                                            fontSize: textStyleMediumFontWeight
                                                 .fontSize,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -156,9 +157,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                           style: TextStyle(
                                             fontFamily: 'Anta',
                                             fontSize:
-                                                textStyleSmallDefault.fontSize,
-                                            fontWeight: textStyleSmallFontWeight
-                                                .fontWeight,
+                                                textStyleMediumDefault.fontSize,
+                                            fontWeight:
+                                                textStyleMediumFontWeight
+                                                    .fontWeight,
                                             color: const Color.fromARGB(
                                                 255, 33, 82, 35),
                                           ),
@@ -177,9 +179,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                         Text(
                                           'Quan. a pagar',
                                           style: TextStyle(
-                                            fontFamily: textStyleSmallFontWeight
-                                                .fontFamily,
-                                            fontSize: textStyleSmallFontWeight
+                                            fontFamily:
+                                                textStyleMediumFontWeight
+                                                    .fontFamily,
+                                            fontSize: textStyleMediumFontWeight
                                                 .fontSize,
                                             fontWeight: FontWeight.w600,
                                           ),
@@ -192,9 +195,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                             color: const Color.fromARGB(
                                                 255, 31, 71, 103),
                                             fontSize:
-                                                textStyleSmallDefault.fontSize,
-                                            fontWeight: textStyleSmallFontWeight
-                                                .fontWeight,
+                                                textStyleMediumDefault.fontSize,
+                                            fontWeight:
+                                                textStyleMediumFontWeight
+                                                    .fontWeight,
                                           ),
                                         ),
                                       ],

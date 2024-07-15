@@ -148,7 +148,7 @@ class _ServicePageState extends State<ServicePage> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhum serviço encontrado',
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
                         SizedBox(
@@ -168,7 +168,7 @@ class _ServicePageState extends State<ServicePage> {
                             ),
                             label: const Text(
                               'Adicionar serviço',
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                             ),
                           ),
                         ),
@@ -210,13 +210,13 @@ class _ServicePageState extends State<ServicePage> {
                                       FontAwesomeIcons.screwdriverWrench),
                                   title: Text(
                                     service.description,
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                   trailing: Text(
                                     UtilsService.moneyToCurrency(service.price),
                                     style: TextStyle(
                                       fontFamily: 'Anta',
-                                      fontSize: textStyleSmallDefault.fontSize,
+                                      fontSize: textStyleMediumDefault.fontSize,
                                     ),
                                   ),
                                 ),

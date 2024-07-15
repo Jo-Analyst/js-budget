@@ -88,7 +88,7 @@ class _ProductFormPageState extends State<ProductFormPage>
                           labelStyle: TextStyle(fontFamily: 'Poppins'),
                           suffixIcon: Icon(Icons.local_offer),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                         validator: Validatorless.required(
                             'Nome do produto obrigatório.'),
                       ),
@@ -149,7 +149,7 @@ class _ProductFormPageState extends State<ProductFormPage>
                           labelStyle: TextStyle(fontFamily: 'Poppins'),
                           suffixIcon: Icon(Icons.description),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                       ),
                     ],
                   ),

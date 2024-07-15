@@ -36,7 +36,7 @@ class SummaryPersonalExpensePage extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 15),
                                   child: Text(
                                     expense.date,
-                                    style: textStyleSmallFontWeight,
+                                    style: textStyleMediumFontWeight,
                                   ),
                                 ),
                                 const Divider(),
@@ -44,18 +44,18 @@ class SummaryPersonalExpensePage extends StatelessWidget {
                                   leading: const Icon(Icons.money),
                                   title: Text(
                                     expense.description,
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                   subtitle: Text(
                                     UtilsService.moneyToCurrency(expense.value),
                                     style: TextStyle(
                                         fontFamily: 'Anta',
                                         fontSize:
-                                            textStyleSmallDefault.fontSize),
+                                            textStyleMediumDefault.fontSize),
                                   ),
                                   trailing: Text(
                                     expense.methodPayment,
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                 )
                               ],
@@ -75,7 +75,7 @@ class SummaryPersonalExpensePage extends StatelessWidget {
               children: [
                 const Text(
                   'Total Despesa',
-                  style: textStyleSmallDefault,
+                  style: textStyleMediumDefault,
                 ),
                 Text(
                   UtilsService.moneyToCurrency(valueExpense),

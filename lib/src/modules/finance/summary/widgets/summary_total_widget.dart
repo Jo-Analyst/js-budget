@@ -23,7 +23,7 @@ class SummaryTotalWidget extends StatelessWidget {
           contentPadding: const EdgeInsets.only(right: 0),
           title: const Text(
             'T. Despesa',
-            style: textStyleSmallDefault,
+            style: textStyleMediumDefault,
           ),
           subtitle: Text(
             UtilsService.moneyToCurrency(value),

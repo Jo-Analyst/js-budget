@@ -91,11 +91,11 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       const TextSpan(
                         text: 'Olá, ',
-                        style: textStyleSmallFontWeight,
+                        style: textStyleMediumFontWeight,
                       ),
                       TextSpan(
                         text: profileController.model.value!.corporateReason,
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                       ),
                     ],
                   ),
@@ -105,11 +105,11 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       const TextSpan(
                         text: 'Razão Social: ',
-                        style: textStyleSmallFontWeight,
+                        style: textStyleMediumFontWeight,
                       ),
                       TextSpan(
                         text: profileController.model.value!.fantasyName,
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                       ),
                     ],
                   ),
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       const TextSpan(
                         text: 'CNPJ: ',
-                        style: textStyleSmallFontWeight,
+                        style: textStyleMediumFontWeight,
                       ),
                       TextSpan(
                         text: profileController.model.value!.document,
@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                                                 const TextSpan(
                                                   text: 'Orçamento do Pedido: ',
                                                   style:
-                                                      textStyleSmallFontWeight,
+                                                      textStyleMediumFontWeight,
                                                 ),
                                                 TextSpan(
                                                   text: budget.orderId
@@ -272,18 +272,19 @@ class _HomePageState extends State<HomePage> {
                                             children: [
                                               Text(
                                                 budget.client!.name,
-                                                style: textStyleSmallFontWeight,
+                                                style:
+                                                    textStyleMediumFontWeight,
                                               ),
                                               Text(
                                                 budget.status!,
                                                 style: TextStyle(
                                                   fontFamily:
-                                                      textStyleSmallDefault
+                                                      textStyleMediumDefault
                                                           .fontFamily,
                                                   color: const Color.fromARGB(
                                                       255, 20, 87, 143),
                                                   fontSize:
-                                                      textStyleSmallDefault
+                                                      textStyleMediumDefault
                                                           .fontSize,
                                                   fontWeight: FontWeight.w600,
                                                 ),
@@ -300,7 +301,7 @@ class _HomePageState extends State<HomePage> {
                                                     createdAt),
                                                 style: TextStyle(
                                                   fontSize:
-                                                      textStyleSmallDefault
+                                                      textStyleMediumDefault
                                                           .fontSize,
                                                   fontFamily: 'Anta',
                                                   color: const Color.fromARGB(

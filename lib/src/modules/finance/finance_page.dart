@@ -173,7 +173,7 @@ class _FinancePageState extends State<FinancePage> {
                             padding: EdgeInsets.only(left: 20),
                             child: Text(
                               'Gastos pessoais',
-                              style: textStyleSmallFontWeight,
+                              style: textStyleMediumFontWeight,
                             ),
                           ),
                           const Divider(),
@@ -219,7 +219,7 @@ class _FinancePageState extends State<FinancePage> {
                             padding: EdgeInsets.only(left: 20),
                             child: Text(
                               'Gastos totais da oficina',
-                              style: textStyleSmallFontWeight,
+                              style: textStyleMediumFontWeight,
                             ),
                           ),
                           const Divider(),
@@ -274,7 +274,7 @@ class _FinancePageState extends State<FinancePage> {
                               horizontal: 15,
                             ),
                             child: Text('Balanço geral',
-                                style: textStyleSmallFontWeight),
+                                style: textStyleMediumFontWeight),
                           ),
                           const Divider(),
                           FinacialLastWidget(

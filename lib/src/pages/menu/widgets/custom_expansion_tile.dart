@@ -83,8 +83,8 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
                 title: Text(
                   widget.title,
                   style: TextStyle(
-                    fontFamily: textStyleSmallDefault.fontFamily,
-                    fontSize: textStyleSmallDefault.fontSize,
+                    fontFamily: textStyleMediumDefault.fontFamily,
+                    fontSize: textStyleMediumDefault.fontSize,
                     fontWeight: FontWeight.w600,
                     color: widget.titleColor,
                   ),

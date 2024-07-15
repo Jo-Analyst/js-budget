@@ -116,7 +116,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                           contentPadding: EdgeInsets.zero,
                           title: const Text(
                             'Pessoa jurídica',
-                            style: textStyleSmallDefault,
+                            style: textStyleMediumDefault,
                             textAlign: TextAlign.end,
                           ),
                           trailing: Switch(
@@ -143,7 +143,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                               RegExp('[a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛãõÃÕçÇ ]'),
                             ),
                           ],
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           validator: Validatorless.required(
                               'Nome do cliente obrigátório'),
                         ),
@@ -163,7 +163,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                                 suffixIcon: Icon(Icons.description),
                                 labelStyle: TextStyle(fontFamily: 'Poppins'),
                               ),
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                               validator: Validatorless.cnpj('CNPJ inválido')),
                         ),
                       ],
@@ -197,7 +197,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                             }
                             return null;
                           },
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         TextFormField(
                           controller: telePhoneEC,
@@ -217,7 +217,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                             }
                             return null;
                           },
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         TextFormField(
                           controller: mailEC,
@@ -231,7 +231,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                           validator: mailEC.text.trim().isNotEmpty
                               ? Validatorless.email('Email inválido')
                               : null,
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                       ],
                     ),
@@ -258,7 +258,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                           inputFormatters: [
                             MaskTextInputFormatter(mask: '##.###-###'),
                           ],
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           onChanged: findCep,
                         ),
                         TextFormField(
@@ -274,7 +274,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                             ),
                             labelStyle: const TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         TextFormField(
                           controller: streetAddressEC,
@@ -286,7 +286,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                             suffixIcon: Icon(Icons.location_on_outlined),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         TextFormField(
                           controller: numberAddressEC,
@@ -300,7 +300,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                             suffixIcon: Icon(Icons.numbers),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         TextFormField(
                           controller: cityEC,
@@ -311,7 +311,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                             suffixIcon: Icon(Icons.location_city_rounded),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         TextFormField(
                           controller: stateEC,
@@ -322,7 +322,7 @@ class _ClientFormPageState extends State<ClientFormPage>
                             suffixIcon: Icon(Icons.business),
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                       ],
                     ),

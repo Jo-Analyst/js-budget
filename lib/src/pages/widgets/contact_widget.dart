@@ -52,7 +52,7 @@ class ContactWidget extends StatelessWidget {
                   leading: Icon(Icons.info),
                   title: Text(
                     'Não há contato cadastrado.',
-                    style: textStyleSmallDefault,
+                    style: textStyleMediumDefault,
                   ),
                 )
               ],

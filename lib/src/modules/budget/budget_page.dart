@@ -186,7 +186,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text('Produto(s)',
-                                  style: textStyleSmallFontWeight),
+                                  style: textStyleMediumFontWeight),
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
@@ -207,7 +207,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                             child: Text(
                                               '${product!.quantity}x',
                                               style: TextStyle(
-                                                fontSize: textStyleSmallDefault
+                                                fontSize: textStyleMediumDefault
                                                     .fontSize,
                                                 fontFamily: 'Anta',
                                               ),
@@ -216,7 +216,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                         ),
                                         title: Text(
                                           product.name,
-                                          style: textStyleSmallDefault,
+                                          style: textStyleMediumDefault,
                                         ),
                                         subtitle: itemBudgetController
                                                     .data[index].subValue >
@@ -230,7 +230,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                                     style: TextStyle(
                                                       fontFamily: 'Anta',
                                                       fontSize:
-                                                          textStyleSmallDefault
+                                                          textStyleMediumDefault
                                                               .fontSize,
                                                     ),
                                                   ),
@@ -239,7 +239,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                                     style: TextStyle(
                                                       fontFamily: 'Anta',
                                                       fontSize:
-                                                          textStyleSmallDefault
+                                                          textStyleMediumDefault
                                                               .fontSize,
                                                     ),
                                                   ),
@@ -322,7 +322,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                       contentPadding: EdgeInsets.zero,
                                       title: Text(
                                         itemBudget.service!.description,
-                                        style: textStyleSmallDefault,
+                                        style: textStyleMediumDefault,
                                       ),
                                       leading: CircleAvatar(
                                         radius: 30,
@@ -331,7 +331,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                           child: Text(
                                             '${itemBudget.service!.quantity}x',
                                             style: TextStyle(
-                                                fontSize: textStyleSmallDefault
+                                                fontSize: textStyleMediumDefault
                                                     .fontSize,
                                                 fontFamily: 'Anta'),
                                           ),
@@ -343,7 +343,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                         style: TextStyle(
                                           fontFamily: 'Anta',
                                           fontSize:
-                                              textStyleSmallDefault.fontSize,
+                                              textStyleMediumDefault.fontSize,
                                         ),
                                       ),
                                     ),
@@ -368,7 +368,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             children: [
                               const Text(
                                 'Frete',
-                                style: textStyleSmallFontWeight,
+                                style: textStyleMediumFontWeight,
                               ),
                               TextFormField(
                                 controller: freightEC,
@@ -377,12 +377,12 @@ class _BudgetPageState extends State<BudgetPage> {
                                 decoration: const InputDecoration(
                                   label: Text(
                                     'Valor do frete',
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                 ),
                                 style: TextStyle(
                                   fontFamily: 'Anta',
-                                  fontSize: textStyleSmallDefault.fontSize,
+                                  fontSize: textStyleMediumDefault.fontSize,
                                 ),
                                 onChanged: (value) {
                                   calculateBudget();
@@ -407,7 +407,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                     CustomIcons.paymentsMethod(methodPayment),
                                 title: Text(
                                   methodPayment,
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                 ),
                                 trailing: IconButton(
                                   icon: Icon(
@@ -444,7 +444,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             children: [
                               const Text(
                                 'Número de Parcelas',
-                                style: textStyleSmallFontWeight,
+                                style: textStyleMediumFontWeight,
                               ),
                               const SizedBox(
                                 width: 15,
@@ -458,7 +458,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                   ],
                                   textAlign: TextAlign.right,
                                   controller: numberOfInstallmentsEC,
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                   onChanged: (portion) => numberOfInstallments =
                                       portion.isNotEmpty
                                           ? int.parse(portion)
@@ -497,7 +497,7 @@ class _BudgetPageState extends State<BudgetPage> {
                       contentPadding: EdgeInsets.zero,
                       title: const Text(
                         'Preço do(s) produto(s)',
-                        style: textStyleSmallFontWeight,
+                        style: textStyleMediumFontWeight,
                       ),
                       trailing: Text(
                         UtilsService.moneyToCurrency(valueTotalProduct),
@@ -518,7 +518,7 @@ class _BudgetPageState extends State<BudgetPage> {
                       contentPadding: EdgeInsets.zero,
                       title: const Text(
                         'Preço do serviço(s)',
-                        style: textStyleSmallFontWeight,
+                        style: textStyleMediumFontWeight,
                       ),
                       trailing: Text(
                         UtilsService.moneyToCurrency(sumPriceService()),
@@ -534,7 +534,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     contentPadding: EdgeInsets.zero,
                     title: const Text(
                       'Valor a cobrar',
-                      style: textStyleSmallFontWeight,
+                      style: textStyleMediumFontWeight,
                     ),
                     trailing: Text(
                       UtilsService.moneyToCurrency(valueTotalBudget),

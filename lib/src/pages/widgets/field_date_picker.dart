@@ -30,7 +30,7 @@ class FieldDatePicker extends StatelessWidget {
               labelText: labelText,
               labelStyle: const TextStyle(fontFamily: 'Poppins'),
             ),
-            style: textStyleSmallDefault,
+            style: textStyleMediumDefault,
           ),
         ),
         IconButton(

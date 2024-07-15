@@ -63,7 +63,7 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Text(
               'Meios de Pagamentos',
-              style: textStyleSmallFontWeight,
+              style: textStyleMediumFontWeight,
             ),
           ),
           const Divider(),
@@ -91,9 +91,10 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
                                 ? TextStyle(
                                     color: Colors.deepPurple,
                                     fontWeight:
-                                        textStyleSmallFontWeight.fontWeight,
-                                    fontSize: textStyleSmallFontWeight.fontSize)
-                                : textStyleSmallDefault,
+                                        textStyleMediumFontWeight.fontWeight,
+                                    fontSize:
+                                        textStyleMediumFontWeight.fontSize)
+                                : textStyleMediumDefault,
                           ),
                         ),
                       ),
@@ -120,8 +121,8 @@ class _PaymentMethodsWidgetState extends State<PaymentMethodsWidget> {
               child: Text(
                 'Alterar Meio de Pagamento',
                 style: TextStyle(
-                    fontSize: textStyleSmallDefault.fontSize,
-                    fontFamily: textStyleSmallDefault.fontFamily),
+                    fontSize: textStyleMediumDefault.fontSize,
+                    fontFamily: textStyleMediumDefault.fontFamily),
               ),
             ),
           ),

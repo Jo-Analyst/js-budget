@@ -31,7 +31,7 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
             padding: EdgeInsets.only(left: 15, top: 10),
             child: Text(
               'Matérias primas',
-              style: textStyleSmallFontWeight,
+              style: textStyleMediumFontWeight,
             ),
           ),
           Flexible(
@@ -51,20 +51,20 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                                 ),
                                 title: Text(
                                   item.material.name,
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                 ),
                                 subtitle: Text(
                                   '${item.quantity}x ${UtilsService.moneyToCurrency((item.value / item.quantity))}',
                                   style: TextStyle(
                                     fontFamily: 'Anta',
-                                    fontSize: textStyleSmallDefault.fontSize,
+                                    fontSize: textStyleMediumDefault.fontSize,
                                   ),
                                 ),
                                 trailing: Text(
                                   UtilsService.moneyToCurrency(item.value),
                                   style: TextStyle(
                                     fontFamily: 'Anta',
-                                    fontSize: textStyleSmallDefault.fontSize,
+                                    fontSize: textStyleMediumDefault.fontSize,
                                   ),
                                 ),
                               ),
@@ -82,7 +82,7 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
             padding: EdgeInsets.only(left: 15, top: 10),
             child: Text(
               'Custos Indiretos',
-              style: textStyleSmallFontWeight,
+              style: textStyleMediumFontWeight,
             ),
           ),
 
@@ -105,13 +105,13 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                               ),
                               title: Text(
                                 expense.type,
-                                style: textStyleSmallDefault,
+                                style: textStyleMediumDefault,
                               ),
                               subtitle: Text(
                                 '${totalTerm}x ${UtilsService.moneyToCurrency(expense.dividedValue)}',
                                 style: TextStyle(
                                   fontFamily: 'Anta',
-                                  fontSize: textStyleSmallDefault.fontSize,
+                                  fontSize: textStyleMediumDefault.fontSize,
                                 ),
                               ),
                               trailing: Text(
@@ -119,7 +119,7 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                                     (totalTerm * expense.dividedValue)),
                                 style: TextStyle(
                                   fontFamily: 'Anta',
-                                  fontSize: textStyleSmallDefault.fontSize,
+                                  fontSize: textStyleMediumDefault.fontSize,
                                 ),
                               ),
                             ),
@@ -143,14 +143,14 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
               children: [
                 const Text(
                   'Margem de Lucros',
-                  style: textStyleSmallFontWeight,
+                  style: textStyleMediumFontWeight,
                 ),
                 Text(
                   UtilsService.moneyToCurrency(
                       budgetController.profitMargin.value),
                   style: TextStyle(
                     fontFamily: 'Anta',
-                    fontWeight: textStyleSmallFontWeight.fontWeight,
+                    fontWeight: textStyleMediumFontWeight.fontWeight,
                     fontSize: 23,
                     color: Colors.green,
                   ),

@@ -42,7 +42,7 @@ class InfoWidget extends StatelessWidget {
                         text: text,
                       ),
                     ],
-                    style: textStyleSmallDefault,
+                    style: textStyleMediumDefault,
                   ),
                 ),
               ),

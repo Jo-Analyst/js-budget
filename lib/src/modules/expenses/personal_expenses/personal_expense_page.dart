@@ -80,7 +80,7 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhuma despesa encontrado',
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
                         SizedBox(
@@ -101,7 +101,7 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
                             ),
                             label: const Text(
                               'Adicionar despesa',
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                             ),
                           ),
                         ),
@@ -125,19 +125,19 @@ class _PersonalExpensePageState extends State<PersonalExpensePage> {
                                       Icons.monetization_on_outlined),
                                   title: Text(
                                     expense.description,
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                   subtitle: Text(
                                     expense.date,
                                     style: TextStyle(
-                                      fontSize: textStyleSmallDefault.fontSize,
+                                      fontSize: textStyleMediumDefault.fontSize,
                                     ),
                                   ),
                                   trailing: Text(
                                     UtilsService.moneyToCurrency(expense.value),
                                     style: TextStyle(
                                       fontFamily: 'Anta',
-                                      fontSize: textStyleSmallDefault.fontSize,
+                                      fontSize: textStyleMediumDefault.fontSize,
                                     ),
                                   ),
                                 ),

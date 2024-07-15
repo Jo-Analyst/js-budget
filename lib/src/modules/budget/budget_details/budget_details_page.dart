@@ -134,7 +134,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                             children: [
                               Text(
                                 budget!.client!.name,
-                                style: textStyleSmallDefault,
+                                style: textStyleMediumDefault,
                               ),
                               GestureDetector(
                                 onTap: () async {
@@ -154,9 +154,9 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                                       status,
                                       style: TextStyle(
                                         fontSize:
-                                            textStyleSmallDefault.fontSize,
+                                            textStyleMediumDefault.fontSize,
                                         fontFamily:
-                                            textStyleSmallDefault.fontFamily,
+                                            textStyleMediumDefault.fontFamily,
                                         fontWeight: FontWeight.w700,
                                         color: const Color.fromARGB(
                                             255, 20, 87, 143),
@@ -236,9 +236,9 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
               label: Text(
                 'Gerar comprovante',
                 style: TextStyle(
-                  fontFamily: textStyleSmallDefault.fontFamily,
+                  fontFamily: textStyleMediumDefault.fontFamily,
                   color: Colors.white,
-                  fontSize: textStyleSmallDefault.fontSize,
+                  fontSize: textStyleMediumDefault.fontSize,
                 ),
               ),
               icon: const Icon(

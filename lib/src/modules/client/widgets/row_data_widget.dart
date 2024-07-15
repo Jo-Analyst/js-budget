@@ -28,7 +28,7 @@ class RowDataWidget extends StatelessWidget {
                 ),
                 TextSpan(text: text),
               ],
-              style: textStyleSmallDefault,
+              style: textStyleMediumDefault,
             ),
           ),
         ],

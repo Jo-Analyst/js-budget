@@ -88,38 +88,55 @@ class _ShareDocState extends State<ShareDoc> {
             color: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Image.asset('assets/images/logo_rectangular_80.png'),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset('assets/images/logo_rectangular_80.png'),
                     const SizedBox(width: 25),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          profile!.corporateReason.toUpperCase(),
-                          style: textStyleSmallFontWeight,
-                        ),
-                        Text(
-                          '${profile!.address.streetAddress}, ${profile!.address.numberAddress}, ${profile!.address.district}',
-                          style: textStyleSmallDefault,
-                        ),
-                        Text(
-                          '${profile!.address.city} - ${profile!.address.state}',
-                          style: textStyleSmallDefault,
-                        ),
-                        Visibility(
-                          visible: profile!.contact.email.isNotEmpty,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
                           child: Text(
-                            profile!.contact.email,
+                            profile!.corporateReason.toUpperCase(),
+                            style: textStyleSmallFontWeight,
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            '${profile!.address.streetAddress}, ${profile!.address.numberAddress}, ${profile!.address.district}',
                             style: textStyleSmallDefault,
                           ),
                         ),
-                        Text(
-                          profile!.contact.cellPhone,
-                          style: textStyleSmallDefault,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            '${profile!.address.city} - ${profile!.address.state}',
+                            style: textStyleSmallDefault,
+                          ),
+                        ),
+                        Visibility(
+                          visible: profile!.contact.email.isNotEmpty,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              profile!.contact.email,
+                              style: textStyleSmallDefault,
+                            ),
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            profile!.contact.cellPhone,
+                            style: textStyleSmallDefault,
+                          ),
                         ),
                       ],
                     ),

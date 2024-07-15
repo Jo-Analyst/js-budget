@@ -135,7 +135,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                             width: 25,
                           ),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                         validator: Validatorless.required(
                             'Nome do material obrigatório.'),
                       ),
@@ -151,7 +151,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                             width: 25,
                           ),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                       ),
                     ],
                   ),
@@ -183,7 +183,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                                 labelStyle: TextStyle(fontFamily: 'Poppins'),
                                 suffixIcon: Icon(Icons.format_list_numbered),
                               ),
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                               validator: (value) {
                                 if (value != null) {
                                   if (value.isEmpty) {
@@ -286,7 +286,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                           labelStyle: TextStyle(fontFamily: 'Poppins'),
                           suffixIcon: Icon(Icons.price_change),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                         validator: (value) {
                           return priceMaterialEC.numberValue == 0
                               ? 'Preço do material obrigatório'
@@ -316,7 +316,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                           labelStyle: TextStyle(fontFamily: 'Poppins'),
                           suffixIcon: Icon(Icons.local_shipping_outlined),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                       ),
                       TextFormField(
                         readOnly: isChecked,
@@ -328,7 +328,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                           labelStyle: TextStyle(fontFamily: 'Poppins'),
                           suffixIcon: Icon(Icons.note_alt_outlined),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                       ),
                     ],
                   ),

@@ -20,7 +20,7 @@ class OptionShare extends StatelessWidget {
             ),
             title: Text(
               'Imagem',
-              style: textStyleSmallDefault,
+              style: textStyleMediumDefault,
             ),
             trailing: Icon(
               Icons.keyboard_arrow_right,
@@ -41,7 +41,7 @@ class OptionShare extends StatelessWidget {
             ),
             title: Text(
               'PDF',
-              style: textStyleSmallDefault,
+              style: textStyleMediumDefault,
             ),
             trailing: Icon(
               Icons.keyboard_arrow_right,

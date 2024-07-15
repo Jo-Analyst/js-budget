@@ -25,7 +25,7 @@ class FinacialLastWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: textStyleSmallDefault),
+          Text(title, style: textStyleMediumDefault),
           Text(
             UtilsService.moneyToCurrency(value),
             style: TextStyle(

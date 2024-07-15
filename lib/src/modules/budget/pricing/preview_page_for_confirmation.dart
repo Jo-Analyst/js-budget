@@ -55,7 +55,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                   children: [
                                     const Text(
                                       'Custos dos materiais',
-                                      style: textStyleSmallFontWeight,
+                                      style: textStyleMediumFontWeight,
                                     ),
                                     Expanded(
                                       child: SingleChildScrollView(
@@ -72,7 +72,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                                       style: TextStyle(
                                                         fontFamily: 'Anta',
                                                         fontSize:
-                                                            textStyleSmallDefault
+                                                            textStyleMediumDefault
                                                                 .fontSize,
                                                       ),
                                                     ),
@@ -80,7 +80,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                                   title: Text(
                                                     item.material.name,
                                                     style:
-                                                        textStyleSmallDefault,
+                                                        textStyleMediumDefault,
                                                   ),
                                                   trailing: Text(
                                                     UtilsService
@@ -89,7 +89,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontFamily: 'Anta',
                                                       fontSize:
-                                                          textStyleSmallDefault
+                                                          textStyleMediumDefault
                                                               .fontSize,
                                                     ),
                                                   ),
@@ -115,10 +115,10 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                         TextSpan(
                                           text: 'Total:   ',
                                           style: TextStyle(
-                                            fontFamily: textStyleSmallDefault
+                                            fontFamily: textStyleMediumDefault
                                                 .fontFamily,
                                             fontSize:
-                                                textStyleSmallDefault.fontSize,
+                                                textStyleMediumDefault.fontSize,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -162,7 +162,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                   children: [
                                     const Text(
                                       'Custos das despesas',
-                                      style: textStyleSmallFontWeight,
+                                      style: textStyleMediumFontWeight,
                                     ),
                                     Expanded(
                                       child: SingleChildScrollView(
@@ -175,14 +175,14 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontFamily: 'Anta',
                                                       fontSize:
-                                                          textStyleSmallDefault
+                                                          textStyleMediumDefault
                                                               .fontSize,
                                                     ),
                                                   ),
                                                   title: Text(
                                                     item.type,
                                                     style:
-                                                        textStyleSmallDefault,
+                                                        textStyleMediumDefault,
                                                   ),
                                                   trailing: Text(
                                                     UtilsService
@@ -191,7 +191,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                                     style: TextStyle(
                                                       fontFamily: 'Anta',
                                                       fontSize:
-                                                          textStyleSmallDefault
+                                                          textStyleMediumDefault
                                                               .fontSize,
                                                     ),
                                                   ),
@@ -217,10 +217,10 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                         TextSpan(
                                           text: 'Total:   ',
                                           style: TextStyle(
-                                            fontFamily: textStyleSmallDefault
+                                            fontFamily: textStyleMediumDefault
                                                 .fontFamily,
                                             fontSize:
-                                                textStyleSmallDefault.fontSize,
+                                                textStyleMediumDefault.fontSize,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -257,7 +257,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                 const EdgeInsets.only(right: 25, left: 12),
                             title: const Text(
                               'Margem de lucro',
-                              style: textStyleSmallFontWeight,
+                              style: textStyleMediumFontWeight,
                             ),
                             trailing: Text(
                               UtilsService.moneyToCurrency(
@@ -275,7 +275,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                 const EdgeInsets.only(right: 25, left: 12),
                             title: const Text(
                               'Valor a cobrar',
-                              style: textStyleSmallFontWeight,
+                              style: textStyleMediumFontWeight,
                             ),
                             trailing: Text(
                               UtilsService.moneyToCurrency(
@@ -300,7 +300,7 @@ class PreviewPageForConfirmation extends StatelessWidget {
                                 },
                                 child: const Text(
                                   'Confirmar cobrança',
-                                  style: textStyleSmallDefault,
+                                  style: textStyleMediumDefault,
                                 )),
                           ),
                         ],

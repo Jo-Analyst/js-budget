@@ -8,15 +8,15 @@ showToast(
     Color? color,
     Icon? icon,
     required Position position,
-   required int timeSeconds}) {
+    required int timeSeconds}) {
   showSimpleNotification(
     Padding(
       padding: const EdgeInsets.all(8.0),
       child: Text(
         message,
         style: TextStyle(
-          fontFamily: textStyleSmallDefault.fontFamily,
-          fontSize: textStyleSmallDefault.fontSize,
+          fontFamily: textStyleMediumDefault.fontFamily,
+          fontSize: textStyleMediumDefault.fontSize,
           color: Colors.white,
         ),
       ),

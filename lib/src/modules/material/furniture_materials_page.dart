@@ -152,7 +152,7 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhum material encontrado',
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
                         SizedBox(
@@ -172,7 +172,7 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                             ),
                             label: const Text(
                               'Adicionar material',
-                              style: textStyleSmallDefault,
+                              style: textStyleMediumDefault,
                             ),
                           ),
                         ),
@@ -218,20 +218,20 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                                   ),
                                   title: Text(
                                     material.name,
-                                    style: textStyleSmallDefault,
+                                    style: textStyleMediumDefault,
                                   ),
                                   subtitle: Text(
                                     UtilsService.moneyToCurrency(
                                         material.price),
                                     style: TextStyle(
-                                      fontSize: textStyleSmallDefault.fontSize,
+                                      fontSize: textStyleMediumDefault.fontSize,
                                       fontFamily: 'Anta',
                                     ),
                                   ),
                                   trailing: Text(
                                     material.quantity.toStringAsFixed(0),
                                     style: TextStyle(
-                                      fontSize: textStyleSmallDefault.fontSize,
+                                      fontSize: textStyleMediumDefault.fontSize,
                                       fontFamily: 'Anta',
                                     ),
                                   ),

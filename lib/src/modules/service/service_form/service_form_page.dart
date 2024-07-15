@@ -91,7 +91,7 @@ class _ServiceFormPageState extends State<ServiceFormPage>
                             size: 20,
                           ),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                         validator: Validatorless.required(
                             'Nome do serviço obrigatório.'),
                       ),
@@ -102,7 +102,7 @@ class _ServiceFormPageState extends State<ServiceFormPage>
                           labelStyle: TextStyle(fontFamily: 'Poppins'),
                           suffixIcon: Icon(Icons.attach_money),
                         ),
-                        style: textStyleSmallDefault,
+                        style: textStyleMediumDefault,
                         keyboardType: TextInputType.number,
                         validator: (value) {
                           if (priceEC.numberValue == 0) {

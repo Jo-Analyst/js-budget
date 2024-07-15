@@ -127,7 +127,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                       },
                       validator:
                           Validatorless.required('Tipo de despesa obrigatório'),
-                      style: textStyleSmallDefault,
+                      style: textStyleMediumDefault,
                     ),
                   ),
                 ),
@@ -151,7 +151,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                               labelStyle: TextStyle(fontFamily: 'Poppins'),
                               suffixIcon: Icon(Icons.attach_money),
                             ),
-                            style: textStyleSmallDefault,
+                            style: textStyleMediumDefault,
                             keyboardType: TextInputType.number,
                             validator:
                                 Validatorless.required('Descrição obrigatório'),
@@ -168,7 +168,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                             suffixIcon: Icon(Icons.attach_money),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           keyboardType: TextInputType.number,
                           validator: (value) {
                             if (expenseValueEC.numberValue == 0) {
@@ -223,7 +223,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
                             suffixIcon: Icon(Icons.note_alt_outlined),
                           ),
-                          style: textStyleSmallDefault,
+                          style: textStyleMediumDefault,
                           maxLines: 5,
                         ),
                       ],
