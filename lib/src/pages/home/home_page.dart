@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   TextSpan(
                     children: [
                       const TextSpan(
-                        text: 'Razão Social: ',
+                        text: 'Nome Fantasia: ',
                         style: textStyleMediumFontWeight,
                       ),
                       TextSpan(

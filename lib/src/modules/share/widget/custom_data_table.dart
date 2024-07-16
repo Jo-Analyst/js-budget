@@ -44,9 +44,12 @@ class CustomDataTable extends StatelessWidget {
               children: [
                 Expanded(
                   child: Align(
-                    child: Text(
-                      row.product?.name ?? row.service!.description,
-                      style: const TextStyle(fontSize: 16),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        row.product?.name ?? row.service!.description,
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
                 ),

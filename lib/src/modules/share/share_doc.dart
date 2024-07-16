@@ -27,13 +27,16 @@ class _ShareDocState extends State<ShareDoc> {
 
   (
     double totalProduct,
-    double totalService
+    double totalService,
+    int totalTerm
   ) _calculateTotalValueProductAndService(List<ItemsBudgetModel> itemsBudget) {
     double totalProduct = 0, totalService = 0;
+    int totalTerm = 0;
 
     for (var item in itemsBudget) {
       double unitaryValue = double.parse(item.unitaryValue.toStringAsFixed(2));
       double total = unitaryValue * item.quantity;
+      totalTerm += item.term;
 
       if (item.product != null) {
         totalProduct += total;
@@ -42,7 +45,7 @@ class _ShareDocState extends State<ShareDoc> {
       }
     }
 
-    return (totalProduct, totalService);
+    return (totalProduct, totalService, totalTerm);
   }
 
   Future<void> toShare(bool isPdf) async {
@@ -57,7 +60,7 @@ class _ShareDocState extends State<ShareDoc> {
   Widget build(BuildContext context) {
     final (year, month, day, hours, minutes) =
         UtilsService.extractDate(budget.createdAt!);
-    final (double totalProduct, double totalService) =
+    final (double totalProduct, double totalService, int totalTerm) =
         _calculateTotalValueProductAndService(budget.itemsBudget!);
 
     return Scaffold(
@@ -103,7 +106,7 @@ class _ShareDocState extends State<ShareDoc> {
                         FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            profile!.corporateReason.toUpperCase(),
+                            profile!.fantasyName.toUpperCase(),
                             style: textStyleSmallFontWeight,
                           ),
                         ),
@@ -347,6 +350,54 @@ class _ShareDocState extends State<ShareDoc> {
                       ),
                     ],
                   ),
+                ),
+                const Divider(),
+                Row(
+                  children: [
+                    const Text(
+                      'Situação atual: ',
+                      style: textStyleSmallFontWeight,
+                    ),
+                    Text(
+                      budget.status! == 'Em aberto'
+                          ? 'Aguardando aprovação'
+                          : budget.status!,
+                      style: textStyleSmallDefault,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Row(
+                    children: [
+                      const Text(
+                        'Previsão de entrega: ',
+                        style: textStyleSmallFontWeight,
+                      ),
+                      Flexible(
+                        child: Text(
+                          budget.status! == 'Em aberto'
+                              ? '$totalTerm dias após aprovação'
+                              : budget.status!,
+                          style: textStyleSmallDefault,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      'Forma de Pagamento: ',
+                      style: textStyleSmallFontWeight,
+                    ),
+                    Flexible(
+                      child: Text(
+                        budget.payment!.specie,
+                        style: textStyleSmallDefault,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
