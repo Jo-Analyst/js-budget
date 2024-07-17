@@ -48,7 +48,7 @@ class CustomDataTable extends StatelessWidget {
                       fit: BoxFit.scaleDown,
                       child: Text(
                         row.product?.name ?? row.service!.description,
-                        style: const TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 10),
                       ),
                     ),
                   ),
@@ -66,7 +66,7 @@ class CustomDataTable extends StatelessWidget {
                     child: Text(
                       UtilsService.moneyToCurrency(row.unitaryValue),
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 10,
                         fontFamily: 'Anta',
                       ),
                     ),
@@ -77,7 +77,7 @@ class CustomDataTable extends StatelessWidget {
                     child: Text(
                       UtilsService.moneyToCurrency(row.subValue),
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 10,
                         fontFamily: 'Anta',
                       ),
                     ),

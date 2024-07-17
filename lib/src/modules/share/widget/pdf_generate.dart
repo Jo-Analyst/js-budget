@@ -44,25 +44,25 @@ class PdfGeneration {
                   pw.Text(
                     profile!.fantasyName.toUpperCase(),
                     style: pw.TextStyle(
-                      fontSize: 16,
+                      fontSize: 12,
                       fontWeight: pw.FontWeight.bold,
                     ),
                   ),
                   pw.Text(
                     '${profile.address.streetAddress}, ${profile.address.numberAddress}, ${profile.address.district}',
-                    style: const pw.TextStyle(fontSize: 14),
+                    style: const pw.TextStyle(fontSize: 10),
                   ),
                   pw.Text(
                     '${profile.address.city} - ${profile.address.state}',
-                    style: const pw.TextStyle(fontSize: 14),
+                    style: const pw.TextStyle(fontSize: 10),
                   ),
                   pw.Text(
                     profile.contact.email,
-                    style: const pw.TextStyle(fontSize: 14),
+                    style: const pw.TextStyle(fontSize: 10),
                   ),
                   pw.Text(
                     profile.contact.cellPhone,
-                    style: const pw.TextStyle(fontSize: 14),
+                    style: const pw.TextStyle(fontSize: 10),
                   ),
                 ],
               ),
@@ -76,21 +76,21 @@ class PdfGeneration {
                 pw.Text(
                   'Ordem de Serviço 00001',
                   style: pw.TextStyle(
-                    fontSize: 14,
+                    fontSize: 10,
                     fontWeight: pw.FontWeight.bold,
                   ),
                 ),
                 pw.Text(
                   'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, ${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}Hrs',
-                  style: const pw.TextStyle(fontSize: 14),
+                  style: const pw.TextStyle(fontSize: 10),
                 )
               ],
             ),
           ),
           // Dados do cliente
           pw.Container(
-            margin: const pw.EdgeInsets.symmetric(vertical: 25),
-            padding: const pw.EdgeInsets.symmetric(vertical: 20),
+            margin: const pw.EdgeInsets.symmetric(vertical: 10),
+            padding: const pw.EdgeInsets.symmetric(vertical: 10),
             decoration: const pw.BoxDecoration(
               border: pw.Border.symmetric(
                 horizontal:
@@ -105,7 +105,7 @@ class PdfGeneration {
                   children: [
                     pw.Text(
                       'Cliente: ${budget.client!.name}',
-                      style: const pw.TextStyle(fontSize: 12),
+                      style: const pw.TextStyle(fontSize: 10),
                     ),
                   ],
                 ),
@@ -120,7 +120,7 @@ class PdfGeneration {
                         pw.Text(
                           'Contatos:',
                           style: pw.TextStyle(
-                            fontSize: 14,
+                            fontSize: 10,
                             fontWeight: pw.FontWeight.bold,
                           ),
                         ),
@@ -132,18 +132,18 @@ class PdfGeneration {
                             children: [
                               pw.Text(
                                 'Cel: ${budget.client?.contact?.cellPhone ?? ''}',
-                                style: const pw.TextStyle(fontSize: 12),
+                                style: const pw.TextStyle(fontSize: 10),
                               ),
                               pw.Text(
                                 'Tel: ${budget.client?.contact?.telePhone ?? ''}',
-                                style: const pw.TextStyle(fontSize: 12),
+                                style: const pw.TextStyle(fontSize: 10),
                               ),
                             ],
                           ),
                         ),
                         pw.Text(
                           'E-mail: ${budget.client?.contact?.email ?? ''}',
-                          style: const pw.TextStyle(fontSize: 12),
+                          style: const pw.TextStyle(fontSize: 10),
                         ),
                       ],
                     ),
@@ -157,7 +157,7 @@ class PdfGeneration {
                       pw.Text(
                         'Endereço: ',
                         style: pw.TextStyle(
-                          fontSize: 14,
+                          fontSize: 10,
                           fontWeight: pw.FontWeight.bold,
                         ),
                       ),
@@ -168,11 +168,11 @@ class PdfGeneration {
                           children: [
                             pw.Text(
                               'Endereço: ${budget.client?.address?.streetAddress}, ${budget.client?.address?.numberAddress}',
-                              style: const pw.TextStyle(fontSize: 12),
+                              style: const pw.TextStyle(fontSize: 10),
                             ),
                             pw.Text(
                               'Bairro: ${budget.client?.address?.district}',
-                              style: const pw.TextStyle(fontSize: 12),
+                              style: const pw.TextStyle(fontSize: 10),
                             ),
                           ],
                         ),
@@ -182,11 +182,11 @@ class PdfGeneration {
                         children: [
                           pw.Text(
                             'Localidade: ${budget.client?.address?.city} - ${budget.client?.address?.state}',
-                            style: const pw.TextStyle(fontSize: 12),
+                            style: const pw.TextStyle(fontSize: 10),
                           ),
                           pw.Text(
                             'CEP: ${budget.client?.address?.cep}',
-                            style: const pw.TextStyle(fontSize: 12),
+                            style: const pw.TextStyle(fontSize: 10),
                           ),
                         ],
                       ),
@@ -196,11 +196,11 @@ class PdfGeneration {
             ),
           ),
 
-          pw.SizedBox(height: 16),
+          // pw.SizedBox(height: 16),
 
           pw.TableHelper.fromTextArray(
-            headerStyle: const pw.TextStyle(fontSize: 12),
-            cellStyle: const pw.TextStyle(fontSize: 12),
+            headerStyle: const pw.TextStyle(fontSize: 10),
+            cellStyle: const pw.TextStyle(fontSize: 10),
             border: const pw.TableBorder(
               horizontalInside: pw.BorderSide(style: pw.BorderStyle.dashed),
             ),
@@ -242,7 +242,7 @@ class PdfGeneration {
                 bottom: pw.BorderSide(style: pw.BorderStyle.solid, width: .5),
               ),
             ),
-            margin: const pw.EdgeInsets.only(top: 10),
+            margin: const pw.EdgeInsets.symmetric(vertical: 10),
             padding: const pw.EdgeInsets.symmetric(vertical: 10),
             child: pw.Column(
               children: [
@@ -252,13 +252,13 @@ class PdfGeneration {
                     pw.Text(
                       'Total de Produtos: ',
                       style: pw.TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         fontWeight: pw.FontWeight.bold,
                       ),
                     ),
                     pw.Text(
                       UtilsService.moneyToCurrency(totalProduct),
-                      style: const pw.TextStyle(fontSize: 12),
+                      style: const pw.TextStyle(fontSize: 10),
                     )
                   ],
                 ),
@@ -268,13 +268,13 @@ class PdfGeneration {
                     pw.Text(
                       'Total de Serviços: ',
                       style: pw.TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         fontWeight: pw.FontWeight.bold,
                       ),
                     ),
                     pw.Text(
                       UtilsService.moneyToCurrency(totalService),
-                      style: const pw.TextStyle(fontSize: 12),
+                      style: const pw.TextStyle(fontSize: 10),
                     )
                   ],
                 ),
@@ -284,13 +284,13 @@ class PdfGeneration {
                     pw.Text(
                       'Frete: ',
                       style: pw.TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         fontWeight: pw.FontWeight.bold,
                       ),
                     ),
                     pw.Text(
                       UtilsService.moneyToCurrency(budget.freight ?? 0),
-                      style: const pw.TextStyle(fontSize: 12),
+                      style: const pw.TextStyle(fontSize: 10),
                     )
                   ],
                 ),
@@ -300,13 +300,13 @@ class PdfGeneration {
                     pw.Text(
                       'Desconto: ',
                       style: pw.TextStyle(
-                        fontSize: 12,
+                        fontSize: 10,
                         fontWeight: pw.FontWeight.bold,
                       ),
                     ),
                     pw.Text(
                       UtilsService.moneyToCurrency(0),
-                      style: const pw.TextStyle(fontSize: 12),
+                      style: const pw.TextStyle(fontSize: 10),
                     )
                   ],
                 ),
@@ -316,12 +316,12 @@ class PdfGeneration {
                     pw.Text(
                       'Valor Total: ',
                       style: pw.TextStyle(
-                          fontSize: 12, fontWeight: pw.FontWeight.bold),
+                          fontSize: 10, fontWeight: pw.FontWeight.bold),
                     ),
                     pw.Text(
                       UtilsService.moneyToCurrency(budget.valueTotal!),
                       style: pw.TextStyle(
-                          fontSize: 12, fontWeight: pw.FontWeight.bold),
+                          fontSize: 10, fontWeight: pw.FontWeight.bold),
                     )
                   ],
                 ),
@@ -333,13 +333,13 @@ class PdfGeneration {
               pw.Text(
                 'Situação atual: ',
                 style:
-                    pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+                    pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
               ),
               pw.Text(
                 budget.status! == 'Em aberto'
                     ? 'Aguardando aprovação'
                     : budget.status!,
-                style: const pw.TextStyle(fontSize: 12),
+                style: const pw.TextStyle(fontSize: 10),
               ),
             ],
           ),
@@ -350,14 +350,14 @@ class PdfGeneration {
                 pw.Text(
                   'Previsão de entrega: ',
                   style: pw.TextStyle(
-                      fontSize: 12, fontWeight: pw.FontWeight.bold),
+                      fontSize: 10, fontWeight: pw.FontWeight.bold),
                 ),
                 pw.Flexible(
                   child: pw.Text(
                     budget.status! == 'Em aberto'
                         ? '$totalTerm dias após a aprovação'
                         : budget.status!,
-                    style: const pw.TextStyle(fontSize: 12),
+                    style: const pw.TextStyle(fontSize: 10),
                   ),
                 ),
               ],
@@ -368,12 +368,12 @@ class PdfGeneration {
               pw.Text(
                 'Forma de Pagamento: ',
                 style:
-                    pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+                    pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold),
               ),
               pw.Flexible(
                 child: pw.Text(
                   budget.payment!.specie,
-                  style: const pw.TextStyle(fontSize: 12),
+                  style: const pw.TextStyle(fontSize: 10),
                 ),
               ),
             ],
