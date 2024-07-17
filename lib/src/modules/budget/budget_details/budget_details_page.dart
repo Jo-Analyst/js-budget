@@ -67,6 +67,14 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
         selectedStatus.toLowerCase() == 'em aberto';
   }
 
+  String? setApprovalDate() {
+    return (status == 'Aprovado' && budget!.status == 'Em aberto')
+        ? DateTime.now().toIso8601String()
+        : (status == 'Em aberto')
+            ? null
+            : budget!.approvalDate;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,9 +98,10 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                 if (thereIsPaymentMade) return;
 
                 await budgetController.changeStatusAndStockMaterial(
-                    status, budget!.id,
+                    status, budget!.id, setApprovalDate(),
                     materialItems: materials, isDecrementation: willDecrease());
                 budget!.status = status;
+
                 nav.pop();
               },
               icon: const Icon(Icons.check),

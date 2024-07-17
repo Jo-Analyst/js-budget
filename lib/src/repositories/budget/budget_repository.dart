@@ -11,7 +11,7 @@ abstract interface class BudgetRepository {
   Future<Either<RespositoryException, Unit>> deleteBudget(
       int budgetId, int orderId);
   Future<Either<RespositoryException, Unit>> changeStatusAndMaterial(
-      String status, int budgetId,
+      String status, int budgetId, String? approvalDate,
       {required List<MaterialItemsBudgetModel> materials,
       bool? isDecrementation});
 }

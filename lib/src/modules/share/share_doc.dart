@@ -377,7 +377,7 @@ class _ShareDocState extends State<ShareDoc> {
                       Flexible(
                         child: Text(
                           budget.status! == 'Em aberto'
-                              ? '$totalTerm dias após aprovação'
+                              ? '${totalTerm + 1} dias uteis após aprovação'
                               : budget.status!,
                           style: textStyleSmallDefault,
                         ),

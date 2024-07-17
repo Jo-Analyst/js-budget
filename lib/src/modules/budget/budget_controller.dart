@@ -318,7 +318,8 @@ class BudgetController with Messages {
     return _mergeWorkshopExpenseItems(workShopExpenseItemBudget);
   }
 
-  Future<bool> changeStatusAndStockMaterial(String status, int budgetId,
+  Future<bool> changeStatusAndStockMaterial(
+      String status, int budgetId, String? approvalDate,
       {required List<MaterialItemsBudgetModel> materialItems,
       bool? isDecrementation}) async {
     bool isError = false;
@@ -327,6 +328,7 @@ class BudgetController with Messages {
     final results = await _budgetRepository.changeStatusAndMaterial(
       status,
       budgetId,
+      approvalDate,
       materials: materialItems,
       isDecrementation: isDecrementation,
     );
@@ -336,6 +338,7 @@ class BudgetController with Messages {
         for (int i = 0; i < _data.length; i++) {
           if (_data[i].id == budgetId) {
             data[i].status = status;
+            data[i].approvalDate = approvalDate;
             break;
           }
         }

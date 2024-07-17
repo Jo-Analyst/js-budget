@@ -15,8 +15,8 @@ class BudgetModel {
   double? freight;
   PaymentModel? payment;
   List<ItemsBudgetModel>? itemsBudget;
-
   String? createdAt;
+  String? approvalDate;
   ClientModel? client;
   int? orderId;
 
@@ -28,6 +28,7 @@ class BudgetModel {
     this.payment,
     this.itemsBudget,
     this.createdAt,
+    this.approvalDate,
     this.client,
     this.orderId,
   });

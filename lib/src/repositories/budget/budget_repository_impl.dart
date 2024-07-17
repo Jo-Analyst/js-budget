@@ -110,13 +110,14 @@ class BudgetRepositoryImpl implements BudgetRepository {
 
   @override
   Future<Either<RespositoryException, Unit>> changeStatusAndMaterial(
-      String status, int budgetId,
+      String status, int budgetId, String? approvalDate,
       {required List<MaterialItemsBudgetModel> materials,
       bool? isDecrementation}) async {
     try {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
-        await txn.update('budgets', {'status': status},
+        await txn.update(
+            'budgets', {'status': status, 'approval_date': approvalDate},
             where: 'id = ?', whereArgs: [budgetId]);
 
         if (materials.isNotEmpty && isDecrementation != null) {

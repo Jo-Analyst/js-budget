@@ -355,7 +355,7 @@ class PdfGeneration {
                 pw.Flexible(
                   child: pw.Text(
                     budget.status! == 'Em aberto'
-                        ? '$totalTerm dias após a aprovação'
+                        ? '${totalTerm + 1} dias  após a aprovação'
                         : budget.status!,
                     style: const pw.TextStyle(fontSize: 10),
                   ),
