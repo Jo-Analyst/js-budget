@@ -38,4 +38,35 @@ class UtilsService {
     final (year, month, day, hours, minutes) = extractDate(date);
     return DateTime(year, month, day, hours, minutes);
   }
+
+  static DateTime addWorkingDays(DateTime startDate, int workingDays) {
+    // Lista de feriados (se necessário)
+    List<Map<String, dynamic>> holidays = [
+      {'day': 1, 'month': 1},
+      {'day': 21, 'month': 4},
+      {'day': 1, 'month': 5},
+      {'day': 7, 'month': 9},
+      {'day': 12, 'month': 10},
+      {'day': 2, 'month': 11},
+      {'day': 15, 'month': 11},
+      {'day': 20, 'month': 11},
+      {'day': 25, 'month': 12},
+    ];
+
+    DateTime currentDate = startDate;
+    int daysAdded = 0;
+
+    while (daysAdded < workingDays) {
+      // Verifica se a data atual é um dia útil (não é sábado, domingo ou feriado)
+      if (currentDate.weekday != DateTime.saturday &&
+          currentDate.weekday != DateTime.sunday &&
+          !holidays.any((h) =>
+              h['day'] == currentDate.day && h['month'] == currentDate.month)) {
+        daysAdded++;
+      }
+      currentDate = currentDate.add(const Duration(days: 1));
+    }
+
+    return currentDate.subtract(const Duration(days: 1));
+  }
 }

@@ -56,12 +56,27 @@ class _ShareDocState extends State<ShareDoc> {
     }
   }
 
+  DateTime? getExpectedDeliveryDate(int totalTerm) {
+    DateTime? expectedDeliveryDate;
+
+    if (budget.approvalDate != null) {
+      final (year, month, day, _, _) =
+          UtilsService.extractDate(budget.approvalDate!);
+      expectedDeliveryDate = UtilsService.addWorkingDays(
+          DateTime(year, month, day + 1), totalTerm + 1);
+    }
+    return expectedDeliveryDate;
+  }
+
   @override
   Widget build(BuildContext context) {
     final (year, month, day, hours, minutes) =
         UtilsService.extractDate(budget.createdAt!);
+
     final (double totalProduct, double totalService, int totalTerm) =
         _calculateTotalValueProductAndService(budget.itemsBudget!);
+
+    DateTime? expectedDeliveryDate = getExpectedDeliveryDate(totalTerm);
 
     return Scaffold(
       appBar: AppBar(
@@ -250,6 +265,8 @@ class _ShareDocState extends State<ShareDoc> {
                 ),
 
                 const SizedBox(height: 16),
+
+                // Tatbela dos produtos e serviços
                 CustomDataTable(
                   cellHeader: const [
                     'Descrição',
@@ -378,7 +395,7 @@ class _ShareDocState extends State<ShareDoc> {
                         child: Text(
                           budget.status! == 'Em aberto'
                               ? '${totalTerm + 1} dias uteis após aprovação'
-                              : budget.status!,
+                              : UtilsService.dateFormat(expectedDeliveryDate!),
                           style: textStyleSmallDefault,
                         ),
                       ),

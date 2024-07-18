@@ -18,7 +18,6 @@ import 'package:js_budget/src/modules/budget/budget_details/budget_details_route
 import 'package:js_budget/src/modules/profile/profile_module.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:js_budget/src/config/db/database.dart';
 
 void main() async {
   await initializeDateFormatting('pt_BR', null);
@@ -27,9 +26,6 @@ void main() async {
       child: MyApp(),
     ),
   );
-
-  final db = await DataBase.openDatabase();
-  await db.execute('ALTER TABLE budgets ADD COLUMN approval_date TEXT');
 }
 
 class MyApp extends StatelessWidget {
