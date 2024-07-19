@@ -24,6 +24,8 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   List<MaterialItemsBudgetModel> materials = [];
   List<WorkshopExpenseItemsBudgetModel> workshopExpense = [];
   String status = '';
+  DateTime initialDate = DateTime.now();
+  DateTime? approvalDate;
 
   @override
   void initState() {
@@ -69,7 +71,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
 
   String? setApprovalDate() {
     return (status == 'Aprovado' && budget!.status == 'Em aberto')
-        ? DateTime.now().toIso8601String()
+        ? approvalDate!.toIso8601String()
         : (status == 'Em aberto')
             ? null
             : budget!.approvalDate;
@@ -160,6 +162,10 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                                   );
 
                                   status = result ?? status;
+                                  approvalDate = status == 'Aprovado' &&
+                                          budget!.status == 'Em aberto'
+                                      ? DateTime.now()
+                                      : null;
 
                                   setState(() {});
                                 },
@@ -187,10 +193,50 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                                     )
                                   ],
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ],
+                      ),
+                    ),
+                    Visibility(
+                      visible:
+                          status == 'Aprovado' && budget!.status == 'Em aberto',
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Text(
+                              'D. de Aprovação: ',
+                              style: textStyleSmallFontWeight,
+                            ),
+                            Text(
+                              '${approvalDate?.day.toString().padLeft(2, '0')}/${approvalDate?.month.toString().padLeft(2, '0')}/${approvalDate?.year.toString().padLeft(2, '0')}',
+                              style: textStyleSmallDefault,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                showDatePicker(
+                                  firstDate: DateTime(2020),
+                                  context: context,
+                                  lastDate: DateTime.now(),
+                                  initialDate: initialDate,
+                                ).then((date) {
+                                  if (date != null) {
+                                    setState(() {
+                                      approvalDate = date;
+                                    });
+                                  }
+                                });
+                              },
+                              child: const Icon(
+                                Icons.calendar_month,
+                                size: 30,
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     DetailWidget(
