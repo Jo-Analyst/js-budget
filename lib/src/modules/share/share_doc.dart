@@ -392,11 +392,15 @@ class _ShareDocState extends State<ShareDoc> {
                         style: textStyleSmallFontWeight,
                       ),
                       Flexible(
-                        child: Text(
-                          budget.status! == 'Em aberto'
-                              ? '${totalTerm + 1} dias uteis após aprovação'
-                              : UtilsService.dateFormat(expectedDeliveryDate!),
-                          style: textStyleSmallDefault,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            budget.status! == 'Em aberto'
+                                ? '${totalTerm + 1} dias uteis após aprovação'
+                                : UtilsService.dateFormat(
+                                    expectedDeliveryDate!),
+                            style: textStyleSmallDefault,
+                          ),
                         ),
                       ),
                     ],

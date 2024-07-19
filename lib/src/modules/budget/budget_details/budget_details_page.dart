@@ -86,10 +86,17 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
         actions: [
           Visibility(
             visible: status != budget!.status,
+            replacement: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(
+                Icons.close,
+                size: 30,
+              ),
+            ),
             child: IconButton(
               onPressed: () async {
-                var nav = Navigator.of(context);
-
                 bool thereIsPaymentMade =
                     await budgetController.thereIsPaymentMade(
                         budget!.payment!.id,
@@ -102,7 +109,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                     materialItems: materials, isDecrementation: willDecrease());
                 budget!.status = status;
 
-                nav.pop();
+                setState(() {});
               },
               icon: const Icon(Icons.check),
               tooltip: 'Confirmar',
@@ -239,9 +246,11 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
             height: 80,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
-              onPressed: () async {
-                Navigator.of(context).pushNamed('/share');
-              },
+              onPressed: status == budget!.status
+                  ? () async {
+                      Navigator.of(context).pushNamed('/share');
+                    }
+                  : null,
               label: Text(
                 'Gerar comprovante',
                 style: TextStyle(
