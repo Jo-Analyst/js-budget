@@ -3,7 +3,6 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:js_budget/src/app/app.dart';
 import 'package:js_budget/src/bindings/binding_initial_application.dart';
-import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/modules/budget/budget_module.dart';
 import 'package:js_budget/src/modules/client/client_module.dart';
 import 'package:js_budget/src/modules/expenses/workshop_module.dart';
@@ -27,9 +26,6 @@ void main() async {
       child: MyApp(),
     ),
   );
-
-  final db = await DataBase.openDatabase();
-  await db.execute('ALTER TABLE budgets ADD COLUMN approval_date TEXT');
 }
 
 class MyApp extends StatelessWidget {
