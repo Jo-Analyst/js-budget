@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -16,6 +17,39 @@ class PdfGeneration {
     return image.buffer.asUint8List();
   }
 
+  static String? _getApprovalDate(BudgetModel budget) {
+    String? approvalDate;
+    if (budget.approvalDate != null) {
+      final (year, month, day, _, _) =
+          UtilsService.extractDate(budget.approvalDate!);
+
+      approvalDate = UtilsService.dateFormat(DateTime(year, month, day));
+    }
+
+    return approvalDate;
+  }
+
+  static String? _getExpectedDeliveryDate(BudgetModel budget) {
+    int totalTerm = 0;
+    for (var item in budget.itemsBudget!) {
+      totalTerm += item.term;
+    }
+
+    DateTime? expectedDeliveryDate;
+
+    if (budget.approvalDate != null) {
+      final (year, month, day, _, _) =
+          UtilsService.extractDate(budget.approvalDate!);
+      expectedDeliveryDate = UtilsService.addWorkingDays(
+          DateTime(year, month, day + 1), totalTerm + 1);
+    }
+
+    return expectedDeliveryDate != null
+        ? UtilsService.dateFormat(DateTime(expectedDeliveryDate.year,
+            expectedDeliveryDate.month, expectedDeliveryDate.day))
+        : null;
+  }
+
   static Future<void> generatePdf() async {
     final profile = Injector.get<ProfileController>().model.value;
     final budget = Injector.get<BudgetController>().model.value;
@@ -26,6 +60,10 @@ class PdfGeneration {
     Uint8List imageData = await _getImage();
     final (year, month, day, hours, minutes) =
         UtilsService.extractDate(budget.createdAt!);
+
+    String? approvalDate = _getApprovalDate(budget);
+
+    final expectedDeliveryDate = _getExpectedDeliveryDate(budget);
 
     final pdf = [
       pw.Column(
@@ -343,25 +381,42 @@ class PdfGeneration {
               ),
             ],
           ),
-          pw.Padding(
-            padding: const pw.EdgeInsets.symmetric(vertical: 8.0),
-            child: pw.Row(
+          if (approvalDate != null)
+            pw.Row(
               children: [
                 pw.Text(
-                  'Previsão de entrega: ',
+                  'Date de aprovação: ',
                   style: pw.TextStyle(
-                      fontSize: 10, fontWeight: pw.FontWeight.bold),
+                    fontSize: 10,
+                    fontWeight: pw.FontWeight.bold,
+                  ),
                 ),
                 pw.Flexible(
                   child: pw.Text(
-                    budget.status! == 'Em aberto'
-                        ? '${totalTerm + 1} dias  após a aprovação'
-                        : budget.status!,
+                    approvalDate,
                     style: const pw.TextStyle(fontSize: 10),
                   ),
                 ),
               ],
             ),
+          pw.Row(
+            children: [
+              pw.Text(
+                'Previsão de entrega: ',
+                style: pw.TextStyle(
+                  fontSize: 10,
+                  fontWeight: pw.FontWeight.bold,
+                ),
+              ),
+              pw.Flexible(
+                child: pw.Text(
+                  budget.status! == 'Em aberto'
+                      ? '${totalTerm + 1} dias  após a aprovação'
+                      : expectedDeliveryDate!,
+                  style: const pw.TextStyle(fontSize: 10),
+                ),
+              ),
+            ],
           ),
           pw.Row(
             children: [

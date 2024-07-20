@@ -24,6 +24,7 @@ class _ShareDocState extends State<ShareDoc> {
   final profile = Injector.get<ProfileController>().model.value;
   final budget = Injector.get<BudgetController>().model.value;
   bool isPdf = false;
+  String approvalDate = '';
 
   (
     double totalProduct,
@@ -66,6 +67,18 @@ class _ShareDocState extends State<ShareDoc> {
           DateTime(year, month, day + 1), totalTerm + 1);
     }
     return expectedDeliveryDate;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (budget.approvalDate == null) return;
+
+    final (year, month, day, _, _) =
+        UtilsService.extractDate(budget.approvalDate!);
+
+    approvalDate = UtilsService.dateFormat(DateTime(year, month, day));
   }
 
   @override
@@ -383,28 +396,44 @@ class _ShareDocState extends State<ShareDoc> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                Visibility(
+                  visible: budget.approvalDate != null,
                   child: Row(
                     children: [
                       const Text(
-                        'Previsão de entrega: ',
+                        'Data de aprovação: ',
                         style: textStyleSmallFontWeight,
                       ),
                       Flexible(
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            budget.status! == 'Em aberto'
-                                ? '${totalTerm + 1} dias uteis após aprovação'
-                                : UtilsService.dateFormat(
-                                    expectedDeliveryDate!),
+                            approvalDate,
                             style: textStyleSmallDefault,
                           ),
                         ),
                       ),
                     ],
                   ),
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      'Previsão de entrega: ',
+                      style: textStyleSmallFontWeight,
+                    ),
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          budget.status! == 'Em aberto'
+                              ? '${totalTerm + 1} dias uteis após aprovação'
+                              : UtilsService.dateFormat(expectedDeliveryDate!),
+                          style: textStyleSmallDefault,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 Row(
                   children: [
