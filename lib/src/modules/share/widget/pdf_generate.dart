@@ -119,7 +119,7 @@ class PdfGeneration {
                   ),
                 ),
                 pw.Text(
-                  'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, ${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}Hrs',
+                  'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, ${hours.toString().padLeft(2, '0')}h${minutes.toString().padLeft(2, '0')}min',
                   style: const pw.TextStyle(fontSize: 10),
                 )
               ],
@@ -127,7 +127,6 @@ class PdfGeneration {
           ),
           // Dados do cliente
           pw.Container(
-            margin: const pw.EdgeInsets.symmetric(vertical: 10),
             padding: const pw.EdgeInsets.symmetric(vertical: 10),
             decoration: const pw.BoxDecoration(
               border: pw.Border.symmetric(

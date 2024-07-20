@@ -71,7 +71,6 @@ class _ShareDocState extends State<ShareDoc> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (budget.approvalDate == null) return;
 
@@ -181,7 +180,7 @@ class _ShareDocState extends State<ShareDoc> {
                       style: textStyleLargeDefaultFontWeight,
                     ),
                     Text(
-                      'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, ${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}Hrs',
+                      'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, ${hours.toString().padLeft(2, '0')}h${minutes.toString().padLeft(2, '0')}min',
                       style: textStyleSmallDefault,
                     ),
                   ],

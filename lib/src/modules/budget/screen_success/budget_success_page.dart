@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/models/budget_model.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 
 class BudgetSuccessPage extends StatelessWidget {
@@ -7,7 +8,7 @@ class BudgetSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final budget = ModalRoute.of(context)!.settings.arguments as BudgetModel;
+    final budget = Injector.get<BudgetController>().model.value;
     void closeScreen() {
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/my-app', (route) => false);
@@ -84,8 +85,7 @@ class BudgetSuccessPage extends StatelessWidget {
                   ),
                   trailing: IconButton(
                     onPressed: () async {
-                      // await Modal.showModal(context, const OptionShare(),
-                      //     scrollControlDisabledMaxHeightRatio: .2);
+                      Navigator.of(context).pushNamed('/share');
                     },
                     icon: const Icon(
                       Icons.share,

@@ -137,8 +137,9 @@ class _BudgetPageState extends State<BudgetPage> {
                 final isError = await budgetController.save(budgetModel);
 
                 if (!isError) {
-                  nav.pushNamed('/budget/screen-success',
-                      arguments: budgetModel);
+                  nav.pushNamed(
+                    '/budget/screen-success',
+                  );
                 }
               }
             },
