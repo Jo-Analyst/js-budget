@@ -424,7 +424,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                       : null,
                                   validator: (value) {
                                     if (electricityBillEC.numberValue == 0) {
-                                      return 'Informe o valor da eletricidade';
+                                      return 'Informe o valor da conta de luz';
                                     }
 
                                     return null;
@@ -710,16 +710,12 @@ class _PricingFormPageState extends State<PricingFormPage>
                 backgroundColor: Theme.of(context).primaryColor,
               ),
               onPressed: () async {
-                if (formKey.currentState!.validate() &&
-                    pricingController.validate(
-                        pricingController.materialItemsBudget,
-                        isEditEmployeeSalary)) {
+                if (formKey.currentState!.validate()) {
                   pricingController.calculateTotalMaterial();
                   pricingController.calculateTotalExpenses();
                   pricingController.calculateProfitMargin();
                   pricingController.calculateTotalToBeCharged();
 
-                  // Navigator.of(context).pushNamed('/budget/pricing/preview');
                   var nav = Navigator.of(context);
                   bool isConfirmed = await showModalBottomSheet(
                         shape: const RoundedRectangleBorder(
