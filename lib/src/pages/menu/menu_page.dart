@@ -140,9 +140,12 @@ class MenuPage extends StatelessWidget {
                     nav.pushNamed('/profile');
                   },
                 ),
-                const ListTileIcon(
+                ListTileIcon(
                   icon: Icons.backup_table_rounded,
                   title: 'Backup',
+                  onTap: () {
+                    nav.pushNamed('/db/backup');
+                  },
                 ),
                 const ListTileIcon(
                   icon: Icons.info_outline_rounded,

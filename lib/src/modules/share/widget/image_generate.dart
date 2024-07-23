@@ -20,10 +20,6 @@ class ImageGeneration {
     File imgFile = File('$directory/photo.png');
     await imgFile.writeAsBytes(pngBytes!);
 
-    // final files = <File>[];
-    // files.add(File(imgFile.path));
-
-    // await Share.shareXFiles(files, subject: 'Lista de Números');
     await Share.shareFiles([imgFile.path]);
   }
 }
