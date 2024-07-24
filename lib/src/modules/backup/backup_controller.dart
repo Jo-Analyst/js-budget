@@ -1,3 +1,4 @@
+import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/backup.dart';
 import 'package:js_budget/src/utils/permission_use_app.dart';
@@ -28,8 +29,8 @@ class BackupController with Messages {
     );
   }
 
-  void restore() async {
-    if (!await isGranted()) return;
+  Future<bool?> restore() async {
+    if (!await isGranted()) return null;
 
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -40,21 +41,21 @@ class BackupController with Messages {
       if (extension != "db") {
         showError('Arquivo de backup inválido!');
 
-        return;
+        return false;
       }
 
       isLoadingRestore.value = true;
-      // await DB.openDatabase();
+      await DataBase.openDatabase();
       final response = await Backup.restore(filePath);
       isLoadingRestore.value = false;
       if (response != null) {
         showError(
             'Houve um problema ao realizar a restauração. Caso o problema persista, acione o suporte.');
 
-        return;
+        return false;
       }
-
-      // navigateToHome();
     }
+
+    return true;
   }
 }

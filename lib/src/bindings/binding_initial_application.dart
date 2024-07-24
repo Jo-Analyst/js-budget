@@ -1,4 +1,5 @@
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/backup/backup_controller.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expense_controller.dart';
@@ -29,6 +30,7 @@ import 'package:js_budget/src/utils/find_cep_controller.dart';
 class BindingInitialApplication extends ApplicationBindings {
   @override
   List<Bind<Object>> bindings() => [
+        Bind.lazySingleton((i) => BackupController()),
         Bind.lazySingleton((i) => PricingController()),
         Bind.lazySingleton<ProfileRepository>((i) => ProfileRepositoryImpl()),
         Bind.lazySingleton((i) => ProfileController(profileRepository: i())),

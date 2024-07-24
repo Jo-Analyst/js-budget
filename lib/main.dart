@@ -17,6 +17,7 @@ import 'package:js_budget/src/pages/splash/splash_page.dart';
 import 'package:js_budget/src/modules/finance/finance_module.dart';
 import 'package:js_budget/src/modules/budget/budget_details/budget_details_router.dart';
 import 'package:js_budget/src/modules/profile/profile_module.dart';
+import 'package:js_budget/src/pages/splash/use_init_app_on_device.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:overlay_support/overlay_support.dart';
 
@@ -44,6 +45,10 @@ class MyApp extends StatelessWidget {
         FlutterGetItPageBuilder(
           page: (context) => const App(),
           path: '/my-app',
+        ),
+        FlutterGetItPageBuilder(
+          page: (context) => const UseInitAppOnDevice(),
+          path: '/init-app',
         ),
         const BudgetDetailsRouter(),
       ],
