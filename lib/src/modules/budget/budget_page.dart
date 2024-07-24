@@ -26,6 +26,7 @@ class BudgetPage extends StatefulWidget {
 class _BudgetPageState extends State<BudgetPage> {
   final numberOfInstallmentsEC = TextEditingController();
   final freightEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+  final discountEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
   final orderController = Injector.get<OrderController>();
   final pricingController = Injector.get<PricingController>();
   final budgetController = Injector.get<BudgetController>();
@@ -102,6 +103,7 @@ class _BudgetPageState extends State<BudgetPage> {
     super.dispose();
     numberOfInstallmentsEC.dispose();
     freightEC.dispose();
+    discountEC.dispose();
   }
 
   @override
@@ -356,7 +358,41 @@ class _BudgetPageState extends State<BudgetPage> {
                         ),
                       ),
                     ),
-                    // Frete
+                    // Desconto
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const Text(
+                              'Desconto',
+                              style: textStyleMediumFontWeight,
+                            ),
+                            TextFormField(
+                              controller: discountEC,
+                              onTapOutside: (_) =>
+                                  FocusScope.of(context).unfocus(),
+                              decoration: const InputDecoration(
+                                label: Text(
+                                  'Valor do desconto',
+                                  style: textStyleMediumDefault,
+                                ),
+                              ),
+                              style: TextStyle(
+                                fontFamily: 'Anta',
+                                fontSize: textStyleMediumDefault.fontSize,
+                              ),
+                              onChanged: (value) {
+                                calculateBudget();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
                     Visibility(
                       visible: itemBudgetController.data
                           .any((itemBudget) => itemBudget.product != null),
