@@ -21,6 +21,7 @@ class BudgetController with Messages {
   final BudgetRepository _budgetRepository;
   final _totalBudgets = signal<double>(0.0);
   Signal<double> get totalBudgets => _totalBudgets;
+  final discount = signal<double>(0.0);
 
   final _totalWorshopExpense = signal<double>(0.0);
   Signal<double> get totalWorshopExpense => _totalWorshopExpense;
@@ -103,7 +104,7 @@ class BudgetController with Messages {
         }
       });
 
-      totalGrossValue += budget.valueTotal ?? 0;
+      totalGrossValue += budget.amount ?? 0;
     });
 
     return (totalGrossValue, totalService);
@@ -232,6 +233,7 @@ class BudgetController with Messages {
 
     switch (results) {
       case Right(value: BudgetModel budget):
+        model.value = budget;
         _data.add(budget);
         _dataFiltered.clear();
         _dataFiltered.value = _data.value;
@@ -258,7 +260,7 @@ class BudgetController with Messages {
 
   void deleteItem(int budgetId) {
     totalBudgets.value -=
-        _data.value.where((data) => data.id == budgetId).first.valueTotal!;
+        _data.value.where((data) => data.id == budgetId).first.amount!;
     _data.removeWhere((data) => data.id == budgetId);
     _dataFiltered.removeWhere((data) => data.id == budgetId);
   }
@@ -280,7 +282,7 @@ class BudgetController with Messages {
   void _sumBudgets(List<BudgetModel> budgets) {
     totalBudgets.value = 0;
     for (var data in budgets) {
-      totalBudgets.value += data.valueTotal!;
+      totalBudgets.value += data.amount!;
     }
   }
 
@@ -381,5 +383,9 @@ class BudgetController with Messages {
     }
 
     return false;
+  }
+
+  void addAllDiscounts() {
+    for (var item in model.value.itemsBudget!) {}
   }
 }

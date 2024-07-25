@@ -356,7 +356,7 @@ class PdfGeneration {
                           fontSize: 10, fontWeight: pw.FontWeight.bold),
                     ),
                     pw.Text(
-                      UtilsService.moneyToCurrency(budget.valueTotal!),
+                      UtilsService.moneyToCurrency(budget.amount!),
                       style: pw.TextStyle(
                           fontSize: 10, fontWeight: pw.FontWeight.bold),
                     )

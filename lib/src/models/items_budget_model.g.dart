@@ -10,6 +10,7 @@ ItemsBudgetModel _$ItemsBudgetModelFromJson(Map<String, dynamic> json) =>
     ItemsBudgetModel(
       id: json['id'] as int? ?? 0,
       subValue: (json['sub_value'] as num?)?.toDouble() ?? 0,
+      subDiscount: (json['sub_discount'] as num?)?.toDouble() ?? 0.0,
       unitaryValue: (json['unitary_value'] as num?)?.toDouble() ?? 0,
       quantity: json['quantity'] as int,
       term: json['term'] as int? ?? 0,
@@ -43,6 +44,7 @@ Map<String, dynamic> _$ItemsBudgetModelToJson(ItemsBudgetModel instance) =>
       'unitary_value': instance.unitaryValue,
       'quantity': instance.quantity,
       'term': instance.term,
+      'sub_discount': instance.subDiscount,
       'time_incentive': instance.timeIncentive,
       'percentage_profit_margin': instance.percentageProfitMargin,
       'profit_margin_value': instance.profitMarginValue,

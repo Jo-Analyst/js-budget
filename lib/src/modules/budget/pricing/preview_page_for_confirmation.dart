@@ -3,6 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
@@ -17,7 +18,31 @@ class PreviewPageForConfirmation extends StatefulWidget {
 
 class _PreviewPageForConfirmationState
     extends State<PreviewPageForConfirmation> {
+  final pricingController = Injector.get<PricingController>();
+  final budgetController = Injector.get<BudgetController>();
+  double amountToBeCharged = 0.0;
+
+  List<MaterialItemsBudgetModel> materialItems = [];
+
+  List<WorkshopExpenseItemsBudgetModel> expenseItems = [];
   final discountEC = MoneyMaskedTextController(leftSymbol: 'R\$ ');
+
+  @override
+  void initState() {
+    super.initState();
+    materialItems = pricingController.materialItemsBudget;
+    expenseItems = pricingController.workshopExpenseItemsBudget;
+    amountToBeCharged = pricingController.totalToBeCharged;
+    discountEC.updateValue(budgetController.discount.value);
+    discountValue();
+  }
+
+  void discountValue() {
+    setState(() {
+      amountToBeCharged =
+          pricingController.totalToBeCharged - discountEC.numberValue;
+    });
+  }
 
   @override
   void dispose() {
@@ -27,14 +52,6 @@ class _PreviewPageForConfirmationState
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.get<PricingController>();
-
-    final List<MaterialItemsBudgetModel> materialItems =
-        controller.materialItemsBudget;
-
-    final List<WorkshopExpenseItemsBudgetModel> expenseItems =
-        controller.workshopExpenseItemsBudget;
-
     return Scaffold(
       body: Column(
         children: [
@@ -137,7 +154,7 @@ class _PreviewPageForConfirmationState
                                             TextSpan(
                                               text:
                                                   UtilsService.moneyToCurrency(
-                                                      controller
+                                                      pricingController
                                                           .totalMaterialValue),
                                               style: const TextStyle(
                                                 fontFamily: 'Anta',
@@ -181,7 +198,7 @@ class _PreviewPageForConfirmationState
                                             .map(
                                               (item) => ListTile(
                                                 subtitle: Text(
-                                                  '${controller.term}x ${UtilsService.moneyToCurrency(item.dividedValue)}',
+                                                  '${pricingController.term}x ${UtilsService.moneyToCurrency(item.dividedValue)}',
                                                   style: TextStyle(
                                                     fontFamily: 'Anta',
                                                     fontSize:
@@ -233,7 +250,7 @@ class _PreviewPageForConfirmationState
                                             TextSpan(
                                               text:
                                                   UtilsService.moneyToCurrency(
-                                                      controller
+                                                      pricingController
                                                           .totalExpenseValue),
                                               style: const TextStyle(
                                                 fontFamily: 'Anta',
@@ -288,7 +305,7 @@ class _PreviewPageForConfirmationState
                                             fontSize:
                                                 textStyleMediumDefault.fontSize,
                                           ),
-                                          onChanged: (value) {},
+                                          onChanged: (_) => discountValue(),
                                         ),
                                       ),
                                     ],
@@ -303,7 +320,7 @@ class _PreviewPageForConfirmationState
                                   ),
                                   trailing: Text(
                                     UtilsService.moneyToCurrency(
-                                        controller.calcProfitMargin),
+                                        pricingController.calcProfitMargin),
                                     style: TextStyle(
                                       fontFamily: 'Anta',
                                       fontSize: textStyleLargeDefault.fontSize,
@@ -322,7 +339,7 @@ class _PreviewPageForConfirmationState
                                   ),
                                   trailing: Text(
                                     UtilsService.moneyToCurrency(
-                                        controller.totalToBeCharged),
+                                        amountToBeCharged),
                                     style: TextStyle(
                                       fontFamily: 'Anta',
                                       fontSize: textStyleLargeDefault.fontSize,
@@ -340,6 +357,10 @@ class _PreviewPageForConfirmationState
                                             Theme.of(context).primaryColor,
                                       ),
                                       onPressed: () {
+                                        budgetController.discount.value =
+                                            discountEC.numberValue;
+                                        pricingController.totalToBeCharged =
+                                            amountToBeCharged;
                                         Navigator.of(context).pop(true);
                                       },
                                       child: const Text(

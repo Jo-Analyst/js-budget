@@ -14,7 +14,7 @@ class TransformBudgetJson {
   static BudgetModel fromJson(Map<String, dynamic> budget) {
     return BudgetModel(
         id: budget['id'],
-        valueTotal: budget['value_total'],
+        amount: budget['amount'],
         status: 'Em aberto',
         itemsBudget: budget['items_budget'],
         createdAt: budget['created_at'],
@@ -38,7 +38,8 @@ class TransformBudgetJson {
         tempBudgets.add(
           BudgetModel(
             id: budget['id'] ?? 0,
-            valueTotal: budget['value_total'],
+            amount: budget['amount'],
+            discount: budget['discount'] ?? 0,
             createdAt: budget['created_at'],
             approvalDate: budget['approval_date'],
             orderId: budget['order_id'],
@@ -90,6 +91,7 @@ class TransformBudgetJson {
         budgetId: budget['id'],
         subValue: budget['sub_value'],
         unitaryValue: budget['unitary_value'],
+        subDiscount: budget['sub_discount'] ?? 0,
         quantity: budget['quantity'] ?? 1,
         term: budget['term'],
         profitMarginValue: budget['profit_margin_value'],

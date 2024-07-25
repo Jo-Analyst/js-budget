@@ -310,7 +310,7 @@ class _HomePageState extends State<HomePage> {
                                               ),
                                               Text(
                                                 UtilsService.moneyToCurrency(
-                                                    budget.valueTotal!),
+                                                    budget.amount!),
                                                 style: const TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.w600,

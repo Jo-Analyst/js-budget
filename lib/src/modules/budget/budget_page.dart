@@ -70,7 +70,7 @@ class _BudgetPageState extends State<BudgetPage> {
   void calculateBudget() {
     valueTotalBudget =
         sumPriceService() + valueTotalProduct + freightEC.numberValue;
-    budgetModel.valueTotal = valueTotalBudget;
+    budgetModel.amount = valueTotalBudget;
     setState(() {});
   }
 
@@ -251,6 +251,11 @@ class _BudgetPageState extends State<BudgetPage> {
                                           onPressed: () async {
                                             changeValuePricing(index);
 
+                                            budgetController.discount.value =
+                                                itemBudgetController.data[index]
+                                                        .subDiscount /
+                                                    product.quantity;
+
                                             bool? isConfirmed = await Navigator
                                                         .of(context)
                                                     .pushNamed(
@@ -260,6 +265,12 @@ class _BudgetPageState extends State<BudgetPage> {
                                                 false;
 
                                             if (isConfirmed) {
+                                              itemBudgetController
+                                                      .data[index].subDiscount =
+                                                  budgetController
+                                                          .discount.value *
+                                                      product.quantity;
+
                                               itemBudgetController
                                                   .addMaterialsAndExpenses(
                                                       index,

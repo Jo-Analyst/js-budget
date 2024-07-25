@@ -10,9 +10,10 @@ part 'budget_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class BudgetModel {
   int id;
-  double? valueTotal;
+  double? amount;
   String? status;
   double? freight;
+  double discount;
   PaymentModel? payment;
   List<ItemsBudgetModel>? itemsBudget;
   String? createdAt;
@@ -22,7 +23,8 @@ class BudgetModel {
 
   BudgetModel({
     this.id = 0,
-    this.valueTotal,
+    this.discount = 0.0,
+    this.amount,
     this.status,
     this.freight,
     this.payment,

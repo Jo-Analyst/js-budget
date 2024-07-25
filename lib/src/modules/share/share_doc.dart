@@ -369,7 +369,7 @@ class _ShareDocState extends State<ShareDoc> {
                           const Text('Valor Total: ',
                               style: textStyleSmallFontWeight),
                           Text(
-                            UtilsService.moneyToCurrency(budget.valueTotal!),
+                            UtilsService.moneyToCurrency(budget.amount!),
                             style: TextStyle(
                               fontSize: textStyleSmallDefault.fontSize,
                               fontFamily: 'Anta',

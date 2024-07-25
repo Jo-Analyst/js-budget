@@ -8,7 +8,8 @@ part of 'budget_model.dart';
 
 BudgetModel _$BudgetModelFromJson(Map<String, dynamic> json) => BudgetModel(
       id: json['id'] as int? ?? 0,
-      valueTotal: (json['value_total'] as num?)?.toDouble(),
+      discount: (json['discount'] as num?)?.toDouble() ?? 0.0,
+      amount: (json['amount'] as num?)?.toDouble(),
       status: json['status'] as String?,
       freight: (json['freight'] as num?)?.toDouble(),
       payment: json['payment'] == null
@@ -28,9 +29,10 @@ BudgetModel _$BudgetModelFromJson(Map<String, dynamic> json) => BudgetModel(
 Map<String, dynamic> _$BudgetModelToJson(BudgetModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'value_total': instance.valueTotal,
+      'amount': instance.amount,
       'status': instance.status,
       'freight': instance.freight,
+      'discount': instance.discount,
       'payment': instance.payment,
       'items_budget': instance.itemsBudget,
       'created_at': instance.createdAt,
