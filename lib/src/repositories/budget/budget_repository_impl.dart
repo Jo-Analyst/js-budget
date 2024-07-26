@@ -27,7 +27,6 @@ class BudgetRepositoryImpl implements BudgetRepository {
   Future<Either<RespositoryException, BudgetModel>> save(
       BudgetModel budget) async {
     try {
-      print(budget.discount);
       final Map<String, dynamic> data = {
         'amount': budget.amount,
         'discount': budget.discount,

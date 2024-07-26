@@ -710,7 +710,9 @@ class _PricingFormPageState extends State<PricingFormPage>
                 backgroundColor: Theme.of(context).primaryColor,
               ),
               onPressed: () async {
-                if (formKey.currentState!.validate()) {
+                if (formKey.currentState!.validate() &&
+                    pricingController.validate(
+                        pricingController.materialItemsBudget, false)) {
                   pricingController.calculateTotalMaterial();
                   pricingController.calculateTotalExpenses();
                   pricingController.calculateProfitMargin();
