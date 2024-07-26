@@ -265,13 +265,20 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                       visible: workshopExpense.isNotEmpty,
                       child: DetailWidget(
                         data: [
-                          {'type': 'Frete', 'value': budget!.freight},
+                          {
+                            'type': 'Frete',
+                            'value': budget!.freight,
+                          },
                           {
                             'type': 'Margem de Lucro',
-                            'value': budgetController.profitMargin.value
-                          }
+                            'value': budgetController.profitMargin.value,
+                          },
+                          {
+                            'type': 'Desconto',
+                            'value': budget!.discount,
+                          },
                         ],
-                        title: 'Outro detalhes',
+                        title: 'Outros detalhes',
                         detailType: DetailType.outher,
                       ),
                     ),

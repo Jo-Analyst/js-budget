@@ -33,7 +33,7 @@ class _PreviewPageForConfirmationState
     materialItems = pricingController.materialItemsBudget;
     expenseItems = pricingController.workshopExpenseItemsBudget;
     amountToBeCharged = pricingController.totalToBeCharged;
-    discountEC.updateValue(budgetController.discount.value);
+    discountEC.updateValue(budgetController.subDiscount.value);
     discountValue();
   }
 
@@ -357,7 +357,7 @@ class _PreviewPageForConfirmationState
                                             Theme.of(context).primaryColor,
                                       ),
                                       onPressed: () {
-                                        budgetController.discount.value =
+                                        budgetController.subDiscount.value =
                                             discountEC.numberValue;
                                         pricingController.totalToBeCharged =
                                             amountToBeCharged;

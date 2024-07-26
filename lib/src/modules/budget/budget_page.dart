@@ -123,6 +123,8 @@ class _BudgetPageState extends State<BudgetPage> {
                         .any((itemBudget) => itemBudget.product != null)
                     ? freightEC.numberValue
                     : null;
+
+                budgetModel.discount = budgetController.totalDiscount.value;
                 budgetModel.payment = methodPayment != 'Nenhum'
                     ? PaymentModel(
                         specie: methodPayment,
@@ -251,7 +253,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                           onPressed: () async {
                                             changeValuePricing(index);
 
-                                            budgetController.discount.value =
+                                            budgetController.subDiscount.value =
                                                 itemBudgetController.data[index]
                                                         .subDiscount /
                                                     product.quantity;
@@ -268,7 +270,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                               itemBudgetController
                                                       .data[index].subDiscount =
                                                   budgetController
-                                                          .discount.value *
+                                                          .subDiscount.value *
                                                       product.quantity;
 
                                               itemBudgetController
@@ -290,6 +292,9 @@ class _BudgetPageState extends State<BudgetPage> {
                                             }
 
                                             pricingController.clearFields();
+                                            budgetController.addAllDiscounts(
+                                                itemBudgetController
+                                                    .data.value);
                                           },
                                           icon: itemBudgetController
                                                       .data[index].subValue ==
@@ -508,7 +513,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: const Text(
-                        'Preço do(s) produto(s)',
+                        'Preço dos produtos',
                         style: textStyleMediumFontWeight,
                       ),
                       trailing: Text(
@@ -529,7 +534,7 @@ class _BudgetPageState extends State<BudgetPage> {
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: const Text(
-                        'Preço do serviço(s)',
+                        'Preço dos serviços',
                         style: textStyleMediumFontWeight,
                       ),
                       trailing: Text(
@@ -538,6 +543,27 @@ class _BudgetPageState extends State<BudgetPage> {
                           fontFamily: 'Anta',
                           fontSize: 23,
                           color: Color.fromARGB(255, 24, 113, 185),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: itemBudgetController.data
+                        .any((itemBudget) => itemBudget.product != null),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text(
+                        'Total do desconto',
+                        style: textStyleMediumFontWeight,
+                      ),
+                      trailing: Text(
+                        UtilsService.moneyToCurrency(
+                            budgetController.totalDiscount.value),
+                        style: const TextStyle(
+                          fontFamily: 'Anta',
+                          fontSize: 23,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromARGB(255, 20, 87, 143),
                         ),
                       ),
                     ),

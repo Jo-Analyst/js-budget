@@ -27,8 +27,10 @@ class BudgetRepositoryImpl implements BudgetRepository {
   Future<Either<RespositoryException, BudgetModel>> save(
       BudgetModel budget) async {
     try {
+      print(budget.discount);
       final Map<String, dynamic> data = {
-        "amount": budget.amount,
+        'amount': budget.amount,
+        'discount': budget.discount,
         'created_at': DateTime.now().toIso8601String(),
         'order_id': budget.orderId,
         'freight': budget.freight,

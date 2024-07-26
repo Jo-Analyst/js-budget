@@ -15,6 +15,7 @@ class TransformBudgetJson {
     return BudgetModel(
         id: budget['id'],
         amount: budget['amount'],
+        discount: budget['discount'],
         status: 'Em aberto',
         itemsBudget: budget['items_budget'],
         createdAt: budget['created_at'],

@@ -16,6 +16,7 @@ class BudgetItemRepositoryImpl implements BudgetItemRepository {
       Transaction txn, ItemsBudgetModel itemsBudget, int budgetId) async {
     int lastId = await txn.insert('items_budget', {
       'sub_value': itemsBudget.subValue,
+      'sub_discount': itemsBudget.subDiscount,
       'unitary_value': itemsBudget.unitaryValue,
       'quantity': itemsBudget.quantity,
       'term': itemsBudget.term,

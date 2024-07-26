@@ -21,7 +21,8 @@ class BudgetController with Messages {
   final BudgetRepository _budgetRepository;
   final _totalBudgets = signal<double>(0.0);
   Signal<double> get totalBudgets => _totalBudgets;
-  final discount = signal<double>(0.0);
+  final subDiscount = signal<double>(0.0);
+  final totalDiscount = signal<double>(0.0);
 
   final _totalWorshopExpense = signal<double>(0.0);
   Signal<double> get totalWorshopExpense => _totalWorshopExpense;
@@ -385,7 +386,10 @@ class BudgetController with Messages {
     return false;
   }
 
-  void addAllDiscounts() {
-    for (var item in model.value.itemsBudget!) {}
+  void addAllDiscounts(List<ItemsBudgetModel> itemsBudget) {
+    totalDiscount.value = 0;
+    for (var item in itemsBudget) {
+      totalDiscount.value += item.subDiscount;
+    }
   }
 }

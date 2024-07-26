@@ -9,6 +9,14 @@ class BudgetSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final budget = Injector.get<BudgetController>().model.value;
+
+    print(budget.discount);
+    print('------------');
+    for (var item in budget.itemsBudget!) {
+      print(item.toJson());
+      print('------------');
+    }
+
     void closeScreen() {
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/my-app', (route) => false);
