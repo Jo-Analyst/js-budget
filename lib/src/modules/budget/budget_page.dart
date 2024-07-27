@@ -254,9 +254,8 @@ class _BudgetPageState extends State<BudgetPage> {
                                             changeValuePricing(index);
 
                                             budgetController.subDiscount.value =
-                                                itemBudgetController.data[index]
-                                                        .subDiscount /
-                                                    product.quantity;
+                                                itemBudgetController
+                                                    .data[index].subDiscount;
 
                                             bool? isConfirmed = await Navigator
                                                         .of(context)
@@ -270,8 +269,7 @@ class _BudgetPageState extends State<BudgetPage> {
                                               itemBudgetController
                                                       .data[index].subDiscount =
                                                   budgetController
-                                                          .subDiscount.value *
-                                                      product.quantity;
+                                                      .subDiscount.value;
 
                                               itemBudgetController
                                                   .addMaterialsAndExpenses(
