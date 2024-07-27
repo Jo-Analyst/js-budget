@@ -335,22 +335,6 @@ class PdfGeneration {
                   mainAxisAlignment: pw.MainAxisAlignment.end,
                   children: [
                     pw.Text(
-                      'Desconto: ',
-                      style: pw.TextStyle(
-                        fontSize: 10,
-                        fontWeight: pw.FontWeight.bold,
-                      ),
-                    ),
-                    pw.Text(
-                      UtilsService.moneyToCurrency(0),
-                      style: const pw.TextStyle(fontSize: 10),
-                    )
-                  ],
-                ),
-                pw.Row(
-                  mainAxisAlignment: pw.MainAxisAlignment.end,
-                  children: [
-                    pw.Text(
                       'Valor Total: ',
                       style: pw.TextStyle(
                           fontSize: 10, fontWeight: pw.FontWeight.bold),

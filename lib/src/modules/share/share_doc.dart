@@ -350,22 +350,6 @@ class _ShareDocState extends State<ShareDoc> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text(
-                            'Desconto: ',
-                            style: textStyleSmallFontWeight,
-                          ),
-                          Text(
-                            UtilsService.moneyToCurrency(0),
-                            style: TextStyle(
-                              fontSize: textStyleSmallDefault.fontSize,
-                              fontFamily: 'Anta',
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
                           const Text('Valor Total: ',
                               style: textStyleSmallFontWeight),
                           Text(
