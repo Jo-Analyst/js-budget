@@ -51,10 +51,11 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
 
   void importContacts() async {
     final controller = Injector.get<ClientController>();
+    List<ClientModel> clients = [];
 
     int index = 0;
     for (var phone in phones) {
-      await controller.save(
+      clients.add(
         ClientModel(
           name: names[index],
           contact: phone != 'Sem número'
@@ -64,6 +65,8 @@ class _ContactPhonePageState extends State<ContactPhonePage> {
       );
       index++;
     }
+
+    await controller.save(clients, isImportedFromContacts: true);
   }
 
   void selectContact(Map<String, dynamic> contact) {

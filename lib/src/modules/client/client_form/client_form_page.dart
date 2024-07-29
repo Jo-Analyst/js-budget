@@ -76,12 +76,14 @@ class _ClientFormPageState extends State<ClientFormPage>
               var nav = Navigator.of(context);
               if (formKey.currentState!.validate()) {
                 await clientController.save(
-                  saveClient(
-                    client?.id ?? 0,
-                    client?.address?.id ?? 0,
-                    client?.contact?.id ?? 0,
-                    isALegalEntity ? 1 : 0,
-                  ),
+                  [
+                    saveClient(
+                      client?.id ?? 0,
+                      client?.address?.id ?? 0,
+                      client?.contact?.id ?? 0,
+                      isALegalEntity ? 1 : 0,
+                    )
+                  ],
                 );
                 nav.pop();
                 if (client != null && !comesFromTheOrder) {
