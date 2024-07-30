@@ -55,7 +55,9 @@ class DetailWidget extends StatelessWidget {
         value = dt['value'];
         icon = Icon(dt['type'].toLowerCase() == 'frete'
             ? Icons.monetization_on
-            : Icons.local_shipping);
+            : dt['type'].toLowerCase() == 'desconto'
+                ? Icons.local_offer
+                : Icons.local_shipping);
       case DetailType.expense:
         title = dt.type;
         subTitle = '${term}x ${UtilsService.moneyToCurrency(dt.dividedValue)}';

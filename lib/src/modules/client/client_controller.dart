@@ -53,9 +53,15 @@ class ClientController with Messages {
     final result = await _clientRepository.update(client);
 
     switch (result) {
-      case Right():
+      case Right(value: (int addressId, int contactId)):
         if (client.id > 0) {
           _deleteItem(client.id);
+        }
+        if (addressId > 0) {
+          client.address?.id = addressId;
+        }
+        if (contactId > 0) {
+          client.contact?.id = contactId;
         }
         _data.add(client);
         showSuccess('Cliente alterado com sucesso');

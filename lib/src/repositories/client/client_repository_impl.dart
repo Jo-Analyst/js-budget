@@ -92,7 +92,8 @@ class ClientRepositoryImpl implements ClientRepository {
   }
 
   @override
-  Future<Either<RespositoryException, Unit>> update(ClientModel client) async {
+  Future<Either<RespositoryException, (int, int)>> update(
+      ClientModel client) async {
     try {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
@@ -107,7 +108,7 @@ class ClientRepositoryImpl implements ClientRepository {
             whereArgs: [client.id]);
 
         if (client.contact != null) {
-          await _contactRepository.saveContact({
+          client.contact!.id = await _contactRepository.saveContact({
             'id': client.contact!.id,
             'cell_phone': client.contact!.cellPhone,
             'tele_phone': client.contact!.telePhone,
@@ -117,7 +118,7 @@ class ClientRepositoryImpl implements ClientRepository {
         }
 
         if (client.address != null) {
-          await _addressRepository.saveAddress({
+          client.address!.id = await _addressRepository.saveAddress({
             'id': client.address!.id,
             'cep': client.address?.cep,
             'district': client.address?.district,
@@ -130,7 +131,7 @@ class ClientRepositoryImpl implements ClientRepository {
         }
       });
 
-      return Right(unit);
+      return Right((client.address?.id ?? 0, client.contact?.id ?? 0));
     } catch (_) {
       return Left(RespositoryException());
     }

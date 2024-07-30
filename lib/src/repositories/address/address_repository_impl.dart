@@ -4,13 +4,16 @@ import 'address_repository.dart';
 
 class AddressRepositoryImpl implements AddressRepository {
   @override
-  Future<void> saveAddress(
-      Map<String, dynamic> address, Transaction txn) async {
+  Future<int> saveAddress(Map<String, dynamic> address, Transaction txn) async {
     int id = address['id'] ?? 0;
     if (id == 0) {
-      await txn.insert('address', address);
+      address.remove('id');
+      id = await txn.insert('address', address);
     } else {
+      address.remove('id');
       await txn.update('address', address, where: 'id = ?', whereArgs: [id]);
     }
+
+    return id;
   }
 }

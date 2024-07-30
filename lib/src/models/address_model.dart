@@ -16,7 +16,7 @@ class AddressModel {
     this.profileId,
   });
 
-  final int id;
+  int id;
   final String cep;
   final String district;
   final String streetAddress;

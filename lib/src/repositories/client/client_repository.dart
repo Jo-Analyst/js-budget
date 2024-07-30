@@ -6,7 +6,7 @@ import 'package:js_budget/src/models/client_model.dart';
 abstract interface class ClientRepository {
   Future<Either<RespositoryException, ClientModel>> register(
       ClientModel client);
-  Future<Either<RespositoryException, Unit>> update(ClientModel client);
+  Future<Either<RespositoryException, (int addressId, int contactId)>> update(ClientModel client);
   Future<Either<RespositoryException, Unit>> delete(int id);
   Future<Either<RespositoryException, List<Map<String, dynamic>>>> findAll();
 }

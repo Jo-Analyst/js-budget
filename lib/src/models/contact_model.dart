@@ -5,13 +5,13 @@ part 'contact_model.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ContactModel {
-  final int id;
+  int id;
   final String telePhone;
   final String cellPhone;
   final String email;
   final int? clientId;
   final int? profileId;
-  
+
   ContactModel({
     this.id = 0,
     required this.telePhone,
