@@ -147,54 +147,65 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                               fontFamily: 'Anta',
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                budget!.client!.name,
-                                style: textStyleMediumDefault,
-                              ),
-                              GestureDetector(
-                                onTap: () async {
-                                  final result = await showDialogStatus(
-                                    context,
-                                    status: status,
-                                  );
-
-                                  status = result ?? status;
-                                  approvalDate = status == 'Aprovado' &&
-                                          budget!.status == 'Em aberto'
-                                      ? DateTime.now()
-                                      : null;
-
-                                  setState(() {});
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      status,
-                                      style: TextStyle(
-                                        fontSize:
-                                            textStyleMediumDefault.fontSize,
-                                        fontFamily:
-                                            textStyleMediumDefault.fontFamily,
-                                        fontWeight: FontWeight.w700,
-                                        color: const Color.fromARGB(
-                                            255, 20, 87, 143),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    const Icon(
-                                      Icons.edit,
-                                      size: 18,
-                                    )
-                                  ],
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    budget!.client!.name,
+                                    style: textStyleMediumDefault,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                GestureDetector(
+                                  onTap: () async {
+                                    final result = await showDialogStatus(
+                                      context,
+                                      status: status,
+                                    );
+
+                                    status = result ?? status;
+                                    approvalDate = status == 'Aprovado' &&
+                                            budget!.status == 'Em aberto'
+                                        ? DateTime.now()
+                                        : null;
+
+                                    setState(() {});
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: FittedBox(
+                                          fit: BoxFit.scaleDown,
+                                          child: Text(
+                                            status,
+                                            style: TextStyle(
+                                              fontSize: textStyleMediumDefault
+                                                  .fontSize,
+                                              fontFamily: textStyleMediumDefault
+                                                  .fontFamily,
+                                              fontWeight: FontWeight.w700,
+                                              color: const Color.fromARGB(
+                                                  255, 20, 87, 143),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      const Icon(
+                                        Icons.edit,
+                                        size: 18,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -207,13 +218,23 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Text(
-                              'D. de Aprovação: ',
-                              style: textStyleSmallFontWeight,
+                            const Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  'D. de Aprovação: ',
+                                  style: textStyleSmallFontWeight,
+                                ),
+                              ),
                             ),
-                            Text(
-                              '${approvalDate?.day.toString().padLeft(2, '0')}/${approvalDate?.month.toString().padLeft(2, '0')}/${approvalDate?.year.toString().padLeft(2, '0')}',
-                              style: textStyleSmallDefault,
+                            Expanded(
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(
+                                  '${approvalDate?.day.toString().padLeft(2, '0')}/${approvalDate?.month.toString().padLeft(2, '0')}/${approvalDate?.year.toString().padLeft(2, '0')}',
+                                  style: textStyleSmallDefault,
+                                ),
+                              ),
                             ),
                             GestureDetector(
                               onTap: () {

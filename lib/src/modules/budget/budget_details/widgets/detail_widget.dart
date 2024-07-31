@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/modules/widget/custom_icons.dart';
@@ -79,12 +80,15 @@ class DetailWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
             color: Theme.of(context).primaryColor,
-            child: Text(
-              title,
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 19,
-                fontFamily: textStyleMediumDefault.fontFamily,
+            child: RichText(
+              text: TextSpan(
+                text: title,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 19,
+                  fontFamily: textStyleMediumDefault.fontFamily,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
@@ -95,31 +99,19 @@ class DetailWidget extends StatelessWidget {
                 children: [
                   ListTile(
                     leading: icon,
-                    title: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        title,
-                        style: textStyleMediumFontWeight,
-                      ),
+                    title: FlexibleText(
+                      text: title,
                     ),
                     subtitle: subTitle.isEmpty
                         ? null
-                        : Text(
-                            subTitle,
-                            style: TextStyle(
-                              fontSize: textStyleMediumDefault.fontSize,
-                              fontFamily: 'Anta',
-                            ),
+                        : FlexibleText(
+                            text: subTitle,
                           ),
-                    trailing: Text(
-                      UtilsService.moneyToCurrency(value),
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.green,
-                        fontFamily: 'Anta',
-                      ),
+                    trailing: FlexibleText(
+                      text: UtilsService.moneyToCurrency(value),
+                      colorText: Colors.green,
+                      fontFamily: 'Anta',
+                      fontWeight: textStyleMediumFontWeight.fontWeight,
                     ),
                   ),
                   const Divider(),
@@ -129,6 +121,72 @@ class DetailWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FlexibleText extends StatelessWidget {
+  final String text;
+  final double minFontSize;
+  final double maxFontSize;
+  final FontWeight? fontWeight;
+  final Color? colorText;
+  final String? fontFamily;
+
+  const FlexibleText({
+    super.key,
+    required this.text,
+    this.minFontSize = 15.0,
+    this.maxFontSize = 20.0,
+    this.fontWeight,
+    this.colorText,
+    this.fontFamily,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double fontSize = maxFontSize;
+        TextPainter textPainter = TextPainter(
+          text: TextSpan(
+            text: text,
+            style: TextStyle(
+              fontSize: fontSize,
+            ),
+          ),
+          maxLines: 1,
+          textDirection: TextDirection.ltr,
+        );
+
+        // Reduz o tamanho da fonte até que o texto caiba no espaço disponível
+        while (fontSize > minFontSize) {
+          textPainter.layout(maxWidth: constraints.maxWidth);
+          if (textPainter.didExceedMaxLines) {
+            fontSize -= 1;
+            textPainter.text = TextSpan(
+              text: text,
+              style: TextStyle(fontSize: fontSize),
+            );
+          } else {
+            break;
+          }
+        }
+
+        fontSize = fontSize.clamp(minFontSize, maxFontSize);
+
+        return AutoSizeText(
+          text,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontFamily: fontFamily ?? 'Poppins',
+            color: colorText,
+            fontWeight: fontWeight,
+          ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        );
+      },
     );
   }
 }
