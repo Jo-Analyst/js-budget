@@ -33,7 +33,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
   @override
   void initState() {
     super.initState();
-    dateOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
+    dateOfLastPurchaseEC.text = UtilsService.dateFormatText(dateOfPurchase);
     material = controller.model();
 
     if (material != null) {
@@ -42,7 +42,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
       initilizeForm(
         material!,
       );
-      dateOfLastPurchaseEC.text = UtilsService.dateFormat(dateOfPurchase);
+      dateOfLastPurchaseEC.text = UtilsService.dateFormatText(dateOfPurchase);
       quantityInStock = material!.quantity;
       unit = material!.unit;
     }
@@ -105,7 +105,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                             material!.dateOfLastPurchase!);
                         dateOfPurchase = value ? DateTime.now() : dateExtracted;
                         dateOfLastPurchaseEC.text =
-                            UtilsService.dateFormat(dateOfPurchase);
+                            UtilsService.dateFormatText(dateOfPurchase);
                       });
                     },
                   ),
@@ -304,7 +304,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                             dateOfPurchase = date;
                           });
                           dateOfLastPurchaseEC.text =
-                              UtilsService.dateFormat(dateOfPurchase);
+                              UtilsService.dateFormatText(dateOfPurchase);
                         },
                       ),
                       TextFormField(

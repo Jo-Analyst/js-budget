@@ -42,7 +42,7 @@ class _OrderFormPageState extends State<OrderFormPage>
   @override
   void initState() {
     super.initState();
-    dateEC.text = UtilsService.dateFormat(orderDate);
+    dateEC.text = UtilsService.dateFormatText(orderDate);
   }
 
   @override
@@ -93,7 +93,7 @@ class _OrderFormPageState extends State<OrderFormPage>
                       setState(() {
                         orderDate = date;
                       });
-                      dateEC.text = UtilsService.dateFormat(date);
+                      dateEC.text = UtilsService.dateFormatText(date);
                     },
                   ),
                 ),

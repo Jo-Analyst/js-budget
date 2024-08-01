@@ -91,7 +91,7 @@ class MaterialRepositoryImpl implements MaterialRepository {
     final expense = ExpenseModel(
       description: material.name,
       value: material.lastQuantityAdded * material.price,
-      date: UtilsService.dateFormat(DateTime(year, month, day)),
+      date: UtilsService.dateFormatText(DateTime(year, month, day)),
       methodPayment: '',
       materialId: material.id,
       observation: 'Materiais para a produção',

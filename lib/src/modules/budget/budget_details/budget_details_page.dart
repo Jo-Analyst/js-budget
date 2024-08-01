@@ -8,6 +8,7 @@ import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/detail_widget.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/show_dialog_status.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class BudgetDetailsPage extends StatefulWidget {
@@ -135,30 +136,22 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                         vertical: 30,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            UtilsService.moneyToCurrency(
-                              budget!.amount!,
-                            ),
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
+                          Expanded(
+                            child: FlexibleText(
+                              text:
+                                  UtilsService.moneyToCurrency(budget!.amount!),
+                              fontWeight: textStyleMediumFontWeight.fontWeight,
                               fontFamily: 'Anta',
+                              maxFontSize: 30,
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          Flexible(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                FittedBox(
-                                  fit: BoxFit.scaleDown,
-                                  child: Text(
-                                    budget!.client!.name,
-                                    style: textStyleMediumDefault,
-                                  ),
-                                ),
+                                FlexibleText(text: budget!.client!.name),
                                 GestureDetector(
                                   onTap: () async {
                                     final result = await showDialogStatus(
@@ -177,21 +170,13 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Expanded(
-                                        child: FittedBox(
-                                          fit: BoxFit.scaleDown,
-                                          child: Text(
-                                            status,
-                                            style: TextStyle(
-                                              fontSize: textStyleMediumDefault
-                                                  .fontSize,
-                                              fontFamily: textStyleMediumDefault
-                                                  .fontFamily,
-                                              fontWeight: FontWeight.w700,
-                                              color: const Color.fromARGB(
-                                                  255, 20, 87, 143),
-                                            ),
-                                          ),
+                                      Flexible(
+                                        child: FlexibleText(
+                                          text: status,
+                                          colorText: const Color.fromARGB(
+                                              255, 20, 87, 143),
+                                          fontWeight: textStyleMediumFontWeight
+                                              .fontWeight,
                                         ),
                                       ),
                                       const SizedBox(
@@ -325,13 +310,9 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                       Navigator.of(context).pushNamed('/share');
                     }
                   : null,
-              label: Text(
-                'Gerar comprovante',
-                style: TextStyle(
-                  fontFamily: textStyleMediumDefault.fontFamily,
-                  color: Colors.white,
-                  fontSize: textStyleMediumDefault.fontSize,
-                ),
+              label: const FlexibleText(
+                text: 'Gerar comprovante',
+                colorText: Colors.white,
               ),
               icon: const Icon(
                 Icons.receipt_long_outlined,

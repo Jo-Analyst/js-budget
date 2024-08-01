@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 
 class BudgetFilteringStatusWidget extends StatelessWidget {
   final String title;
@@ -26,14 +27,11 @@ class BudgetFilteringStatusWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         color: backgroundColor,
       ),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 18,
-          fontFamily: 'Poppins',
-          color: textColor,
-          fontWeight: fontWeight,
-        ),
+      child: FlexibleText(
+        text: title,
+        maxFontSize: 18,
+        colorText: textColor,
+        fontWeight: fontWeight,
       ),
     );
   }

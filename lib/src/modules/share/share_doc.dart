@@ -77,7 +77,7 @@ class _ShareDocState extends State<ShareDoc> {
     final (year, month, day, _, _) =
         UtilsService.extractDate(budget.approvalDate!);
 
-    approvalDate = UtilsService.dateFormat(DateTime(year, month, day));
+    approvalDate = UtilsService.dateFormatText(DateTime(year, month, day));
   }
 
   @override
@@ -411,7 +411,8 @@ class _ShareDocState extends State<ShareDoc> {
                         child: Text(
                           budget.status! == 'Em aberto'
                               ? '${totalTerm + 1} dias uteis após aprovação'
-                              : UtilsService.dateFormat(expectedDeliveryDate!),
+                              : UtilsService.dateFormatText(
+                                  expectedDeliveryDate!),
                           style: textStyleSmallDefault,
                         ),
                       ),

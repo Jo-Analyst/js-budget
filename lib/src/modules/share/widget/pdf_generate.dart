@@ -23,7 +23,7 @@ class PdfGeneration {
       final (year, month, day, _, _) =
           UtilsService.extractDate(budget.approvalDate!);
 
-      approvalDate = UtilsService.dateFormat(DateTime(year, month, day));
+      approvalDate = UtilsService.dateFormatText(DateTime(year, month, day));
     }
 
     return approvalDate;
@@ -45,7 +45,7 @@ class PdfGeneration {
     }
 
     return expectedDeliveryDate != null
-        ? UtilsService.dateFormat(DateTime(expectedDeliveryDate.year,
+        ? UtilsService.dateFormatText(DateTime(expectedDeliveryDate.year,
             expectedDeliveryDate.month, expectedDeliveryDate.day))
         : null;
   }

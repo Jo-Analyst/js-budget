@@ -36,7 +36,7 @@ class MaterialController with Messages {
     if (dateOfLastPurchase != null) {
       final date = UtilsService.getExtractedDate(dateOfLastPurchase);
 
-      dateOfLastPurchase = UtilsService.dateFormat(date);
+      dateOfLastPurchase = UtilsService.dateFormatText(date);
     }
 
     final result = material.id == 0
@@ -67,12 +67,11 @@ class MaterialController with Messages {
   }
 
   ExpenseModel _setDataMaterialInExpense(MaterialModel material) {
-   final date =
-        UtilsService.getExtractedDate(material.dateOfLastPurchase!);
+    final date = UtilsService.getExtractedDate(material.dateOfLastPurchase!);
     return ExpenseModel(
       description: material.name,
       value: material.lastQuantityAdded * material.price,
-      date: UtilsService.dateFormat(date),
+      date: UtilsService.dateFormatText(date),
       methodPayment: '',
       materialId: material.id,
       observation: 'Materiais para a produção',

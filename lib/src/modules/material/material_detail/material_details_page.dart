@@ -15,7 +15,8 @@ class MaterialDetailsPage extends StatelessWidget {
     final controller = Injector.get<MaterialController>();
     final material =
         ModalRoute.of(context)!.settings.arguments as MaterialModel;
-    final dateExtracted = UtilsService.getExtractedDate(material.dateOfLastPurchase!);
+    final dateExtracted =
+        UtilsService.getExtractedDate(material.dateOfLastPurchase!);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Detalhes do material'),
@@ -101,7 +102,7 @@ class MaterialDetailsPage extends StatelessWidget {
                       Visibility(
                         visible: material.dateOfLastPurchase!.isNotEmpty,
                         child: CustomListTileIcon(
-                          title: UtilsService.dateFormat(dateExtracted),
+                          title: UtilsService.dateFormatText(dateExtracted),
                           leading: const Icon(Icons.calendar_month),
                         ),
                       ),

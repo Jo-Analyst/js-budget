@@ -43,7 +43,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
   void initState() {
     super.initState();
 
-    expenseDateEC.text = UtilsService.dateFormat(expenseDate);
+    expenseDateEC.text = UtilsService.dateFormatText(expenseDate);
     expense = controller.model();
 
     if (expense != null) {
@@ -166,7 +166,8 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                             setState(() {
                               expenseDate = date;
                             });
-                            expenseDateEC.text = UtilsService.dateFormat(date);
+                            expenseDateEC.text =
+                                UtilsService.dateFormatText(date);
                           },
                         ),
                         TextFormField(

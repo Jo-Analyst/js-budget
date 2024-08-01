@@ -88,7 +88,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                     amountPaid: amountReceived > amountToPay
                         ? amountToPay
                         : amountReceivedEC.numberValue,
-                    datePayment: UtilsService.dateFormat(dateSelected),
+                    datePayment: UtilsService.dateFormatText(dateSelected),
                     paymentId: budget.payment!.id,
                   ),
                 );
@@ -245,7 +245,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    UtilsService.dateFormat(dateSelected),
+                    UtilsService.dateFormatText(dateSelected),
                     style: textStyleMediumDefault,
                   ),
                   const SizedBox(width: 6),

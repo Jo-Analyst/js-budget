@@ -42,7 +42,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
   @override
   void initState() {
     super.initState();
-    expenseDateEC.text = UtilsService.dateFormat(expenseDate);
+    expenseDateEC.text = UtilsService.dateFormatText(expenseDate);
     expense = controller.model();
 
     if (expense != null) {
@@ -212,7 +212,8 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                             setState(() {
                               expenseDate = date;
                             });
-                            expenseDateEC.text = UtilsService.dateFormat(date);
+                            expenseDateEC.text =
+                                UtilsService.dateFormatText(date);
                           },
                         ),
                         TextFormField(

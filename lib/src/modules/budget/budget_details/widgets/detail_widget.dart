@@ -1,9 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-
 import 'package:js_budget/src/modules/widget/custom_icons.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 enum DetailType { productsAndService, materials, payment, expense, outher }
@@ -78,20 +77,12 @@ class DetailWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-            color: Theme.of(context).primaryColor,
-            child: RichText(
-              text: TextSpan(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+              color: Theme.of(context).primaryColor,
+              child: FlexibleText(
                 text: title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 19,
-                  fontFamily: textStyleMediumDefault.fontFamily,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
+                fontWeight: textStyleMediumFontWeight.fontWeight,
+              )),
           Column(
             children: data.map((dt) {
               final (title, subTitle, value, icon) = setValueInListTile(dt);
@@ -121,72 +112,6 @@ class DetailWidget extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class FlexibleText extends StatelessWidget {
-  final String text;
-  final double minFontSize;
-  final double maxFontSize;
-  final FontWeight? fontWeight;
-  final Color? colorText;
-  final String? fontFamily;
-
-  const FlexibleText({
-    super.key,
-    required this.text,
-    this.minFontSize = 15.0,
-    this.maxFontSize = 20.0,
-    this.fontWeight,
-    this.colorText,
-    this.fontFamily,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double fontSize = maxFontSize;
-        TextPainter textPainter = TextPainter(
-          text: TextSpan(
-            text: text,
-            style: TextStyle(
-              fontSize: fontSize,
-            ),
-          ),
-          maxLines: 1,
-          textDirection: TextDirection.ltr,
-        );
-
-        // Reduz o tamanho da fonte até que o texto caiba no espaço disponível
-        while (fontSize > minFontSize) {
-          textPainter.layout(maxWidth: constraints.maxWidth);
-          if (textPainter.didExceedMaxLines) {
-            fontSize -= 1;
-            textPainter.text = TextSpan(
-              text: text,
-              style: TextStyle(fontSize: fontSize),
-            );
-          } else {
-            break;
-          }
-        }
-
-        fontSize = fontSize.clamp(minFontSize, maxFontSize);
-
-        return AutoSizeText(
-          text,
-          style: TextStyle(
-            fontSize: fontSize,
-            fontFamily: fontFamily ?? 'Poppins',
-            color: colorText,
-            fontWeight: fontWeight,
-          ),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        );
-      },
     );
   }
 }
