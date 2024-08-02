@@ -87,23 +87,14 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text.rich(
-                      TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: 'Olá, ',
-                            style: textStyleMediumFontWeight,
-                          ),
-                          TextSpan(
+                  Row(
+                    children: [
+                      Flexible(
+                        child: FlexibleText(
                             text:
-                                profileController.model.value!.corporateReason,
-                            style: textStyleMediumDefault,
-                          ),
-                        ],
+                                'Olá, ${profileController.model.value!.corporateReason}'),
                       ),
-                    ),
+                    ],
                   ),
                   FittedBox(
                     fit: BoxFit.scaleDown,
@@ -111,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                       TextSpan(
                         children: [
                           const TextSpan(
-                            text: 'Nome Fantasia: ',
+                            text: 'Empresa: ',
                             style: textStyleMediumFontWeight,
                           ),
                           TextSpan(
@@ -312,7 +303,7 @@ class _HomePageState extends State<HomePage> {
                                                 child: FittedBox(
                                                   fit: BoxFit.scaleDown,
                                                   child: FlexibleText(
-                                                    maxFontSize: 22,
+                                                    maxFontSize: 20,
                                                     text: UtilsService
                                                         .moneyToCurrency(
                                                             budget.amount!),
@@ -355,7 +346,7 @@ class _HomePageState extends State<HomePage> {
                                         budgetController.totalBudgets
                                             .watch(context)),
                                     fontFamily: "Anta",
-                                    maxFontSize: 25,
+                                    maxFontSize: 20,
                                     fontWeight: FontWeight.w500,
                                     colorText: Colors.green,
                                   ),

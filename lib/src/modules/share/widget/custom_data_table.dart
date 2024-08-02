@@ -22,9 +22,11 @@ class CustomDataTable extends StatelessWidget {
               .map(
                 (header) => Expanded(
                   child: Align(
-                    child: Text(
-                      header,
-                      style: textStyleSmallFontWeight,
+                    child: RichText(
+                      text: TextSpan(
+                        text: header,
+                        style: textStyleSmallFontWeight,
+                      ),
                     ),
                   ),
                 ),
@@ -44,41 +46,48 @@ class CustomDataTable extends StatelessWidget {
               children: [
                 Expanded(
                   child: Align(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        row.product?.name ?? row.service!.description,
-                        style: const TextStyle(fontSize: 14),
+                    child: RichText(
+                      text: TextSpan(
+                        text: row.product?.name ?? row.service!.description,
+                        style: textStyleSmallDefault,
                       ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Align(
-                    child: Text(
-                      row.quantity.toString(),
-                      style: textStyleSmallDefault,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    child: Text(
-                      UtilsService.moneyToCurrency(row.unitaryValue),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Anta',
+                    child: RichText(
+                      text: TextSpan(
+                        text: row.quantity.toString(),
+                        style: textStyleSmallDefault,
                       ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Align(
-                    child: Text(
-                      UtilsService.moneyToCurrency(row.subValue),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Anta',
+                    child: RichText(
+                      text: TextSpan(
+                        text: UtilsService.moneyToCurrency(row.unitaryValue),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Anta',
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    child: RichText(
+                      text: TextSpan(
+                        text: UtilsService.moneyToCurrency(row.subValue),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Anta',
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),

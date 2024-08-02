@@ -203,22 +203,17 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Expanded(
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  'D. de Aprovação: ',
-                                  style: textStyleSmallFontWeight,
-                                ),
+                            Flexible(
+                              child: FlexibleText(
+                                text: 'D. de Aprovação',
+                                fontWeight:
+                                    textStyleMediumFontWeight.fontWeight,
                               ),
                             ),
-                            Expanded(
-                              child: FittedBox(
-                                fit: BoxFit.scaleDown,
-                                child: Text(
-                                  '${approvalDate?.day.toString().padLeft(2, '0')}/${approvalDate?.month.toString().padLeft(2, '0')}/${approvalDate?.year.toString().padLeft(2, '0')}',
-                                  style: textStyleSmallDefault,
-                                ),
+                            Flexible(
+                              child: FlexibleText(
+                                text:
+                                    '${approvalDate?.day.toString().padLeft(2, '0')}/${approvalDate?.month.toString().padLeft(2, '0')}/${approvalDate?.year.toString().padLeft(2, '0')}',
                               ),
                             ),
                             GestureDetector(

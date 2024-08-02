@@ -94,7 +94,7 @@ class _ShareDocState extends State<ShareDoc> {
       appBar: AppBar(
         title: const Text(
           'Orçamento',
-          style: textStyleSmallDefault,
+          style: textStyleMediumDefault,
         ),
         actions: [
           IconButton(
@@ -123,65 +123,62 @@ class _ShareDocState extends State<ShareDoc> {
                   padding: const EdgeInsets.all(10),
                   child: Image.asset('assets/images/logo_rectangular_80.png'),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(width: 25),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            profile!.fantasyName.toUpperCase(),
-                            style: textStyleSmallFontWeight,
-                          ),
-                        ),
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
+                    RichText(
+                      text: TextSpan(
+                        text: profile!.fantasyName.toUpperCase(),
+                        style: textStyleMediumFontWeight,
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text:
                             '${profile!.address.streetAddress}, ${profile!.address.numberAddress}, ${profile!.address.district}',
-                            style: textStyleSmallDefault,
-                          ),
-                        ),
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
+                        style: textStyleMediumDefault,
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text:
                             '${profile!.address.city} - ${profile!.address.state}',
-                            style: textStyleSmallDefault,
-                          ),
+                        style: textStyleMediumDefault,
+                      ),
+                    ),
+                    Visibility(
+                      visible: profile!.contact.email.isNotEmpty,
+                      child: RichText(
+                        text: TextSpan(
+                          text: profile!.contact.email,
+                          style: textStyleMediumDefault,
                         ),
-                        Visibility(
-                          visible: profile!.contact.email.isNotEmpty,
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              profile!.contact.email,
-                              style: textStyleSmallDefault,
-                            ),
-                          ),
-                        ),
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: Text(
-                            profile!.contact.cellPhone,
-                            style: textStyleSmallDefault,
-                          ),
-                        ),
-                      ],
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: profile!.contact.cellPhone,
+                        style: textStyleMediumDefault,
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 15),
                 Column(
                   children: [
-                    Text(
-                      'ORDEM DE SERVIÇO - ${budget.orderId.toString().padLeft(5, '0')}',
-                      style: textStyleLargeDefaultFontWeight,
+                    RichText(
+                      text: TextSpan(
+                        text:
+                            'ORDEM DE SERVIÇO - ${budget.orderId.toString().padLeft(5, '0')}',
+                        style: textStyleLargeDefaultFontWeight,
+                      ),
                     ),
-                    Text(
-                      'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, ${hours.toString().padLeft(2, '0')}h${minutes.toString().padLeft(2, '0')}min',
-                      style: textStyleSmallDefault,
+                    RichText(
+                      text: TextSpan(
+                        text:
+                            'Data: ${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year, ${hours.toString().padLeft(2, '0')}Hrs${minutes.toString().padLeft(2, '0')}min',
+                        style: textStyleMediumDefault,
+                      ),
                     ),
                   ],
                 ),
@@ -201,9 +198,10 @@ class _ShareDocState extends State<ShareDoc> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'Cliente: ${budget.client!.name}',
-                            style: textStyleSmallDefault,
+                          RichText(
+                            text: TextSpan(
+                                text: 'Cliente: ${budget.client!.name}',
+                                style: textStyleMediumDefault),
                           ),
                         ],
                       ),
@@ -215,9 +213,10 @@ class _ShareDocState extends State<ShareDoc> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Contatos:',
-                                style: textStyleSmallFontWeight,
+                              RichText(
+                                text: const TextSpan(
+                                    text: 'Contatos',
+                                    style: textStyleMediumFontWeight),
                               ),
                               Padding(
                                 padding:
@@ -226,20 +225,37 @@ class _ShareDocState extends State<ShareDoc> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Cel: ${budget.client?.contact?.cellPhone ?? ''}',
-                                      style: textStyleSmallDefault,
+                                    RichText(
+                                      text: TextSpan(
+                                        text:
+                                            'Cel: ${budget.client?.contact?.cellPhone ?? ''}',
+                                        style: textStyleMediumDefault,
+                                      ),
                                     ),
-                                    Text(
-                                      'Tel: ${budget.client?.contact?.telePhone ?? ''}',
-                                      style: textStyleSmallDefault,
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Flexible(
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: RichText(
+                                          text: TextSpan(
+                                            text:
+                                                'Tel: ${budget.client?.contact?.telePhone ?? ''}',
+                                            style: textStyleMediumDefault,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Text(
-                                'E-mail: ${budget.client?.contact?.email ?? ''}',
-                                style: textStyleSmallDefault,
+                              RichText(
+                                text: TextSpan(
+                                  text:
+                                      'E-mail: ${budget.client?.contact?.email ?? ''}',
+                                  style: textStyleMediumDefault,
+                                ),
                               ),
                             ],
                           ),
@@ -250,25 +266,31 @@ class _ShareDocState extends State<ShareDoc> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Endereço: ',
-                              style: textStyleSmallFontWeight,
+                            RichText(
+                              text: const TextSpan(
+                                text: 'Endereço',
+                                style: textStyleMediumFontWeight,
+                              ),
                             ),
-                            Text(
-                              'Endereço: ${budget.client?.address?.streetAddress}, ${budget.client?.address?.numberAddress}',
-                              style: textStyleSmallDefault,
+                            RichText(
+                              text: TextSpan(
+                                text:
+                                    'Bairro: ${budget.client?.address?.district}',
+                                style: textStyleMediumDefault,
+                              ),
                             ),
-                            Text(
-                              'Bairro: ${budget.client?.address?.district}',
-                              style: textStyleSmallDefault,
+                            RichText(
+                              text: TextSpan(
+                                text:
+                                    'Localidade: ${budget.client?.address?.city} - ${budget.client?.address?.state}',
+                                style: textStyleMediumDefault,
+                              ),
                             ),
-                            Text(
-                              'Localidade: ${budget.client?.address?.city} - ${budget.client?.address?.state}',
-                              style: textStyleSmallDefault,
-                            ),
-                            Text(
-                              'CEP: ${budget.client?.address?.cep}',
-                              style: textStyleSmallDefault,
+                            RichText(
+                              text: TextSpan(
+                                text: 'CEP: ${budget.client?.address?.cep}',
+                                style: textStyleMediumDefault,
+                              ),
                             ),
                           ],
                         ),
@@ -302,63 +324,87 @@ class _ShareDocState extends State<ShareDoc> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text(
-                            'Total de Produtos: ',
-                            style: textStyleSmallFontWeight,
-                          ),
-                          Text(
-                            UtilsService.moneyToCurrency(totalProduct),
-                            style: TextStyle(
-                              fontSize: textStyleSmallDefault.fontSize,
-                              fontFamily: 'Anta',
+                          RichText(
+                            text: const TextSpan(
+                              text: 'Total de Produtos: ',
+                              style: textStyleMediumFontWeight,
                             ),
-                          )
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: UtilsService.moneyToCurrency(totalProduct),
+                              style: TextStyle(
+                                fontSize: textStyleMediumDefault.fontSize,
+                                fontFamily: 'Anta',
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text(
-                            'Total de Serviços: ',
-                            style: textStyleSmallFontWeight,
-                          ),
-                          Text(
-                            UtilsService.moneyToCurrency(totalService),
-                            style: TextStyle(
-                              fontSize: textStyleSmallDefault.fontSize,
-                              fontFamily: 'Anta',
+                          RichText(
+                            text: const TextSpan(
+                              text: 'Total de Serviços: ',
+                              style: textStyleMediumFontWeight,
                             ),
-                          )
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: UtilsService.moneyToCurrency(totalService),
+                              style: TextStyle(
+                                fontSize: textStyleMediumDefault.fontSize,
+                                fontFamily: 'Anta',
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text(
-                            'Frete: ',
-                            style: textStyleSmallFontWeight,
-                          ),
-                          Text(
-                            UtilsService.moneyToCurrency(budget.freight ?? 0),
-                            style: TextStyle(
-                              fontSize: textStyleSmallDefault.fontSize,
-                              fontFamily: 'Anta',
+                          RichText(
+                            text: const TextSpan(
+                              text: 'Frete: ',
+                              style: textStyleMediumFontWeight,
                             ),
-                          )
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: UtilsService.moneyToCurrency(
+                                  budget.freight ?? 0),
+                              style: TextStyle(
+                                fontSize: textStyleMediumDefault.fontSize,
+                                fontFamily: 'Anta',
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text('Valor Total: ',
-                              style: textStyleSmallFontWeight),
-                          Text(
-                            UtilsService.moneyToCurrency(budget.amount!),
-                            style: TextStyle(
-                              fontSize: textStyleSmallDefault.fontSize,
-                              fontFamily: 'Anta',
+                          RichText(
+                            text: const TextSpan(
+                              text: 'Valor Total: ',
+                              style: textStyleMediumFontWeight,
                             ),
-                          )
+                          ),
+                          RichText(
+                            text: TextSpan(
+                              text: UtilsService.moneyToCurrency(
+                                  budget.amount ?? 0),
+                              style: TextStyle(
+                                fontSize: textStyleMediumDefault.fontSize,
+                                fontFamily: 'Anta',
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -367,15 +413,19 @@ class _ShareDocState extends State<ShareDoc> {
                 const Divider(),
                 Row(
                   children: [
-                    const Text(
-                      'Situação atual: ',
-                      style: textStyleSmallFontWeight,
+                    RichText(
+                      text: const TextSpan(
+                        text: 'Situação atual: ',
+                        style: textStyleMediumFontWeight,
+                      ),
                     ),
-                    Text(
-                      budget.status! == 'Em aberto'
-                          ? 'Aguardando aprovação'
-                          : budget.status!,
-                      style: textStyleSmallDefault,
+                    RichText(
+                      text: TextSpan(
+                        text: budget.status! == 'Em aberto'
+                            ? 'Aguardando aprovação'
+                            : budget.status!,
+                        style: textStyleMediumDefault,
+                      ),
                     ),
                   ],
                 ),
@@ -383,16 +433,20 @@ class _ShareDocState extends State<ShareDoc> {
                   visible: budget.approvalDate != null,
                   child: Row(
                     children: [
-                      const Text(
-                        'Data de aprovação: ',
-                        style: textStyleSmallFontWeight,
+                      RichText(
+                        text: const TextSpan(
+                          text: 'Data de aprovação: ',
+                          style: textStyleMediumFontWeight,
+                        ),
                       ),
-                      Flexible(
+                      Expanded(
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
-                          child: Text(
-                            approvalDate,
-                            style: textStyleSmallDefault,
+                          child: RichText(
+                            text: TextSpan(
+                              text: approvalDate,
+                              style: textStyleMediumDefault,
+                            ),
                           ),
                         ),
                       ),
@@ -401,19 +455,23 @@ class _ShareDocState extends State<ShareDoc> {
                 ),
                 Row(
                   children: [
-                    const Text(
-                      'Previsão de entrega: ',
-                      style: textStyleSmallFontWeight,
+                    RichText(
+                      text: const TextSpan(
+                        text: 'Previsão de entrega: ',
+                        style: textStyleMediumFontWeight,
+                      ),
                     ),
                     Flexible(
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
-                        child: Text(
-                          budget.status! == 'Em aberto'
-                              ? '${totalTerm + 1} dias uteis após aprovação'
-                              : UtilsService.dateFormatText(
-                                  expectedDeliveryDate!),
-                          style: textStyleSmallDefault,
+                        child: RichText(
+                          text: TextSpan(
+                            text: budget.status! == 'Em aberto'
+                                ? '${totalTerm + 1} dias uteis após aprovação'
+                                : UtilsService.dateFormatText(
+                                    expectedDeliveryDate!),
+                            style: textStyleMediumDefault,
+                          ),
                         ),
                       ),
                     ),
@@ -421,14 +479,18 @@ class _ShareDocState extends State<ShareDoc> {
                 ),
                 Row(
                   children: [
-                    const Text(
-                      'Forma de Pagamento: ',
-                      style: textStyleSmallFontWeight,
+                    RichText(
+                      text: const TextSpan(
+                        text: 'Forma de Pagamento: ',
+                        style: textStyleMediumFontWeight,
+                      ),
                     ),
                     Flexible(
-                      child: Text(
-                        budget.payment!.specie,
-                        style: textStyleSmallDefault,
+                      child: RichText(
+                        text: TextSpan(
+                          text: budget.payment!.specie,
+                          style: textStyleMediumDefault,
+                        ),
                       ),
                     ),
                   ],
