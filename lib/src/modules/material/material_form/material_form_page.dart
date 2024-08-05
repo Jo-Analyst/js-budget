@@ -247,23 +247,24 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         items: !isChecked
                             ? <String>[
                                 'Caixa',
-                                'Centímetro (cm)',
-                                'Centímetro quadrado (cm²)',
-                                'Centímetro cúbico (cm³)',
-                                'Grama (g)',
-                                'Metro (m)',
-                                'Metro quadrado (m²)',
-                                'Metro cúbico (m³)',
-                                'Milímetro (mm)',
-                                'Milímetro quadrado (mm²)',
-                                'Milímetro cúbico (mm³)',
+                                'Centímetro(cm)',
+                                'Centímetro quad.(cm²)',
+                                'Centímetro cúbico(cm³)',
+                                'Grama(g)',
+                                'Metro(m)',
+                                'Metro quadrado(m²)',
+                                'Metro cúbico(m³)',
+                                'Milímetro(mm)',
+                                'Milímetro quad.(mm²)',
+                                'Milímetro cúbico(mm³)',
                                 'Pacote',
-                                'Quilograma (kg)',
+                                'Quilograma(kg)',
                                 'Unidade',
                               ].map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: FlexibleText(
+                                    maxFontSize: 15,
                                     text: value,
                                   ),
                                 );
