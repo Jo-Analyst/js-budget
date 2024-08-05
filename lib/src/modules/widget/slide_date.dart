@@ -53,14 +53,19 @@ class _SlideDateState extends State<SlideDate> {
             size: 30,
           ),
         ),
-        Text.rich(
-          TextSpan(children: [
-            TextSpan(text: '${date[_indexMonth]} de '),
-            TextSpan(
-              text: '$_year',
-              style: const TextStyle(fontFamily: 'Anta'),
+        Flexible(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text.rich(
+              TextSpan(children: [
+                TextSpan(text: '${date[_indexMonth]} de '),
+                TextSpan(
+                  text: '$_year',
+                  style: const TextStyle(fontFamily: 'Anta'),
+                ),
+              ], style: textStyleLargeDefault),
             ),
-          ], style: textStyleLargeDefault),
+          ),
         ),
         IconButton(
           onPressed: isDateCurrency

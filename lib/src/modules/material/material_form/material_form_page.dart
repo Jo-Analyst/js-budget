@@ -7,6 +7,7 @@ import 'package:js_budget/src/modules/material/material_form/material_form_contr
 import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -241,7 +242,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         value: unit,
                         decoration: const InputDecoration(
                           labelText: 'Unidade de medida',
-                          suffixIcon: Icon(Icons.square_foot_sharp),
+                          // suffixIcon: Icon(Icons.square_foot_sharp),
                         ),
                         items: !isChecked
                             ? <String>[
@@ -262,13 +263,17 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                               ].map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: FlexibleText(
+                                    text: value,
+                                  ),
                                 );
                               }).toList()
                             : [unit].map((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
-                                  child: Text(value),
+                                  child: FlexibleText(
+                                    text: value,
+                                  ),
                                 );
                               }).toList(),
                         onChanged: (value) {

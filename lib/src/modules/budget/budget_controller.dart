@@ -7,6 +7,7 @@ import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/repositories/budget/transform_budget_json.dart';
+import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals.dart';
 
 import 'package:js_budget/src/models/budget_model.dart';
@@ -76,7 +77,11 @@ class BudgetController with Messages {
     List<BudgetModel> budgets = [];
 
     for (var dt in data) {
-      if (dt.createdAt!.toLowerCase().contains(date.toLowerCase())) {
+      final (year, month, day, _, _) = UtilsService.extractDate(dt.createdAt!);
+      final dataCreatedAt =
+          UtilsService.dateFormatText(DateTime(year, month, day));
+
+      if (dataCreatedAt.toLowerCase().contains(date.toLowerCase())) {
         budgets.add(dt);
       }
     }

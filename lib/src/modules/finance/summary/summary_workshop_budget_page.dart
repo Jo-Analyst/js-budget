@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class SummaryWorkshopBudgetPage extends StatelessWidget {
@@ -27,11 +28,11 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 15, top: 10),
-            child: Text(
-              'Matérias primas',
-              style: textStyleMediumFontWeight,
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 10),
+            child: FlexibleText(
+              text: 'Matérias primas',
+              fontWeight: textStyleMediumFontWeight.fontWeight,
             ),
           ),
           Flexible(
@@ -49,23 +50,18 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                                   Icons.build,
                                   size: 25,
                                 ),
-                                title: Text(
-                                  item.material.name,
-                                  style: textStyleMediumDefault,
+                                title: FlexibleText(
+                                  text: item.material.name,
                                 ),
-                                subtitle: Text(
-                                  '${item.quantity}x ${UtilsService.moneyToCurrency((item.value / item.quantity))}',
-                                  style: TextStyle(
-                                    fontFamily: 'Anta',
-                                    fontSize: textStyleMediumDefault.fontSize,
-                                  ),
+                                subtitle: FlexibleText(
+                                  text:
+                                      '${item.quantity}x ${UtilsService.moneyToCurrency((item.value / item.quantity))}',
+                                  fontFamily: 'Anta',
                                 ),
-                                trailing: Text(
-                                  UtilsService.moneyToCurrency(item.value),
-                                  style: TextStyle(
-                                    fontFamily: 'Anta',
-                                    fontSize: textStyleMediumDefault.fontSize,
-                                  ),
+                                trailing: FlexibleText(
+                                  text:
+                                      UtilsService.moneyToCurrency(item.value),
+                                  fontFamily: 'Anta',
                                 ),
                               ),
                               const Divider(height: 0)
@@ -78,11 +74,11 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
           ),
 
           Divider(thickness: 16, color: Theme.of(context).primaryColor),
-          const Padding(
-            padding: EdgeInsets.only(left: 15, top: 10),
-            child: Text(
-              'Custos Indiretos',
-              style: textStyleMediumFontWeight,
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 10),
+            child: FlexibleText(
+              text: 'Custos Indiretos',
+              fontWeight: textStyleMediumFontWeight.fontWeight,
             ),
           ),
 
@@ -103,24 +99,18 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                                 Icons.monetization_on_outlined,
                                 size: 30,
                               ),
-                              title: Text(
-                                expense.type,
-                                style: textStyleMediumDefault,
+                              title: FlexibleText(
+                                text: expense.type,
                               ),
-                              subtitle: Text(
-                                '${totalTerm}x ${UtilsService.moneyToCurrency(expense.dividedValue)}',
-                                style: TextStyle(
-                                  fontFamily: 'Anta',
-                                  fontSize: textStyleMediumDefault.fontSize,
-                                ),
+                              subtitle: FlexibleText(
+                                text:
+                                    '${totalTerm}x ${UtilsService.moneyToCurrency(expense.dividedValue)}',
+                                fontFamily: 'Anta',
                               ),
-                              trailing: Text(
-                                UtilsService.moneyToCurrency(
+                              trailing: FlexibleText(
+                                text: UtilsService.moneyToCurrency(
                                     (totalTerm * expense.dividedValue)),
-                                style: TextStyle(
-                                  fontFamily: 'Anta',
-                                  fontSize: textStyleMediumDefault.fontSize,
-                                ),
+                                fontFamily: 'Anta',
                               ),
                             ),
                             const Divider(height: 0)
@@ -141,18 +131,19 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  'Margem de Lucros',
-                  style: textStyleMediumFontWeight,
+                Flexible(
+                  child: FlexibleText(
+                    text: 'Margem de Lucros',
+                    fontWeight: textStyleMediumFontWeight.fontWeight,
+                  ),
                 ),
-                Text(
-                  UtilsService.moneyToCurrency(
-                      budgetController.profitMargin.value),
-                  style: TextStyle(
+                Flexible(
+                  child: FlexibleText(
+                    text: UtilsService.moneyToCurrency(
+                        budgetController.profitMargin.value),
                     fontFamily: 'Anta',
                     fontWeight: textStyleMediumFontWeight.fontWeight,
-                    fontSize: 23,
-                    color: Colors.green,
+                    maxFontSize: 20,
                   ),
                 ),
               ],
