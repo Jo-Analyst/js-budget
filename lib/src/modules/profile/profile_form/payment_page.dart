@@ -4,6 +4,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -92,117 +93,96 @@ class _PaymentPageState extends State<PaymentPage> {
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 vertical: 10,
+                                horizontal: 15,
                               ),
                               child: Column(
                                 // crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text.rich(
-                                    TextSpan(
-                                      children: [
-                                        const TextSpan(
-                                          text: 'Pedido: ',
-                                          style: textStyleMediumFontWeight,
-                                        ),
-                                        TextSpan(
-                                          text: budget.orderId!
-                                              .toString()
-                                              .padLeft(5, '0'),
-                                          style: textStyleMediumDefault,
-                                        ),
-                                      ],
-                                    ),
+                                  Row(
+                                    children: [
+                                      FlexibleText(
+                                        text: 'Pedido:',
+                                        fontWeight: textStyleMediumFontWeight
+                                            .fontWeight,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
+                                      ),
+                                      FlexibleText(
+                                        text: budget.orderId!
+                                            .toString()
+                                            .padLeft(5, '0'),
+                                      ),
+                                    ],
                                   ),
                                   const Divider(),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(budget.client!.name.toUpperCase(),
-                                            style: textStyleMediumFontWeight),
-                                        Text(
-                                          budget.payment!.amountPaid <
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: FlexibleText(
+                                          text:
+                                              budget.client!.name.toUpperCase(),
+                                          fontWeight: textStyleMediumFontWeight
+                                              .fontWeight,
+                                        ),
+                                      ),
+                                      Flexible(
+                                        child: FlexibleText(
+                                          text: budget.payment!.amountPaid <
                                                   budget.payment!.amountToPay
                                               ? 'À receber'
                                               : 'Pago',
-                                          style: textStyleMediumFontWeight,
+                                          fontWeight: textStyleMediumFontWeight
+                                              .fontWeight,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(height: 5),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Quan. paga',
-                                          style: TextStyle(
-                                            fontFamily:
-                                                textStyleMediumFontWeight
-                                                    .fontFamily,
-                                            fontSize: textStyleMediumFontWeight
-                                                .fontSize,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Flexible(
+                                        child: FlexibleText(
+                                          text: 'Quan. paga',
+                                          fontWeight: FontWeight.w600,
                                         ),
-                                        Text(
-                                          UtilsService.moneyToCurrency(
-                                              budget.payment!.amountPaid),
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            fontSize:
-                                                textStyleMediumDefault.fontSize,
-                                            fontWeight:
-                                                textStyleMediumFontWeight
-                                                    .fontWeight,
-                                            color: const Color.fromARGB(
-                                                255, 33, 82, 35),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      FlexibleText(
+                                        text: UtilsService.moneyToCurrency(
+                                            budget.payment!.amountPaid),
+                                        fontFamily: 'Anta',
+                                        fontWeight: textStyleMediumFontWeight
+                                            .fontWeight,
+                                        colorText: const Color.fromARGB(
+                                            255, 33, 82, 35),
+                                      ),
+                                    ],
                                   ),
                                   const SizedBox(height: 5),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'Quan. a pagar',
-                                          style: TextStyle(
-                                            fontFamily:
-                                                textStyleMediumFontWeight
-                                                    .fontFamily,
-                                            fontSize: textStyleMediumFontWeight
-                                                .fontSize,
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const Flexible(
+                                        child: FlexibleText(
+                                          text: 'Quan. a pagar',
+                                          fontWeight: FontWeight.w600,
                                         ),
-                                        Text(
-                                          UtilsService.moneyToCurrency(
-                                              budget.payment!.amountToPay),
-                                          style: TextStyle(
-                                            fontFamily: 'Anta',
-                                            color: const Color.fromARGB(
-                                                255, 31, 71, 103),
-                                            fontSize:
-                                                textStyleMediumDefault.fontSize,
-                                            fontWeight:
-                                                textStyleMediumFontWeight
-                                                    .fontWeight,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                      ),
+                                      FlexibleText(
+                                        text: UtilsService.moneyToCurrency(
+                                            budget.payment!.amountToPay),
+                                        fontFamily: 'Anta',
+                                        fontWeight: textStyleMediumFontWeight
+                                            .fontWeight,
+                                        colorText: const Color.fromARGB(
+                                            255, 33, 82, 35),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),

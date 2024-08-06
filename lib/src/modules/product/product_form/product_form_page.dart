@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/modules/product/product_controller.dart';
 import 'package:js_budget/src/modules/product/product_form/product_form_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:validatorless/validatorless.dart';
 
 class ProductFormPage extends StatefulWidget {
@@ -109,27 +110,29 @@ class _ProductFormPageState extends State<ProductFormPage>
                         value: unit,
                         decoration: const InputDecoration(
                           labelText: 'Unidade',
-                          suffixIcon: Icon(Icons.square_foot_sharp),
                         ),
                         items: <String>[
                           'Caixa',
-                          'Centímetro (cm)',
-                          'Centímetro quadrado (cm²)',
-                          'Centímetro cúbico (cm³)',
-                          'Grama (g)',
-                          'Metro (m)',
-                          'Metro quadrado (m²)',
-                          'Metro cúbico (m³)',
-                          'Milímetro (mm)',
-                          'Milímetro quadrado (mm²)',
-                          'Milímetro cúbico (mm³)',
+                          'Centímetro(cm)',
+                          'Centímetro quad.(cm²)',
+                          'Centímetro cúbico(cm³)',
+                          'Grama(g)',
+                          'Metro(m)',
+                          'Metro quadrado(m²)',
+                          'Metro cúbico(m³)',
+                          'Milímetro(mm)',
+                          'Milímetro quad.(mm²)',
+                          'Milímetro cúbico(mm³)',
                           'Pacote',
-                          'Quilograma (kg)',
+                          'Quilograma(kg)',
                           'Unidade',
                         ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: FlexibleText(
+                              text: value,
+                              maxFontSize: 15,
+                            ),
                           );
                         }).toList(),
                         onChanged: (value) {

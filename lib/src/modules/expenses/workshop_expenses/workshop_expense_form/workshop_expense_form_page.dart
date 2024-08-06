@@ -5,6 +5,7 @@ import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expens
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_form/worshop_expense_form_controller.dart';
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -117,7 +118,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                       ].map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
-                          child: Text(value),
+                          child: FlexibleText(text: value),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -195,7 +196,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                           ].map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: FlexibleText(text: value),
                             );
                           }).toList(),
                           onChanged: (value) {

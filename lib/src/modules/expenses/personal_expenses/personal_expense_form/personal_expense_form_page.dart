@@ -6,6 +6,7 @@ import 'package:js_budget/src/modules/expenses/personal_expenses/personal_expens
 
 import 'package:js_budget/src/pages/widgets/field_date_picker.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:validatorless/validatorless.dart';
 
@@ -149,7 +150,7 @@ class _PersonalExpenseFormPageState extends State<PersonalExpenseFormPage>
                           ].map((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value),
+                              child: FlexibleText(text: value),
                             );
                           }).toList(),
                           onChanged: (value) {

@@ -7,6 +7,7 @@ import 'package:js_budget/src/modules/payment/payment_history/payment_history_co
 import 'package:js_budget/src/modules/widget/custom_icons.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -80,25 +81,32 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text.rich(
-                      TextSpan(
+                    Flexible(
+                      child: Row(
                         children: [
-                          const TextSpan(
-                            text: 'Pedido: ',
-                            style: textStyleMediumFontWeight,
+                          Flexible(
+                            child: FlexibleText(
+                              text: 'Pedido:',
+                              fontWeight: textStyleMediumFontWeight.fontWeight,
+                            ),
                           ),
-                          TextSpan(
-                            text: budgetController.model.value.orderId
-                                .toString()
-                                .padLeft(5, '0'),
-                            style: textStyleMediumDefault,
-                          ),
+                          const SizedBox(width: 5),
+                          Flexible(
+                            child: FlexibleText(
+                              text: budgetController.model.value.orderId
+                                  .toString()
+                                  .padLeft(5, '0'),
+                            ),
+                          )
                         ],
                       ),
                     ),
-                    Text(
-                      budgetController.model.value.client!.name,
-                      style: textStyleMediumFontWeight,
+                    const SizedBox(width: 5),
+                    Flexible(
+                      child: FlexibleText(
+                        text: budgetController.model.value.client!.name,
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
+                      ),
                     ),
                   ],
                 ),

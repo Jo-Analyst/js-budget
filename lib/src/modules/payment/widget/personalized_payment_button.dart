@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 
 class PersonalizedPaymentButton extends StatelessWidget {
   final IconData icon;
@@ -34,14 +35,12 @@ class PersonalizedPaymentButton extends StatelessWidget {
               size: 30,
             ),
             const SizedBox(width: 5),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: textStyleMediumDefault.fontSize,
-                fontFamily: textStyleMediumDefault.fontFamily,
-                color: color,
+            Flexible(
+              child: FlexibleText(
+                text: label,
+                colorText: color,
               ),
-            )
+            ),
           ],
         ),
       ),

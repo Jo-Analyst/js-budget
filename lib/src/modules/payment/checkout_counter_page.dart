@@ -7,6 +7,7 @@ import 'package:js_budget/src/modules/payment/payment_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
 import 'package:js_budget/src/modules/payment/widget/personalized_payment_button.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class CheckoutCounterPage extends StatefulWidget {
@@ -115,25 +116,32 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text.rich(
-                        TextSpan(
+                      Flexible(
+                        child: Row(
                           children: [
-                            const TextSpan(
-                              text: 'Pedido: ',
-                              style: textStyleMediumFontWeight,
+                            Flexible(
+                              child: FlexibleText(
+                                text: 'Pedido:',
+                                fontWeight:
+                                    textStyleMediumFontWeight.fontWeight,
+                              ),
                             ),
-                            TextSpan(
-                              text: budget.orderId.toString().padLeft(5, '0'),
-                              style: textStyleMediumDefault,
-                            ),
+                            const SizedBox(width: 5),
+                            Flexible(
+                              child: FlexibleText(
+                                text: budget.orderId.toString().padLeft(5, '0'),
+                              ),
+                            )
                           ],
                         ),
                       ),
-                      Text(
-                        budget.client!.name,
-                        style: textStyleMediumFontWeight,
+                      const SizedBox(width: 5),
+                      Flexible(
+                        child: FlexibleText(
+                          text: budget.client!.name,
+                          fontWeight: textStyleMediumFontWeight.fontWeight,
+                        ),
                       ),
                     ],
                   ),
@@ -153,22 +161,21 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                     ),
                   ),
                 ),
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      const TextSpan(
-                        text: 'Quantia a pagar: ',
-                        style: textStyleMediumFontWeight,
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: FlexibleText(
+                        text: 'Quan. a pagar',
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
                       ),
-                      TextSpan(
+                    ),
+                    Flexible(
+                      child: FlexibleText(
                         text: UtilsService.moneyToCurrency(amountToPay),
-                        style: TextStyle(
-                          fontFamily: 'Anta',
-                          fontSize: textStyleMediumDefault.fontSize,
-                        ),
+                        fontFamily: 'Anta',
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
               // TextFormField para valor pago
@@ -220,6 +227,7 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
                   color: Theme.of(context).primaryColor.withOpacity(.5),
                 ),
                 child: Text.rich(
+                  textAlign: TextAlign.center,
                   TextSpan(
                     children: [
                       TextSpan(
@@ -244,9 +252,10 @@ class _CheckoutCounterPageState extends State<CheckoutCounterPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    UtilsService.dateFormatText(dateSelected),
-                    style: textStyleMediumDefault,
+                  Flexible(
+                    child: FlexibleText(
+                      text: UtilsService.dateFormatText(dateSelected),
+                    ),
                   ),
                   const SizedBox(width: 6),
                   IconButton(

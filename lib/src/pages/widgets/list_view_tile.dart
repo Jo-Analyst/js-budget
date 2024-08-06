@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 
 enum AxisListDirection { horizontal, vertical }
 
@@ -41,23 +42,23 @@ class ListViewTile extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  children: [
-                    if (leading != null)
-                      Padding(
-                        padding: const EdgeInsets.only(right: 15),
-                        child: leading!,
+                Expanded(
+                  child: Row(
+                    children: [
+                      if (leading != null)
+                        Padding(
+                          padding: const EdgeInsets.only(right: 15),
+                          child: leading!,
+                        ),
+                      Flexible(
+                        child: FlexibleText(
+                          text: title,
+                          fontWeight: textStyleMediumFontWeight.fontWeight,
+                          colorText: textColor,
+                        ),
                       ),
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontFamily: textStyleMediumDefault.fontFamily,
-                        fontSize: textStyleMediumDefault.fontSize,
-                        fontWeight: textStyleMediumFontWeight.fontWeight,
-                        color: textColor,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 trailing ?? Container()
               ],
