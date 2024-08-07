@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 
 class CustomExpansionTileWidget extends StatefulWidget {
   final String title;
@@ -80,14 +81,10 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
               color: widget.color,
               child: ListTile(
                 leading: widget.icon,
-                title: Text(
-                  widget.title,
-                  style: TextStyle(
-                    fontFamily: textStyleMediumDefault.fontFamily,
-                    fontSize: textStyleMediumDefault.fontSize,
-                    fontWeight: FontWeight.w600,
-                    color: widget.titleColor,
-                  ),
+                title: FlexibleText(
+                  text: widget.title,
+                  fontWeight: FontWeight.w600,
+                  colorText: widget.titleColor,
                 ),
                 trailing: RotationTransition(
                   turns: Tween(begin: 0.0, end: 0.50).animate(_controller),
@@ -110,7 +107,7 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: widget.children != null
                           ? widget.children!
-                              .map((e) => Column(
+                              .map((child) => Column(
                                     children: [
                                       Container(
                                         padding: const EdgeInsets.symmetric(
@@ -127,7 +124,7 @@ class _CustomExpansionTileWidgetState extends State<CustomExpansionTileWidget>
                                                 ),
                                               )
                                             : null,
-                                        child: e,
+                                        child: child,
                                       ),
                                     ],
                                   ))

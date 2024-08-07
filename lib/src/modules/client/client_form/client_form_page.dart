@@ -9,6 +9,7 @@ import 'package:js_budget/src/modules/client/client_form/client_form_controller.
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/find_cep_controller.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/upper_case_text_formatter.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validatorless/validatorless.dart';
@@ -116,10 +117,9 @@ class _ClientFormPageState extends State<ClientFormPage>
                       children: [
                         ListTile(
                           contentPadding: EdgeInsets.zero,
-                          title: const Text(
-                            'Pessoa jurídica',
-                            style: textStyleMediumDefault,
+                          title: const FlexibleText(
                             textAlign: TextAlign.end,
+                            text: 'Pessoa jurídica',
                           ),
                           trailing: Switch(
                             value: isALegalEntity,

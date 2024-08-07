@@ -6,6 +6,7 @@ import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/pricing/pricing_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class PreviewPageForConfirmation extends StatefulWidget {
@@ -88,42 +89,39 @@ class _PreviewPageForConfirmationState
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Custos dos materiais',
-                                        style: textStyleMediumFontWeight,
+                                      FlexibleText(
+                                        text: 'Custos dos materiais',
+                                        fontWeight: textStyleMediumFontWeight
+                                            .fontWeight,
                                       ),
                                       Column(
                                         children: materialItems
                                             .map(
-                                              (item) => ListTile(
-                                                contentPadding:
-                                                    const EdgeInsets.only(
-                                                        right: 15),
-                                                leading: CircleAvatar(
-                                                  child: Text(
-                                                    '${item.quantity}x',
-                                                    style: TextStyle(
+                                              (item) => Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    child: FlexibleText(
+                                                      text: '${item.quantity}x',
                                                       fontFamily: 'Anta',
-                                                      fontSize:
-                                                          textStyleMediumDefault
-                                                              .fontSize,
                                                     ),
                                                   ),
-                                                ),
-                                                title: Text(
-                                                  item.material.name,
-                                                  style: textStyleMediumDefault,
-                                                ),
-                                                trailing: Text(
-                                                  UtilsService.moneyToCurrency(
-                                                      item.value),
-                                                  style: TextStyle(
-                                                    fontFamily: 'Anta',
-                                                    fontSize:
-                                                        textStyleMediumDefault
-                                                            .fontSize,
+                                                  const SizedBox(
+                                                    width: 5,
                                                   ),
-                                                ),
+                                                  Flexible(
+                                                    child: FlexibleText(
+                                                      text: item.material.name,
+                                                    ),
+                                                  ),
+                                                  Flexible(
+                                                    child: FlexibleText(
+                                                      text: UtilsService
+                                                          .moneyToCurrency(
+                                                              item.value),
+                                                      fontFamily: 'Anta',
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             )
                                             .toList(),
@@ -133,35 +131,36 @@ class _PreviewPageForConfirmationState
                                 ),
                                 const Divider(),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 40),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text.rich(
-                                        TextSpan(
+                                      Flexible(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            TextSpan(
-                                              text: 'Total:   ',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    textStyleMediumDefault
-                                                        .fontFamily,
-                                                fontSize: textStyleMediumDefault
-                                                    .fontSize,
-                                                fontWeight: FontWeight.bold,
+                                            Flexible(
+                                              child: FlexibleText(
+                                                text: 'Total',
+                                                fontWeight:
+                                                    textStyleMediumFontWeight
+                                                        .fontWeight,
                                               ),
                                             ),
-                                            TextSpan(
-                                              text:
-                                                  UtilsService.moneyToCurrency(
-                                                      pricingController
-                                                          .totalMaterialValue),
-                                              style: const TextStyle(
+                                            Flexible(
+                                              child: FlexibleText(
+                                                text: UtilsService
+                                                    .moneyToCurrency(
+                                                        pricingController
+                                                            .totalMaterialValue),
+                                                fontWeight:
+                                                    textStyleMediumFontWeight
+                                                        .fontWeight,
                                                 fontFamily: 'Anta',
-                                                color: Color.fromARGB(
+                                                colorText: const Color.fromARGB(
                                                     255, 56, 142, 59),
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ],
@@ -189,36 +188,32 @@ class _PreviewPageForConfirmationState
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text(
-                                        'Custos das despesas',
-                                        style: textStyleMediumFontWeight,
+                                      FlexibleText(
+                                        text: 'Custos das despesas',
+                                        fontWeight: textStyleMediumFontWeight
+                                            .fontWeight,
                                       ),
                                       Column(
                                         children: expenseItems
                                             .map(
                                               (item) => ListTile(
-                                                subtitle: Text(
-                                                  '${pricingController.term}x ${UtilsService.moneyToCurrency(item.dividedValue)}',
-                                                  style: TextStyle(
-                                                    fontFamily: 'Anta',
-                                                    fontSize:
-                                                        textStyleMediumDefault
-                                                            .fontSize,
-                                                  ),
+                                                contentPadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                subtitle: FlexibleText(
+                                                  text:
+                                                      '${pricingController.term}x ${UtilsService.moneyToCurrency(item.dividedValue)}',
+                                                  fontFamily: 'Anta',
                                                 ),
-                                                title: Text(
-                                                  item.type,
-                                                  style: textStyleMediumDefault,
+                                                title: FlexibleText(
+                                                  text: item.type,
                                                 ),
-                                                trailing: Text(
-                                                  UtilsService.moneyToCurrency(
-                                                      item.accumulatedValue),
-                                                  style: TextStyle(
-                                                    fontFamily: 'Anta',
-                                                    fontSize:
-                                                        textStyleMediumDefault
-                                                            .fontSize,
-                                                  ),
+                                                trailing: FlexibleText(
+                                                  text: UtilsService
+                                                      .moneyToCurrency(item
+                                                          .accumulatedValue),
+                                                  fontFamily: 'Anta',
+                                                  maxFontSize: 18,
                                                 ),
                                               ),
                                             )
@@ -229,35 +224,36 @@ class _PreviewPageForConfirmationState
                                 ),
                                 const Divider(),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 40),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Text.rich(
-                                        TextSpan(
+                                      Flexible(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            TextSpan(
-                                              text: 'Total:   ',
-                                              style: TextStyle(
-                                                fontFamily:
-                                                    textStyleMediumDefault
-                                                        .fontFamily,
-                                                fontSize: textStyleMediumDefault
-                                                    .fontSize,
-                                                fontWeight: FontWeight.bold,
+                                            Flexible(
+                                              child: FlexibleText(
+                                                text: 'Total',
+                                                fontWeight:
+                                                    textStyleMediumFontWeight
+                                                        .fontWeight,
                                               ),
                                             ),
-                                            TextSpan(
-                                              text:
-                                                  UtilsService.moneyToCurrency(
-                                                      pricingController
-                                                          .totalExpenseValue),
-                                              style: const TextStyle(
+                                            Flexible(
+                                              child: FlexibleText(
+                                                text: UtilsService
+                                                    .moneyToCurrency(
+                                                        pricingController
+                                                            .totalExpenseValue),
+                                                fontWeight:
+                                                    textStyleMediumFontWeight
+                                                        .fontWeight,
                                                 fontFamily: 'Anta',
-                                                color: Color.fromARGB(
+                                                colorText: const Color.fromARGB(
                                                     255, 56, 142, 59),
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                           ],
@@ -274,7 +270,9 @@ class _PreviewPageForConfirmationState
                         Card(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
+                              horizontal: 15,
+                              vertical: 10,
+                            ),
                             child: Column(
                               children: [
                                 // Desconto
@@ -285,17 +283,20 @@ class _PreviewPageForConfirmationState
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
-                                        'Desconto',
-                                        style: textStyleMediumFontWeight,
+                                      const Flexible(
+                                        child: FlexibleText(
+                                          text: 'Desconto',
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                       SizedBox(
                                         width:
                                             MediaQuery.sizeOf(context).width *
-                                                .4,
+                                                .45,
                                         child: TextFormField(
                                           decoration: const InputDecoration(
-                                              suffixIcon: Icon(Icons.edit)),
+                                            suffixIcon: Icon(Icons.local_offer),
+                                          ),
                                           textAlign: TextAlign.right,
                                           controller: discountEC,
                                           onTapOutside: (_) =>
@@ -313,60 +314,61 @@ class _PreviewPageForConfirmationState
                                 ),
                                 ListTile(
                                   contentPadding: const EdgeInsets.only(
-                                      right: 15, left: 12),
-                                  title: const Text(
-                                    'Margem de lucro',
-                                    style: textStyleMediumFontWeight,
+                                    right: 15,
+                                    left: 12,
                                   ),
-                                  trailing: Text(
-                                    UtilsService.moneyToCurrency(
+                                  title: FlexibleText(
+                                    text: 'Margem de lucro',
+                                    fontWeight:
+                                        textStyleMediumFontWeight.fontWeight,
+                                  ),
+                                  trailing: FlexibleText(
+                                    text: UtilsService.moneyToCurrency(
                                         pricingController.calcProfitMargin),
-                                    style: TextStyle(
-                                      fontFamily: 'Anta',
-                                      fontSize: textStyleLargeDefault.fontSize,
-                                      fontWeight: FontWeight.w700,
-                                      color: const Color.fromARGB(
-                                          255, 17, 79, 130),
-                                    ),
+                                    fontFamily: 'Anta',
+                                    fontWeight:
+                                        textStyleMediumFontWeight.fontWeight,
+                                    colorText:
+                                        const Color.fromARGB(255, 17, 79, 130),
                                   ),
                                 ),
                                 ListTile(
                                   contentPadding: const EdgeInsets.only(
                                       right: 15, left: 12),
-                                  title: const Text(
-                                    'Valor a cobrar',
-                                    style: textStyleMediumFontWeight,
+                                  title: FlexibleText(
+                                    text: 'Valor a cobrar',
+                                    fontWeight:
+                                        textStyleMediumFontWeight.fontWeight,
                                   ),
-                                  trailing: Text(
-                                    UtilsService.moneyToCurrency(
+                                  trailing: FlexibleText(
+                                    text: UtilsService.moneyToCurrency(
                                         amountToBeCharged),
-                                    style: TextStyle(
-                                      fontFamily: 'Anta',
-                                      fontSize: textStyleLargeDefault.fontSize,
-                                      fontWeight: FontWeight.w700,
-                                      color: const Color.fromARGB(
-                                          255, 56, 142, 59),
-                                    ),
+                                    fontFamily: 'Anta',
+                                    fontWeight:
+                                        textStyleMediumFontWeight.fontWeight,
+                                    colorText:
+                                        const Color.fromARGB(255, 56, 142, 59),
                                   ),
                                 ),
                                 SizedBox(
                                   width: double.infinity,
                                   child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            Theme.of(context).primaryColor,
-                                      ),
-                                      onPressed: () {
-                                        budgetController.subDiscount.value =
-                                            discountEC.numberValue;
-                                        pricingController.totalToBeCharged =
-                                            amountToBeCharged;
-                                        Navigator.of(context).pop(true);
-                                      },
-                                      child: const Text(
-                                        'Confirmar cobrança',
-                                        style: textStyleMediumDefault,
-                                      )),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                    ),
+                                    onPressed: () {
+                                      budgetController.subDiscount.value =
+                                          discountEC.numberValue;
+                                      pricingController.totalToBeCharged =
+                                          amountToBeCharged;
+                                      Navigator.of(context).pop(true);
+                                    },
+                                    child: const FlexibleText(
+                                      text: 'Confirmar cobrança',
+                                      colorText: Colors.black,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

@@ -11,6 +11,7 @@ import 'package:js_budget/src/modules/payment/payment_history/payment_history_co
 import 'package:js_budget/src/modules/widget/slide_date.dart';
 import 'package:js_budget/src/pages/home/widgets/finacial_last.widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/list_month.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -169,11 +170,11 @@ class _FinancePageState extends State<FinancePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text(
-                              'Gastos pessoais',
-                              style: textStyleMediumFontWeight,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: FlexibleText(
+                              text: 'Gastos pessoais',
+                              fontWeight: textStyleMediumFontWeight.fontWeight,
                             ),
                           ),
                           const Divider(),
@@ -215,11 +216,11 @@ class _FinancePageState extends State<FinancePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text(
-                              'Gastos totais da oficina',
-                              style: textStyleMediumFontWeight,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: FlexibleText(
+                              text: 'Gastos totais da oficina',
+                              fontWeight: textStyleMediumFontWeight.fontWeight,
                             ),
                           ),
                           const Divider(),
@@ -269,12 +270,14 @@ class _FinancePageState extends State<FinancePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.symmetric(
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
                               horizontal: 15,
                             ),
-                            child: Text('Balanço geral',
-                                style: textStyleMediumFontWeight),
+                            child: FlexibleText(
+                              text: 'Balanço geral',
+                              fontWeight: textStyleMediumFontWeight.fontWeight,
+                            ),
                           ),
                           const Divider(),
                           FinacialLastWidget(

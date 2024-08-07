@@ -20,7 +20,7 @@ class Modal {
                 width: 50,
                 height: 3,
               ),
-              content
+              Expanded(child: content)
             ],
           ),
         );

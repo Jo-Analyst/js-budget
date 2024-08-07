@@ -14,6 +14,7 @@ import 'package:js_budget/src/modules/widget/custom_show_dialog.dart';
 import 'package:js_budget/src/pages/menu/widgets/custom_expansion_tile.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:validatorless/validatorless.dart';
@@ -224,7 +225,7 @@ class _PricingFormPageState extends State<PricingFormPage>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(description),
+        title: FlexibleText(text: description),
       ),
       body: Column(
         children: [
@@ -322,18 +323,14 @@ class _PricingFormPageState extends State<PricingFormPage>
                                       ),
                                     ],
                                   ),
-                                  title: Text(
-                                    materialItem.material.name,
-                                    style: textStyleMediumDefault,
+                                  title: FlexibleText(
+                                    text: materialItem.material.name,
                                   ),
-                                  subtitle: Text(
-                                    UtilsService.moneyToCurrency(
+                                  subtitle: FlexibleText(
+                                    text: UtilsService.moneyToCurrency(
                                         pricingController
                                             .materialItemsBudget[index].value),
-                                    style: TextStyle(
-                                        fontFamily: 'Anta',
-                                        fontSize:
-                                            textStyleMediumDefault.fontSize),
+                                    fontFamily: 'Anta',
                                   ),
                                   trailing: IconButton(
                                     onPressed: () {
@@ -375,9 +372,8 @@ class _PricingFormPageState extends State<PricingFormPage>
                                   },
                                   leading: CustomIcons.workShopExpense(
                                       expense['type']),
-                                  title: Text(
-                                    expense['type'],
-                                    style: textStyleMediumDefault,
+                                  title: FlexibleText(
+                                    text: expense['type'],
                                   ),
                                   trailing: Icon(
                                     expense['isChecked']
@@ -616,11 +612,13 @@ class _PricingFormPageState extends State<PricingFormPage>
                                               FocusScope.of(context).unfocus(),
                                           controller: termEC,
                                           decoration: InputDecoration(
-                                              labelText: 'Prazo*',
-                                              labelStyle:
-                                                  textStyleMediumDefault,
-                                              suffix: Text(
-                                                  '${pricingController.timeIncentive}(s)')),
+                                            labelText: 'Prazo*',
+                                            labelStyle: textStyleMediumDefault,
+                                            suffix: FlexibleText(
+                                              text:
+                                                  '${pricingController.timeIncentive}(s)',
+                                            ),
+                                          ),
                                           style: textStyleMediumDefault,
                                           keyboardType: TextInputType.number,
                                           inputFormatters: [
@@ -651,7 +649,7 @@ class _PricingFormPageState extends State<PricingFormPage>
                                               .map((String value) {
                                             return DropdownMenuItem<String>(
                                               value: value,
-                                              child: Text(value),
+                                              child: FlexibleText(text: value),
                                             );
                                           }).toList(),
                                           onChanged: (value) {

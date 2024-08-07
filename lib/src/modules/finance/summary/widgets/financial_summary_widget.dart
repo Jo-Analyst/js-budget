@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class FinancialSummaryWidget extends StatelessWidget {
@@ -21,20 +22,18 @@ class FinancialSummaryWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontFamily: textStyleMediumDefault.fontFamily,
-            fontSize: textStyleMediumDefault.fontSize,
+        Flexible(
+          child: FlexibleText(
+            text: title,
             fontWeight: FontWeight.w600,
           ),
         ),
-        Text(
-          UtilsService.moneyToCurrency(value),
-          style: TextStyle(
+        Flexible(
+          child: FlexibleText(
+            text: UtilsService.moneyToCurrency(value),
             fontFamily: 'Anta',
-            fontSize: 23,
-            color: color,
+            maxFontSize: 23,
+            colorText: color,
           ),
         ),
       ],

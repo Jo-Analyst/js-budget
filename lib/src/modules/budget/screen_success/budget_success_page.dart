@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 
 class BudgetSuccessPage extends StatelessWidget {
   const BudgetSuccessPage({super.key});
@@ -66,23 +67,16 @@ class BudgetSuccessPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: ListTile(
-                  title: Text(
-                    'Pedido ${budget.orderId!.toString().padLeft(5, '0')}',
-                    style: TextStyle(
-                      fontSize: textStyleMediumFontWeight.fontSize,
-                      fontFamily: textStyleMediumFontWeight.fontFamily,
-                      fontWeight: textStyleMediumFontWeight.fontWeight,
-                      color: Colors.white,
-                    ),
+                  title: FlexibleText(
+                    text:
+                        'Pedido ${budget.orderId!.toString().padLeft(5, '0')}',
+                    fontWeight: textStyleMediumFontWeight.fontWeight,
+                    colorText: Colors.white,
                   ),
-                  subtitle: Text(
-                    budget.client!.name,
-                    style: TextStyle(
-                      fontSize: textStyleMediumFontWeight.fontSize,
-                      fontFamily: textStyleMediumFontWeight.fontFamily,
-                      fontWeight: textStyleMediumFontWeight.fontWeight,
-                      color: const Color.fromARGB(255, 175, 172, 172),
-                    ),
+                  subtitle: FlexibleText(
+                    text: budget.client!.name,
+                    fontWeight: textStyleMediumFontWeight.fontWeight,
+                    colorText: const Color.fromARGB(255, 175, 172, 172),
                   ),
                   trailing: IconButton(
                     onPressed: () async {

@@ -8,6 +8,7 @@ class FlexibleText extends StatelessWidget {
   final FontWeight? fontWeight;
   final Color? colorText;
   final String? fontFamily;
+  final TextAlign? textAlign;
 
   const FlexibleText({
     super.key,
@@ -17,6 +18,7 @@ class FlexibleText extends StatelessWidget {
     this.fontWeight,
     this.colorText,
     this.fontFamily,
+    this.textAlign,
   });
 
   @override
@@ -53,6 +55,7 @@ class FlexibleText extends StatelessWidget {
 
         return AutoSizeText(
           text,
+          textAlign: textAlign,
           style: TextStyle(
             fontSize: fontSize,
             fontFamily: fontFamily ?? 'Poppins',

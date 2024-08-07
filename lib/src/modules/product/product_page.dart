@@ -3,6 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/product_model.dart';
 import 'package:js_budget/src/modules/product/product_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:signals/signals_flutter.dart';
 
 class ProductPage extends StatefulWidget {
@@ -146,6 +147,7 @@ class _ProductPageState extends State<ProductPage> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhum produto encontrado',
+                          textAlign: TextAlign.center,
                           style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
@@ -164,9 +166,8 @@ class _ProductPageState extends State<ProductPage> {
                               Icons.add,
                               color: Colors.black,
                             ),
-                            label: const Text(
-                              'Adicionar produto',
-                              style: textStyleMediumDefault,
+                            label: const FlexibleText(
+                              text: 'Adicionar produto',
                             ),
                           ),
                         ),
@@ -209,13 +210,11 @@ class _ProductPageState extends State<ProductPage> {
                                     selectedTileColor: theme.primaryColor,
                                     selectedColor: Colors.black54,
                                     leading: const Icon(Icons.local_offer),
-                                    title: Text(
-                                      product.name,
-                                      style: textStyleMediumDefault,
+                                    title: FlexibleText(
+                                      text: product.name,
                                     ),
-                                    subtitle: Text(
-                                      product.unit,
-                                      style: textStyleMediumDefault,
+                                    subtitle: FlexibleText(
+                                      text: product.unit,
                                     ),
                                   ),
                                   const Divider(),

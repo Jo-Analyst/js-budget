@@ -14,6 +14,7 @@ import 'package:js_budget/src/pages/home/widgets/show_modal_widget.dart';
 import 'package:js_budget/src/pages/widgets/list_view_tile.dart';
 import 'package:js_budget/src/pages/widgets/custom_list_tile_icon.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class BudgetPage extends StatefulWidget {
@@ -188,8 +189,11 @@ class _BudgetPageState extends State<BudgetPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Produto(s)',
-                                  style: textStyleMediumFontWeight),
+                              FlexibleText(
+                                text: 'Produto(s)',
+                                fontWeight:
+                                    textStyleMediumFontWeight.fontWeight,
+                              ),
                               ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
@@ -207,19 +211,14 @@ class _BudgetPageState extends State<BudgetPage> {
                                           radius: 30,
                                           child: FittedBox(
                                             fit: BoxFit.scaleDown,
-                                            child: Text(
-                                              '${product!.quantity}x',
-                                              style: TextStyle(
-                                                fontSize: textStyleMediumDefault
-                                                    .fontSize,
-                                                fontFamily: 'Anta',
-                                              ),
+                                            child: FlexibleText(
+                                              text: '${product!.quantity}x',
+                                              fontFamily: 'Anta',
                                             ),
                                           ),
                                         ),
-                                        title: Text(
-                                          product.name,
-                                          style: textStyleMediumDefault,
+                                        title: FlexibleText(
+                                          text: product.name,
                                         ),
                                         subtitle: itemBudgetController
                                                     .data[index].subValue >
@@ -335,9 +334,8 @@ class _BudgetPageState extends State<BudgetPage> {
                                   children: [
                                     ListTile(
                                       contentPadding: EdgeInsets.zero,
-                                      title: Text(
-                                        itemBudget.service!.description,
-                                        style: textStyleMediumDefault,
+                                      title: FlexibleText(
+                                        text: itemBudget.service!.description,
                                       ),
                                       leading: CircleAvatar(
                                         radius: 30,
@@ -457,9 +455,12 @@ class _BudgetPageState extends State<BudgetPage> {
                           ),
                           child: Row(
                             children: [
-                              const Text(
-                                'Número de Parcelas',
-                                style: textStyleMediumFontWeight,
+                              Flexible(
+                                child: FlexibleText(
+                                  text: 'Número de Parcelas',
+                                  fontWeight:
+                                      textStyleMediumFontWeight.fontWeight,
+                                ),
                               ),
                               const SizedBox(
                                 width: 15,
@@ -505,43 +506,33 @@ class _BudgetPageState extends State<BudgetPage> {
                 children: [
                   Visibility(
                     visible: itemBudgetController.data
-                            .any((itemBudget) => itemBudget.product != null) &&
-                        itemBudgetController.data
-                            .any((itemBudget) => itemBudget.service != null),
+                        .any((itemBudget) => itemBudget.product != null),
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text(
-                        'Preço dos produtos',
-                        style: textStyleMediumFontWeight,
+                      title: FlexibleText(
+                        text: 'Preço dos produtos',
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
                       ),
-                      trailing: Text(
-                        UtilsService.moneyToCurrency(valueTotalProduct),
-                        style: const TextStyle(
-                          fontFamily: 'Anta',
-                          fontSize: 23,
-                          color: Color.fromARGB(255, 24, 113, 185),
-                        ),
+                      trailing: FlexibleText(
+                        text: UtilsService.moneyToCurrency(valueTotalProduct),
+                        fontFamily: 'Anta',
+                        colorText: const Color.fromARGB(255, 24, 113, 185),
                       ),
                     ),
                   ),
                   Visibility(
                     visible: itemBudgetController.data
-                            .any((itemBudget) => itemBudget.product != null) &&
-                        itemBudgetController.data
-                            .any((itemBudget) => itemBudget.service != null),
+                        .any((itemBudget) => itemBudget.service != null),
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text(
-                        'Preço dos serviços',
-                        style: textStyleMediumFontWeight,
+                      title: FlexibleText(
+                        text: 'Preço dos serviços',
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
                       ),
-                      trailing: Text(
-                        UtilsService.moneyToCurrency(sumPriceService()),
-                        style: const TextStyle(
-                          fontFamily: 'Anta',
-                          fontSize: 23,
-                          color: Color.fromARGB(255, 24, 113, 185),
-                        ),
+                      trailing: FlexibleText(
+                        text: UtilsService.moneyToCurrency(sumPriceService()),
+                        fontFamily: 'Anta',
+                        colorText: const Color.fromARGB(255, 24, 113, 185),
                       ),
                     ),
                   ),
@@ -550,36 +541,48 @@ class _BudgetPageState extends State<BudgetPage> {
                         .any((itemBudget) => itemBudget.product != null),
                     child: ListTile(
                       contentPadding: EdgeInsets.zero,
-                      title: const Text(
-                        'Total do desconto',
-                        style: textStyleMediumFontWeight,
+                      title: FlexibleText(
+                        text: 'Total do desconto',
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
                       ),
-                      trailing: Text(
-                        UtilsService.moneyToCurrency(
+                      trailing: FlexibleText(
+                        text: UtilsService.moneyToCurrency(
                             budgetController.totalDiscount.value),
-                        style: const TextStyle(
-                          fontFamily: 'Anta',
-                          fontSize: 23,
-                          fontWeight: FontWeight.w700,
-                          color: Color.fromARGB(255, 20, 87, 143),
-                        ),
+                        fontFamily: 'Anta',
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
+                        colorText: const Color.fromARGB(255, 20, 87, 143),
+                      ),
+                    ),
+                  ),
+                  Visibility(
+                    visible: itemBudgetController.data
+                        .any((itemBudget) => itemBudget.product != null),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: FlexibleText(
+                        text: 'Total Frete',
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
+                      ),
+                      trailing: FlexibleText(
+                        text:
+                            UtilsService.moneyToCurrency(freightEC.numberValue),
+                        fontFamily: 'Anta',
+                        fontWeight: textStyleMediumFontWeight.fontWeight,
+                        colorText: const Color.fromARGB(255, 20, 87, 143),
                       ),
                     ),
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    title: const Text(
-                      'Valor a cobrar',
-                      style: textStyleMediumFontWeight,
+                    title: FlexibleText(
+                      text: 'Valor a cobrar',
+                      fontWeight: textStyleMediumFontWeight.fontWeight,
                     ),
-                    trailing: Text(
-                      UtilsService.moneyToCurrency(valueTotalBudget),
-                      style: const TextStyle(
-                        fontFamily: 'Anta',
-                        fontSize: 23,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.green,
-                      ),
+                    trailing: FlexibleText(
+                      text: UtilsService.moneyToCurrency(valueTotalBudget),
+                      fontFamily: 'Anta',
+                      fontWeight: textStyleMediumFontWeight.fontWeight,
+                      colorText: Colors.green,
                     ),
                   ),
                 ],

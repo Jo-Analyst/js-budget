@@ -4,6 +4,7 @@ import 'package:js_budget/src/models/order_model.dart';
 import 'package:js_budget/src/modules/material/widget/show_confirmation_dialog.dart';
 import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class OrderPage extends StatefulWidget {
@@ -82,9 +83,8 @@ class _OrderPageState extends State<OrderPage> {
                                   .primary
                                   .withOpacity(.7),
                             ),
-                            const Text(
-                              'Não há nenhum pedido.',
-                              style: textStyleMediumDefault,
+                            const FlexibleText(
+                              text: 'Não há nenhum pedido.',
                             ),
                           ],
                         ),
@@ -138,13 +138,19 @@ class _OrderPageState extends State<OrderPage> {
                                   child: Column(
                                     children: [
                                       ListTile(
-                                        leading: Text(
-                                          order.id.toString().padLeft(5, '0'),
-                                          style: textStyleMediumFontWeight,
+                                        leading: FlexibleText(
+                                          text: order.id
+                                              .toString()
+                                              .padLeft(5, '0'),
+                                          fontWeight: textStyleMediumFontWeight
+                                              .fontWeight,
+                                          fontFamily: 'Anta',
                                         ),
-                                        title: Text(
-                                          '-   ${order.client.name.split(' ').first}${order.client.name.split(' ').length > 1 ? ' ${order.client.name.split(' ').last}' : ''}',
-                                          style: textStyleMediumFontWeight,
+                                        title: FlexibleText(
+                                          text:
+                                              '-   ${order.client.name.split(' ').first}${order.client.name.split(' ').length > 1 ? ' ${order.client.name.split(' ').last}' : ''}',
+                                          fontWeight: textStyleMediumFontWeight
+                                              .fontWeight,
                                         ),
                                       ),
                                       Divider(
@@ -157,9 +163,9 @@ class _OrderPageState extends State<OrderPage> {
                                         contentPadding:
                                             const EdgeInsets.symmetric(
                                                 horizontal: 15),
-                                        title: Text(
-                                          '${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year',
-                                          style: textStyleMediumDefault,
+                                        title: FlexibleText(
+                                          text:
+                                              '${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year',
                                         ),
                                         subtitle: Column(
                                           crossAxisAlignment:
@@ -194,13 +200,12 @@ class _OrderPageState extends State<OrderPage> {
                                                   ),
                                                   style: textStyleMediumDefault,
                                                 ),
-                                                child: Text(
-                                                  order.items
+                                                child: FlexibleText(
+                                                  text: order.items
                                                       .firstWhere((item) =>
                                                           item.product != null)
                                                       .product!
                                                       .name,
-                                                  style: textStyleMediumDefault,
                                                 ),
                                               ),
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/client/client_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/permission_use_app.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -101,6 +102,7 @@ class _ClientPageState extends State<ClientPage> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhum cliente encontrado',
+                          textAlign: TextAlign.center,
                           style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
@@ -122,9 +124,8 @@ class _ClientPageState extends State<ClientPage> {
                               Icons.add,
                               color: Colors.black,
                             ),
-                            label: const Text(
-                              'Adicionar cliente',
-                              style: textStyleMediumDefault,
+                            label: const FlexibleText(
+                              text: 'Adicionar cliente',
                             ),
                           ),
                         ),
@@ -150,20 +151,15 @@ class _ClientPageState extends State<ClientPage> {
                                           controller.model.value = null;
                                         },
                                   leading: const Icon(Icons.person),
-                                  title: Text(
-                                    client.name,
-                                    style: textStyleMediumDefault,
+                                  title: FlexibleText(
+                                    text: client.name,
                                   ),
                                   subtitle: client.contact?.cellPhone != null &&
                                           client.contact!.cellPhone
                                               .toString()
                                               .isNotEmpty
-                                      ? Text(
-                                          client.contact!.cellPhone,
-                                          style: TextStyle(
-                                            fontSize:
-                                                textStyleMediumDefault.fontSize,
-                                          ),
+                                      ? FlexibleText(
+                                          text: client.contact!.cellPhone,
                                         )
                                       : null,
                                   trailing: comesFromTheOrder

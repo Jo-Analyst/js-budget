@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 
 class CustomListTileIcon extends StatelessWidget {
   final String title;
@@ -25,20 +26,15 @@ class CustomListTileIcon extends StatelessWidget {
     return ListTile(
       contentPadding: contentPadding ?? EdgeInsets.zero,
       leading: leading,
-      title: Text(
-        title,
-        style: TextStyle(
-            fontSize: textStyleMediumDefault.fontSize,
-            fontFamily: titleFontFamily ?? textStyleMediumDefault.fontFamily,
-            fontWeight: titleFontWeight),
+      title: FlexibleText(
+        text: title,
+        fontFamily: titleFontFamily ?? textStyleMediumDefault.fontFamily,
+        fontWeight: titleFontWeight,
       ),
       subtitle: subtitle != null
-          ? Text(
-              subtitle!,
-              style: TextStyle(
-                fontSize: 17.5,
-                fontFamily: textStyleMediumDefault.fontFamily,
-              ),
+          ? FlexibleText(
+              text: subtitle!,
+              maxFontSize: 17.5,
             )
           : null,
     );

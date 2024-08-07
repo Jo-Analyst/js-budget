@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/modules/service/service_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -148,6 +149,7 @@ class _ServicePageState extends State<ServicePage> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhum serviço encontrado',
+                          textAlign: TextAlign.center,
                           style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
@@ -166,9 +168,8 @@ class _ServicePageState extends State<ServicePage> {
                               Icons.add,
                               color: Colors.black,
                             ),
-                            label: const Text(
-                              'Adicionar serviço',
-                              style: textStyleMediumDefault,
+                            label: const FlexibleText(
+                              text: 'Adicionar serviço',
                             ),
                           ),
                         ),
@@ -208,16 +209,13 @@ class _ServicePageState extends State<ServicePage> {
                                   selectedColor: Colors.black54,
                                   leading: const Icon(
                                       FontAwesomeIcons.screwdriverWrench),
-                                  title: Text(
-                                    service.description,
-                                    style: textStyleMediumDefault,
+                                  title: FlexibleText(
+                                    text: service.description,
                                   ),
-                                  trailing: Text(
-                                    UtilsService.moneyToCurrency(service.price),
-                                    style: TextStyle(
-                                      fontFamily: 'Anta',
-                                      fontSize: textStyleMediumDefault.fontSize,
-                                    ),
+                                  trailing: FlexibleText(
+                                    text: UtilsService.moneyToCurrency(
+                                        service.price),
+                                    fontFamily: 'Anta',
                                   ),
                                 ),
                                 const Divider(),

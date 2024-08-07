@@ -3,6 +3,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -170,9 +171,8 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                               Icons.add,
                               color: Colors.black,
                             ),
-                            label: const Text(
-                              'Adicionar material',
-                              style: textStyleMediumDefault,
+                            label: const FlexibleText(
+                              text: 'Adicionar material',
                             ),
                           ),
                         ),
@@ -216,17 +216,13 @@ class _FurnitureMaterialsState extends State<FurnitureMaterials> {
                                     'assets/images/materia-prima.png',
                                     width: 25,
                                   ),
-                                  title: Text(
-                                    material.name,
-                                    style: textStyleMediumDefault,
+                                  title: FlexibleText(
+                                    text: material.name,
                                   ),
-                                  subtitle: Text(
-                                    UtilsService.moneyToCurrency(
+                                  subtitle: FlexibleText(
+                                    text: UtilsService.moneyToCurrency(
                                         material.price),
-                                    style: TextStyle(
-                                      fontSize: textStyleMediumDefault.fontSize,
-                                      fontFamily: 'Anta',
-                                    ),
+                                    fontFamily: 'Anta',
                                   ),
                                   trailing: Text(
                                     material.quantity.toStringAsFixed(0),

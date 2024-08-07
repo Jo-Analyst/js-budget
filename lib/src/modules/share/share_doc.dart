@@ -419,12 +419,17 @@ class _ShareDocState extends State<ShareDoc> {
                         style: textStyleMediumFontWeight,
                       ),
                     ),
-                    RichText(
-                      text: TextSpan(
-                        text: budget.status! == 'Em aberto'
-                            ? 'Aguardando aprovação'
-                            : budget.status!,
-                        style: textStyleMediumDefault,
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: RichText(
+                          text: TextSpan(
+                            text: budget.status! == 'Em aberto'
+                                ? 'Aguardando aprovação'
+                                : budget.status!,
+                            style: textStyleMediumDefault,
+                          ),
+                        ),
                       ),
                     ),
                   ],

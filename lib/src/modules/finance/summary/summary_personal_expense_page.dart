@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class SummaryPersonalExpensePage extends StatelessWidget {
@@ -13,11 +14,9 @@ class SummaryPersonalExpensePage extends StatelessWidget {
     var theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-              'Gastos pessoais - Mês de ${expenses.first.date.toString().substring(6)}'),
-        ),
+        title: FlexibleText(
+            text:
+                'Gastos pessoais - Mês de ${expenses.first.date.toString().substring(6)}'),
       ),
       body: Column(
         children: [
@@ -34,28 +33,25 @@ class SummaryPersonalExpensePage extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(left: 15),
-                                  child: Text(
-                                    expense.date,
-                                    style: textStyleMediumFontWeight,
+                                  child: FlexibleText(
+                                    text: expense.date,
+                                    fontWeight:
+                                        textStyleMediumFontWeight.fontWeight,
                                   ),
                                 ),
                                 const Divider(),
                                 ListTile(
                                   leading: const Icon(Icons.money),
-                                  title: Text(
-                                    expense.description,
-                                    style: textStyleMediumDefault,
+                                  title: FlexibleText(
+                                    text: expense.description,
                                   ),
-                                  subtitle: Text(
-                                    UtilsService.moneyToCurrency(expense.value),
-                                    style: TextStyle(
-                                        fontFamily: 'Anta',
-                                        fontSize:
-                                            textStyleMediumDefault.fontSize),
+                                  subtitle: FlexibleText(
+                                    text: UtilsService.moneyToCurrency(
+                                        expense.value),
+                                    fontFamily: 'Anta',
                                   ),
-                                  trailing: Text(
-                                    expense.methodPayment,
-                                    style: textStyleMediumDefault,
+                                  trailing: FlexibleText(
+                                    text: expense.methodPayment,
                                   ),
                                 )
                               ],
@@ -73,18 +69,14 @@ class SummaryPersonalExpensePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Text(
-                  'Total Despesa',
-                  style: textStyleMediumDefault,
+                const FlexibleText(text: 'Total Despesa'),
+                FlexibleText(
+                  text: UtilsService.moneyToCurrency(valueExpense),
+                  colorText: Colors.red,
+                  maxFontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Anta',
                 ),
-                Text(
-                  UtilsService.moneyToCurrency(valueExpense),
-                  style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Anta'),
-                )
               ],
             ),
           )

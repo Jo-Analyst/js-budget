@@ -121,16 +121,13 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage> {
                         ListTile(
                           contentPadding: EdgeInsets.zero,
                           leading: CustomIcons.paymentsMethod(payment.specie),
-                          title: Text(
-                            UtilsService.moneyToCurrency(payment.amountPaid),
-                            style: const TextStyle(
-                              fontFamily: 'Anta',
-                              fontSize: 23,
-                            ),
+                          title: FlexibleText(
+                            text: UtilsService.moneyToCurrency(
+                                payment.amountPaid),
+                            fontFamily: 'Anta',
                           ),
-                          subtitle: Text(
-                            payment.datePayment,
-                            style: textStyleMediumDefault,
+                          subtitle: FlexibleText(
+                            text: payment.datePayment,
                           ),
                           trailing: IconButton(
                             icon: const Icon(

@@ -110,9 +110,8 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                       });
                     },
                   ),
-                  title: const Text(
-                    'Alterar somente o estoque',
-                    style: TextStyle(fontFamily: 'Poppins'),
+                  title: const FlexibleText(
+                    text: 'Alterar somente o estoque',
                   ),
                 ),
               ),

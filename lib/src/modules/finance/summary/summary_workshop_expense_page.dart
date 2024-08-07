@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/modules/finance/summary/widgets/financial_summary_widget.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
 class SummaryWorkshopExpensePage extends StatelessWidget {
@@ -18,20 +19,18 @@ class SummaryWorkshopExpensePage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-              'Gastos da oficina - Mês de ${workshopExpenses.first.date.toString().substring(6)}'),
-        ),
+        title: FlexibleText(
+            text:
+                'Gastos da oficina - Mês de ${workshopExpenses.first.date.toString().substring(6)}'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 15, top: 10),
-            child: Text(
-              'Despesas',
-              style: textStyleMediumFontWeight,
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 10),
+            child: FlexibleText(
+              text: 'Despesas',
+              fontWeight: textStyleMediumFontWeight.fontWeight,
             ),
           ),
 
@@ -51,20 +50,16 @@ class SummaryWorkshopExpensePage extends StatelessWidget {
                                 Icons.monetization_on_outlined,
                                 size: 30,
                               ),
-                              title: Text(
-                                expense.description,
-                                style: textStyleMediumDefault,
+                              title: FlexibleText(
+                                text: expense.description,
                               ),
-                              subtitle: Text(
-                                expense.date,
-                                style: textStyleMediumDefault,
+                              subtitle: FlexibleText(
+                                text: expense.date,
                               ),
-                              trailing: Text(
-                                UtilsService.moneyToCurrency(expense.value),
-                                style: TextStyle(
-                                  fontFamily: 'Anta',
-                                  fontSize: textStyleMediumDefault.fontSize,
-                                ),
+                              trailing: FlexibleText(
+                                text:
+                                    UtilsService.moneyToCurrency(expense.value),
+                                fontFamily: 'Anta',
                               ),
                             ),
                             const Divider()

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
 import 'package:js_budget/src/themes/light_theme.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 import 'package:signals/signals_flutter.dart';
 
@@ -81,6 +82,7 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
                         const SizedBox(height: 5),
                         const Text(
                           'Nenhuma despesa encontrado',
+                          textAlign: TextAlign.center,
                           style: textStyleMediumDefault,
                         ),
                         const SizedBox(height: 10),
@@ -100,9 +102,8 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
                               Icons.add,
                               color: Colors.black,
                             ),
-                            label: const Text(
-                              'Adicionar despesa',
-                              style: textStyleMediumDefault,
+                            label: const FlexibleText(
+                              text: 'Adicionar despesa',
                             ),
                           ),
                         ),
@@ -123,22 +124,17 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
                                   },
                                   leading: const Icon(
                                       Icons.monetization_on_outlined),
-                                  title: Text(
-                                    expense.description,
-                                    style: textStyleMediumDefault,
+                                  title: FlexibleText(
+                                    text: expense.description,
                                   ),
-                                  subtitle: Text(
-                                    expense.date,
-                                    style: TextStyle(
-                                      fontSize: textStyleMediumDefault.fontSize,
-                                    ),
+                                  subtitle: FlexibleText(
+                                    text: expense.date,
+                                    fontFamily: 'Anta',
                                   ),
-                                  trailing: Text(
-                                    UtilsService.moneyToCurrency(expense.value),
-                                    style: TextStyle(
-                                      fontFamily: 'Anta',
-                                      fontSize: textStyleMediumDefault.fontSize,
-                                    ),
+                                  trailing: FlexibleText(
+                                    text: UtilsService.moneyToCurrency(
+                                        expense.value),
+                                    fontFamily: 'Anta',
                                   ),
                                 ),
                                 const Divider(),
