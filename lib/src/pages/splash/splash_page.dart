@@ -35,25 +35,27 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: const Color(0x00DEB887),
       backgroundColor: const Color(0xFFDEB887),
-      body: Center(
-        child: AnimatedTextKit(
-          pause: Duration.zero,
-          // isRepeatingAnimation: true,
-          repeatForever: true,
-          animatedTexts: [
-            ColorizeAnimatedText(
-              'JP Planejar',
-              textAlign: TextAlign.center,
-              textStyle: const TextStyle(
-                fontSize: 80.0,
-                fontFamily: 'Anta',
-                fontWeight: FontWeight.bold,
-              ),
-              colors: colorizeColors,
-            )
-          ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: AnimatedTextKit(
+            pause: Duration.zero,
+            // isRepeatingAnimation: true,
+            repeatForever: true,
+            animatedTexts: [
+              ColorizeAnimatedText(
+                'JP Planejar',
+                textAlign: TextAlign.center,
+                textStyle: const TextStyle(
+                  fontSize: 45,
+                  fontFamily: 'Anta',
+                  fontWeight: FontWeight.bold,
+                ),
+                colors: colorizeColors,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -65,6 +67,7 @@ class _SplashPageState extends State<SplashPage> {
     if (isFileExist) {
       await controller.findProfile();
     }
+
     Timer(const Duration(seconds: 7), () async {
       if (isFileExist) {
         if (controller.model.value != null) {

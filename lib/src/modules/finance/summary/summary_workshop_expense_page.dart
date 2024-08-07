@@ -55,6 +55,7 @@ class SummaryWorkshopExpensePage extends StatelessWidget {
                               ),
                               subtitle: FlexibleText(
                                 text: expense.date,
+                                fontFamily: 'Anta',
                               ),
                               trailing: FlexibleText(
                                 text:

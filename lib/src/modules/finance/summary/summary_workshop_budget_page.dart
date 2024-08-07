@@ -127,7 +127,7 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
 
           // Margem de Lucros
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -141,6 +141,54 @@ class SummaryWorkshopBudgetPage extends StatelessWidget {
                   child: FlexibleText(
                     text: UtilsService.moneyToCurrency(
                         budgetController.profitMargin.value),
+                    fontFamily: 'Anta',
+                    fontWeight: textStyleMediumFontWeight.fontWeight,
+                    maxFontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Fretes
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: FlexibleText(
+                    text: 'Fretes',
+                    fontWeight: textStyleMediumFontWeight.fontWeight,
+                  ),
+                ),
+                Flexible(
+                  child: FlexibleText(
+                    text: UtilsService.moneyToCurrency(
+                        budgetController.totalFreight.value),
+                    fontFamily: 'Anta',
+                    fontWeight: textStyleMediumFontWeight.fontWeight,
+                    maxFontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Serviços
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: FlexibleText(
+                    text: 'Serviços',
+                    fontWeight: textStyleMediumFontWeight.fontWeight,
+                  ),
+                ),
+                Flexible(
+                  child: FlexibleText(
+                    text: UtilsService.moneyToCurrency(
+                        budgetController.totalService.value),
                     fontFamily: 'Anta',
                     fontWeight: textStyleMediumFontWeight.fontWeight,
                     maxFontSize: 20,

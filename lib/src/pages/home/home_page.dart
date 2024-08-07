@@ -259,6 +259,7 @@ class _HomePageState extends State<HomePage> {
                                                 text: budget.orderId
                                                     .toString()
                                                     .padLeft(5, '0'),
+                                                fontFamily: 'Anta',
                                               ),
                                             ],
                                           ),

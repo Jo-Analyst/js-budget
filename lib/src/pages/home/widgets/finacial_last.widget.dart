@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/flexible_text.dart';
 
 import 'package:js_budget/src/utils/utils_service.dart';

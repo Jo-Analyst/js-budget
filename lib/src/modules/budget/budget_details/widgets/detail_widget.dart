@@ -97,6 +97,7 @@ class DetailWidget extends StatelessWidget {
                         ? null
                         : FlexibleText(
                             text: subTitle,
+                            fontFamily: 'Anta',
                           ),
                     trailing: FlexibleText(
                       text: UtilsService.moneyToCurrency(value),

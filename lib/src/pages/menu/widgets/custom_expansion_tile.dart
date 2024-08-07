@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/flexible_text.dart';
 
 class CustomExpansionTileWidget extends StatefulWidget {

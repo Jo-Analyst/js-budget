@@ -3,6 +3,7 @@ import 'package:js_budget/src/modules/backup/backup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:js_budget/src/modules/profile/profile_controller.dart';
+import 'package:js_budget/src/utils/flexible_text.dart';
 
 class UseInitAppOnDevice extends StatefulWidget {
   const UseInitAppOnDevice({super.key});
@@ -66,50 +67,53 @@ class _UseInitAppOnDeviceState extends State<UseInitAppOnDevice> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton(
-                    onPressed: () async {
-                      final nav = Navigator.of(context);
-                      final result = await backupController.restore() ?? false;
+                  Flexible(
+                    child: TextButton(
+                      onPressed: () async {
+                        final nav = Navigator.of(context);
+                        final result =
+                            await backupController.restore() ?? false;
 
-                      if (result) {
-                        nav.pushReplacementNamed('/my-app');
-                        await controller.findProfile();
-                      }
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.restore),
-                          SizedBox(width: 5),
-                          Text(
-                            "Restaurar",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ],
+                        if (result) {
+                          nav.pushReplacementNamed('/my-app');
+                          await controller.findProfile();
+                        }
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.restore),
+                            SizedBox(width: 5),
+                            Flexible(child: FlexibleText(text: "Restaurar")),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .pushReplacementNamed('/profile/form');
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Continuar",
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          SizedBox(width: 5),
-                          Icon(
-                            Icons.keyboard_arrow_right,
-                            size: 28,
-                          ),
-                        ],
+                  Flexible(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed('/profile/form');
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: FlexibleText(
+                                text: "Continuar",
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Icon(
+                              Icons.keyboard_arrow_right,
+                              size: 28,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
