@@ -1,6 +1,7 @@
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
+import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
@@ -395,6 +396,14 @@ class BudgetController with Messages {
     totalDiscount.value = 0;
     for (var item in itemsBudget) {
       totalDiscount.value += item.subDiscount;
+    }
+  }
+
+  void changeClientListBudget(ClientModel client) {
+    for (var budget in dataFiltered.value) {
+      if (budget.client!.id == client.id) {
+        budget.client = client;
+      }
     }
   }
 }

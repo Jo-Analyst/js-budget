@@ -47,7 +47,7 @@ class TransformBudgetJson {
             freight: budget['freight'] ?? 0,
             status: budget['status'],
             client: ClientModel(
-              id: 0,
+              id: budget['client_id'],
               name: budget['client_name'],
               address: budget['city'] != null
                   ? AddressModel(

@@ -10,7 +10,7 @@ part 'order_model.g.dart';
 class OrderModel {
   int id;
   final String date;
-  final ClientModel client;
+  ClientModel client;
   final List<ItemOrderModel> items;
   final String? status;
   final String? observation;

@@ -1,7 +1,10 @@
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/client_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
+import 'package:js_budget/src/modules/order/order_controller.dart';
 import 'package:js_budget/src/repositories/client/transform_client_json.dart';
 import 'package:js_budget/src/repositories/client/client_repository.dart';
 import 'package:signals/signals.dart';
@@ -50,6 +53,9 @@ class ClientController with Messages {
   }
 
   Future<void> _update(ClientModel client) async {
+    final budgetController = Injector.get<BudgetController>();
+    final orderController = Injector.get<OrderController>();
+
     final result = await _clientRepository.update(client);
 
     switch (result) {
@@ -64,6 +70,8 @@ class ClientController with Messages {
           client.contact?.id = contactId;
         }
         _data.add(client);
+        budgetController.changeClientListBudget(client);
+        orderController.changeClientListOrder(client);
         showSuccess('Cliente alterado com sucesso');
       case Left():
         showError('Houve um erro ao atualizar o cliente');
