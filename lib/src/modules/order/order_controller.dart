@@ -83,12 +83,4 @@ class OrderController with Messages {
         showError('Houver erro ao buscar os pedidos');
     }
   }
-
-  void changeClientListOrder(ClientModel client) {
-    for (var order in data.value) {
-      if (order.client.id == client.id) {
-        order.client = client;
-      }
-    }
-  }
 }

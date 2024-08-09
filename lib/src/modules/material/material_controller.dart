@@ -3,6 +3,7 @@ import 'package:js_budget/src/fp/either.dart';
 import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/expense_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/expenses/workshop_expenses/workshop_expense_controller.dart';
 import 'package:js_budget/src/repositories/material/transform_material_json.dart';
 import 'package:js_budget/src/repositories/material/material_repository.dart';
@@ -33,6 +34,8 @@ class MaterialController with Messages {
     String? dateOfLastPurchase,
   ) async {
     final worshopController = Injector.get<WorkshopExpenseController>();
+    final budgetController = Injector.get<BudgetController>();
+
     if (dateOfLastPurchase != null) {
       final date = UtilsService.getExtractedDate(dateOfLastPurchase);
 
@@ -60,6 +63,8 @@ class MaterialController with Messages {
         } else {
           worshopController.addData(_setDataMaterialInExpense(material));
         }
+        
+        budgetController.changeMaterialListBudget(material);
         showSuccess('Material alterado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o material');

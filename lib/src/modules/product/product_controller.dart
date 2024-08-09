@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:signals/signals.dart';
 
 import 'package:js_budget/src/fp/either.dart';
@@ -25,6 +27,8 @@ class ProductController with Messages {
   final model = signal<ProductModel?>(null);
 
   Future<void> save(ProductModel product) async {
+    final budgetController = Injector.get<BudgetController>();
+
     final result = product.id == 0
         ? await _productRepository.register(product)
         : await _productRepository.update(product);
@@ -38,6 +42,9 @@ class ProductController with Messages {
           _deleteItem(product.id);
         }
         _data.add(product);
+
+        budgetController.changeProductListBudget(product);
+
         showSuccess('Produto alterado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o produto');

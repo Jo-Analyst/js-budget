@@ -98,7 +98,7 @@ class TransformBudgetJson {
         profitMarginValue: budget['profit_margin_value'],
         product: budget['product_name'] != null
             ? ProductModel.fromJson({
-                'id': 0,
+                'id': budget['product_id'],
                 'name': budget['product_name'],
                 'description': '',
                 'unit': '',
@@ -107,7 +107,7 @@ class TransformBudgetJson {
             : null,
         service: budget['description'] != null
             ? ServiceModel.fromJson({
-                'id': 0,
+                'id': budget['service_id'],
                 'description': budget['description'],
                 'price': budget['price'],
                 'quantity': 1

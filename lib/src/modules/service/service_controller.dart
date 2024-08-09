@@ -1,4 +1,6 @@
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/service_model.dart';
+import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/repositories/service/service_repository.dart';
 import 'package:js_budget/src/repositories/service/transform_service_json.dart';
 import 'package:signals/signals.dart';
@@ -24,6 +26,8 @@ class ServiceController with Messages {
   final model = signal<ServiceModel?>(null);
 
   Future<void> save(ServiceModel service) async {
+    final budgetController = Injector.get<BudgetController>();
+
     final result = service.id == 0
         ? await _serviceRepository.register(service)
         : await _serviceRepository.update(service);
@@ -37,6 +41,7 @@ class ServiceController with Messages {
           _deleteItem(service.id);
         }
         _data.add(service);
+        budgetController.changeServiceListBudget(service);
         showSuccess('Serviço alterado com sucesso');
       case Left():
         showError('Houve um erro ao cadastrar o serviço');

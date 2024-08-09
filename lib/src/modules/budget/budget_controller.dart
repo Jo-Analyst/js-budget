@@ -4,6 +4,8 @@ import 'package:js_budget/src/helpers/message.dart';
 import 'package:js_budget/src/models/client_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/models/material_model.dart';
+import 'package:js_budget/src/models/product_model.dart';
+import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/material/material_controller.dart';
 import 'package:js_budget/src/modules/payment/payment_history/payment_history_controller.dart';
@@ -400,9 +402,41 @@ class BudgetController with Messages {
   }
 
   void changeClientListBudget(ClientModel client) {
-    for (var budget in dataFiltered.value) {
-      if (budget.client!.id == client.id) {
-        budget.client = client;
+    for (var dt in dataFiltered) {
+      if (dt.client!.id == client.id) {
+        dt.client = client;
+      }
+    }
+  }
+
+  void changeMaterialListBudget(MaterialModel material) {
+    for (var budget in dataFiltered) {
+      for (var item in budget.itemsBudget!) {
+        for (var materialItem in item.materialItemsBudget) {
+          if (material.id == materialItem.material.id) {
+            materialItem.material = material;
+          }
+        }
+      }
+    }
+  }
+
+  void changeProductListBudget(ProductModel product) {
+    for (var dt in dataFiltered) {
+      for (var item in dt.itemsBudget!) {
+        if (product.id == item.product?.id) {
+          item.product = product;
+        }
+      }
+    }
+  }
+
+  void changeServiceListBudget(ServiceModel service) {
+    for (var dt in dataFiltered) {
+      for (var item in dt.itemsBudget!) {
+        if (service.id == item.service?.id) {
+          item.service = service;
+        }
       }
     }
   }

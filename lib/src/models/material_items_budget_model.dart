@@ -9,7 +9,7 @@ class MaterialItemsBudgetModel {
   final int id;
   double value;
   int quantity;
-  final MaterialModel material;
+  MaterialModel material;
   final int? itemBudgetId;
   MaterialItemsBudgetModel({
     this.id = 0,
