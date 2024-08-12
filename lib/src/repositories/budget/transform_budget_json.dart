@@ -148,7 +148,7 @@ class TransformBudgetJson {
             itemBudgetId: itemBudget.id,
             material: MaterialModel(
               id: budget['material_id'] ?? 1,
-              name: budget['material_name'],
+              name: budget['material_name'] ?? 'Material indefinido',
             ),
           ),
         );

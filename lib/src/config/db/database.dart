@@ -44,7 +44,7 @@ class DataBase {
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS budgets (id INTEGER PRIMARY KEY, amount REAL NOT NULL, discount REAL, status TEXT DEFAULT 'Em aberto', created_at TEXT, approval_date TEXT, freight REAL, payment_method TEXT, order_id INTEGER NOT NULL, client_id INTEGER NOT NULL, FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
+          "CREATE TABLE IF NOT EXISTS budgets (id INTEGER PRIMARY KEY, amount REAL NOT NULL, discount REAL, status TEXT DEFAULT 'Em aberto', created_at TEXT, approval_date TEXT, freight REAL, payment_method TEXT, order_id INTEGER, client_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE SET NULL, FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE SET NULL)",
         );
 
         db.execute(
@@ -52,11 +52,11 @@ class DataBase {
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS material_items_budget (id INTEGER PRIMARY KEY, quantity INTEGER, value REAL NOT NULL, material_id INTEGER NOT NULL, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL, FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL)',
+          'CREATE TABLE IF NOT EXISTS material_items_budget (id INTEGER PRIMARY KEY, quantity INTEGER, value REAL NOT NULL, material_id INTEGER, item_budget_id INTEGER, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL, FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE SET NULL)',
         );
 
         db.execute(
-            'CREATE TABLE IF NOT EXISTS workshop_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, divided_value REAL NOT NULL, accumulated_value REAL NOT NULL, type TEXT, item_budget_id INTEGER NOT NULL, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL)');
+            'CREATE TABLE IF NOT EXISTS workshop_expense_items_budget (id INTEGER PRIMARY KEY, value REAL NOT NULL, divided_value REAL NOT NULL, accumulated_value REAL NOT NULL, type TEXT, item_budget_id INTEGER, FOREIGN KEY (item_budget_id) REFERENCES items_budget(id) ON DELETE SET NULL)');
 
         db.execute(
           'CREATE TABLE IF NOT EXISTS personal_expenses (id INTEGER PRIMARY KEY, description TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL)',
@@ -76,7 +76,7 @@ class DataBase {
         db.execute(
             'CREATE TABLE IF NOT EXISTS payment_history (id INTEGER PRIMARY KEY, specie TEXT, amount_paid REAL, date_payment TEXT, payment_id INTEGER, FOREIGN KEY (payment_id) REFERENCES payments(id) ON DELETE CASCADE)');
       },
-      version: 1,
+      version: 3,
     );
   }
 }

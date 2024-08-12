@@ -63,6 +63,14 @@ class BudgetController with Messages {
 
   final model = signal<BudgetModel>(BudgetModel());
 
+  void calculateGrossTotal() {
+    totalGrossValue.value = totalMaterial.value +
+        totalWorshopExpense.value +
+        profitMargin.value +
+        totalFreight.value +
+        totalService.value;
+  }
+
   double sumValueProducts(ListSignal<ItemsBudgetModel> data) {
     double value = 0.0;
     data.asMap().forEach((key, item) {
@@ -97,16 +105,17 @@ class BudgetController with Messages {
     _totalWorshopExpense.value = _sumWorkshopExpense(workshopExpense);
     _totalMaterial.value = _sumMaterial(materialItem);
 
-    final (totalGrossValue, totalService) = _calculateServiceAndGrossValue();
+    final (totalGrossValue, totalService) =
+        _calculateServiceAndGrossValue(budgets);
     _totalService.value = totalService;
     _totalGrossValue.value = totalGrossValue;
     return (workshopExpense, materialItem);
   }
 
-  (double, double) _calculateServiceAndGrossValue() {
+  (double, double) _calculateServiceAndGrossValue(List<BudgetModel> budgets) {
     double totalGrossValue = 0;
     double totalService = 0;
-    _data.asMap().forEach((_, budget) {
+    budgets.asMap().forEach((_, budget) {
       budget.itemsBudget!.asMap().forEach((_, item) {
         if (item.product == null && item.service != null) {
           totalService += item.subValue;
