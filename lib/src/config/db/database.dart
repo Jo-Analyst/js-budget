@@ -34,15 +34,15 @@ class DataBase {
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS workshop_expenses (id INTEGER PRIMARY KEY, description TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL, material_id INTEGER, FOREIGN KEY (material_id) REFERENCES materials(id))',
+          'CREATE TABLE IF NOT EXISTS workshop_expenses (id INTEGER PRIMARY KEY, description TEXT NOT NULL, value REAL NOT NULL, method_payment TEXT, date TEXT NOT NULL, observation TEXT NULL, material_id INTEGER, FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE CASCADE)',
         );
 
         db.execute(
-          "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, observation TEXT, client_id INTEGER, status TEXT DEFAULT 'Aguardando orçamento', FOREIGN KEY (client_id) REFERENCES clients(id))",
+          "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, date TEXT NOT NULL, observation TEXT, client_id INTEGER, status TEXT DEFAULT 'Aguardando orçamento', FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE)",
         );
 
         db.execute(
-          'CREATE TABLE IF NOT EXISTS items_orders (id INTEGER PRIMARY KEY, quantity_product INTEGER, quantity_service INTEGER, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id), FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL)',
+          'CREATE TABLE IF NOT EXISTS items_orders (id INTEGER PRIMARY KEY, quantity_product INTEGER, quantity_service INTEGER, order_id INTEGER, product_id INTEGER, service_id INTEGER, FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE, FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE SET NULL, FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL)',
         );
 
         db.execute(

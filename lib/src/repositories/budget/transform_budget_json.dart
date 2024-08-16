@@ -140,7 +140,7 @@ class TransformBudgetJson {
       if (itemBudget.id == budget['item_budget_id'] &&
           !itemBudget.materialItemsBudget.any(
               (element) => element.material.name == budget['material_name']) &&
-          budget['product_name'] != null) {
+          budget['value'] != null) {
         itemBudget.materialItemsBudget.add(
           MaterialItemsBudgetModel(
             quantity: budget['material_quantity'] ?? 1,

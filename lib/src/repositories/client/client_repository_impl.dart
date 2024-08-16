@@ -20,8 +20,6 @@ class ClientRepositoryImpl implements ClientRepository {
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
         await txn.delete('clients', where: 'id = ?', whereArgs: [id]);
-        // await txn.delete('contacts', where: 'client_id = ?', whereArgs: [id]);
-        // await txn.delete('address', where: 'client_id = ?', whereArgs: [id]);
       });
 
       return Right(unit);

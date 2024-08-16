@@ -3,6 +3,8 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:js_budget/src/models/budget_model.dart';
 import 'package:js_budget/src/models/items_budget_model.dart';
 import 'package:js_budget/src/models/material_items_budget_model.dart';
+import 'package:js_budget/src/models/product_model.dart';
+import 'package:js_budget/src/models/service_model.dart';
 import 'package:js_budget/src/models/workshop_expense_items_budget_model.dart';
 import 'package:js_budget/src/modules/budget/budget_controller.dart';
 import 'package:js_budget/src/modules/budget/budget_details/widgets/detail_widget.dart';
@@ -22,8 +24,11 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
   BudgetModel? budget;
   final budgetController = Injector.get<BudgetController>();
   List<ItemsBudgetModel> itemsBudget = [];
+  List<Map<String, dynamic>> inconclusiveData = [];
   List<MaterialItemsBudgetModel> materials = [];
   List<WorkshopExpenseItemsBudgetModel> workshopExpense = [];
+  List<ServiceModel> services = [];
+  List<ProductModel> products = [];
   String status = '';
   DateTime initialDate = DateTime.now();
   DateTime? approvalDate;
@@ -35,8 +40,44 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     budget = budgetController.model.value;
     status = budget!.status!;
     itemsBudget = budget!.itemsBudget!.map((e) => e).toList();
+    services = getServices();
+    products = getProducts();
+    inconclusiveData = getInconclusiveData();
     materials = budgetController.getMaterials(budget!);
     workshopExpense = budgetController.getWorkshopExpense(budget!);
+  }
+
+  List<ServiceModel> getServices() {
+    return itemsBudget
+        .where((item) => item.service != null)
+        .map((item) => ServiceModel(
+              description: item.service!.description,
+              price: item.unitaryValue,
+              quantity: item.quantity,
+            ))
+        .toList();
+  }
+
+  List<ProductModel> getProducts() {
+    return itemsBudget
+        .where((item) => item.product != null)
+        .map((item) => ProductModel(
+              name: item.product!.name,
+              price: item.unitaryValue,
+              quantity: item.quantity,
+            ))
+        .toList();
+  }
+
+  List<Map<String, dynamic>> getInconclusiveData() {
+    return itemsBudget
+        .where((item) => item.service == null && item.product == null)
+        .map((item) => {
+              'description': 'P|S Indefinido',
+              'price': item.unitaryValue,
+              'quantity': item.quantity,
+            })
+        .toList();
   }
 
   Future<String?> showDialogStatus(BuildContext context,
@@ -240,10 +281,29 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
                         ),
                       ),
                     ),
-                    DetailWidget(
-                      data: itemsBudget,
-                      title: 'Produtos e serviços',
-                      detailType: DetailType.productsAndService,
+                    Visibility(
+                      visible: products.isNotEmpty,
+                      child: DetailWidget(
+                        data: products,
+                        title: 'Produtos',
+                        detailType: DetailType.products,
+                      ),
+                    ),
+                    Visibility(
+                      visible: services.isNotEmpty,
+                      child: DetailWidget(
+                        data: services,
+                        title: 'Serviços',
+                        detailType: DetailType.service,
+                      ),
+                    ),
+                    Visibility(
+                      visible: inconclusiveData.isNotEmpty,
+                      child: DetailWidget(
+                        data: inconclusiveData,
+                        title: 'Produtos ou serviços deletados',
+                        detailType: DetailType.inconclusiveData,
+                      ),
                     ),
                     Visibility(
                       visible: materials.isNotEmpty,

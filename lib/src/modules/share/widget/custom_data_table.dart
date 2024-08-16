@@ -48,7 +48,9 @@ class CustomDataTable extends StatelessWidget {
                   child: Align(
                     child: RichText(
                       text: TextSpan(
-                        text: row.product?.name ?? row.service!.description,
+                        text: row.product != null || row.service != null
+                            ? row.product?.name ?? row.service!.description
+                            : 'P|S Indefinido',
                         style: textStyleSmallDefault,
                       ),
                     ),

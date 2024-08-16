@@ -256,14 +256,17 @@ class PdfGeneration {
                   double total = unitaryValue * item.quantity;
                   totalTerm += item.term;
 
-                  if (item.product != null) {
+                  if (item.product != null ||
+                      item.product == null && item.service == null) {
                     totalProduct += total;
                   } else {
                     totalService += total;
                   }
 
                   return [
-                    item.product?.name ?? item.service!.description,
+                    item.product != null || item.service != null
+                        ? item.product?.name ?? item.service!.description
+                        : 'P|S Indefinido',
                     item.quantity.toString(),
                     UtilsService.moneyToCurrency(unitaryValue),
                     UtilsService.moneyToCurrency(total)
@@ -437,7 +440,8 @@ class PdfGeneration {
     }
 
     final output = await getTemporaryDirectory();
-    final file = File("${output.path}/balancete.pdf");
+    final file = File(
+        "${output.path}/pedido_${budget.client!.name.split(' ').join('_')}_$day${month.toString().padLeft(2, '0')}$year.pdf");
     await file.writeAsBytes(await doc.save());
 
     await Share.shareFiles([file.path]);

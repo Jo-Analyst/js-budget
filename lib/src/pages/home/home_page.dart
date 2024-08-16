@@ -59,8 +59,6 @@ class _HomePageState extends State<HomePage> {
     if (budgetController.data.isEmpty) {
       await budgetController.findBudgets();
     }
-
-    budgetController.filterData(search);
   }
 
   @override

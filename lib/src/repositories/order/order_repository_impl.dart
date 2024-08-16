@@ -1,9 +1,9 @@
 import 'package:js_budget/src/config/db/database.dart';
 import 'package:js_budget/src/exception/respository_exception.dart';
 import 'package:js_budget/src/fp/either.dart';
+import 'package:js_budget/src/fp/unit.dart';
 import 'package:js_budget/src/models/item_order_model.dart';
 import 'package:js_budget/src/models/order_model.dart';
-import 'package:js_budget/src/repositories/budget/budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/item_order/items_order_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository.dart';
 import 'package:sqflite/sqflite.dart';
@@ -48,17 +48,14 @@ class OrderRepositoryImpl implements OrderRepository {
   }
 
   @override
-  Future<Either<RespositoryException, int>> delete(int id) async {
+  Future<Either<RespositoryException, Unit>> delete(int id) async {
     try {
-      int budgetId = await BudgetRepositoryImpl().findByOrderId(id);
       final db = await DataBase.openDatabase();
       await db.transaction((txn) async {
-        await BudgetRepositoryImpl().delete(txn, budgetId);
         await txn.delete('orders', where: 'id = ?', whereArgs: [id]);
-        await _itemsOrderRepositoryImpl.delete(txn, id);
       });
 
-      return Right(budgetId);
+      return Right(unit);
     } catch (_) {
       return Left(RespositoryException());
     }

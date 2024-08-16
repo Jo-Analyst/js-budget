@@ -5,7 +5,15 @@ import 'package:js_budget/src/themes/light_theme.dart';
 import 'package:js_budget/src/utils/flexible_text.dart';
 import 'package:js_budget/src/utils/utils_service.dart';
 
-enum DetailType { productsAndService, materials, payment, expense, outher }
+enum DetailType {
+  products,
+  service,
+  materials,
+  payment,
+  expense,
+  outher,
+  inconclusiveData
+}
 
 class DetailWidget extends StatelessWidget {
   final List<dynamic> data;
@@ -30,11 +38,21 @@ class DetailWidget extends StatelessWidget {
     Icon icon;
 
     switch (detailType) {
-      case DetailType.productsAndService:
-        title = dt.product != null ? dt.product!.name : dt.service!.description;
+      case DetailType.products:
+        title = dt.name;
+        subTitle = '${dt.quantity}x ${UtilsService.moneyToCurrency(dt.price)}';
+        value = dt.price * dt.quantity;
+        icon = const Icon(Icons.local_offer);
+      case DetailType.service:
+        title = dt.description;
+        subTitle = '${dt.quantity}x ${UtilsService.moneyToCurrency(dt.price)}';
+        value = dt.price * dt.quantity;
+        icon = const Icon(Icons.local_offer);
+      case DetailType.inconclusiveData:
+        title = dt['description'];
         subTitle =
-            '${dt.quantity}x ${UtilsService.moneyToCurrency(dt.unitaryValue)}';
-        value = value = dt.subValue;
+            '${dt['quantity']}x ${UtilsService.moneyToCurrency(dt['price'])}';
+        value = dt['price'] * dt['quantity'];
         icon = const Icon(Icons.local_offer);
       case DetailType.materials:
         title = dt.material.name;

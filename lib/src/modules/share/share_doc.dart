@@ -39,7 +39,8 @@ class _ShareDocState extends State<ShareDoc> {
       double total = unitaryValue * item.quantity;
       totalTerm += item.term;
 
-      if (item.product != null) {
+      if (item.product != null ||
+          item.product == null && item.service == null) {
         totalProduct += total;
       } else {
         totalService += total;

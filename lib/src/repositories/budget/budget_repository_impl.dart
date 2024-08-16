@@ -7,8 +7,6 @@ import 'package:js_budget/src/models/material_items_budget_model.dart';
 import 'package:js_budget/src/repositories/budget/transform_budget_json.dart';
 import 'package:js_budget/src/repositories/budget_items/budget_item_repository_impl.dart';
 import 'package:js_budget/src/repositories/material/material_repository_impl.dart';
-import 'package:js_budget/src/repositories/workshop_expense_item_budget/workshop_expense_item_budget_repository_impl.dart';
-import 'package:js_budget/src/repositories/material_item_budget/material_item_budget_repository_impl.dart';
 import 'package:js_budget/src/repositories/order/order_repository_impl.dart';
 import 'package:js_budget/src/repositories/payment/payment_repository_impl.dart';
 import 'package:sqflite/sqflite.dart';
@@ -18,9 +16,7 @@ import 'budget_repository.dart';
 class BudgetRepositoryImpl implements BudgetRepository {
   final _budgetItem = BudgetItemRepositoryImpl();
   final _order = OrderRepositoryImpl();
-  final _materialItemBudget = MaterialItemBudgetRepositoryImpl();
   final _materialBudget = MaterialRepositoryImpl();
-  final _expenseItemBudget = WorkshopExpenseItemBudgetRepositoryImpl();
   final _payment = PaymentRepositoryImpl();
 
   @override
@@ -103,10 +99,6 @@ class BudgetRepositoryImpl implements BudgetRepository {
 
   Future<void> delete(Transaction txn, int budgetId) async {
     await txn.delete('budgets', where: 'id = ?', whereArgs: [budgetId]);
-    await _materialItemBudget.deleteMaterialItem(txn, budgetId);
-    await _expenseItemBudget.deleteWorkshopExpenseItem(txn, budgetId);
-    await _payment.deletePayment(txn, budgetId);
-    await _budgetItem.deleteItem(txn, budgetId);
   }
 
   @override
