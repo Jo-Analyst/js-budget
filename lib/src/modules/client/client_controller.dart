@@ -25,6 +25,7 @@ class ClientController with Messages {
   final model = signal<ClientModel?>(null);
 
   final ClientRepository _clientRepository;
+  final budgetController = Injector.get<BudgetController>();
 
   Future<void> _register(
       List<ClientModel> clients, bool isImportedFromContacts) async {
@@ -52,8 +53,6 @@ class ClientController with Messages {
   }
 
   Future<void> _update(ClientModel client) async {
-    final budgetController = Injector.get<BudgetController>();
-
     final result = await _clientRepository.update(client);
 
     switch (result) {
@@ -92,6 +91,7 @@ class ClientController with Messages {
     switch (result) {
       case Right():
         _deleteItem(id);
+        budgetController.deleteBudgetByClientId(id);
         showSuccess('Cliente excluido com sucesso');
       case Left():
         showError('Houve um erro ao excluir o cliente');

@@ -6,7 +6,7 @@ part 'service_model.g.dart';
 @JsonSerializable()
 class ServiceModel {
   final int id;
-  final String description;
+  String description;
   final double price;
   int quantity;
   ServiceModel({

@@ -6,7 +6,7 @@ part 'product_model.g.dart';
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ProductModel {
   final int id;
-  final String name;
+  String name;
   int quantity;
   double price;
   final String description;

@@ -15,6 +15,8 @@ class ProductController with Messages {
     required ProductRepository productRepository,
   }) : _productRepository = productRepository;
 
+  final budgetController = Injector.get<BudgetController>();
+
   final _data = ListSignal<ProductModel>([]);
   ListSignal get data => _data
     ..sort(
@@ -27,8 +29,6 @@ class ProductController with Messages {
   final model = signal<ProductModel?>(null);
 
   Future<void> save(ProductModel product) async {
-    final budgetController = Injector.get<BudgetController>();
-
     final result = product.id == 0
         ? await _productRepository.register(product)
         : await _productRepository.update(product);
@@ -56,6 +56,7 @@ class ProductController with Messages {
     switch (result) {
       case Right():
         _deleteItem(id);
+        budgetController.changeNameProductTheListBudget(id);
         showSuccess('Produto excluido com sucesso');
       case Left():
         showError('Houve um erro ao excluir o produto');

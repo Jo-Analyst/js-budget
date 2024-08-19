@@ -449,4 +449,40 @@ class BudgetController with Messages {
       }
     }
   }
+
+  void deleteBudgetByClientId(int clientId) {
+    dataFiltered.removeWhere((data) => data.client!.id == clientId);
+  }
+
+  void changeNameMaterialTheListBudget(int materialId) {
+    for (var budget in dataFiltered) {
+      for (var item in budget.itemsBudget!) {
+        for (var materialItem in item.materialItemsBudget) {
+          if (materialId == materialItem.material.id) {
+            materialItem.material.name = 'Material indefinido ';
+          }
+        }
+      }
+    }
+  }
+
+  void changeNameProductTheListBudget(int productId) {
+    for (var dt in dataFiltered) {
+      for (var item in dt.itemsBudget!) {
+        if (productId == item.product?.id) {
+          item.product!.name = 'P|S indefinido';
+        }
+      }
+    }
+  }
+
+  void changeDescriptionServiceTheListBudget(int serviceId) {
+    for (var dt in dataFiltered) {
+      for (var item in dt.itemsBudget!) {
+        if (serviceId == item.service?.id) {
+          item.service!.description = 'P|S indefinido';
+        }
+      }
+    }
+  }
 }

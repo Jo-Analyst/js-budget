@@ -14,6 +14,8 @@ class ServiceController with Messages {
     required ServiceRepository serviceRepository,
   }) : _serviceRepository = serviceRepository;
 
+  final budgetController = Injector.get<BudgetController>();
+
   final _data = ListSignal<ServiceModel>([]);
   ListSignal get data => _data
     ..sort(
@@ -26,8 +28,6 @@ class ServiceController with Messages {
   final model = signal<ServiceModel?>(null);
 
   Future<void> save(ServiceModel service) async {
-    final budgetController = Injector.get<BudgetController>();
-
     final result = service.id == 0
         ? await _serviceRepository.register(service)
         : await _serviceRepository.update(service);
@@ -53,6 +53,7 @@ class ServiceController with Messages {
     switch (result) {
       case Right():
         _deleteItem(id);
+        budgetController.changeDescriptionServiceTheListBudget(id);
         showSuccess('Serviço excluido com sucesso');
       case Left():
         showError('Houve um erro ao excluir o serviço');

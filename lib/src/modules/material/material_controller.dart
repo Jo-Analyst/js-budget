@@ -15,6 +15,9 @@ class MaterialController with Messages {
     required MaterialRepository materialRepository,
   }) : _materialRepository = materialRepository;
 
+  final worshopController = Injector.get<WorkshopExpenseController>();
+  final budgetController = Injector.get<BudgetController>();
+
   final _data = ListSignal<MaterialModel>([]);
   ListSignal get data => _data
     ..sort(
@@ -33,9 +36,6 @@ class MaterialController with Messages {
     bool addMaterialValuesToStock,
     String? dateOfLastPurchase,
   ) async {
-    final worshopController = Injector.get<WorkshopExpenseController>();
-    final budgetController = Injector.get<BudgetController>();
-
     if (dateOfLastPurchase != null) {
       final date = UtilsService.getExtractedDate(dateOfLastPurchase);
 
@@ -63,7 +63,7 @@ class MaterialController with Messages {
         } else {
           worshopController.addData(_setDataMaterialInExpense(material));
         }
-        
+
         budgetController.changeMaterialListBudget(material);
         showSuccess('Material alterado com sucesso');
       case Left():
@@ -88,6 +88,7 @@ class MaterialController with Messages {
     switch (result) {
       case Right():
         _deleteItem(id);
+        budgetController.changeNameMaterialTheListBudget(id);
         showSuccess('Material excluido com sucesso');
       case Left():
         showError('Houve um erro ao excluir o material');
