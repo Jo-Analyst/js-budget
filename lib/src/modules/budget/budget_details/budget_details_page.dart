@@ -73,7 +73,7 @@ class _BudgetDetailsPageState extends State<BudgetDetailsPage> {
     return itemsBudget
         .where((item) => item.service == null && item.product == null)
         .map((item) => {
-              'description': 'P|S Indefinido',
+              'description': 'P/S Indefinido',
               'price': item.unitaryValue,
               'quantity': item.quantity,
             })

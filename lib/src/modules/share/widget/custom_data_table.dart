@@ -50,7 +50,7 @@ class CustomDataTable extends StatelessWidget {
                       text: TextSpan(
                         text: row.product != null || row.service != null
                             ? row.product?.name ?? row.service!.description
-                            : 'P|S Indefinido',
+                            : 'P/S Indefinido',
                         style: textStyleSmallDefault,
                       ),
                     ),

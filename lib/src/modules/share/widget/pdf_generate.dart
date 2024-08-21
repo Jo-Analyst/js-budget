@@ -266,7 +266,7 @@ class PdfGeneration {
                   return [
                     item.product != null || item.service != null
                         ? item.product?.name ?? item.service!.description
-                        : 'P|S Indefinido',
+                        : 'P/S Indefinido',
                     item.quantity.toString(),
                     UtilsService.moneyToCurrency(unitaryValue),
                     UtilsService.moneyToCurrency(total)

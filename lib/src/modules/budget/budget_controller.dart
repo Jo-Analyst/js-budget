@@ -470,7 +470,7 @@ class BudgetController with Messages {
     for (var dt in dataFiltered) {
       for (var item in dt.itemsBudget!) {
         if (productId == item.product?.id) {
-          item.product!.name = 'P|S indefinido';
+          item.product!.name = 'P/S indefinido';
         }
       }
     }
@@ -480,7 +480,7 @@ class BudgetController with Messages {
     for (var dt in dataFiltered) {
       for (var item in dt.itemsBudget!) {
         if (serviceId == item.service?.id) {
-          item.service!.description = 'P|S indefinido';
+          item.service!.description = 'P/S indefinido';
         }
       }
     }
