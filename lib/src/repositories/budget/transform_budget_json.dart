@@ -121,7 +121,7 @@ class TransformBudgetJson {
           !tempBudgets[index]
               .itemsBudget!
               .any((item) => item.product?.name == budget['product_name'])) {
-        final (material, expense) = getMaterialAndExpense(items, budgets);
+        final (material, expense) = _getMaterialAndExpense(items, budgets);
         items.materialItemsBudget = material;
         items.workshopExpenseItemsBudget = expense;
         tempBudgets[index].itemsBudget!.add(items);
@@ -131,10 +131,94 @@ class TransformBudgetJson {
     return tempBudgets;
   }
 
+  static List<ItemsBudgetModel> getItemsBudgetsWithProductAndServiceDeleted(
+      List<Map<String, dynamic>> budgets) {
+    List<ItemsBudgetModel> tempItemsBudget = [];
+
+    for (var budget in budgets) {
+      if (budget['product_name'] == null &&
+          budget['description'] == null &&
+          (tempItemsBudget.isEmpty ||
+              !tempItemsBudget
+                  .any((item) => item.id == budget['item_budget_id']))) {
+        final item = ItemsBudgetModel(
+          id: budget['item_budget_id'],
+          budgetId: budget['id'],
+          subValue: budget['sub_value'],
+          unitaryValue: budget['unitary_value'],
+          subDiscount: budget['sub_discount'] ?? 0,
+          quantity: budget['quantity'] ?? 1,
+          term: budget['term'],
+          profitMarginValue: budget['profit_margin_value'],
+          product: ProductModel.fromJson({
+            'name': 'P/S indefinido',
+          }),
+          materialItemsBudget: [],
+          workshopExpenseItemsBudget: [],
+        );
+
+        final (material, workexpense) =
+            _getMaterialAndExpenseWithProductAndServiceDeleted(item, budgets);
+        item.materialItemsBudget = material;
+        item.workshopExpenseItemsBudget = workexpense;
+        tempItemsBudget.add(item);
+      }
+    }
+
+    return tempItemsBudget;
+  }
+
   static (
     List<MaterialItemsBudgetModel> material,
     List<WorkshopExpenseItemsBudgetModel> expense
-  ) getMaterialAndExpense(
+  ) _getMaterialAndExpenseWithProductAndServiceDeleted(
+      ItemsBudgetModel itemBudget, List<Map<String, dynamic>> budgets) {
+    for (var budget in budgets) {
+      if (itemBudget.id == budget['item_budget_id'] &&
+          !itemBudget.materialItemsBudget.any(
+              (element) => element.material.name == budget['material_name']) &&
+          budget['value'] != null &&
+          budget['product_name'] == null &&
+          budget['description'] == null) {
+        itemBudget.materialItemsBudget.add(
+          MaterialItemsBudgetModel(
+            quantity: budget['material_quantity'] ?? 1,
+            value: budget['value'],
+            itemBudgetId: itemBudget.id,
+            material: MaterialModel(
+              id: budget['material_id'] ?? 1,
+              name: budget['material_name'] ?? 'Material indefinido',
+            ),
+          ),
+        );
+      }
+
+      if (itemBudget.id == budget['item_budget_id'] &&
+          !itemBudget.workshopExpenseItemsBudget
+              .any((element) => element.type == budget['type']) &&
+          budget['type'] != null &&
+          budget['product_name'] == null &&
+          budget['description'] == null) {
+        itemBudget.workshopExpenseItemsBudget.add(
+          WorkshopExpenseItemsBudgetModel(
+            accumulatedValue: budget['accumulated_value'],
+            dividedValue: budget['divided_value'],
+            itemBudgetId: itemBudget.id,
+            type: budget['type'],
+          ),
+        );
+      }
+    }
+    return (
+      itemBudget.materialItemsBudget,
+      itemBudget.workshopExpenseItemsBudget
+    );
+  }
+
+  static (
+    List<MaterialItemsBudgetModel> material,
+    List<WorkshopExpenseItemsBudgetModel> expense
+  ) _getMaterialAndExpense(
       ItemsBudgetModel itemBudget, List<Map<String, dynamic>> budgets) {
     for (var budget in budgets) {
       if (itemBudget.id == budget['item_budget_id'] &&

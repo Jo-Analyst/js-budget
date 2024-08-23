@@ -28,6 +28,8 @@ class BudgetController with Messages {
   final subDiscount = signal<double>(0.0);
   final totalDiscount = signal<double>(0.0);
 
+  final tempItemsBudget = listSignal<ItemsBudgetModel>([]);
+
   final _totalWorshopExpense = signal<double>(0.0);
   Signal<double> get totalWorshopExpense => _totalWorshopExpense;
 
@@ -289,6 +291,13 @@ class BudgetController with Messages {
     switch (results) {
       case Right(value: final List<Map<String, dynamic>> budgets):
         _data.addAll(TransformBudgetJson.fromJsonAfterDataSearch(budgets));
+        tempItemsBudget.addAll(
+            TransformBudgetJson.getItemsBudgetsWithProductAndServiceDeleted(
+                budgets));
+
+        for (var i in tempItemsBudget) {
+          print(i.toJson());
+        }
         dataFiltered.value = _data;
         _sumBudgets(_data.value);
 
