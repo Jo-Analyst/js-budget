@@ -87,48 +87,67 @@ class TransformBudgetJson {
         tempBudgets[index].itemsBudget = [];
       }
 
-      final items = ItemsBudgetModel(
-        id: budget['item_budget_id'],
-        budgetId: budget['id'],
-        subValue: budget['sub_value'],
-        unitaryValue: budget['unitary_value'],
-        subDiscount: budget['sub_discount'] ?? 0,
-        quantity: budget['quantity'] ?? 1,
-        term: budget['term'],
-        profitMarginValue: budget['profit_margin_value'],
-        product: budget['product_name'] != null
-            ? ProductModel.fromJson({
-                'id': budget['product_id'],
-                'name': budget['product_name'],
-                'description': '',
-                'unit': '',
-                'quantity': 1
-              })
-            : null,
-        service: budget['description'] != null
-            ? ServiceModel.fromJson({
-                'id': budget['service_id'],
-                'description': budget['description'],
-                'price': budget['price'],
-                'quantity': 1
-              })
-            : null,
-        materialItemsBudget: [],
-        workshopExpenseItemsBudget: [],
-      );
+      if (budget['product_name'] != null || budget['description'] != null) {
+        final items = ItemsBudgetModel(
+          id: budget['item_budget_id'],
+          budgetId: budget['id'],
+          subValue: budget['sub_value'],
+          unitaryValue: budget['unitary_value'],
+          subDiscount: budget['sub_discount'] ?? 0,
+          quantity: budget['quantity'] ?? 1,
+          term: budget['term'],
+          profitMarginValue: budget['profit_margin_value'],
+          product: budget['product_name'] != null
+              ? ProductModel.fromJson({
+                  'id': budget['product_id'],
+                  'name': budget['product_name'],
+                  'description': '',
+                  'unit': '',
+                  'quantity': 1
+                })
+              : null,
+          service: budget['description'] != null
+              ? ServiceModel.fromJson({
+                  'id': budget['service_id'],
+                  'description': budget['description'],
+                  'price': budget['price'],
+                  'quantity': 1
+                })
+              : null,
+          materialItemsBudget: [],
+          workshopExpenseItemsBudget: [],
+        );
 
-      if (tempBudgets[index!].itemsBudget!.isEmpty ||
-          !tempBudgets[index]
-              .itemsBudget!
-              .any((item) => item.product?.name == budget['product_name'])) {
-        final (material, expense) = _getMaterialAndExpense(items, budgets);
-        items.materialItemsBudget = material;
-        items.workshopExpenseItemsBudget = expense;
-        tempBudgets[index].itemsBudget!.add(items);
+        if (tempBudgets[index!].itemsBudget!.isEmpty ||
+            !tempBudgets[index]
+                .itemsBudget!
+                .any((item) => item.product?.name == budget['product_name'])) {
+          final (material, expense) = _getMaterialAndExpense(items, budgets);
+          items.materialItemsBudget = material;
+          items.workshopExpenseItemsBudget = expense;
+          tempBudgets[index].itemsBudget!.add(items);
+        }
       }
     }
 
-    return tempBudgets;
+    List<ItemsBudgetModel> itemsBudget =
+        getItemsBudgetsWithProductAndServiceDeleted(budgets);
+
+    // return tempBudgets;
+    return _addItemWithProductAndServiceDeleted(tempBudgets, itemsBudget);
+  }
+
+  static List<BudgetModel> _addItemWithProductAndServiceDeleted(
+      List<BudgetModel> budgets, List<ItemsBudgetModel> itemsBudget) {
+    for (var budget in budgets) {
+      for (var item in itemsBudget) {
+        if (budget.id == item.budgetId) {
+          budget.itemsBudget!.add(item);
+        }
+      }
+    }
+
+    return budgets;
   }
 
   static List<ItemsBudgetModel> getItemsBudgetsWithProductAndServiceDeleted(
@@ -150,9 +169,9 @@ class TransformBudgetJson {
           quantity: budget['quantity'] ?? 1,
           term: budget['term'],
           profitMarginValue: budget['profit_margin_value'],
-          product: ProductModel.fromJson({
-            'name': 'P/S indefinido',
-          }),
+          // product: ProductModel.fromJson({
+          //   'name': 'P/S indefinido',
+          // }),
           materialItemsBudget: [],
           workshopExpenseItemsBudget: [],
         );
