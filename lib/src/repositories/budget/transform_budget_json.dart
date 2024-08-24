@@ -169,9 +169,6 @@ class TransformBudgetJson {
           quantity: budget['quantity'] ?? 1,
           term: budget['term'],
           profitMarginValue: budget['profit_margin_value'],
-          // product: ProductModel.fromJson({
-          //   'name': 'P/S indefinido',
-          // }),
           materialItemsBudget: [],
           workshopExpenseItemsBudget: [],
         );
