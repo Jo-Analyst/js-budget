@@ -166,11 +166,12 @@ class BudgetController with Messages {
 
     allMaterialsItems.asMap().forEach((index, material) {
       if (materialItem.isEmpty ||
-          !materialItem.any((mt) =>
-              mt.material.name.toLowerCase() ==
+          !materialItem.any((item) =>
+              item.material.name.toLowerCase() ==
               material.material.name.toLowerCase()) ||
-          materialItem.any((mat) =>
-              mat.material.name.toLowerCase() == 'material indefinido')) {
+          (materialItem.any((item) =>
+                  item.material.name.toLowerCase() == 'material indefinido') &&
+              !materialItem.any((item) => item.value == material.value))) {
         materialItem.add(
           MaterialItemsBudgetModel(
             value: material.value,
@@ -182,7 +183,7 @@ class BudgetController with Messages {
           ),
         );
       } else {
-        for (var item in materialItem) {
+        for (MaterialItemsBudgetModel item in materialItem) {
           if (item.material.name.toLowerCase() ==
               material.material.name.toLowerCase()) {
             item.quantity += material.quantity;
@@ -473,7 +474,7 @@ class BudgetController with Messages {
     for (var dt in dataFiltered) {
       for (var item in dt.itemsBudget!) {
         if (productId == item.product?.id) {
-          item.product!.name = 'P/S indefinido';
+          item.product = null;
         }
       }
     }
@@ -483,7 +484,7 @@ class BudgetController with Messages {
     for (var dt in dataFiltered) {
       for (var item in dt.itemsBudget!) {
         if (serviceId == item.service?.id) {
-          item.service!.description = 'P/S indefinido';
+          item.service = null;
         }
       }
     }
