@@ -191,6 +191,8 @@ class TransformBudgetJson {
       ItemsBudgetModel itemBudget, List<Map<String, dynamic>> budgets) {
     for (var budget in budgets) {
       if (itemBudget.id == budget['item_budget_id'] &&
+          !itemBudget.materialItemsBudget.any((itemMaterial) =>
+              itemMaterial.id == budget['material_item_id']) &&
           !itemBudget.materialItemsBudget.any(
               (element) => element.material.name == budget['material_name']) &&
           budget['value'] != null &&
@@ -198,6 +200,7 @@ class TransformBudgetJson {
           budget['description'] == null) {
         itemBudget.materialItemsBudget.add(
           MaterialItemsBudgetModel(
+            id: budget['material_item_id'],
             quantity: budget['material_quantity'] ?? 1,
             value: budget['value'],
             itemBudgetId: itemBudget.id,
@@ -225,6 +228,7 @@ class TransformBudgetJson {
         );
       }
     }
+
     return (
       itemBudget.materialItemsBudget,
       itemBudget.workshopExpenseItemsBudget
@@ -238,11 +242,14 @@ class TransformBudgetJson {
       ItemsBudgetModel itemBudget, List<Map<String, dynamic>> budgets) {
     for (var budget in budgets) {
       if (itemBudget.id == budget['item_budget_id'] &&
-          !itemBudget.materialItemsBudget.any(
-              (element) => element.material.name == budget['material_name']) &&
+          !itemBudget.materialItemsBudget.any((itemMaterial) =>
+              itemMaterial.id == budget['material_item_id']) &&
+          !itemBudget.materialItemsBudget.any((itemMaterial) =>
+              itemMaterial.material.name == budget['material_name']) &&
           budget['value'] != null) {
         itemBudget.materialItemsBudget.add(
           MaterialItemsBudgetModel(
+            id: budget['material_item_id'],
             quantity: budget['material_quantity'] ?? 1,
             value: budget['value'],
             itemBudgetId: itemBudget.id,
@@ -268,6 +275,7 @@ class TransformBudgetJson {
         );
       }
     }
+   
     return (
       itemBudget.materialItemsBudget,
       itemBudget.workshopExpenseItemsBudget

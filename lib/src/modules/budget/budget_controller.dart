@@ -168,7 +168,9 @@ class BudgetController with Messages {
       if (materialItem.isEmpty ||
           !materialItem.any((mt) =>
               mt.material.name.toLowerCase() ==
-              material.material.name.toLowerCase())) {
+              material.material.name.toLowerCase()) ||
+          materialItem.any((mat) =>
+              mat.material.name.toLowerCase() == 'material indefinido')) {
         materialItem.add(
           MaterialItemsBudgetModel(
             value: material.value,
