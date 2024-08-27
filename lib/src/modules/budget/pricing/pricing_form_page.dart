@@ -33,7 +33,6 @@ class _PricingFormPageState extends State<PricingFormPage>
   final pricingController = Injector.get<PricingController>();
   final formKey = GlobalKey<FormState>();
   double electricityBill = 0, waterBill = 0, rent = 0, das = 0, other = 0;
-  bool isEditEmployeeSalary = false;
   late SharedPreferences prefs;
 
   List<Map<String, dynamic>> workshopExpense = [
@@ -547,7 +546,6 @@ class _PricingFormPageState extends State<PricingFormPage>
                                     children: [
                                       Expanded(
                                         child: TextFormField(
-                                          readOnly: !isEditEmployeeSalary,
                                           onTapOutside: (_) =>
                                               FocusScope.of(context).unfocus(),
                                           controller: employeeSalaryEC,
@@ -557,40 +555,15 @@ class _PricingFormPageState extends State<PricingFormPage>
                                           ),
                                           keyboardType: TextInputType.number,
                                           style: textStyleMediumDefault,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 15),
-                                      GestureDetector(
-                                        onTap: () async {
-                                          if (isEditEmployeeSalary) {
+                                          onChanged: (_) async {
                                             await prefs.setDouble(
                                                 'employeeSalary',
                                                 employeeSalaryEC.numberValue);
                                             changeEmployeeSalary();
-                                          }
-
-                                          setState(() {
-                                            isEditEmployeeSalary =
-                                                !isEditEmployeeSalary;
-                                          });
-                                        },
-                                        child: Container(
-                                          padding: const EdgeInsets.all(8),
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context)
-                                                .primaryColor
-                                                .withOpacity(.5),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Icon(
-                                            isEditEmployeeSalary
-                                                ? Icons.check
-                                                : Icons.edit,
-                                            size: 30,
-                                          ),
+                                          },
                                         ),
                                       ),
+                                      const SizedBox(width: 15),
                                     ],
                                   ),
                                 ),

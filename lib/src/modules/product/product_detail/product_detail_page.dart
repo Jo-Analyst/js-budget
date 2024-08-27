@@ -34,7 +34,7 @@ class ProductDetailPage extends StatelessWidget {
               var nav = Navigator.of(context);
               bool confirm = await showConfirmationDialog(
                     context,
-                    'Deseja mesmo excluir ${product.name} de sua lista de produtos?',
+                    'Ao excluir este produto, os dados serão removidos das possíveis movimentações nas quais foram incluídos. \nDeseja mesmo excluir "${product.name}" de sua lista de produtos?',
                     buttonTitle: 'Sim',
                   ) ??
                   false;

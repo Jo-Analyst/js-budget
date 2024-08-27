@@ -36,7 +36,7 @@ class ServiceDetailPage extends StatelessWidget {
               var nav = Navigator.of(context);
               bool confirm = await showConfirmationDialog(
                     context,
-                    'Deseja mesmo excluir ${service.description} de sua lista de serviços?',
+                    'Ao excluir este serviço, os dados serão removidos das possíveis movimentações nas quais foram incluídos. \nDeseja mesmo excluir "${service.description}" de sua lista de serviços?',
                     buttonTitle: 'Sim',
                   ) ??
                   false;

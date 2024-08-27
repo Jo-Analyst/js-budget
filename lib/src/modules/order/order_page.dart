@@ -127,9 +127,13 @@ class _OrderPageState extends State<OrderPage> {
                                 }
                               },
                               onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    '/order/details',
-                                    arguments: order);
+                                if (!controller.validate(order)) return;
+
+                                if (order.items.isNotEmpty) {
+                                  Navigator.of(context).pushNamed(
+                                      '/order/details',
+                                      arguments: order);
+                                }
                               },
                               child: Card(
                                 child: Padding(
@@ -254,22 +258,17 @@ class _OrderPageState extends State<OrderPage> {
                                               ),
                                           ],
                                         ),
-                                        trailing: IconButton(
-                                            icon: Icon(
-                                              budgetWasCreated
-                                                  ? Icons.check_circle_rounded
-                                                  : Icons.access_time,
-                                              size: 35,
-                                              color: budgetWasCreated
-                                                  ? const Color.fromARGB(
-                                                      255, 32, 101, 35)
-                                                  : const Color.fromARGB(
-                                                      255, 37, 80, 115),
-                                            ),
-                                            onPressed: () {},
-                                            tooltip: budgetWasCreated
-                                                ? "Orçamento criado"
-                                                : 'Aguardando orçamento'),
+                                        trailing: Icon(
+                                          budgetWasCreated
+                                              ? Icons.check_circle_rounded
+                                              : Icons.access_time,
+                                          size: 35,
+                                          color: budgetWasCreated
+                                              ? const Color.fromARGB(
+                                                  255, 32, 101, 35)
+                                              : const Color.fromARGB(
+                                                  255, 37, 80, 115),
+                                        ),
                                       ),
                                     ],
                                   ),

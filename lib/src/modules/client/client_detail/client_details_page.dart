@@ -36,7 +36,7 @@ class ClientDetailsPage extends StatelessWidget {
               var nav = Navigator.of(context);
               bool confirm = await showConfirmationDialog(
                     context,
-                    'Deseja mesmo excluir ${client.name} de sua lista de cliente?',
+                    'Ao excluir o cliente, será excluído todas as movimentação realizadas no nome do cliente.\nRealmente você deseja mesmo excluir os dados de "${client.name}" de sua lista de cliente?',
                     buttonTitle: 'Sim',
                   ) ??
                   false;

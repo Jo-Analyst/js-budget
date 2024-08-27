@@ -127,6 +127,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                         readOnly: isChecked,
                         controller: nameEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(
                           labelText: 'Nome do Material*',
                           labelStyle: const TextStyle(fontFamily: 'Poppins'),
@@ -142,6 +143,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                       TextFormField(
                         readOnly: isChecked,
                         controller: typeMaterialEC,
+                        textCapitalization: TextCapitalization.sentences,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         decoration: InputDecoration(
                           labelText: 'Tipo de Material',
@@ -315,6 +317,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                       TextFormField(
                         readOnly: isChecked,
                         controller: supplierEC,
+                        textCapitalization: TextCapitalization.words,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         decoration: const InputDecoration(
                           labelText: 'Fornecedor',
@@ -326,6 +329,7 @@ class _MaterialFormPageState extends State<MaterialFormPage>
                       TextFormField(
                         readOnly: isChecked,
                         controller: observationEC,
+                        textCapitalization: TextCapitalization.sentences,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         maxLines: 5,
                         decoration: const InputDecoration(

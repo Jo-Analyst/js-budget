@@ -83,6 +83,7 @@ class _ServiceFormPageState extends State<ServiceFormPage>
                       TextFormField(
                         controller: descriptionEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        textCapitalization: TextCapitalization.words,
                         decoration: const InputDecoration(
                           labelText: 'Nome do serviço*',
                           labelStyle: TextStyle(fontFamily: 'Poppins'),

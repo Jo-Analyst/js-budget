@@ -84,6 +84,7 @@ class _ProductFormPageState extends State<ProductFormPage>
                       TextFormField(
                         controller: nameEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        textCapitalization: TextCapitalization.words,
                         decoration: const InputDecoration(
                           labelText: 'Nome do Produto*',
                           labelStyle: TextStyle(fontFamily: 'Poppins'),
@@ -145,6 +146,7 @@ class _ProductFormPageState extends State<ProductFormPage>
                         maxLines: 5,
                         controller: descriptionEC,
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
+                        textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.text,
                         readOnly: product != null,
                         decoration: const InputDecoration(

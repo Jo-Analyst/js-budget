@@ -77,4 +77,19 @@ class OrderController with Messages {
         showError('Houver erro ao buscar os pedidos');
     }
   }
+
+  bool validate(OrderModel order) {
+    int quantityNulls = 0;
+    for (var item in order.items) {
+      if (item.product == null && item.service == null) {
+        quantityNulls += 1;
+      }
+    }
+    bool isValid = quantityNulls < order.items.length;
+    if (!isValid) {
+      showInfo('Não há produtos ou serviços na lista de pedidos');
+    }
+
+    return isValid;
+  }
 }

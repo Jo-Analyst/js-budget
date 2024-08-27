@@ -39,7 +39,7 @@ class MaterialDetailsPage extends StatelessWidget {
               var nav = Navigator.of(context);
               bool confirm = await showConfirmationDialog(
                     context,
-                    'Deseja mesmo excluir ${material.name} de sua lista de materiais?',
+                    'Ao excluir esta matéria-prima, os dados serão removidos das possíveis movimentações nas quais foram incluídos. \nDeseja mesmo excluir "${material.name}" de sua lista de materiais?',
                     buttonTitle: 'Sim',
                   ) ??
                   false;
