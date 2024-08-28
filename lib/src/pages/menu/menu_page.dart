@@ -147,10 +147,6 @@ class MenuPage extends StatelessWidget {
                     nav.pushNamed('/db/backup');
                   },
                 ),
-                const ListTileIcon(
-                  icon: Icons.info_outline_rounded,
-                  title: 'Sobre',
-                ),
               ],
             ),
             SizedBox(
@@ -170,7 +166,11 @@ class MenuPage extends StatelessWidget {
                     'Aplicativo JS Planejar',
                     textAlign: TextAlign.center,
                     style: textStyleMediumDefault,
-                  )
+                  ),
+                  const Text(
+                    'Versão 1.0.0',
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ],
               ),
             )
