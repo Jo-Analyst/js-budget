@@ -55,7 +55,9 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Future<void> loadProducts() async {
-    await controller.findProduct();
+    if (controller.data.isEmpty) {
+      await controller.findProduct();
+    }
   }
 
   @override

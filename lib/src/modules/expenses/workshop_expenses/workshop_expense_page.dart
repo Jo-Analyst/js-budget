@@ -20,7 +20,9 @@ class _PersonalExpensePageState extends State<WorkshopExpensePage> {
   @override
   void initState() {
     super.initState();
-    controller.findExpense();
+    if (controller.data.isEmpty) {
+      controller.findExpense();
+    }
   }
 
   @override

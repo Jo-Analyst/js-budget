@@ -57,7 +57,9 @@ class _ServicePageState extends State<ServicePage> {
   }
 
   Future<void> loadService() async {
-    await controller.findService();
+    if (controller.data.isEmpty) {
+      await controller.findService();
+    }
   }
 
   @override

@@ -148,7 +148,6 @@ class _ProductFormPageState extends State<ProductFormPage>
                         onTapOutside: (_) => FocusScope.of(context).unfocus(),
                         textCapitalization: TextCapitalization.sentences,
                         keyboardType: TextInputType.text,
-                        readOnly: product != null,
                         decoration: const InputDecoration(
                           labelText: 'Descrição detalhada do produto',
                           labelStyle: TextStyle(fontFamily: 'Poppins'),

@@ -25,7 +25,9 @@ class _ClientPageState extends State<ClientPage> {
   }
 
   Future<void> loadClients() async {
-    await controller.findClients();
+    if (controller.data.isEmpty) {
+      await controller.findClients();
+    }
   }
 
   @override

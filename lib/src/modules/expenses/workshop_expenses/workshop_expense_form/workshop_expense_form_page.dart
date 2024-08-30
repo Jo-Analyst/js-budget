@@ -220,6 +220,7 @@ class _WorkshopExpenseFormPageState extends State<WorkshopExpenseFormPage>
                         TextFormField(
                           onTapOutside: (_) => FocusScope.of(context).unfocus(),
                           controller: observationEC,
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: const InputDecoration(
                             labelText: 'Notas/Observações',
                             labelStyle: TextStyle(fontFamily: 'Poppins'),
