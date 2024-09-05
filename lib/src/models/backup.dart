@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:js_budget/src/utils/path.dart';
+import 'package:share/share.dart';
 
 class Backup {
   static Future<String?> toGenerate() async {
@@ -9,7 +10,9 @@ class Backup {
 
       Directory? folderPathForDbFile = Directory(directory);
       await folderPathForDbFile.create();
-      await ourDbFile.copy(pathStorageDatabase);
+      final path = pathStorageDatabase();
+      await ourDbFile.copy(path);
+      Share.shareFiles([path]);
     } catch (e) {
       return e.toString();
     }

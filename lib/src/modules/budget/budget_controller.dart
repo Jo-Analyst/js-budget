@@ -88,7 +88,7 @@ class BudgetController with Messages {
     List<BudgetModel> budgets = [];
 
     for (var dt in data) {
-      final (year, month, day, _, _) = UtilsService.extractDate(dt.createdAt!);
+      final (year, month, day, _, _, _) = UtilsService.extractDate(dt.createdAt!);
       final dataCreatedAt =
           UtilsService.dateFormatText(DateTime(year, month, day));
 

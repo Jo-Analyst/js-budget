@@ -62,7 +62,7 @@ class _ShareDocState extends State<ShareDoc> {
     DateTime? expectedDeliveryDate;
 
     if (budget.approvalDate != null) {
-      final (year, month, day, _, _) =
+      final (year, month, day, _, _, _) =
           UtilsService.extractDate(budget.approvalDate!);
       expectedDeliveryDate = UtilsService.addWorkingDays(
           DateTime(year, month, day + 1), totalTerm + 1);
@@ -75,7 +75,7 @@ class _ShareDocState extends State<ShareDoc> {
     super.initState();
     if (budget.approvalDate == null) return;
 
-    final (year, month, day, _, _) =
+    final (year, month, day, _, _, _) =
         UtilsService.extractDate(budget.approvalDate!);
 
     approvalDate = UtilsService.dateFormatText(DateTime(year, month, day));
@@ -83,7 +83,7 @@ class _ShareDocState extends State<ShareDoc> {
 
   @override
   Widget build(BuildContext context) {
-    final (year, month, day, hours, minutes) =
+    final (year, month, day, hours, minutes, _) =
         UtilsService.extractDate(budget.createdAt!);
 
     final (double totalProduct, double totalService, int totalTerm) =

@@ -20,7 +20,7 @@ class PdfGeneration {
   static String? _getApprovalDate(BudgetModel budget) {
     String? approvalDate;
     if (budget.approvalDate != null) {
-      final (year, month, day, _, _) =
+      final (year, month, day, _, _, _) =
           UtilsService.extractDate(budget.approvalDate!);
 
       approvalDate = UtilsService.dateFormatText(DateTime(year, month, day));
@@ -38,7 +38,7 @@ class PdfGeneration {
     DateTime? expectedDeliveryDate;
 
     if (budget.approvalDate != null) {
-      final (year, month, day, _, _) =
+      final (year, month, day, _, _, _) =
           UtilsService.extractDate(budget.approvalDate!);
       expectedDeliveryDate = UtilsService.addWorkingDays(
           DateTime(year, month, day + 1), totalTerm + 1);
@@ -58,7 +58,7 @@ class PdfGeneration {
     int totalTerm = 0;
 
     Uint8List imageData = await _getImage();
-    final (year, month, day, hours, minutes) =
+    final (year, month, day, hours, minutes, _) =
         UtilsService.extractDate(budget.createdAt!);
 
     String? approvalDate = _getApprovalDate(budget);

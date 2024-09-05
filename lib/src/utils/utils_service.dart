@@ -22,27 +22,22 @@ class UtilsService {
     return formattedDate;
   }
 
-  static (int year, int month, int day, int hours, int minutes) extractDate(
-      String date) {
+  static (int year, int month, int day, int hours, int minutes, int seconds)
+      extractDate(String date) {
     final dt = date.split('T')[0].split('-');
     final time = date.split('T')[1].split(':');
     int year = int.parse(dt[0]),
         month = int.parse(dt[1]),
         day = int.parse(dt[2]),
         hours = int.parse(time[0]),
-        minutes = int.parse(time[1]);
+        minutes = int.parse(time[1]),
+        seconds = int.parse(time[2].split('.')[0]);
 
-    return (
-      year,
-      month,
-      day,
-      hours,
-      minutes,
-    );
+    return (year, month, day, hours, minutes, seconds);
   }
 
   static DateTime getExtractedDate(String date) {
-    final (year, month, day, hours, minutes) = extractDate(date);
+    final (year, month, day, hours, minutes, _) = extractDate(date);
     return DateTime(year, month, day, hours, minutes);
   }
 

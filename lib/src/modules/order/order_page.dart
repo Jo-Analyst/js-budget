@@ -93,7 +93,7 @@ class _OrderPageState extends State<OrderPage> {
                         children: filteredOrder.map((order) {
                           bool budgetWasCreated =
                               order.status == 'Orçamento criado';
-                          final (year, month, day, _, _) =
+                          final (year, month, day, _, _, _) =
                               UtilsService.extractDate(order.date);
 
                           return Padding(
