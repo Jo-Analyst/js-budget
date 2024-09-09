@@ -12,10 +12,10 @@ class FinanceController with Messages {
   }
 
   bool validateFieldWorkshopExpense(double valueRevenue, double valueExpense) {
-    bool isValid = valueRevenue > 0 || valueExpense > 0;
+    bool isValid = valueExpense > 0;
 
     if (!isValid) {
-      showInfo('Não há despesa e receita realizada neste mês');
+      showInfo('Não há despesa realizada neste mês');
     }
 
     return isValid;

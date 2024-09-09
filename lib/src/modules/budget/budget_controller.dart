@@ -88,7 +88,8 @@ class BudgetController with Messages {
     List<BudgetModel> budgets = [];
 
     for (var dt in data) {
-      final (year, month, day, _, _, _) = UtilsService.extractDate(dt.createdAt!);
+      final (year, month, day, _, _, _) =
+          UtilsService.extractDate(dt.createdAt!);
       final dataCreatedAt =
           UtilsService.dateFormatText(DateTime(year, month, day));
 
@@ -455,7 +456,7 @@ class BudgetController with Messages {
   }
 
   void deleteBudgetByClientId(int clientId) {
-    dataFiltered.removeWhere((data) => data.client!.id == clientId);
+    _dataFiltered.removeWhere((data) => data.client!.id == clientId);
   }
 
   void changeNameMaterialTheListBudget(int materialId) {
