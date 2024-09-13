@@ -90,7 +90,6 @@ class _ShareDocState extends State<ShareDoc> {
         _calculateTotalValueProductAndService(budget.itemsBudget!);
 
     DateTime? expectedDeliveryDate = getExpectedDeliveryDate(totalTerm);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -199,12 +198,31 @@ class _ShareDocState extends State<ShareDoc> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          RichText(
-                            text: TextSpan(
+                          Flexible(
+                            child: RichText(
+                              text: TextSpan(
                                 text: 'Cliente: ${budget.client!.name}',
-                                style: textStyleMediumDefault),
+                                style: textStyleMediumDefault,
+                              ),
+                            ),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 5),
+                      Visibility(
+                        visible: budget.client!.isALegalEntity == 1,
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'CNPJ: ${budget.client!.document}',
+                                  style: textStyleMediumDefault,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
 
                       // contatos do cliente
@@ -233,9 +251,7 @@ class _ShareDocState extends State<ShareDoc> {
                                         style: textStyleMediumDefault,
                                       ),
                                     ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
+                                    const SizedBox(width: 5),
                                     Flexible(
                                       child: FittedBox(
                                         fit: BoxFit.scaleDown,

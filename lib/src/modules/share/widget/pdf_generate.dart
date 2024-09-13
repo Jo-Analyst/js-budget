@@ -144,6 +144,11 @@ class PdfGeneration {
                       'Cliente: ${budget.client!.name}',
                       style: const pw.TextStyle(fontSize: 10),
                     ),
+                    if (budget.client!.isALegalEntity == 1)
+                      pw.Text(
+                        'CNPJ: ${budget.client!.document}',
+                        style: const pw.TextStyle(fontSize: 10),
+                      ),
                   ],
                 ),
 

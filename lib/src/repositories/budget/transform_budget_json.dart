@@ -49,6 +49,8 @@ class TransformBudgetJson {
             client: ClientModel(
               id: budget['client_id'],
               name: budget['client_name'],
+              document: budget['document'] ?? '',
+              isALegalEntity: budget['is_a_legal_entity'],
               address: budget['city'] != null
                   ? AddressModel(
                       cep: budget['cep'],
@@ -275,7 +277,7 @@ class TransformBudgetJson {
         );
       }
     }
-   
+
     return (
       itemBudget.materialItemsBudget,
       itemBudget.workshopExpenseItemsBudget
